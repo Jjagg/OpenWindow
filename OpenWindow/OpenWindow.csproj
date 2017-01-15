@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenWindow</RootNamespace>
     <AssemblyName>OpenWindow</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -38,25 +38,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Point.cs" />
-    <Compile Include="Common\Rectangle.cs" />
+    <Compile Include="WindowingService.cs" />
+    <Compile Include="Shared\OwPoint.cs" />
+    <Compile Include="Shared\OwRectangle.cs" />
     <Compile Include="EventArgs\FocusChangedEventArgs.cs" />
     <Compile Include="EventArgs\KeyEventArgs.cs" />
-    <Compile Include="Graphics.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageType.cs" />
-    <Compile Include="OpenWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EventArgs\TextInputEventArgs.cs" />
     <Compile Include="VirtualKey.cs" />
     <Compile Include="Window.cs" />
-    <Compile Include="WindowingService.cs" />
+    <Compile Include="Internal\WindowingServiceType.cs" />
     <Compile Include="Windows\Adapter.cs" />
     <Compile Include="Windows\Constants.cs" />
     <Compile Include="Windows\Enums.cs" />
     <Compile Include="Windows\Native.cs" />
     <Compile Include="Windows\Structs.cs" />
     <Compile Include="Windows\Win32Window.cs" />
+    <Compile Include="Windows\WindowsWindowingService.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

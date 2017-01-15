@@ -4,12 +4,9 @@
 
 using System;
 using System.Runtime.InteropServices;
-using OpenWindow.Common;
 using static OpenWindow.Windows.Enums;
 using static OpenWindow.Windows.Structs;
 using static OpenWindow.Windows.Constants;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 namespace OpenWindow.Windows
@@ -22,47 +19,41 @@ namespace OpenWindow.Windows
 
         static Win32Window()
         {
-            var module = typeof(OpenWindow).Module;
+            var module = typeof(Window).Module;
             _moduleHinstance = Marshal.GetHINSTANCE(module);
         }
 
         #endregion
 
-        private static Dictionary<IntPtr, Win32Window> _windows = new Dictionary<IntPtr, Win32Window>();
+        #region Private Fields
 
-        #region Create
+        private readonly IntPtr _handle;
+        private readonly string _className;
 
-        private static short WindowNumber;
+        private IntPtr hdc;
 
-        public static new Win32Window Create(int x, int y, int width, int height)
+        private bool _fullscreen;
+        private bool _focused;
+
+        private string _title = string.Empty;
+
+        #endregion
+
+        #region Constructor
+
+        public Win32Window()
         {
-            var windowName = $"OpenWindow[{Thread.CurrentThread.ManagedThreadId}]({WindowNumber++})";
-            var window = new Win32Window();
-
-            var winClass = new WndClass();
-            winClass.lpszClassName = windowName;
-            winClass.lpfnWndProc = window.WndProcDelegate;
-            winClass.hInstance = _moduleHinstance;
-
-            ushort identifier;
-            identifier = Native.RegisterClass(ref winClass);
-            if (identifier == 0)
-                throw GetLastException();
-
-            var rect = (Rect) new Rectangle(x, y, width, height);
-            if (!Native.AdjustWindowRect(ref rect, WsCaption, false))
-                throw GetLastException();
-            var niceRect = (Rectangle) rect;
+            _className = RegisterNewWindowClass();
 
             var handle = Native.CreateWindowEx(
                 WindowStyleEx.None,
-                windowName,
+                _className,
                 string.Empty,
                 WindowStyle.WS_OVERLAPPEDWINDOW,
-                niceRect.X,
-                niceRect.Y,
-                niceRect.Width,
-                niceRect.Height,
+                0,
+                0,
+                0,
+                0,
                 IntPtr.Zero,
                 IntPtr.Zero,
                 _moduleHinstance,
@@ -73,38 +64,12 @@ namespace OpenWindow.Windows
 
             Native.ShowWindow(handle, ShowWindowCommand.Show);
 
-            window.SetHandle(handle);
-            return window;
-        }
-
-        #endregion
-
-        #region Private Fields
-
-        private IntPtr _handle;
-        private IntPtr hdc;
-
-        private bool _fullscreen;
-        private bool _focused;
-
-        #endregion
-
-        #region Constructor
-
-        private Win32Window()
-        {
-            WndProcDelegate = ProcessWindowMessage;
-        }
-
-        private void SetHandle(IntPtr handle)
-        {
             _handle = handle;
-            _windows.Add(handle, this);
         }
 
         #endregion
 
-        #region Window Implementation
+        #region Window Properties
 
         public override IntPtr Handle => _handle;
 
@@ -141,12 +106,18 @@ namespace OpenWindow.Windows
             get { return _focused; }
             set
             {
+                if (value == _focused)
+                    return;
+
                 if (Native.SetActiveWindow(_handle) == IntPtr.Zero)
                     throw GetLastException();
+
+                _focused = value;
+                RaiseFocusChanged(_focused);
             }
         }
 
-        public override Point Position
+        public override OwPoint Position
         {
             get { return Bounds.Position; }
             set
@@ -156,7 +127,7 @@ namespace OpenWindow.Windows
             }
         }
 
-        public override Point Size
+        public override OwPoint Size
         {
             get { return Bounds.Size; }
             set
@@ -166,7 +137,7 @@ namespace OpenWindow.Windows
             }
         }
 
-        public override Rectangle Bounds
+        public override OwRectangle Bounds
         {
             get
             {
@@ -181,7 +152,7 @@ namespace OpenWindow.Windows
             }
         }
 
-        public override Rectangle ClientBounds
+        public override OwRectangle ClientBounds
         {
             get
             {
@@ -198,22 +169,24 @@ namespace OpenWindow.Windows
             }
         }
 
-        public override Message GetMessage()
+        public override string Title
         {
-            var code = Native.PeekMessage(out var nativeMessage, IntPtr.Zero, 0, 0, 1);
-
-            if (nativeMessage.message == WindowMessage.Destroy)
-                Native.PostQuitMessage(0);
-
-            if (nativeMessage.message != WindowMessage.Quit)
+            get
             {
-                Native.TranslateMessage(ref nativeMessage);
-                Native.DispatchMessage(ref nativeMessage);
+                return _title;
             }
-
-            return nativeMessage.ToMessage();
+            set
+            {
+                if (!Native.SetWindowText(_handle, value))
+                    throw GetLastException();
+                _title = value;
+            }
         }
 
+        #endregion
+
+        #region Window Functions
+        
         public override void Close()
         {
             Native.PostMessage(_handle, WindowMessage.Close, IntPtr.Zero, IntPtr.Zero);
@@ -249,35 +222,23 @@ namespace OpenWindow.Windows
 
         #endregion
 
-        #region Private Helper Methods
+        #region Private Methods
 
-        public WndProc WndProcDelegate;
-
-        private IntPtr ProcessWindowMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
+        private static uint _windowId;
+        private string RegisterNewWindowClass()
         {
-            switch (msg)
-            {
-                case WindowMessage.Destroy:
-                    _windows.Remove(hWnd);
-                    if (!_windows.Any())
-                        Native.PostQuitMessage(0);
-                    break;
-                case WindowMessage.Activate:
-                    if (_windows.TryGetValue(hWnd, out var window))
-                        window._focused = (short)wParam != WaInactive;
-                    break;
-                case WindowMessage.KeyDown:
-                    // TODO
-                    break;
-                case WindowMessage.KeyUp:
-                    // TODO
-                    break;
-                case WindowMessage.Char:
-                    RaiseTextInput((char) wParam);
-                    break;
-            }
+            var className = $"OpenWindow[{Thread.CurrentThread.ManagedThreadId}]({_windowId++})";
+            var winClass = new WndClass();
+            winClass.lpszClassName = className;
 
-            return Native.DefWindowProc(hWnd, msg, wParam, lParam);
+            var service = WindowingService.Get() as WindowsWindowingService;
+            winClass.lpfnWndProc = service.WndProc;
+            winClass.hInstance = _moduleHinstance;
+            
+            if (Native.RegisterClass(ref winClass) == 0)
+                throw GetLastException();
+
+            return className;
         }
 
         private static Exception GetLastException()

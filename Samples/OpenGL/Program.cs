@@ -109,39 +109,56 @@ namespace OpenGL
 
         #endregion
 
+        private static Window _window;
+        private static IntPtr _hdc;
+        private static IntPtr _hrc;
+
+        private static bool _closing;
+
         static void Main(string[] args)
         {
-            var window = CreateWindow();
+            var service = WindowingService.Get();
 
-            var hdc = window.GetDeviceContext();
-            var hrc = WglCreateContext(hdc);
-            WglMakeCurrent(hdc, hrc);
-            window.ReleaseDeviceContext(hdc);
+            _window = CreateWindow(service);
+
+            _window.Closing += HandleClosing;
+
+            _hdc = _window.GetDeviceContext();
+            _hrc = WglCreateContext(_hdc);
+            WglMakeCurrent(_hdc, _hrc);
+            _window.ReleaseDeviceContext(_hdc);
 
             while (true)
             {
-                var message = window.GetMessage();
+                service.Update();
 
-                if (message.Type == MessageType.Closing)
+                if (_closing)
                     break;
 
-                hdc = window.GetDeviceContext();
+                _hdc = _window.GetDeviceContext();
 
                 DrawTriangle();
 
-                window.ReleaseDeviceContext(hdc);
+                _window.ReleaseDeviceContext(_hdc);
 
                 Thread.Sleep(10);
             }
-
-            WglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
-            window.ReleaseDeviceContext(hdc);
-            WglDeleteContext(hrc);
         }
 
-        static Window CreateWindow()
+        private static void HandleClosing(object sender, EventArgs args)
         {
-            var window = Window.Create(100, 100, 600, 600);
+            _closing = true;
+            
+            WglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
+            _window.ReleaseDeviceContext(_hdc);
+            WglDeleteContext(_hrc);
+        }
+
+        static Window CreateWindow(WindowingService service)
+        {
+            var window = service.CreateWindow();
+            window.ClientBounds = new OwRectangle(100, 100, 600, 600);
+            window.Title = "I'm rendering with OpenGL!";
 
             var pfdSize = Marshal.SizeOf<PixelFormatDescriptor>();
 

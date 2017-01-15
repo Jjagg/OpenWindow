@@ -4,15 +4,15 @@
 
 using System.Runtime.InteropServices;
 
-namespace OpenWindow.Common
+namespace OpenWindow
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Point
+    public struct OwPoint
     {
         public readonly int X;
         public readonly int Y;
 
-        public Point(int x, int y)
+        public OwPoint(int x, int y)
         {
             X = x;
             Y = y;

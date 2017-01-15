@@ -4,25 +4,25 @@
 
 using System.Runtime.InteropServices;
 
-namespace OpenWindow.Common
+namespace OpenWindow
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Rectangle
+    public struct OwRectangle
     {
         public readonly int X;
         public readonly int Y;
         public readonly int Width;
         public readonly int Height;
 
-        public Point Position => new Point(X, Y);
-        public Point Size => new Point(Width, Height);
+        public OwPoint Position => new OwPoint(X, Y);
+        public OwPoint Size => new OwPoint(Width, Height);
 
         public int Left => X;
         public int Top => Y;
         public int Right => X + Width;
         public int Bottom => Y + Height;
 
-        public Rectangle(int x, int y, int width, int height)
+        public OwRectangle(int x, int y, int width, int height)
         {
             X = x;
             Y = y;

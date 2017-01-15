@@ -2,20 +2,14 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-using Win32Window = OpenWindow.Windows.Win32Window;
-using System.Collections.Generic;
 using System;
-using OpenWindow.Common;
-using OpenWindow.EventArgs;
 
 namespace OpenWindow
 {
     public abstract class Window
     {
 
-        private static readonly Dictionary<string, Window> _managedWindows = new Dictionary<string, Window>();
-
-        #region Shared Window API
+        #region Window API: Properties
 
         /// <summary>
         /// Get a pointer to the native window handle.
@@ -34,23 +28,29 @@ namespace OpenWindow
         /// <summary>
         /// Get or set the position of the top left of this window (including border).
         /// </summary>
-        public abstract Point Position { get; set; }
+        public abstract OwPoint Position { get; set; }
         /// <summary>
         /// Get or set the size of this window (including border).
         /// </summary>
-        public abstract Point Size { get; set; }
+        public abstract OwPoint Size { get; set; }
         /// <summary>
         /// Get or set the bounds of this window (including border).
         /// </summary>
-        public abstract Rectangle Bounds { get; set; }
+        public abstract OwRectangle Bounds { get; set; }
         /// <summary>
         /// Get or set the bounds of this window (excluding border).
         /// </summary>
-        public abstract Rectangle ClientBounds { get; set; }
+        public abstract OwRectangle ClientBounds { get; set; }
 
-        // TODO see if this fits
-        public abstract Message GetMessage();
+        /// <summary>
+        /// Get or set the text that is displayed in the title bar of the window.
+        /// </summary>
+        public abstract string Title { get; set; }
 
+        #endregion
+
+        #region Window API: Functions
+        
         /// <summary>
         /// Close this window.
         /// </summary>
@@ -80,83 +80,57 @@ namespace OpenWindow
 
         #region Events
 
+        /// <summary>
+        /// Invoked right before the window closes.
+        /// </summary>
+        public event ClosingHandler Closing;
+        public delegate void ClosingHandler(object sender, EventArgs args);
+
+        /// <summary>
+        /// Invoked after the window focus changed.
+        /// </summary>
         public event FocusChangedHandler FocusChanged;
         public delegate void FocusChangedHandler(object sender, FocusChangedEventArgs args);
 
+        // TODO
         public event KeyDownHandler KeyDown;
         public delegate void KeyDownHandler(object sender, KeyEventArgs args);
 
+        // TODO
         public event KeyUpHandler KeyUp;
         public delegate void KeyUpHandler(object sender, KeyEventArgs args);
 
+        /// <summary>
+        /// Invoked when a keypress happens.
+        /// </summary>
         public event TextInputHandler TextInput;
         public delegate void TextInputHandler(object sender, TextInputEventArgs args);
 
         #endregion
 
-        #region Create
+        #region Internal Functions
 
-        /// <summary>
-        /// Create a window with the specified <see cref="ClientBounds"/>.
-        /// </summary>
-        /// <param name="x">The client x position of the window (left).</param>
-        /// <param name="y">The client y position of the window (top).</param>
-        /// <param name="width">The client width of the window.</param>
-        /// <param name="height">The client height of the window.</param>
-        /// <returns>A new window.</returns>
-        public static Window Create(int x, int y, int width, int height)
+        internal virtual void Update()
         {
-            if (!OpenWindow.Initialized)
-                OpenWindow.Initialize();
-            switch (OpenWindow.Service)
-            {
-                case WindowingService.None:
-                    throw new InvalidOperationException("No active windowing service found.");
-                case WindowingService.Windows:
-                    return CreateWin32(x, y, width, height);
-                case WindowingService.X:
-                    return CreateX(x, y, width, height);
-                case WindowingService.Mir:
-                    return CreateMir(x, y, width, height);
-                case WindowingService.Wayland:
-                    return CreateWayland(x, y, width, height);
-                case WindowingService.Cocoa:
-                    return CreateCocoa(x, y, width, height);
-                default:
-                    throw new InvalidOperationException();
-            }
         }
 
-        private static Window CreateWin32(int x, int y, int width, int height)
+        internal bool TryGetWindow(IntPtr handle, out Window window)
         {
-            return Win32Window.Create(x, y, width, height);
+            var service = WindowingService.Get();
+            return service.TryGetWindow(handle, out window);
         }
 
-        private static Window CreateX(int x, int y, int width, int height)
+        internal void RaiseClosing()
         {
-            throw new NotImplementedException();
+            Closing?.Invoke(this, EventArgs.Empty);
         }
 
-        private static Window CreateMir(int x, int y, int width, int height)
+        internal void RaiseFocusChanged(bool currentFocus)
         {
-            throw new NotImplementedException();
+            FocusChanged?.Invoke(this, new FocusChangedEventArgs(currentFocus));
         }
 
-        private static Window CreateWayland(int x, int y, int width, int height)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static Window CreateCocoa(int x, int y, int width, int height)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region Protected Functions
-
-        protected void RaiseTextInput(char c)
+        internal void RaiseTextInput(char c)
         {
             TextInput?.Invoke(this, new TextInputEventArgs(c));
         }

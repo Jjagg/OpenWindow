@@ -2,14 +2,15 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-namespace OpenWindow
+namespace OpenWindow.Internal
 {
-    public enum Graphics
+    internal enum WindowingServiceType
     {
-        OpenGL,
-        Direct3D11,
-        Direct3D12,
-        Vulkan,
-        Metal
+        None,
+        Windows,
+        X,
+        Mir,
+        Wayland,
+        Cocoa
     }
 }

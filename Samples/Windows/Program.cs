@@ -3,27 +3,30 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using OpenWindow;
-using OpenWindow.Common;
 using System;
-using System.Diagnostics;
-using System.Threading;
 
 namespace Windows
 {
     class Program
     {
+
+        private static bool _closing;
+
         static void Main(string[] args)
         {
             var rand = new Random();
-            var rect = new Rectangle();
+            var rect = new OwRectangle();
 
-            var window = Window.Create(100, 100, 200, 200);
+            var service = WindowingService.Get();
+            var window = service.CreateWindow();
+            window.ClientBounds = new OwRectangle(100, 100, 200, 200);
+            
+            window.Closing += (sender, arg) => _closing = true;
+
             var lastf = false;
             var lastr = false;
 
-            var fullscreen = false;
-
-            while (true)
+            while (!_closing)
             {
                 var keystate = window.GetKeyboardState();
                 
@@ -48,16 +51,13 @@ namespace Windows
                     var y = rand.Next(100, 300);
                     var width = rand.Next(100, 800);
                     var height = rand.Next(100, 500);
-                    window.Bounds = new Rectangle(x, y, width, height);
+                    window.Bounds = new OwRectangle(x, y, width, height);
                 }
 
                 lastf = f;
                 lastr = r;
 
-                var message = window.GetMessage();
-
-                if (message.Type == MessageType.Closing)
-                    break;
+                service.Update();
             }
         }
     }

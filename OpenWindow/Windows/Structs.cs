@@ -2,7 +2,6 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-using OpenWindow.Common;
 using System;
 using System.Runtime.InteropServices;
 using static OpenWindow.Windows.Enums;
@@ -19,11 +18,9 @@ namespace OpenWindow.Windows
             public IntPtr wParam;
             public IntPtr lParam;
             public uint time;
-            public Point pt;
+            public OwPoint pt;
         }
         
-        public delegate IntPtr WndProc(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
-
         [StructLayout(LayoutKind.Sequential)]
         public struct WndClass
         {
@@ -42,6 +39,8 @@ namespace OpenWindow.Windows
             public string lpszClassName;
         }
 
+        public delegate IntPtr WndProc(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
+
         [StructLayout(LayoutKind.Sequential)]
         public struct MonitorInfo
         {
@@ -59,12 +58,12 @@ namespace OpenWindow.Windows
             public int Right;
             public int Bottom;
 
-            public static implicit operator Rectangle(Rect rect)
+            public static implicit operator OwRectangle(Rect rect)
             {
-                return new Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
+                return new OwRectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
             }
 
-            public static implicit operator Rect(Rectangle rect)
+            public static implicit operator Rect(OwRectangle rect)
             {
                 return new Rect
                 {
