@@ -49,7 +49,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenWindow\OpenWindow.csproj">
+    <ProjectReference Include="..\..\OpenWindow\OpenWindow.csproj">
       <Project>{8b36474b-b293-4498-82ef-0cfa468934db}</Project>
       <Name>OpenWindow</Name>
     </ProjectReference>

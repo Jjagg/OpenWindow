@@ -49,16 +49,20 @@ namespace OpenWindow.Windows
             if (identifier == 0)
                 throw GetLastException();
 
-            // TODO use client Bounds
+            var rect = (Rect) new Rectangle(x, y, width, height);
+            if (!Native.AdjustWindowRect(ref rect, WsCaption, false))
+                throw GetLastException();
+            var niceRect = (Rectangle) rect;
+
             var handle = Native.CreateWindowEx(
                 WindowStyleEx.None,
                 windowName,
                 string.Empty,
                 WindowStyle.WS_OVERLAPPEDWINDOW,
-                x,
-                y,
-                width,
-                height,
+                niceRect.X,
+                niceRect.Y,
+                niceRect.Width,
+                niceRect.Height,
                 IntPtr.Zero,
                 IntPtr.Zero,
                 _moduleHinstance,
@@ -78,9 +82,9 @@ namespace OpenWindow.Windows
         #region Private Fields
 
         private IntPtr _handle;
+        private IntPtr hdc;
 
         private bool _fullscreen;
-
         private bool _focused;
 
         #endregion
@@ -101,6 +105,8 @@ namespace OpenWindow.Windows
         #endregion
 
         #region Window Implementation
+
+        public override IntPtr Handle => _handle;
 
         public override bool IsFullscreen
         {
@@ -225,6 +231,20 @@ namespace OpenWindow.Windows
         public override bool IsDown(VirtualKey key)
         {
             return Native.GetKeyState(key) < 0;
+        }
+
+        public override IntPtr GetDeviceContext()
+        {
+            var hdc = Native.GetDC(_handle);
+            if (hdc == IntPtr.Zero)
+                throw GetLastException();
+            return hdc;
+        }
+
+        public override void ReleaseDeviceContext(IntPtr deviceContext)
+        {
+            if (!Native.ReleaseDC(_handle, deviceContext))
+                throw GetLastException();
         }
 
         #endregion

@@ -48,5 +48,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\OpenWindow\OpenWindow.csproj">
+      <Project>{8B36474B-B293-4498-82EF-0CFA468934DB}</Project>
+      <Name>OpenWindow</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

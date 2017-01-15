@@ -84,6 +84,17 @@ namespace OpenWindow.Windows
 
         #endregion
 
+        #region Graphics
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetDC(IntPtr hWnd);
+
+        // TODO IDisposable and cleanup
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+        #endregion
+
         #region Monitor
 
         [DllImport("user32.dll", SetLastError = true)]

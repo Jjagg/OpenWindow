@@ -18,6 +18,11 @@ namespace OpenWindow
         #region Shared Window API
 
         /// <summary>
+        /// Get a pointer to the native window handle.
+        /// </summary>
+        public abstract IntPtr Handle { get; }
+        
+        /// <summary>
         /// Get or set if this window is in fullscreen.
         /// </summary>
         public abstract bool IsFullscreen { get; set; }
@@ -67,6 +72,10 @@ namespace OpenWindow
         /// <returns>True if the key is down, false if it is up.</returns>
         public abstract bool IsDown(VirtualKey key);
 
+        public abstract IntPtr GetDeviceContext();
+
+        public abstract void ReleaseDeviceContext(IntPtr deviceContext);
+
         #endregion
 
         #region Events
@@ -87,6 +96,14 @@ namespace OpenWindow
 
         #region Create
 
+        /// <summary>
+        /// Create a window with the specified <see cref="ClientBounds"/>.
+        /// </summary>
+        /// <param name="x">The client x position of the window (left).</param>
+        /// <param name="y">The client y position of the window (top).</param>
+        /// <param name="width">The client width of the window.</param>
+        /// <param name="height">The client height of the window.</param>
+        /// <returns>A new window.</returns>
         public static Window Create(int x, int y, int width, int height)
         {
             if (!OpenWindow.Initialized)
