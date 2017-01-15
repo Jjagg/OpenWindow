@@ -10,6 +10,7 @@ using static OpenWindow.Windows.Structs;
 using static OpenWindow.Windows.Constants;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace OpenWindow.Windows
 {
@@ -35,7 +36,7 @@ namespace OpenWindow.Windows
 
         public static new Win32Window Create(int x, int y, int width, int height)
         {
-            var windowName = $"OpenWindow{WindowNumber++}";
+            var windowName = $"OpenWindow[{Thread.CurrentThread.ManagedThreadId}]({WindowNumber++})";
             var window = new Win32Window();
 
             var winClass = new WndClass();
@@ -48,6 +49,7 @@ namespace OpenWindow.Windows
             if (identifier == 0)
                 throw GetLastException();
 
+            // TODO use client Bounds
             var handle = Native.CreateWindowEx(
                 WindowStyleEx.None,
                 windowName,
@@ -108,14 +110,23 @@ namespace OpenWindow.Windows
             }
             set
             {
-                if (_fullscreen)
+                if (_fullscreen == value)
                     return;
-
-                var mHandle = Native.MonitorFromWindow(_handle, MonitorDefaultToNearest);
-                if (!Native.GetMonitorInfo(mHandle, out var mInfo))
-                    throw GetLastException();
-                ClientBounds = mInfo.rcMonitor;
-                _fullscreen = true;
+                if (value)
+                {
+                    var mHandle = Native.MonitorFromWindow(_handle, MonitorDefaultToNearest);
+                    MonitorInfo mInfo = new MonitorInfo();
+                    mInfo.cbSize = Marshal.SizeOf(typeof(MonitorInfo));
+                    if (!Native.GetMonitorInfo(mHandle, ref mInfo))
+                        throw GetLastException();
+                    ClientBounds = mInfo.rcMonitor;
+                    _fullscreen = true;
+                }
+                else
+                {
+                    // TODO
+                    _fullscreen = false;
+                }
             }
         }
 
@@ -153,9 +164,9 @@ namespace OpenWindow.Windows
         {
             get
             {
-                if (Native.GetWindowRect(_handle, out var rect))
-                    return rect;
-                throw GetLastException();
+                if (!Native.GetWindowRect(_handle, out var rect))
+                    throw GetLastException();
+                return rect;
             }
             set
             {
@@ -168,9 +179,9 @@ namespace OpenWindow.Windows
         {
             get
             {
-                if (Native.GetClientRect(_handle, out var rect))
-                    return rect;
-                throw GetLastException();
+                if (!Native.GetClientRect(_handle, out var rect))
+                    throw GetLastException();
+                return rect;
             }
             set
             {
@@ -183,14 +194,12 @@ namespace OpenWindow.Windows
 
         public override Message GetMessage()
         {
-            var code = Native.GetMessage(out var nativeMessage, IntPtr.Zero, 0, 0);
-            if (code == -1)
-                throw GetLastException();
+            var code = Native.PeekMessage(out var nativeMessage, IntPtr.Zero, 0, 0, 1);
 
             if (nativeMessage.message == WindowMessage.Destroy)
                 Native.PostQuitMessage(0);
 
-            if (code != 0)
+            if (nativeMessage.message != WindowMessage.Quit)
             {
                 Native.TranslateMessage(ref nativeMessage);
                 Native.DispatchMessage(ref nativeMessage);
@@ -204,6 +213,20 @@ namespace OpenWindow.Windows
             Native.PostMessage(_handle, WindowMessage.Close, IntPtr.Zero, IntPtr.Zero);
         }
 
+        public override byte[] GetKeyboardState()
+        {
+            var result = new byte[256];
+            if (!Native.GetKeyboardState(result))
+                throw GetLastException();
+
+            return result;
+        }
+
+        public override bool IsDown(VirtualKey key)
+        {
+            return Native.GetKeyState(key) < 0;
+        }
+
         #endregion
 
         #region Private Helper Methods
@@ -212,22 +235,32 @@ namespace OpenWindow.Windows
 
         private IntPtr ProcessWindowMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
         {
-            if (msg == WindowMessage.Destroy)
+            switch (msg)
             {
-                _windows.Remove(hWnd);
-                if (!_windows.Any())
-                    Native.PostQuitMessage(0);
-            }
-            else if (msg == WindowMessage.Activate)
-            {
-                if (_windows.TryGetValue(hWnd, out var window))
-                    window._focused = wParam.ToInt32() != WaInactive;
+                case WindowMessage.Destroy:
+                    _windows.Remove(hWnd);
+                    if (!_windows.Any())
+                        Native.PostQuitMessage(0);
+                    break;
+                case WindowMessage.Activate:
+                    if (_windows.TryGetValue(hWnd, out var window))
+                        window._focused = (short)wParam != WaInactive;
+                    break;
+                case WindowMessage.KeyDown:
+                    // TODO
+                    break;
+                case WindowMessage.KeyUp:
+                    // TODO
+                    break;
+                case WindowMessage.Char:
+                    RaiseTextInput((char) wParam);
+                    break;
             }
 
             return Native.DefWindowProc(hWnd, msg, wParam, lParam);
         }
 
-        public static Exception GetLastException()
+        private static Exception GetLastException()
         {
             return Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
         }

@@ -17,6 +17,9 @@ namespace OpenWindow.Windows
         [DllImport("user32.dll", SetLastError = true)]
         public static extern int GetMessage(out Msg lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
 
+        [DllImport("user32.dll")]
+        public static extern bool PeekMessage(out Msg lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool PostMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
         
@@ -26,7 +29,7 @@ namespace OpenWindow.Windows
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr DispatchMessage([In] ref Msg lpmsg);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern void PostQuitMessage(int nExitCode);
 
         #endregion
@@ -64,7 +67,7 @@ namespace OpenWindow.Windows
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool DestroyWindow(IntPtr hWnd);
 
-        [DllImport("coredll.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -83,13 +86,22 @@ namespace OpenWindow.Windows
 
         #region Monitor
 
-        [DllImport("user32.dll")]
-        public static extern bool GetMonitorInfo(IntPtr hMonitor, out MonitorInfo lpmi);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool GetMonitorInfo(IntPtr hMonitor, ref MonitorInfo lpmi);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
 
         #endregion
 
+        #region Input
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool GetKeyboardState(byte[] lpKeyState);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern short GetKeyState(VirtualKey nVirtKey);
+
+        #endregion
     }
 }

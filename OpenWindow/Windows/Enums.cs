@@ -48,6 +48,9 @@ namespace OpenWindow.Windows
             Activate = 0x0006,
             Close    = 0x0010,
             Quit     = 0x0012,
+            KeyDown  = 0x0100,
+            KeyUp    = 0x0101,
+            Char     = 0x0102,
         }
 
         public enum ShowWindowCommand

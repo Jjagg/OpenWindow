@@ -6,6 +6,7 @@ using Win32Window = OpenWindow.Windows.Win32Window;
 using System.Collections.Generic;
 using System;
 using OpenWindow.Common;
+using OpenWindow.EventArgs;
 
 namespace OpenWindow
 {
@@ -14,7 +15,7 @@ namespace OpenWindow
 
         private static readonly Dictionary<string, Window> _managedWindows = new Dictionary<string, Window>();
 
-        #region Public Window API
+        #region Shared Window API
 
         /// <summary>
         /// Get or set if this window is in fullscreen.
@@ -50,6 +51,38 @@ namespace OpenWindow
         /// </summary>
         public abstract void Close();
 
+        /// <summary>
+        /// Get a byte array with the status data for each virtual key.
+        /// </summary>
+        /// <returns>
+        /// A byte array representing the state of the keyboard.
+        /// Use <see cref="VirtualKey"/> members to index into it.
+        /// </returns>
+        public abstract byte[] GetKeyboardState();
+
+        /// <summary>
+        /// Check if the specified key is down.
+        /// </summary>
+        /// <param name="key">The key to check for.</param>
+        /// <returns>True if the key is down, false if it is up.</returns>
+        public abstract bool IsDown(VirtualKey key);
+
+        #endregion
+
+        #region Events
+
+        public event FocusChangedHandler FocusChanged;
+        public delegate void FocusChangedHandler(object sender, FocusChangedEventArgs args);
+
+        public event KeyDownHandler KeyDown;
+        public delegate void KeyDownHandler(object sender, KeyEventArgs args);
+
+        public event KeyUpHandler KeyUp;
+        public delegate void KeyUpHandler(object sender, KeyEventArgs args);
+
+        public event TextInputHandler TextInput;
+        public delegate void TextInputHandler(object sender, TextInputEventArgs args);
+
         #endregion
 
         #region Create
@@ -58,7 +91,6 @@ namespace OpenWindow
         {
             if (!OpenWindow.Initialized)
                 OpenWindow.Initialize();
-
             switch (OpenWindow.Service)
             {
                 case WindowingService.None:
@@ -101,6 +133,15 @@ namespace OpenWindow
         private static Window CreateCocoa(int x, int y, int width, int height)
         {
             throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Protected Functions
+
+        protected void RaiseTextInput(char c)
+        {
+            TextInput?.Invoke(this, new TextInputEventArgs(c));
         }
 
         #endregion
