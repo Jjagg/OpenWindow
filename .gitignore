@@ -1,0 +1,13 @@
+#build
+[Oo]bj/
+[Bb]in/
+packages/
+
+#vim
+*~
+*.swp
+*.swo
+
+#VS
+*.csproj.user
+.vs
