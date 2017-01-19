@@ -8,6 +8,7 @@ using static OpenWindow.Windows.Enums;
 using static OpenWindow.Windows.Structs;
 using static OpenWindow.Windows.Constants;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace OpenWindow.Windows
 {
@@ -15,13 +16,7 @@ namespace OpenWindow.Windows
     {
         #region HINSTANCE
 
-        private static IntPtr _moduleHinstance;
-
-        static Win32Window()
-        {
-            var module = typeof(Window).Module;
-            _moduleHinstance = Marshal.GetHINSTANCE(module);
-        }
+        private static IntPtr _moduleHinstance = new IntPtr(Native.GetModuleHandle());
 
         #endregion
 
@@ -29,8 +24,6 @@ namespace OpenWindow.Windows
 
         private readonly IntPtr _handle;
         private readonly string _className;
-
-        private IntPtr hdc;
 
         private bool _fullscreen;
         private bool _focused;
@@ -87,7 +80,7 @@ namespace OpenWindow.Windows
                 {
                     var mHandle = Native.MonitorFromWindow(_handle, MonitorDefaultToNearest);
                     MonitorInfo mInfo = new MonitorInfo();
-                    mInfo.cbSize = Marshal.SizeOf(typeof(MonitorInfo));
+                    mInfo.cbSize = Marshal.SizeOf<MonitorInfo>();
                     if (!Native.GetMonitorInfo(mHandle, ref mInfo))
                         throw GetLastException();
                     ClientBounds = mInfo.rcMonitor;
@@ -147,6 +140,8 @@ namespace OpenWindow.Windows
             }
             set
             {
+                if (Bounds == value)
+                    return;
                 if (!Native.SetWindowPos(_handle, IntPtr.Zero, value.X, value.Y, value.Width, value.Height, SwpNoZOrder))
                     throw GetLastException();
             }
@@ -227,7 +222,7 @@ namespace OpenWindow.Windows
         private static uint _windowId;
         private string RegisterNewWindowClass()
         {
-            var className = $"OpenWindow[{Thread.CurrentThread.ManagedThreadId}]({_windowId++})";
+            var className = $"OpenWindow[{Native.GetCurrentThreadId()}]({_windowId++})";
             var winClass = new WndClass();
             winClass.lpszClassName = className;
 

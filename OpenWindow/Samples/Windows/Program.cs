@@ -34,11 +34,12 @@ namespace Windows
 
                 if (f && !lastf)
                 {
-                    window.IsFullscreen = !window.IsFullscreen;
-                    if (window.IsFullscreen)
+                    if (!window.IsFullscreen)
                         rect = window.Bounds;
                     else
                         window.Bounds = rect;
+
+                    window.IsFullscreen = !window.IsFullscreen;
                 }
 
                 if ((keystate[(int)VirtualKey.Escape] & 0x80) != 0)

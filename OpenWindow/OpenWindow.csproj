@@ -1,63 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8B36474B-B293-4498-82EF-0CFA468934DB}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenWindow</RootNamespace>
-    <AssemblyName>OpenWindow</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>netstandard1.2</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Compile Include="**\*.cs" />
+    <EmbeddedResource Include="**\*.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WindowingService.cs" />
-    <Compile Include="Shared\OwPoint.cs" />
-    <Compile Include="Shared\OwRectangle.cs" />
-    <Compile Include="EventArgs\FocusChangedEventArgs.cs" />
-    <Compile Include="EventArgs\KeyEventArgs.cs" />
-    <Compile Include="Message.cs" />
-    <Compile Include="MessageType.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EventArgs\TextInputEventArgs.cs" />
-    <Compile Include="VirtualKey.cs" />
-    <Compile Include="Window.cs" />
-    <Compile Include="Internal\WindowingServiceType.cs" />
-    <Compile Include="Windows\Adapter.cs" />
-    <Compile Include="Windows\Constants.cs" />
-    <Compile Include="Windows\Enums.cs" />
-    <Compile Include="Windows\Native.cs" />
-    <Compile Include="Windows\Structs.cs" />
-    <Compile Include="Windows\Win32Window.cs" />
-    <Compile Include="Windows\WindowsWindowingService.cs" />
+    <Compile Remove="Samples\**" />
+    <EmbeddedResource Remove="Samples\**" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <PackageReference Include="NETStandard.Library" Version="1.6" />
+  </ItemGroup>
 </Project>

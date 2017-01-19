@@ -17,5 +17,40 @@ namespace OpenWindow
             X = x;
             Y = y;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is OwPoint))
+                return false;
+
+            var that = (OwPoint) obj;
+            return Equals(that);
+        }
+
+        public bool Equals(OwPoint that)
+        {
+            return this == that;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hash = 17;
+                hash = hash * 23 + X.GetHashCode();
+                hash = hash * 23 + Y.GetHashCode();
+                return hash;
+            }
+        }
+
+        public static bool operator ==(OwPoint a, OwPoint b)
+        {
+            return a.X == b.X && a.Y == b.Y;
+        }
+
+        public static bool operator !=(OwPoint a, OwPoint b)
+        {
+            return !(a == b);
+        }
     }
 }

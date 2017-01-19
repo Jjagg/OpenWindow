@@ -20,7 +20,7 @@ namespace OpenWindow.Windows
         [DllImport("user32.dll")]
         public static extern bool PeekMessage(out Msg lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
 
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern bool PostMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
         
         [DllImport("user32.dll", SetLastError = true)]
@@ -82,7 +82,7 @@ namespace OpenWindow.Windows
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr SetActiveWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern bool SetWindowText(IntPtr hwnd, String lpString = null);
 
         #endregion
@@ -115,6 +115,16 @@ namespace OpenWindow.Windows
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern short GetKeyState(VirtualKey nVirtKey);
+
+        #endregion
+
+        #region Misc
+
+        [DllImport("kernel32.dll")]
+        public static extern int GetCurrentThreadId();
+
+        [DllImport("kernel32.dll")]
+        public static extern int GetModuleHandle();
 
         #endregion
     }

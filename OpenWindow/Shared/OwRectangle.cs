@@ -29,5 +29,45 @@ namespace OpenWindow
             Width = width;
             Height = height;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is OwRectangle))
+                return false;
+
+            var that = (OwRectangle) obj;
+            return Equals(that);
+        }
+
+        public bool Equals(OwRectangle that)
+        {
+            return this == that;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hash = 17;
+                hash = hash * 23 + X.GetHashCode();
+                hash = hash * 23 + Y.GetHashCode();
+                hash = hash * 23 + Width.GetHashCode();
+                hash = hash * 23 + Height.GetHashCode();
+                return hash;
+            }
+        }
+
+        public static bool operator ==(OwRectangle a, OwRectangle b)
+        {
+            return a.X == b.X &&
+                   a.Y == b.Y &&
+                   a.Width == b.Width &&
+                   a.Height == b.Height;
+        }
+
+        public static bool operator !=(OwRectangle a, OwRectangle b)
+        {
+            return !(a == b);
+        }
     }
 }

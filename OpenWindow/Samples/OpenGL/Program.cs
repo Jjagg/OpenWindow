@@ -88,16 +88,6 @@ namespace OpenGL
         private const int PfdSupportOpenGL = 32;
         private const int PfdTypeRgba = 0;
 
-        struct PaintStruct
-        {
-            IntPtr hdc;
-            bool fErase;
-            Rect rcPaint;
-            bool fRestore;
-            bool fIncUpdate;
-            byte[] rgbReserved;
-        }
-
         [StructLayout(LayoutKind.Sequential)]
         public struct Rect
         {
