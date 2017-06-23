@@ -4,8 +4,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using static OpenWindow.Windows.Enums;
-using static OpenWindow.Windows.Structs;
 
 namespace OpenWindow.Windows
 {
@@ -124,7 +122,10 @@ namespace OpenWindow.Windows
         public static extern int GetCurrentThreadId();
 
         [DllImport("kernel32.dll")]
-        public static extern int GetModuleHandle();
+        public static extern int GetModuleHandle(string name);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr LoadCursor(IntPtr hinstance, Cursor cursor);
 
         #endregion
     }

@@ -3,7 +3,6 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
-using static OpenWindow.Windows.Enums;
 using static OpenWindow.Windows.Constants;
 
 namespace OpenWindow.Windows
@@ -34,14 +33,7 @@ namespace OpenWindow.Windows
 
         public override void Update()
         {
-            var code = Native.PeekMessage(out var nativeMessage, IntPtr.Zero, 0, 0, 1);
-
-            if (!TryGetWindow(nativeMessage.hwnd, out var window))
-                return;
-
-            if (nativeMessage.message == WindowMessage.Destroy)
-                window.RaiseClosing();
-            else
+            while (Native.PeekMessage(out var nativeMessage, IntPtr.Zero, 0, 0, 1))
             {
                 Native.TranslateMessage(ref nativeMessage);
                 Native.DispatchMessage(ref nativeMessage);
@@ -49,7 +41,7 @@ namespace OpenWindow.Windows
         }
         
         // we need to keep a reference to the delegate so it is not garbage collected
-        public Structs.WndProc WndProc;
+        public WndProc WndProc;
 
         private IntPtr ProcessWindowMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
         {
@@ -68,6 +60,9 @@ namespace OpenWindow.Windows
                         break;
                     case WindowMessage.Char:
                         window.RaiseTextInput((char) wParam);
+                        break;
+                    case WindowMessage.Destroy:
+                        window.RaiseClosing();
                         break;
                 }
             }

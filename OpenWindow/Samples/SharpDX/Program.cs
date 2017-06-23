@@ -2,6 +2,7 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
+using System;
 using System.Threading;
 using OpenWindow;
 using SharpDX.DXGI;
@@ -30,10 +31,13 @@ namespace SharpDX
 
         private static RawViewportF _viewport;
 
+        private static bool _closing;
+
         static void Main(string[] args)
         {
             var owService = WindowingService.Get();
             _window = owService.CreateWindow();
+            _window.Closing += HandleClosing;
             _window.ClientBounds = new OwRectangle(100, 100, 600, 600);
             _window.Title = "I'm rendering with DirectX11!";
 
@@ -44,6 +48,8 @@ namespace SharpDX
             while (true)
             {
                 owService.Update();
+                if (_closing)
+                    break;
                 
                 Draw();
 
@@ -59,6 +65,11 @@ namespace SharpDX
             _swapChain.Dispose();
             _d3dDevice.Dispose();
             _d3dDeviceContext.Dispose();
+        }
+
+        private static void HandleClosing(object sender, EventArgs args)
+        {
+            _closing = true;
         }
 
         public static void Initialize()

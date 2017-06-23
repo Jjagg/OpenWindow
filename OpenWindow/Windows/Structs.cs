@@ -4,75 +4,71 @@
 
 using System;
 using System.Runtime.InteropServices;
-using static OpenWindow.Windows.Enums;
 
 namespace OpenWindow.Windows
 {
-    internal class Structs
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Msg
     {
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Msg
+        public IntPtr hwnd;
+        public WindowMessage message;
+        public IntPtr wParam;
+        public IntPtr lParam;
+        public uint time;
+        public OwPoint pt;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct WndClass
+    {
+        public uint style;
+        [MarshalAs(UnmanagedType.FunctionPtr)]
+        public WndProc lpfnWndProc;
+        public int cbClsExtra;
+        public int cbWndExtra;
+        public IntPtr hInstance;
+        public IntPtr hIcon;
+        public IntPtr hCursor;
+        public IntPtr hbrBackground;
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string lpszMenuName;
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string lpszClassName;
+    }
+
+    public delegate IntPtr WndProc(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct MonitorInfo
+    {
+        public int cbSize;
+        public Rect rcMonitor;
+        public Rect rcWork;
+        public uint dwFlags;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Rect
+    {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
+
+        public static implicit operator OwRectangle(Rect rect)
         {
-            public IntPtr hwnd;
-            public WindowMessage message;
-            public IntPtr wParam;
-            public IntPtr lParam;
-            public uint time;
-            public OwPoint pt;
+            return new OwRectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
         }
-        
-        [StructLayout(LayoutKind.Sequential)]
-        public struct WndClass
+
+        public static implicit operator Rect(OwRectangle rect)
         {
-            public uint style;
-            [MarshalAs(UnmanagedType.FunctionPtr)]
-            public WndProc lpfnWndProc;
-            public int cbClsExtra;
-            public int cbWndExtra;
-            public IntPtr hInstance;
-            public IntPtr hIcon;
-            public IntPtr hCursor;
-            public IntPtr hbrBackground;
-            [MarshalAs(UnmanagedType.LPStr)]
-            public string lpszMenuName;
-            [MarshalAs(UnmanagedType.LPStr)]
-            public string lpszClassName;
-        }
-
-        public delegate IntPtr WndProc(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct MonitorInfo
-        {
-            public int cbSize;
-            public Rect rcMonitor;
-            public Rect rcWork;
-            public uint dwFlags;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Rect
-        {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-
-            public static implicit operator OwRectangle(Rect rect)
+            return new Rect
             {
-                return new OwRectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
-            }
-
-            public static implicit operator Rect(OwRectangle rect)
-            {
-                return new Rect
-                {
-                    Left = rect.Left,
-                    Top = rect.Top,
-                    Right = rect.Right,
-                    Bottom = rect.Bottom
-                };
-            }
+                Left = rect.Left,
+                Top = rect.Top,
+                Right = rect.Right,
+                Bottom = rect.Bottom
+            };
         }
     }
 }

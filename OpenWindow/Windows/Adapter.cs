@@ -3,9 +3,6 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
-using System.Collections.Generic;
-using static OpenWindow.Windows.Enums;
-using static OpenWindow.Windows.Structs;
 
 namespace OpenWindow.Windows
 {

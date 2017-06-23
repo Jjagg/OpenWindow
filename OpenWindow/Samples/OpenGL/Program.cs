@@ -140,7 +140,6 @@ namespace OpenGL
             _closing = true;
             
             WglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
-            _window.ReleaseDeviceContext(_hdc);
             WglDeleteContext(_hrc);
         }
 
