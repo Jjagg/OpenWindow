@@ -15,11 +15,11 @@ namespace Windows
         static void Main(string[] args)
         {
             var rand = new Random();
-            var rect = new OwRectangle();
+            var rect = new Rectangle();
 
             var service = WindowingService.Get();
             var window = service.CreateWindow();
-            window.ClientBounds = new OwRectangle(100, 100, 200, 200);
+            window.ClientBounds = new Rectangle(100, 100, 200, 200);
             
             window.Closing += (sender, arg) => _closing = true;
 
@@ -52,7 +52,7 @@ namespace Windows
                     var y = rand.Next(100, 300);
                     var width = rand.Next(100, 800);
                     var height = rand.Next(100, 500);
-                    window.Bounds = new OwRectangle(x, y, width, height);
+                    window.Bounds = new Rectangle(x, y, width, height);
                 }
 
                 lastf = f;

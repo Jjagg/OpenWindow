@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace OpenWindow.Windows
+namespace OpenWindow.Backends.Windows
 {
     internal class Native
     {

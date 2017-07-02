@@ -2,11 +2,9 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-using System;
-
-namespace OpenWindow.Windows
+namespace OpenWindow.Backends.Windows
 {
-    internal static class Adapter
+    internal static class Extensions
     {
         public static Message ToMessage(this Msg nativeMessage)
         {

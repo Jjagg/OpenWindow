@@ -7,12 +7,12 @@ using System.Runtime.InteropServices;
 namespace OpenWindow
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct OwPoint
+    public struct Point
     {
         public readonly int X;
         public readonly int Y;
 
-        public OwPoint(int x, int y)
+        public Point(int x, int y)
         {
             X = x;
             Y = y;
@@ -20,14 +20,14 @@ namespace OpenWindow
 
         public override bool Equals(object obj)
         {
-            if (!(obj is OwPoint))
+            if (!(obj is Point))
                 return false;
 
-            var that = (OwPoint) obj;
+            var that = (Point) obj;
             return Equals(that);
         }
 
-        public bool Equals(OwPoint that)
+        public bool Equals(Point that)
         {
             return this == that;
         }
@@ -43,12 +43,12 @@ namespace OpenWindow
             }
         }
 
-        public static bool operator ==(OwPoint a, OwPoint b)
+        public static bool operator ==(Point a, Point b)
         {
             return a.X == b.X && a.Y == b.Y;
         }
 
-        public static bool operator !=(OwPoint a, OwPoint b)
+        public static bool operator !=(Point a, Point b)
         {
             return !(a == b);
         }

@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace OpenWindow.Windows
+namespace OpenWindow.Backends.Windows
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct Msg
@@ -15,7 +15,7 @@ namespace OpenWindow.Windows
         public IntPtr wParam;
         public IntPtr lParam;
         public uint time;
-        public OwPoint pt;
+        public Point pt;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -55,12 +55,12 @@ namespace OpenWindow.Windows
         public int Right;
         public int Bottom;
 
-        public static implicit operator OwRectangle(Rect rect)
+        public static implicit operator Rectangle(Rect rect)
         {
-            return new OwRectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
+            return new Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
         }
 
-        public static implicit operator Rect(OwRectangle rect)
+        public static implicit operator Rect(Rectangle rect)
         {
             return new Rect
             {

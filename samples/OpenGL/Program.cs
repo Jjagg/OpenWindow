@@ -146,7 +146,7 @@ namespace OpenGL
         static Window CreateWindow(WindowingService service)
         {
             var window = service.CreateWindow();
-            window.ClientBounds = new OwRectangle(100, 100, 600, 600);
+            window.ClientBounds = new Rectangle(100, 100, 600, 600);
             window.Title = "I'm rendering with OpenGL!";
 
             var pfdSize = Marshal.SizeOf<PixelFormatDescriptor>();

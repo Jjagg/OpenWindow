@@ -3,9 +3,8 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
-using static OpenWindow.Windows.Constants;
 
-namespace OpenWindow.Windows
+namespace OpenWindow.Backends.Windows
 {
     internal class WindowsWindowingService : WindowingService
     {
@@ -50,7 +49,7 @@ namespace OpenWindow.Windows
                 switch (msg)
                 {
                     case WindowMessage.Activate:
-                        window.IsFocused = (short) wParam != WaInactive;
+                        window.IsFocused = (short) wParam != Constants.WaInactive;
                         break;
                     case WindowMessage.KeyDown:
                         // TODO

@@ -7,22 +7,22 @@ using System.Runtime.InteropServices;
 namespace OpenWindow
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct OwRectangle
+    public struct Rectangle
     {
         public readonly int X;
         public readonly int Y;
         public readonly int Width;
         public readonly int Height;
 
-        public OwPoint Position => new OwPoint(X, Y);
-        public OwPoint Size => new OwPoint(Width, Height);
+        public Point Position => new Point(X, Y);
+        public Point Size => new Point(Width, Height);
 
         public int Left => X;
         public int Top => Y;
         public int Right => X + Width;
         public int Bottom => Y + Height;
 
-        public OwRectangle(int x, int y, int width, int height)
+        public Rectangle(int x, int y, int width, int height)
         {
             X = x;
             Y = y;
@@ -32,14 +32,14 @@ namespace OpenWindow
 
         public override bool Equals(object obj)
         {
-            if (!(obj is OwRectangle))
+            if (!(obj is Rectangle))
                 return false;
 
-            var that = (OwRectangle) obj;
+            var that = (Rectangle) obj;
             return Equals(that);
         }
 
-        public bool Equals(OwRectangle that)
+        public bool Equals(Rectangle that)
         {
             return this == that;
         }
@@ -57,7 +57,7 @@ namespace OpenWindow
             }
         }
 
-        public static bool operator ==(OwRectangle a, OwRectangle b)
+        public static bool operator ==(Rectangle a, Rectangle b)
         {
             return a.X == b.X &&
                    a.Y == b.Y &&
@@ -65,7 +65,7 @@ namespace OpenWindow
                    a.Height == b.Height;
         }
 
-        public static bool operator !=(OwRectangle a, OwRectangle b)
+        public static bool operator !=(Rectangle a, Rectangle b)
         {
             return !(a == b);
         }

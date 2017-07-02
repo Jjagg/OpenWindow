@@ -4,7 +4,7 @@
 
 using System;
 
-namespace OpenWindow.Windows
+namespace OpenWindow.Backends.Windows
 {
     [Flags]
     public enum WindowStyleEx : uint

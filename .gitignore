@@ -13,3 +13,6 @@ packages/
 #VS
 *.csproj.user
 .vs
+
+#ReSharper
+*.DotSettings.user

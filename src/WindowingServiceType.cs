@@ -2,12 +2,11 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-namespace OpenWindow.Internal
+namespace OpenWindow
 {
-    internal enum WindowingServiceType
+    public enum WindowingServiceType
     {
-        None,
-        Windows,
+        Win32,
         X,
         Mir,
         Wayland,

@@ -28,19 +28,19 @@ namespace OpenWindow
         /// <summary>
         /// Get or set the position of the top left of this window (including border).
         /// </summary>
-        public abstract OwPoint Position { get; set; }
+        public abstract Point Position { get; set; }
         /// <summary>
         /// Get or set the size of this window (including border).
         /// </summary>
-        public abstract OwPoint Size { get; set; }
+        public abstract Point Size { get; set; }
         /// <summary>
         /// Get or set the bounds of this window (including border).
         /// </summary>
-        public abstract OwRectangle Bounds { get; set; }
+        public abstract Rectangle Bounds { get; set; }
         /// <summary>
         /// Get or set the bounds of this window (excluding border).
         /// </summary>
-        public abstract OwRectangle ClientBounds { get; set; }
+        public abstract Rectangle ClientBounds { get; set; }
 
         /// <summary>
         /// Get or set the text that is displayed in the title bar of the window.

@@ -2,9 +2,9 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-using OpenWindow.Internal;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace OpenWindow
 {
@@ -44,17 +44,36 @@ namespace OpenWindow
 
         private static WindowingServiceType GetWindowingServiceType()
         {
-            return WindowingServiceType.Windows;
+            if (Win32Available())
+                return WindowingServiceType.Win32;
+
+            // LINUX
+            throw new NotSupportedException("No Linux back ends are implemented yet.");
+
+            // OSX
+            throw new NotSupportedException("No OSX back ends are implemented yet.");
+        }
+
+        private static bool Win32Available()
+        {
+            // life is hack
+            try
+            {
+                Backends.Windows.Native.GetCurrentThreadId();
+                return true;
+            }
+            catch (DllNotFoundException)
+            {
+                return false;
+            }
         }
 
         private static WindowingService CreateService(WindowingServiceType type)
         {
             switch (type)
             {
-                case WindowingServiceType.None:
-                    throw new InvalidOperationException("No active windowing service found.");
-                case WindowingServiceType.Windows:
-                    return new Windows.WindowsWindowingService();
+                case WindowingServiceType.Win32:
+                    return new Backends.Windows.WindowsWindowingService();
                 case WindowingServiceType.X:
                     throw new NotImplementedException();
                 case WindowingServiceType.Mir:

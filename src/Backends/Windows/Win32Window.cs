@@ -4,9 +4,8 @@
 
 using System;
 using System.Runtime.InteropServices;
-using static OpenWindow.Windows.Constants;
 
-namespace OpenWindow.Windows
+namespace OpenWindow.Backends.Windows
 {
     internal class Win32Window : Window
     {
@@ -70,7 +69,7 @@ namespace OpenWindow.Windows
                     return;
                 if (value)
                 {
-                    var mHandle = Native.MonitorFromWindow(_handle, MonitorDefaultToNearest);
+                    var mHandle = Native.MonitorFromWindow(_handle, Constants.MonitorDefaultToNearest);
                     MonitorInfo mInfo = new MonitorInfo();
                     mInfo.cbSize = Marshal.SizeOf<MonitorInfo>();
                     if (!Native.GetMonitorInfo(mHandle, ref mInfo))
@@ -103,27 +102,27 @@ namespace OpenWindow.Windows
             }
         }
 
-        public override OwPoint Position
+        public override Point Position
         {
             get => Bounds.Position;
             set
             {
-                if (!Native.SetWindowPos(_handle, IntPtr.Zero, value.X, value.Y, 0, 0, SwpNoSize | SwpNoZOrder))
+                if (!Native.SetWindowPos(_handle, IntPtr.Zero, value.X, value.Y, 0, 0, Constants.SwpNoSize | Constants.SwpNoZOrder))
                     throw GetLastException();
             }
         }
 
-        public override OwPoint Size
+        public override Point Size
         {
             get => Bounds.Size;
             set
             {
-                if (!Native.SetWindowPos(_handle, IntPtr.Zero, 0, 0, value.X, value.Y, SwpNoMove | SwpNoZOrder))
+                if (!Native.SetWindowPos(_handle, IntPtr.Zero, 0, 0, value.X, value.Y, Constants.SwpNoMove | Constants.SwpNoZOrder))
                     throw GetLastException();
             }
         }
 
-        public override OwRectangle Bounds
+        public override Rectangle Bounds
         {
             get
             {
@@ -135,12 +134,12 @@ namespace OpenWindow.Windows
             {
                 if (Bounds == value)
                     return;
-                if (!Native.SetWindowPos(_handle, IntPtr.Zero, value.X, value.Y, value.Width, value.Height, SwpNoZOrder))
+                if (!Native.SetWindowPos(_handle, IntPtr.Zero, value.X, value.Y, value.Width, value.Height, Constants.SwpNoZOrder))
                     throw GetLastException();
             }
         }
 
-        public override OwRectangle ClientBounds
+        public override Rectangle ClientBounds
         {
             get
             {
@@ -151,7 +150,7 @@ namespace OpenWindow.Windows
             set
             {
                 Rect rect = value;
-                if (!Native.AdjustWindowRect(ref rect, WsCaption, false))
+                if (!Native.AdjustWindowRect(ref rect, Constants.WsCaption, false))
                     throw GetLastException();
                 Bounds = rect;
             }

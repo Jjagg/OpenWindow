@@ -38,7 +38,7 @@ namespace SharpDX
             var owService = WindowingService.Get();
             _window = owService.CreateWindow();
             _window.Closing += HandleClosing;
-            _window.ClientBounds = new OwRectangle(100, 100, 600, 600);
+            _window.ClientBounds = new Rectangle(100, 100, 600, 600);
             _window.Title = "I'm rendering with DirectX11!";
 
             Initialize();
