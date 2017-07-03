@@ -9,7 +9,6 @@ namespace OpenWindow.Backends.Windows
 {
     internal class Native
     {
-
         #region Messages
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -36,6 +35,9 @@ namespace OpenWindow.Backends.Windows
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern ushort RegisterClass([In] ref WndClass lpWndClass);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool UnregisterClass([In] string className, [In] IntPtr hinstance);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr DefWindowProc(IntPtr hWnd, WindowMessage uMsg, IntPtr wParam, IntPtr lParam);
@@ -120,20 +122,34 @@ namespace OpenWindow.Backends.Windows
 
         #endregion
 
+        #region gdi
+
+        [DllImport("gdi32.dll", SetLastError = true)]
+        public static extern int ChoosePixelFormat(IntPtr hdc, ref PixelFormatDescriptor ppfd);
+
+        [DllImport("gdi32.dll", SetLastError = true)]
+        public static extern bool SetPixelFormat(IntPtr hdc, int iPixelFormat, ref PixelFormatDescriptor ppfd);
+
+        [DllImport("gdi32.dll")]
+        public static extern int DescribePixelFormat(IntPtr hdc, int iPixelFormat, uint nBytes, ref PixelFormatDescriptor ppfd);
+
+        #endregion
+
         #region Misc
 
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern int GetCurrentThreadId();
 
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern int GetModuleHandle(string name);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr LoadCursor(IntPtr hinstance, Cursor cursor);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern int GetSystemMetrics(SystemMetric metric);
 
         #endregion
+
     }
 }

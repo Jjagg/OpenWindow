@@ -6,7 +6,7 @@ using System;
 
 namespace OpenWindow
 {
-    public abstract class Window
+    public abstract class Window : IDisposable
     {
 
         #region Window API: Properties
@@ -51,6 +51,12 @@ namespace OpenWindow
 
         #region Window API: Functions
 
+        public OpenGLWindowSettings GlSettings { get; protected set; }
+
+        /// <summary>
+        /// Get the display that the window is on.
+        /// </summary>
+        /// <returns>The display the window is on.</returns>
         public abstract Display GetContainingDisplay();
         
         /// <summary>
@@ -135,6 +141,31 @@ namespace OpenWindow
         internal void RaiseTextInput(char c)
         {
             TextInput?.Invoke(this, new TextInputEventArgs(c));
+        }
+
+        #endregion
+
+        #region Disposable pattern
+
+        protected virtual void ReleaseUnmanagedResources()
+        {
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            // TODO window should be closed first
+            ReleaseUnmanagedResources();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~Window()
+        {
+            Dispose(false);
         }
 
         #endregion

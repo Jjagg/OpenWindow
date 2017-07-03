@@ -21,6 +21,7 @@ namespace OpenWindow
         protected WindowingService()
         {
             ManagedWindows = new Dictionary<IntPtr, Window>();
+            GlSettings = new OpenGLWindowSettings();
         }
 
         #endregion
@@ -97,6 +98,12 @@ namespace OpenWindow
         /// The number of windows managed by this service.
         /// </summary>
         public int WindowCount => ManagedWindows.Count;
+
+        /// <summary>
+        /// The settings to use for an OpenGL window. You only need to touch this when using OpenGL for rendering.
+        /// Value at the time of calling <see cref="CreateWindow"/> is used for that window.
+        /// </summary>
+        public OpenGLWindowSettings GlSettings { get; }
 
         /// <summary>
         /// Get the connected displays.

@@ -3,7 +3,6 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Windows
@@ -23,19 +22,20 @@ namespace OpenWindow.Backends.Windows
         private bool _fullscreen;
         private bool _focused;
 
+        private string _className;
         private string _title = string.Empty;
 
         #endregion
 
         #region Constructor
 
-        public Win32Window()
+        public Win32Window(OpenGLWindowSettings glSettings)
         {
-            var className = RegisterNewWindowClass();
+            RegisterNewWindowClass();
 
             var handle = Native.CreateWindowEx(
                 WindowStyleEx.None,
-                className,
+                _className,
                 string.Empty,
                 WindowStyle.WS_OVERLAPPEDWINDOW,
                 0,
@@ -48,11 +48,67 @@ namespace OpenWindow.Backends.Windows
                 IntPtr.Zero);
 
             if (handle == IntPtr.Zero)
+            {
+                Native.UnregisterClass(_className, IntPtr.Zero);
                 throw GetLastException();
+            }
 
             Native.ShowWindow(handle, ShowWindowCommand.Show);
 
             _handle = handle;
+
+            if (glSettings.EnableOpenGl)
+                InitOpenGl(glSettings);
+        }
+
+        private void InitOpenGl(OpenGLWindowSettings s)
+        {
+            var hdc = GetDeviceContext();
+
+            var pfd = new PixelFormatDescriptor();
+            pfd.nSize = (short) Marshal.SizeOf<PixelFormatDescriptor>();
+            pfd.nVersion = 1;
+            const int PFD_DRAW_TO_WINDOW = 4;
+            const int PFD_SUPPORT_OPENGL = 32;
+            pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+
+            const int PFD_DOUBLE_BUFFER = 1;
+            if (s.DoubleBuffer)
+                pfd.dwFlags |= PFD_DOUBLE_BUFFER;
+
+            const int PFD_TYPE_RGBA = 0;
+            pfd.iPixelType = PFD_TYPE_RGBA;
+
+            pfd.cRedBits = (byte) s.RedSize;
+            pfd.cGreenBits = (byte) s.GreenSize;
+            pfd.cBlueBits = (byte) s.BlueSize;
+            pfd.cAlphaBits = (byte) s.AlphaSize;
+            pfd.cColorBits = (byte) (s.RedSize + s.GreenSize + s.BlueSize);
+
+            pfd.cDepthBits = (byte) s.DepthSize;
+            pfd.cStencilBits = (byte) s.StencilSize;
+
+            var iPixelFormat = Native.ChoosePixelFormat(hdc, ref pfd);
+            Native.SetPixelFormat(hdc, iPixelFormat, ref pfd);
+
+            var ppfd = new PixelFormatDescriptor();
+            Native.DescribePixelFormat(hdc, iPixelFormat, (uint) Marshal.SizeOf<PixelFormatDescriptor>(), ref ppfd);
+
+            ReleaseDeviceContext(hdc);
+
+            GlSettings = new OpenGLWindowSettings
+            {
+                EnableOpenGl = true,
+                DoubleBuffer = (ppfd.dwFlags & PFD_DOUBLE_BUFFER) != 0,
+                RedSize = pfd.cRedBits,
+                GreenSize = pfd.cGreenBits,
+                BlueSize = pfd.cBlueBits,
+                AlphaSize = pfd.cAlphaBits,
+                DepthSize = pfd.cDepthBits,
+                StencilSize = pfd.cStencilBits
+            };
+
+            // TODO: Check for WGL_ARB_pixel_format to set MSAA if possible
         }
 
         #endregion
@@ -219,11 +275,11 @@ namespace OpenWindow.Backends.Windows
         #region Private Methods
 
         private static uint _windowId;
-        private string RegisterNewWindowClass()
+        private void RegisterNewWindowClass()
         {
-            var className = $"OpenWindow[{Native.GetCurrentThreadId()}]({_windowId++})";
+            _className = $"OpenWindow[{Native.GetCurrentThreadId()}]({_windowId++})";
             var winClass = new WndClass();
-            winClass.lpszClassName = className;
+            winClass.lpszClassName = _className;
 
             var service = (Win32WindowingService) WindowingService.Get();
             winClass.lpfnWndProc = service.WndProc;
@@ -233,8 +289,6 @@ namespace OpenWindow.Backends.Windows
             
             if (Native.RegisterClass(ref winClass) == 0)
                 throw GetLastException();
-
-            return className;
         }
 
         private static Exception GetLastException()
@@ -243,5 +297,10 @@ namespace OpenWindow.Backends.Windows
         }
 
         #endregion
+
+        protected override void ReleaseUnmanagedResources()
+        {
+            Native.UnregisterClass(_className, IntPtr.Zero);
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace OpenWindow.Backends.Windows
 
         public override Window CreateWindow()
         {
-            var window = new Win32Window();
+            var window = new Win32Window(GlSettings);
 
             window.Closing += HandleClosing;
             ManagedWindows.Add(window.Handle, window);
