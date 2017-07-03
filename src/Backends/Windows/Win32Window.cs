@@ -3,6 +3,7 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Windows
@@ -74,7 +75,7 @@ namespace OpenWindow.Backends.Windows
                     mInfo.cbSize = Marshal.SizeOf<MonitorInfo>();
                     if (!Native.GetMonitorInfo(mHandle, ref mInfo))
                         throw GetLastException();
-                    ClientBounds = mInfo.rcMonitor;
+                    ClientBounds = mInfo.monitorRect;
                     _fullscreen = true;
                     // TODO
                 }
@@ -170,7 +171,16 @@ namespace OpenWindow.Backends.Windows
         #endregion
 
         #region Window Functions
-        
+
+        public override Display GetContainingDisplay()
+        {
+            var displayHandle = Native.MonitorFromWindow(Handle, Constants.MonitorDefaultToNearest);
+            var service = (Win32WindowingService) WindowingService.Get();
+            if (!service.DisplayDict.ContainsKey(displayHandle))
+                throw new InvalidOperationException("Containing display for a window was not a known display! This should not happen!");
+            return service.DisplayDict[displayHandle];
+        }
+
         public override void Close()
         {
             Native.PostMessage(_handle, WindowMessage.Close, IntPtr.Zero, IntPtr.Zero);
@@ -215,7 +225,7 @@ namespace OpenWindow.Backends.Windows
             var winClass = new WndClass();
             winClass.lpszClassName = className;
 
-            var service = (WindowsWindowingService) WindowingService.Get();
+            var service = (Win32WindowingService) WindowingService.Get();
             winClass.lpfnWndProc = service.WndProc;
             winClass.hInstance = ModuleHinstance;
 

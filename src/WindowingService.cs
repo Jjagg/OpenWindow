@@ -40,7 +40,10 @@ namespace OpenWindow
         {
             var type = GetWindowingServiceType();
             _instance = CreateService(type);
+            _instance.Initialize();
         }
+
+        protected abstract void Initialize();
 
         private static WindowingServiceType GetWindowingServiceType()
         {
@@ -73,7 +76,7 @@ namespace OpenWindow
             switch (type)
             {
                 case WindowingServiceType.Win32:
-                    return new Backends.Windows.WindowsWindowingService();
+                    return new Backends.Windows.Win32WindowingService();
                 case WindowingServiceType.X:
                     throw new NotImplementedException();
                 case WindowingServiceType.Mir:
@@ -94,6 +97,12 @@ namespace OpenWindow
         /// The number of windows managed by this service.
         /// </summary>
         public int WindowCount => ManagedWindows.Count;
+
+        /// <summary>
+        /// Get the connected displays.
+        /// </summary>
+        /// <returns>An array containing connected displays.</returns>
+        public abstract Display[] Displays { get; }
 
         /// <summary>
         /// Get a window owned by this service by its handle.

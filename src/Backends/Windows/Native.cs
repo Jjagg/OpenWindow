@@ -92,7 +92,7 @@ namespace OpenWindow.Backends.Windows
 
         // TODO IDisposable and cleanup
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
+        public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hdc);
 
         #endregion
 
@@ -103,6 +103,10 @@ namespace OpenWindow.Backends.Windows
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
+
+        [DllImport("user32.dll")]
+        public static extern bool EnumDisplayMonitors(IntPtr deviceContext, IntPtr clipRect, MonitorEnumDelegate callback, IntPtr data);
+        public delegate bool MonitorEnumDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref Rect lprcMonitor, IntPtr dwData);
 
         #endregion
 
@@ -126,6 +130,9 @@ namespace OpenWindow.Backends.Windows
 
         [DllImport("user32.dll")]
         public static extern IntPtr LoadCursor(IntPtr hinstance, Cursor cursor);
+
+        [DllImport("user32.dll")]
+        public static extern int GetSystemMetrics(SystemMetric metric);
 
         #endregion
     }

@@ -50,6 +50,8 @@ namespace OpenWindow
         #endregion
 
         #region Window API: Functions
+
+        public abstract Display GetContainingDisplay();
         
         /// <summary>
         /// Close this window.

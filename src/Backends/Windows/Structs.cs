@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 namespace OpenWindow.Backends.Windows
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Msg
+    internal struct Msg
     {
         public IntPtr hwnd;
         public WindowMessage message;
@@ -19,7 +19,7 @@ namespace OpenWindow.Backends.Windows
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct WndClass
+    internal struct WndClass
     {
         public uint style;
         [MarshalAs(UnmanagedType.FunctionPtr)]
@@ -36,19 +36,28 @@ namespace OpenWindow.Backends.Windows
         public string lpszClassName;
     }
 
-    public delegate IntPtr WndProc(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
+    internal delegate IntPtr WndProc(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct MonitorInfo
+    internal struct MonitorInfo
     {
         public int cbSize;
-        public Rect rcMonitor;
-        public Rect rcWork;
-        public uint dwFlags;
+        public Rect monitorRect;
+        public Rect workAreaRect;
+        public uint flags;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+        public string DeviceName;
+
+        public bool IsPrimary => flags == 1;
+
+        public void Prepare()
+        {
+            cbSize = 72;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct Rect
+    internal struct Rect
     {
         public int Left;
         public int Top;

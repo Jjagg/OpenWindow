@@ -7,13 +7,13 @@ using System;
 namespace OpenWindow.Backends.Windows
 {
     [Flags]
-    public enum WindowStyleEx : uint
+    internal enum WindowStyleEx : uint
     {
         None = 0
     }
 
     [Flags]
-    public enum WindowStyle : uint
+    internal enum WindowStyle : uint
     {
         /// <summary>The window has a title bar (includes the WS_BORDER style).</summary>
         WS_CAPTION = 0xc00000,
@@ -40,7 +40,7 @@ namespace OpenWindow.Backends.Windows
         WS_VISIBLE = 0x10000000,
     }
 
-    public enum WindowMessage : uint
+    internal enum WindowMessage : uint
     {
         Destroy  = 0x0002,
         Activate = 0x0006,
@@ -51,7 +51,7 @@ namespace OpenWindow.Backends.Windows
         Char     = 0x0102,
     }
 
-    public enum ShowWindowCommand
+    internal enum ShowWindowCommand
     {
         /// <summary>
         /// Hides the window and activates another window.
@@ -123,11 +123,17 @@ namespace OpenWindow.Backends.Windows
         ForceMinimize = 11
     }
 
-    public enum Cursor
+    internal enum Cursor
     {
         Arrow = 32512,
         Hand = 32649,
         IBeam = 32513,
         Wait = 32514
     }
+
+    internal enum SystemMetric
+    {
+        SM_CMONITORS = 80,
+    }
+
 }

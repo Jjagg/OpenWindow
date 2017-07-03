@@ -3,15 +3,31 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenWindow.Backends.Windows
 {
-    internal class WindowsWindowingService : WindowingService
+    internal class Win32WindowingService : WindowingService
     {
+        internal Dictionary<IntPtr, Display> DisplayDict;
+        public override Display[] Displays => DisplayDict.Values.ToArray();
 
-        public WindowsWindowingService()
+        public Win32WindowingService()
         {
             WndProc = ProcessWindowMessage;
+        }
+
+        protected override void Initialize()
+        {
+            // detect connected displays
+            DisplayDict = new Dictionary<IntPtr, Display>();
+            Native.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
+                delegate(IntPtr handle, IntPtr hdc, ref Rect rect, IntPtr data)
+                {
+                    DisplayDict.Add(handle, Util.DisplayFromMonitorHandle(handle));
+                    return true;
+                }, IntPtr.Zero);
         }
 
         public override Window CreateWindow()
