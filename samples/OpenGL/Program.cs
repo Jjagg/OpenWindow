@@ -11,7 +11,7 @@ namespace OpenGL
 {
     class Program
     {
-        #region Wiggle
+        #region PInvoke
 
         [DllImport("opengl32.dll", SetLastError = true, EntryPoint = "wglCreateContext")]
         public static extern IntPtr WglCreateContext(IntPtr hdc);
@@ -43,6 +43,62 @@ namespace OpenGL
         [DllImport("opengl32.dll")]
         static extern void glFlush();
 
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetDC(IntPtr hWnd);
+
+        // TODO IDisposable and cleanup
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hdc);
+
+        #endregion
+
+        #region Structs
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct PixelFormatDescriptor
+        {
+            public short nSize;
+            public short nVersion;
+            public int dwFlags;
+            public byte iPixelType;
+            public byte cColorBits;
+            public byte cRedBits;
+            public byte cRedShift;
+            public byte cGreenBits;
+            public byte cGreenShift;
+            public byte cBlueBits;
+            public byte cBlueShift;
+            public byte cAlphaBits;
+            public byte cAlphaShift;
+            public byte cAccumBits;
+            public byte cAccumRedBits;
+            public byte cAccumGreenBits;
+            public byte cAccumBlueBits;
+            public byte cAccumAlphaBits;
+            public byte cDepthBits;
+            public byte cStencilBits;
+            public byte cAuxBuffers;
+            public byte iLayerType;
+            public byte bReserved;
+            public int dwLayerMask;
+            public int dwVisibleMask;
+            public int dwDamageMask;
+        }
+
+        private const int PfdDrawToWindow = 4;
+        private const int PfdSupportOpenGL = 32;
+        private const int PfdTypeRgba = 0;
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct Rect
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+
         #endregion
 
         private static Window _window;
@@ -59,10 +115,12 @@ namespace OpenGL
 
             _window.Closing += HandleClosing;
 
-            _hdc = _window.GetDeviceContext();
+            _hdc = GetDC(_window.Handle);
             _hrc = WglCreateContext(_hdc);
             WglMakeCurrent(_hdc, _hrc);
-            _window.ReleaseDeviceContext(_hdc);
+            ReleaseDC(_window.Handle, _hdc);
+
+            service.Update();
 
             while (true)
             {
@@ -73,12 +131,12 @@ namespace OpenGL
 
                 DrawTriangle();
 
-                _hdc = _window.GetDeviceContext();
+                _hdc = GetDC(_window.Handle);
 
                 // because we enabled double buffering we need to swap buffers here.
                 SwapBuffers(_hdc);
 
-                _window.ReleaseDeviceContext(_hdc);
+                ReleaseDC(_window.Handle, _hdc);
 
                 Thread.Sleep(10);
             }

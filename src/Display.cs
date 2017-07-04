@@ -22,10 +22,11 @@ namespace OpenWindow
         /// <summary>
         /// Working area for the display
         /// </summary>
-        // TODO does this make sense for all platforms?
         public Rectangle WorkingArea { get; }
 
-        // TODO does this make sense for all platforms?
+        /// <summary>
+        /// <code>true</code> if this display is the primary display, <code>false</code> otherwise.
+        /// </summary>
         public bool IsPrimary { get; }
 
         internal Display(string name, Rectangle bounds, Rectangle workingArea, bool isPrimary)

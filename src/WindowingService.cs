@@ -22,6 +22,8 @@ namespace OpenWindow
         {
             ManagedWindows = new Dictionary<IntPtr, Window>();
             GlSettings = new OpenGLWindowSettings();
+
+            Logger = new Logger();
         }
 
         #endregion
@@ -93,6 +95,11 @@ namespace OpenWindow
         #endregion
 
         #region Public API
+
+        /// <summary>
+        /// Provides logged messages.
+        /// </summary>
+        public Logger Logger { get; set; }
 
         /// <summary>
         /// The number of windows managed by this service.

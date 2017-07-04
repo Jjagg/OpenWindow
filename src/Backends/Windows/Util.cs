@@ -10,23 +10,6 @@ namespace OpenWindow.Backends.Windows
 {
     internal static class Util
     {
-        public static Message ToMessage(this Msg nativeMessage)
-        {
-            var m = new Message();
-            
-            switch (nativeMessage.message)
-            {
-                case WindowMessage.Quit:
-                    m.Type = MessageType.Closing;
-                    break;
-                default:
-                    m.Type = (MessageType) nativeMessage.message;
-                    break;
-            }
-
-            return m;
-        }
-
         public static Display DisplayFromMonitorHandle(IntPtr handle)
         {
             var mi = new MonitorInfo();

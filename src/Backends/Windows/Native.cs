@@ -51,7 +51,7 @@ namespace OpenWindow.Backends.Windows
             WindowStyleEx dwExStyle,
             [MarshalAs(UnmanagedType.LPStr)] string lpClassName,
             [MarshalAs(UnmanagedType.LPStr)] string lpWindowName,
-            WindowStyle dwStyle,
+            uint dwStyle,
             int x,
             int y,
             int nWidth,
@@ -85,9 +85,12 @@ namespace OpenWindow.Backends.Windows
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool SetWindowText(IntPtr hwnd, String lpString = null);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint SetWindowLong([In] IntPtr hWnd, [In] int nIndex, [In] uint dwNewLong);
+
         #endregion
 
-        #region Graphics
+        #region Device Context
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetDC(IntPtr hWnd);

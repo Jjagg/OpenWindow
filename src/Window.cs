@@ -17,9 +17,15 @@ namespace OpenWindow
         public abstract IntPtr Handle { get; }
         
         /// <summary>
-        /// Get or set if this window is in fullscreen.
+        /// Get or set a value indicating if this window has a border.
         /// </summary>
-        public abstract bool IsFullscreen { get; set; }
+        public abstract bool Borderless { get; set; }
+
+        /// <summary>
+        /// Indicates if users can resize the window.
+        /// </summary>
+        public abstract bool Resizable { get; set; }
+
         /// <summary>
         /// Get or set if this window is focused.
         /// </summary>
@@ -58,7 +64,18 @@ namespace OpenWindow
         /// </summary>
         /// <returns>The display the window is on.</returns>
         public abstract Display GetContainingDisplay();
-        
+
+        /// <summary>
+        /// Makes the window borderless and sets the <see cref="ClientBounds"/> to 
+        /// the size of the display it is on.
+        /// </summary>
+        /// <seealso cref="GetContainingDisplay">Used to get the display the window is on.</seealso>
+        public void SetFullscreen()
+        {
+            Borderless = true;
+            ClientBounds = GetContainingDisplay().Bounds;
+        }
+       
         /// <summary>
         /// Close this window.
         /// </summary>
@@ -79,10 +96,6 @@ namespace OpenWindow
         /// <param name="key">The key to check for.</param>
         /// <returns>True if the key is down, false if it is up.</returns>
         public abstract bool IsDown(VirtualKey key);
-
-        public abstract IntPtr GetDeviceContext();
-
-        public abstract void ReleaseDeviceContext(IntPtr deviceContext);
 
         #endregion
 

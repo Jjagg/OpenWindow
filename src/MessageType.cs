@@ -4,19 +4,22 @@
 
 namespace OpenWindow
 {
+    /// <summary>
+    /// Type of a <see cref="LogMessage"/>.
+    /// </summary>
     public enum MessageType
     {
         /// <summary>
-        /// Signals that the native message is not handled by OpenWindow.
+        /// An informative message.
         /// </summary>
-        Unhandled,
+        Info,
         /// <summary>
-        /// Signals that the window should be closed.
+        /// A warning message; used for non-fatal errors or important notifications.
         /// </summary>
-        Closing,
+        Warning,
         /// <summary>
-        /// Signals that the window is getting destroyed.
+        /// Used for errors that cause issues with the application.
         /// </summary>
-        Destroy
+        Error
     }
 }

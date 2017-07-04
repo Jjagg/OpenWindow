@@ -9,9 +9,12 @@ namespace OpenWindow.Backends.Windows
 {
     internal class Win32Window : Window
     {
-        #region HINSTANCE
+        #region Static
 
         private static readonly IntPtr ModuleHinstance = new IntPtr(Native.GetModuleHandle(null));
+
+        private const uint DefaultWs = Constants.WS_OVERLAPPED | Constants.WS_CAPTION |
+                                       Constants.WS_SYSMENU | Constants.WS_MINIMIZEBOX;
 
         #endregion
 
@@ -19,11 +22,12 @@ namespace OpenWindow.Backends.Windows
 
         private readonly IntPtr _handle;
 
-        private bool _fullscreen;
         private bool _focused;
 
         private string _className;
         private string _title = string.Empty;
+        private bool _borderless;
+        private bool _resizable;
 
         #endregion
 
@@ -37,11 +41,11 @@ namespace OpenWindow.Backends.Windows
                 WindowStyleEx.None,
                 _className,
                 string.Empty,
-                WindowStyle.WS_OVERLAPPEDWINDOW,
+                DefaultWs,
                 0,
                 0,
-                0,
-                0,
+                100,
+                100,
                 IntPtr.Zero,
                 IntPtr.Zero,
                 ModuleHinstance,
@@ -53,9 +57,9 @@ namespace OpenWindow.Backends.Windows
                 throw GetLastException();
             }
 
-            Native.ShowWindow(handle, ShowWindowCommand.Show);
-
             _handle = handle;
+
+            Native.ShowWindow(_handle, ShowWindowCommand.Normal);
 
             if (glSettings.EnableOpenGl)
                 InitOpenGl(glSettings);
@@ -63,7 +67,9 @@ namespace OpenWindow.Backends.Windows
 
         private void InitOpenGl(OpenGLWindowSettings s)
         {
-            var hdc = GetDeviceContext();
+            var hdc = Native.GetDC(_handle);
+            if (hdc == IntPtr.Zero)
+                return;
 
             var pfd = new PixelFormatDescriptor();
             pfd.nSize = (short) Marshal.SizeOf<PixelFormatDescriptor>();
@@ -94,7 +100,7 @@ namespace OpenWindow.Backends.Windows
             var ppfd = new PixelFormatDescriptor();
             Native.DescribePixelFormat(hdc, iPixelFormat, (uint) Marshal.SizeOf<PixelFormatDescriptor>(), ref ppfd);
 
-            ReleaseDeviceContext(hdc);
+            Native.ReleaseDC(_handle, hdc);
 
             GlSettings = new OpenGLWindowSettings
             {
@@ -117,29 +123,23 @@ namespace OpenWindow.Backends.Windows
 
         public override IntPtr Handle => _handle;
 
-        public override bool IsFullscreen
+        public override bool Resizable
         {
-            get => _fullscreen;
+            get => _resizable;
             set
             {
-                if (_fullscreen == value)
-                    return;
-                if (value)
-                {
-                    var mHandle = Native.MonitorFromWindow(_handle, Constants.MonitorDefaultToNearest);
-                    MonitorInfo mInfo = new MonitorInfo();
-                    mInfo.cbSize = Marshal.SizeOf<MonitorInfo>();
-                    if (!Native.GetMonitorInfo(mHandle, ref mInfo))
-                        throw GetLastException();
-                    ClientBounds = mInfo.monitorRect;
-                    _fullscreen = true;
-                    // TODO
-                }
-                else
-                {
-                    // TODO
-                    _fullscreen = false;
-                }
+                _resizable = value;
+                UpdateStyle();
+            }
+        }
+
+        public override bool Borderless
+        {
+            get => _borderless;
+            set
+            {
+                _borderless = value;
+                UpdateStyle();
             }
         }
 
@@ -164,7 +164,7 @@ namespace OpenWindow.Backends.Windows
             get => Bounds.Position;
             set
             {
-                if (!Native.SetWindowPos(_handle, IntPtr.Zero, value.X, value.Y, 0, 0, Constants.SwpNoSize | Constants.SwpNoZOrder))
+                if (!Native.SetWindowPos(_handle, IntPtr.Zero, value.X, value.Y, 0, 0, Constants.SWP_NOSIZE | Constants.SWP_NOZORDER))
                     throw GetLastException();
             }
         }
@@ -174,7 +174,7 @@ namespace OpenWindow.Backends.Windows
             get => Bounds.Size;
             set
             {
-                if (!Native.SetWindowPos(_handle, IntPtr.Zero, 0, 0, value.X, value.Y, Constants.SwpNoMove | Constants.SwpNoZOrder))
+                if (!Native.SetWindowPos(_handle, IntPtr.Zero, 0, 0, value.X, value.Y, Constants.SWP_NOMOVE | Constants.SWP_NOZORDER))
                     throw GetLastException();
             }
         }
@@ -191,7 +191,7 @@ namespace OpenWindow.Backends.Windows
             {
                 if (Bounds == value)
                     return;
-                if (!Native.SetWindowPos(_handle, IntPtr.Zero, value.X, value.Y, value.Width, value.Height, Constants.SwpNoZOrder))
+                if (!Native.SetWindowPos(_handle, IntPtr.Zero, value.X, value.Y, value.Width, value.Height, Constants.SWP_NOZORDER))
                     throw GetLastException();
             }
         }
@@ -207,7 +207,8 @@ namespace OpenWindow.Backends.Windows
             set
             {
                 Rect rect = value;
-                if (!Native.AdjustWindowRect(ref rect, Constants.WsCaption, false))
+                var style = GetWindowStyle();
+                if (!Native.AdjustWindowRect(ref rect, style, false))
                     throw GetLastException();
                 Bounds = rect;
             }
@@ -256,20 +257,6 @@ namespace OpenWindow.Backends.Windows
             return Native.GetKeyState(key) < 0;
         }
 
-        public override IntPtr GetDeviceContext()
-        {
-            var hdc = Native.GetDC(_handle);
-            if (hdc == IntPtr.Zero)
-                throw GetLastException();
-            return hdc;
-        }
-
-        public override void ReleaseDeviceContext(IntPtr deviceContext)
-        {
-            if (!Native.ReleaseDC(_handle, deviceContext))
-                throw GetLastException();
-        }
-
         #endregion
 
         #region Private Methods
@@ -289,6 +276,29 @@ namespace OpenWindow.Backends.Windows
             
             if (Native.RegisterClass(ref winClass) == 0)
                 throw GetLastException();
+        }
+
+        private uint GetWindowStyle()
+        {
+            uint style = 0;
+
+            if (Borderless)
+                style |= Constants.WS_POPUP | Constants.WS_SYSMENU;
+            else
+                style |= DefaultWs;
+
+            if (Resizable)
+                style |= Constants.WS_THICKFRAME | Constants.WS_MAXIMIZEBOX;
+
+            return style;
+        }
+
+        private void UpdateStyle()
+        {
+            var ws = GetWindowStyle();
+            const int GWL_STYLE = -16;
+            Native.SetWindowLong(_handle, GWL_STYLE, ws);
+            Native.ShowWindow(_handle, ShowWindowCommand.Show);
         }
 
         private static Exception GetLastException()

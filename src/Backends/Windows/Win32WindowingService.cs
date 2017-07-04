@@ -65,7 +65,7 @@ namespace OpenWindow.Backends.Windows
                 switch (msg)
                 {
                     case WindowMessage.Activate:
-                        window.IsFocused = (short) wParam != Constants.WaInactive;
+                        window.IsFocused = (short) wParam != 0;
                         break;
                     case WindowMessage.KeyDown:
                         // TODO

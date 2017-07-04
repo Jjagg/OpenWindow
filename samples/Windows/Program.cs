@@ -25,6 +25,7 @@ namespace Windows
 
             var lastf = false;
             var lastr = false;
+            var lastb = false;
 
             while (!_closing)
             {
@@ -34,13 +35,22 @@ namespace Windows
 
                 if (f && !lastf)
                 {
-                    if (!window.IsFullscreen)
+                    if (!window.Borderless)
+                    {
                         rect = window.Bounds;
+                        window.SetFullscreen();
+                    }
                     else
+                    {
+                        window.Borderless = false;
                         window.Bounds = rect;
-
-                    window.IsFullscreen = !window.IsFullscreen;
+                    }
                 }
+
+                var b = (keystate[(int) VirtualKey.B] & 0x80) != 0;
+
+                if (b && !lastb)
+                    window.Borderless = !window.Borderless;
 
                 if ((keystate[(int)VirtualKey.Escape] & 0x80) != 0)
                     window.Close();
@@ -56,6 +66,7 @@ namespace Windows
                 }
 
                 lastf = f;
+                lastb = b;
                 lastr = r;
 
                 service.Update();

@@ -12,34 +12,6 @@ namespace OpenWindow.Backends.Windows
         None = 0
     }
 
-    [Flags]
-    internal enum WindowStyle : uint
-    {
-        /// <summary>The window has a title bar (includes the WS_BORDER style).</summary>
-        WS_CAPTION = 0xc00000,
-
-        /// <summary>The window has a maximize button. Cannot be combined with the WS_EX_CONTEXTHELP style. The WS_SYSMENU style must also be specified.</summary>
-        WS_MAXIMIZEBOX = 0x10000,
-
-        /// <summary>The window has a minimize button. Cannot be combined with the WS_EX_CONTEXTHELP style. The WS_SYSMENU style must also be specified.</summary>
-        WS_MINIMIZEBOX = 0x20000,
-
-        /// <summary>The window is an overlapped window. An overlapped window has a title bar and a border.</summary>
-        WS_OVERLAPPED = 0x0,
-
-        /// <summary>The window is an overlapped window.</summary>
-        WS_OVERLAPPEDWINDOW = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_SIZEFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
-
-        /// <summary>The window has a sizing border.</summary>
-        WS_SIZEFRAME = 0x40000,
-
-        /// <summary>The window has a window menu on its title bar. The WS_CAPTION style must also be specified.</summary>
-        WS_SYSMENU = 0x80000,
-
-        /// <summary>The window is initially visible. This style can be turned on and off by using the ShowWindow or SetWindowPos function.</summary>
-        WS_VISIBLE = 0x10000000,
-    }
-
     internal enum WindowMessage : uint
     {
         Destroy  = 0x0002,
