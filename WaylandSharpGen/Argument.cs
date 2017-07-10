@@ -72,7 +72,7 @@ namespace WaylandSharpGen
                 case ArgType.Object:
                     return "WlObject";
                 case ArgType.New_id:
-                    return null;
+                    return "WlObject";
                 case ArgType.Array:
                     return "WlArray";
                 case ArgType.Fd:

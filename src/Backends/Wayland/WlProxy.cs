@@ -20,20 +20,17 @@ namespace OpenWindow.Backends.Wayland
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_destroy")]
         private static extern IntPtr Destroy(IntPtr proxy);
         
-        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_dispatcher")]
-        public static extern void AddDispatcher();
+        //[DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_dispatcher")]
+        //public static extern void AddDispatcher();
         
-        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
-        public static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
-                   
         //[DllImport("libwayland-client.so", EntryPoint = "wl_proxy_get_class")]
         //public static extern IntPtr GetClass(IntPtr proxy);
         
         //[DllImport("libwayland-client.so", EntryPoint = "wl_proxy_get_id")]
         //public static extern int GetId(IntPtr proxy);
         
-        //[DllImport("libwayland-client.so", EntryPoint = "wl_proxy_get_listener")]
-        //public static extern IntPtr GetListener(IntPtr proxy);
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_get_listener")]
+        public static extern IntPtr GetListener(IntPtr proxy);
         
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_get_user_data")]
         public static extern IntPtr GetUserData(IntPtr proxy);

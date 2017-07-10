@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -35,6 +36,21 @@ namespace WaylandSharpGen
                     types.Add(a.InterfaceCls);
             }
             Types = types.ToArray();
+        }
+
+        public string EventDelegate()
+        {
+            var sb = new StringBuilder($"public delegate void {NiceName}Handler(IntPtr data, IntPtr iface");
+            foreach (var a in Arguments)
+            {
+                sb.Append(", ");
+                sb.Append(a.ParamType == "WlObject" ? "IntPtr" : a.ParamType);
+                // @ in case argument names are C# keywords
+                sb.Append(" @");
+                sb.Append(a.Name);
+            }
+            sb.Append(");");
+            return sb.ToString();
         }
 
         public string Initializer()

@@ -1,6 +1,8 @@
 ﻿// This file was generated from an xml Wayland protocol specification
 
 using System;
+using System.Runtime.InteropServices;
+using SMarshal = System.Runtime.InteropServices.Marshal;
 
 namespace OpenWindow.Backends.Wayland
 {
@@ -39,6 +41,7 @@ namespace OpenWindow.Backends.Wayland
         private const int GetRegistryOp = 1;
 
         public static WlInterface Interface = new WlInterface("wl_display", 1, 2, 2);
+        public const string InterfaceName = "wl_display";
 
         private static readonly WlMessage SyncMsg = new WlMessage("sync", "n", new [] {WlCallback.Interface});
         private static readonly WlMessage GetRegistryMsg = new WlMessage("get_registry", "n", new [] {WlRegistry.Interface});
@@ -59,6 +62,28 @@ namespace OpenWindow.Backends.Wayland
         public WlDisplay(IntPtr pointer)
             : base(pointer) { }
 
+        public delegate void ErrorHandler(IntPtr data, IntPtr iface, IntPtr @object_id, uint @code, string @message);
+        public delegate void DeleteIdHandler(IntPtr data, IntPtr iface, uint @id);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 2);
+        private bool _setListener;
+
+        public ErrorHandler Error;
+        public DeleteIdHandler DeleteId;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Error));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(DeleteId));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
+
         public WlCallback Sync()
         {
             var ptr = MarshalConstructor(Pointer, SyncOp, WlCallback.Interface.Pointer, IntPtr.Zero);
@@ -77,6 +102,7 @@ namespace OpenWindow.Backends.Wayland
         private const int BindOp = 0;
 
         public static WlInterface Interface = new WlInterface("wl_registry", 1, 1, 2);
+        public const string InterfaceName = "wl_registry";
 
         private static readonly WlMessage BindMsg = new WlMessage("bind", "un", new WlInterface [0]);
 
@@ -95,6 +121,28 @@ namespace OpenWindow.Backends.Wayland
         public WlRegistry(IntPtr pointer)
             : base(pointer) { }
 
+        public delegate void GlobalHandler(IntPtr data, IntPtr iface, uint @name, string @interface, uint @version);
+        public delegate void GlobalRemoveHandler(IntPtr data, IntPtr iface, uint @name);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 2);
+        private bool _setListener;
+
+        public GlobalHandler Global;
+        public GlobalRemoveHandler GlobalRemove;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Global));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(GlobalRemove));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
+
         public T Bind<T>(uint name, WlInterface iface)
             where T : WlObject
         {
@@ -109,6 +157,7 @@ namespace OpenWindow.Backends.Wayland
     {
 
         public static WlInterface Interface = new WlInterface("wl_callback", 1, 0, 1);
+        public const string InterfaceName = "wl_callback";
 
 
         static WlCallback()
@@ -124,6 +173,25 @@ namespace OpenWindow.Backends.Wayland
 
         public WlCallback(IntPtr pointer)
             : base(pointer) { }
+
+        public delegate void DoneHandler(IntPtr data, IntPtr iface, uint @callback_data);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 1);
+        private bool _setListener;
+
+        public DoneHandler Done;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Done));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
     }
 
     internal partial class WlCompositor : WlProxy
@@ -132,6 +200,7 @@ namespace OpenWindow.Backends.Wayland
         private const int CreateRegionOp = 1;
 
         public static WlInterface Interface = new WlInterface("wl_compositor", 4, 2, 0);
+        public const string InterfaceName = "wl_compositor";
 
         private static readonly WlMessage CreateSurfaceMsg = new WlMessage("create_surface", "n", new [] {WlSurface.Interface});
         private static readonly WlMessage CreateRegionMsg = new WlMessage("create_region", "n", new [] {WlRegion.Interface});
@@ -151,6 +220,7 @@ namespace OpenWindow.Backends.Wayland
 
         public WlCompositor(IntPtr pointer)
             : base(pointer) { }
+
 
         public WlSurface CreateSurface()
         {
@@ -172,6 +242,7 @@ namespace OpenWindow.Backends.Wayland
         private const int ResizeOp = 2;
 
         public static WlInterface Interface = new WlInterface("wl_shm_pool", 1, 3, 0);
+        public const string InterfaceName = "wl_shm_pool";
 
         private static readonly WlMessage CreateBufferMsg = new WlMessage("create_buffer", "niiiiu", new [] {WlBuffer.Interface});
         private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
@@ -193,6 +264,7 @@ namespace OpenWindow.Backends.Wayland
 
         public WlShmPool(IntPtr pointer)
             : base(pointer) { }
+
 
         public WlBuffer CreateBuffer(int offset, int width, int height, int stride, uint format)
         {
@@ -218,6 +290,7 @@ namespace OpenWindow.Backends.Wayland
         private const int CreatePoolOp = 0;
 
         public static WlInterface Interface = new WlInterface("wl_shm", 1, 1, 1);
+        public const string InterfaceName = "wl_shm";
 
         private static readonly WlMessage CreatePoolMsg = new WlMessage("create_pool", "nhi", new [] {WlShmPool.Interface});
 
@@ -236,6 +309,25 @@ namespace OpenWindow.Backends.Wayland
         public WlShm(IntPtr pointer)
             : base(pointer) { }
 
+        public delegate void FormatHandler(IntPtr data, IntPtr iface, uint @format);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 1);
+        private bool _setListener;
+
+        public FormatHandler Format;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Format));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
+
         public WlShmPool CreatePool(int fd, int size)
         {
             var args = new ArgumentList(fd, size);
@@ -250,6 +342,7 @@ namespace OpenWindow.Backends.Wayland
         private const int DestroyOp = 0;
 
         public static WlInterface Interface = new WlInterface("wl_buffer", 1, 1, 1);
+        public const string InterfaceName = "wl_buffer";
 
         private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
 
@@ -268,6 +361,25 @@ namespace OpenWindow.Backends.Wayland
         public WlBuffer(IntPtr pointer)
             : base(pointer) { }
 
+        public delegate void ReleaseHandler(IntPtr data, IntPtr iface);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 1);
+        private bool _setListener;
+
+        public ReleaseHandler Release;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Release));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
+
         public void Destroy()
         {
             Marshal(Pointer, DestroyOp);
@@ -283,6 +395,7 @@ namespace OpenWindow.Backends.Wayland
         private const int SetActionsOp = 4;
 
         public static WlInterface Interface = new WlInterface("wl_data_offer", 3, 5, 3);
+        public const string InterfaceName = "wl_data_offer";
 
         private static readonly WlMessage AcceptMsg = new WlMessage("accept", "u?s", new WlInterface [0]);
         private static readonly WlMessage ReceiveMsg = new WlMessage("receive", "sh", new WlInterface [0]);
@@ -308,6 +421,31 @@ namespace OpenWindow.Backends.Wayland
 
         public WlDataOffer(IntPtr pointer)
             : base(pointer) { }
+
+        public delegate void OfferHandler(IntPtr data, IntPtr iface, string @mime_type);
+        public delegate void SourceActionsHandler(IntPtr data, IntPtr iface, uint @source_actions);
+        public delegate void ActionHandler(IntPtr data, IntPtr iface, uint @dnd_action);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 3);
+        private bool _setListener;
+
+        public OfferHandler Offer;
+        public SourceActionsHandler SourceActions;
+        public ActionHandler Action;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Offer));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(SourceActions));
+            SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Action));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
 
         public void Accept(uint serial, string mime_type)
         {
@@ -348,6 +486,7 @@ namespace OpenWindow.Backends.Wayland
         private const int SetActionsOp = 2;
 
         public static WlInterface Interface = new WlInterface("wl_data_source", 3, 3, 6);
+        public const string InterfaceName = "wl_data_source";
 
         private static readonly WlMessage OfferMsg = new WlMessage("offer", "s", new WlInterface [0]);
         private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
@@ -369,6 +508,40 @@ namespace OpenWindow.Backends.Wayland
 
         public WlDataSource(IntPtr pointer)
             : base(pointer) { }
+
+        public delegate void TargetHandler(IntPtr data, IntPtr iface, string @mime_type);
+        public delegate void SendHandler(IntPtr data, IntPtr iface, string @mime_type, int @fd);
+        public delegate void CancelledHandler(IntPtr data, IntPtr iface);
+        public delegate void DndDropPerformedHandler(IntPtr data, IntPtr iface);
+        public delegate void DndFinishedHandler(IntPtr data, IntPtr iface);
+        public delegate void ActionHandler(IntPtr data, IntPtr iface, uint @dnd_action);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 6);
+        private bool _setListener;
+
+        public TargetHandler Target;
+        public SendHandler Send;
+        public CancelledHandler Cancelled;
+        public DndDropPerformedHandler DndDropPerformed;
+        public DndFinishedHandler DndFinished;
+        public ActionHandler Action;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Target));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Send));
+            SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Cancelled));
+            SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(DndDropPerformed));
+            SMarshal.WriteIntPtr(_listener, 4 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(DndFinished));
+            SMarshal.WriteIntPtr(_listener, 5 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Action));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
 
         public void Offer(string mime_type)
         {
@@ -393,6 +566,7 @@ namespace OpenWindow.Backends.Wayland
         private const int ReleaseOp = 2;
 
         public static WlInterface Interface = new WlInterface("wl_data_device", 3, 3, 6);
+        public const string InterfaceName = "wl_data_device";
 
         private static readonly WlMessage StartDragMsg = new WlMessage("start_drag", "?oo?ou", new [] {WlDataSource.Interface, WlSurface.Interface, WlSurface.Interface});
         private static readonly WlMessage SetSelectionMsg = new WlMessage("set_selection", "?ou", new [] {WlDataSource.Interface});
@@ -414,6 +588,40 @@ namespace OpenWindow.Backends.Wayland
 
         public WlDataDevice(IntPtr pointer)
             : base(pointer) { }
+
+        public delegate void DataOfferHandler(IntPtr data, IntPtr iface, IntPtr @id);
+        public delegate void EnterHandler(IntPtr data, IntPtr iface, uint @serial, IntPtr @surface, int @x, int @y, IntPtr @id);
+        public delegate void LeaveHandler(IntPtr data, IntPtr iface);
+        public delegate void MotionHandler(IntPtr data, IntPtr iface, uint @time, int @x, int @y);
+        public delegate void DropHandler(IntPtr data, IntPtr iface);
+        public delegate void SelectionHandler(IntPtr data, IntPtr iface, IntPtr @id);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 6);
+        private bool _setListener;
+
+        public DataOfferHandler DataOffer;
+        public EnterHandler Enter;
+        public LeaveHandler Leave;
+        public MotionHandler Motion;
+        public DropHandler Drop;
+        public SelectionHandler Selection;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(DataOffer));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Enter));
+            SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Leave));
+            SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Motion));
+            SMarshal.WriteIntPtr(_listener, 4 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Drop));
+            SMarshal.WriteIntPtr(_listener, 5 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Selection));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
 
         public void StartDrag(WlObject source, WlObject origin, WlObject icon, uint serial)
         {
@@ -441,6 +649,7 @@ namespace OpenWindow.Backends.Wayland
         private const int GetDataDeviceOp = 1;
 
         public static WlInterface Interface = new WlInterface("wl_data_device_manager", 3, 2, 0);
+        public const string InterfaceName = "wl_data_device_manager";
 
         private static readonly WlMessage CreateDataSourceMsg = new WlMessage("create_data_source", "n", new [] {WlDataSource.Interface});
         private static readonly WlMessage GetDataDeviceMsg = new WlMessage("get_data_device", "no", new [] {WlDataDevice.Interface, WlSeat.Interface});
@@ -460,6 +669,7 @@ namespace OpenWindow.Backends.Wayland
 
         public WlDataDeviceManager(IntPtr pointer)
             : base(pointer) { }
+
 
         public WlDataSource CreateDataSource()
         {
@@ -481,6 +691,7 @@ namespace OpenWindow.Backends.Wayland
         private const int GetShellSurfaceOp = 0;
 
         public static WlInterface Interface = new WlInterface("wl_shell", 1, 1, 0);
+        public const string InterfaceName = "wl_shell";
 
         private static readonly WlMessage GetShellSurfaceMsg = new WlMessage("get_shell_surface", "no", new [] {WlShellSurface.Interface, WlSurface.Interface});
 
@@ -498,6 +709,7 @@ namespace OpenWindow.Backends.Wayland
 
         public WlShell(IntPtr pointer)
             : base(pointer) { }
+
 
         public WlShellSurface GetShellSurface(WlObject surface)
         {
@@ -522,6 +734,7 @@ namespace OpenWindow.Backends.Wayland
         private const int SetClassOp = 9;
 
         public static WlInterface Interface = new WlInterface("wl_shell_surface", 1, 10, 3);
+        public const string InterfaceName = "wl_shell_surface";
 
         private static readonly WlMessage PongMsg = new WlMessage("pong", "u", new WlInterface [0]);
         private static readonly WlMessage MoveMsg = new WlMessage("move", "ou", new [] {WlSeat.Interface});
@@ -557,6 +770,31 @@ namespace OpenWindow.Backends.Wayland
 
         public WlShellSurface(IntPtr pointer)
             : base(pointer) { }
+
+        public delegate void PingHandler(IntPtr data, IntPtr iface, uint @serial);
+        public delegate void ConfigureHandler(IntPtr data, IntPtr iface, uint @edges, int @width, int @height);
+        public delegate void PopupDoneHandler(IntPtr data, IntPtr iface);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 3);
+        private bool _setListener;
+
+        public PingHandler Ping;
+        public ConfigureHandler Configure;
+        public PopupDoneHandler PopupDone;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Ping));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Configure));
+            SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(PopupDone));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
 
         public void Pong(uint serial)
         {
@@ -633,6 +871,7 @@ namespace OpenWindow.Backends.Wayland
         private const int DamageBufferOp = 9;
 
         public static WlInterface Interface = new WlInterface("wl_surface", 4, 10, 2);
+        public const string InterfaceName = "wl_surface";
 
         private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
         private static readonly WlMessage AttachMsg = new WlMessage("attach", "?oii", new [] {WlBuffer.Interface});
@@ -668,6 +907,28 @@ namespace OpenWindow.Backends.Wayland
 
         public WlSurface(IntPtr pointer)
             : base(pointer) { }
+
+        public delegate void EnterHandler(IntPtr data, IntPtr iface, IntPtr @output);
+        public delegate void LeaveHandler(IntPtr data, IntPtr iface, IntPtr @output);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 2);
+        private bool _setListener;
+
+        public EnterHandler Enter;
+        public LeaveHandler Leave;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Enter));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Leave));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
 
         public void Destroy()
         {
@@ -735,6 +996,7 @@ namespace OpenWindow.Backends.Wayland
         private const int ReleaseOp = 3;
 
         public static WlInterface Interface = new WlInterface("wl_seat", 6, 4, 2);
+        public const string InterfaceName = "wl_seat";
 
         private static readonly WlMessage GetPointerMsg = new WlMessage("get_pointer", "n", new [] {WlPointer.Interface});
         private static readonly WlMessage GetKeyboardMsg = new WlMessage("get_keyboard", "n", new [] {WlKeyboard.Interface});
@@ -758,6 +1020,28 @@ namespace OpenWindow.Backends.Wayland
 
         public WlSeat(IntPtr pointer)
             : base(pointer) { }
+
+        public delegate void CapabilitiesHandler(IntPtr data, IntPtr iface, uint @capabilities);
+        public delegate void NameHandler(IntPtr data, IntPtr iface, string @name);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 2);
+        private bool _setListener;
+
+        public CapabilitiesHandler Capabilities;
+        public NameHandler Name;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Capabilities));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Name));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
 
         public WlPointer GetPointer()
         {
@@ -789,6 +1073,7 @@ namespace OpenWindow.Backends.Wayland
         private const int ReleaseOp = 1;
 
         public static WlInterface Interface = new WlInterface("wl_pointer", 6, 2, 9);
+        public const string InterfaceName = "wl_pointer";
 
         private static readonly WlMessage SetCursorMsg = new WlMessage("set_cursor", "u?oii", new [] {WlSurface.Interface});
         private static readonly WlMessage ReleaseMsg = new WlMessage("release", "", new WlInterface [0]);
@@ -809,6 +1094,49 @@ namespace OpenWindow.Backends.Wayland
         public WlPointer(IntPtr pointer)
             : base(pointer) { }
 
+        public delegate void EnterHandler(IntPtr data, IntPtr iface, uint @serial, IntPtr @surface, int @surface_x, int @surface_y);
+        public delegate void LeaveHandler(IntPtr data, IntPtr iface, uint @serial, IntPtr @surface);
+        public delegate void MotionHandler(IntPtr data, IntPtr iface, uint @time, int @surface_x, int @surface_y);
+        public delegate void ButtonHandler(IntPtr data, IntPtr iface, uint @serial, uint @time, uint @button, uint @state);
+        public delegate void AxisHandler(IntPtr data, IntPtr iface, uint @time, uint @axis, int @value);
+        public delegate void FrameHandler(IntPtr data, IntPtr iface);
+        public delegate void AxisSourceHandler(IntPtr data, IntPtr iface, uint @axis_source);
+        public delegate void AxisStopHandler(IntPtr data, IntPtr iface, uint @time, uint @axis);
+        public delegate void AxisDiscreteHandler(IntPtr data, IntPtr iface, uint @axis, int @discrete);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 9);
+        private bool _setListener;
+
+        public EnterHandler Enter;
+        public LeaveHandler Leave;
+        public MotionHandler Motion;
+        public ButtonHandler Button;
+        public AxisHandler Axis;
+        public FrameHandler Frame;
+        public AxisSourceHandler AxisSource;
+        public AxisStopHandler AxisStop;
+        public AxisDiscreteHandler AxisDiscrete;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Enter));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Leave));
+            SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Motion));
+            SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Button));
+            SMarshal.WriteIntPtr(_listener, 4 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Axis));
+            SMarshal.WriteIntPtr(_listener, 5 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Frame));
+            SMarshal.WriteIntPtr(_listener, 6 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(AxisSource));
+            SMarshal.WriteIntPtr(_listener, 7 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(AxisStop));
+            SMarshal.WriteIntPtr(_listener, 8 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(AxisDiscrete));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
+
         public void SetCursor(uint serial, WlObject surface, int hotspot_x, int hotspot_y)
         {
             var args = new ArgumentList(serial, WlSurface.Interface.Pointer, hotspot_x, hotspot_y);
@@ -827,6 +1155,7 @@ namespace OpenWindow.Backends.Wayland
         private const int ReleaseOp = 0;
 
         public static WlInterface Interface = new WlInterface("wl_keyboard", 6, 1, 6);
+        public const string InterfaceName = "wl_keyboard";
 
         private static readonly WlMessage ReleaseMsg = new WlMessage("release", "", new WlInterface [0]);
 
@@ -845,6 +1174,40 @@ namespace OpenWindow.Backends.Wayland
         public WlKeyboard(IntPtr pointer)
             : base(pointer) { }
 
+        public delegate void KeymapHandler(IntPtr data, IntPtr iface, uint @format, int @fd, uint @size);
+        public delegate void EnterHandler(IntPtr data, IntPtr iface, uint @serial, IntPtr @surface, WlArray @keys);
+        public delegate void LeaveHandler(IntPtr data, IntPtr iface, uint @serial, IntPtr @surface);
+        public delegate void KeyHandler(IntPtr data, IntPtr iface, uint @serial, uint @time, uint @key, uint @state);
+        public delegate void ModifiersHandler(IntPtr data, IntPtr iface, uint @serial, uint @mods_depressed, uint @mods_latched, uint @mods_locked, uint @group);
+        public delegate void RepeatInfoHandler(IntPtr data, IntPtr iface, int @rate, int @delay);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 6);
+        private bool _setListener;
+
+        public KeymapHandler Keymap;
+        public EnterHandler Enter;
+        public LeaveHandler Leave;
+        public KeyHandler Key;
+        public ModifiersHandler Modifiers;
+        public RepeatInfoHandler RepeatInfo;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Keymap));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Enter));
+            SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Leave));
+            SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Key));
+            SMarshal.WriteIntPtr(_listener, 4 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Modifiers));
+            SMarshal.WriteIntPtr(_listener, 5 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(RepeatInfo));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
+
         public void Release()
         {
             Marshal(Pointer, ReleaseOp);
@@ -856,6 +1219,7 @@ namespace OpenWindow.Backends.Wayland
         private const int ReleaseOp = 0;
 
         public static WlInterface Interface = new WlInterface("wl_touch", 6, 1, 7);
+        public const string InterfaceName = "wl_touch";
 
         private static readonly WlMessage ReleaseMsg = new WlMessage("release", "", new WlInterface [0]);
 
@@ -874,6 +1238,43 @@ namespace OpenWindow.Backends.Wayland
         public WlTouch(IntPtr pointer)
             : base(pointer) { }
 
+        public delegate void DownHandler(IntPtr data, IntPtr iface, uint @serial, uint @time, IntPtr @surface, int @id, int @x, int @y);
+        public delegate void UpHandler(IntPtr data, IntPtr iface, uint @serial, uint @time, int @id);
+        public delegate void MotionHandler(IntPtr data, IntPtr iface, uint @time, int @id, int @x, int @y);
+        public delegate void FrameHandler(IntPtr data, IntPtr iface);
+        public delegate void CancelHandler(IntPtr data, IntPtr iface);
+        public delegate void ShapeHandler(IntPtr data, IntPtr iface, int @id, int @major, int @minor);
+        public delegate void OrientationHandler(IntPtr data, IntPtr iface, int @id, int @orientation);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 7);
+        private bool _setListener;
+
+        public DownHandler Down;
+        public UpHandler Up;
+        public MotionHandler Motion;
+        public FrameHandler Frame;
+        public CancelHandler Cancel;
+        public ShapeHandler Shape;
+        public OrientationHandler Orientation;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Down));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Up));
+            SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Motion));
+            SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Frame));
+            SMarshal.WriteIntPtr(_listener, 4 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Cancel));
+            SMarshal.WriteIntPtr(_listener, 5 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Shape));
+            SMarshal.WriteIntPtr(_listener, 6 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Orientation));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
+
         public void Release()
         {
             Marshal(Pointer, ReleaseOp);
@@ -885,6 +1286,7 @@ namespace OpenWindow.Backends.Wayland
         private const int ReleaseOp = 0;
 
         public static WlInterface Interface = new WlInterface("wl_output", 3, 1, 4);
+        public const string InterfaceName = "wl_output";
 
         private static readonly WlMessage ReleaseMsg = new WlMessage("release", "", new WlInterface [0]);
 
@@ -903,6 +1305,34 @@ namespace OpenWindow.Backends.Wayland
         public WlOutput(IntPtr pointer)
             : base(pointer) { }
 
+        public delegate void GeometryHandler(IntPtr data, IntPtr iface, int @x, int @y, int @physical_width, int @physical_height, int @subpixel, string @make, string @model, int @transform);
+        public delegate void ModeHandler(IntPtr data, IntPtr iface, uint @flags, int @width, int @height, int @refresh);
+        public delegate void DoneHandler(IntPtr data, IntPtr iface);
+        public delegate void ScaleHandler(IntPtr data, IntPtr iface, int @factor);
+
+        private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * 4);
+        private bool _setListener;
+
+        public GeometryHandler Geometry;
+        public ModeHandler Mode;
+        public DoneHandler Done;
+        public ScaleHandler Scale;
+
+        public void SetListener()
+        {
+            if (_setListener)
+                throw new Exception("Listener already set.");
+            SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Geometry));
+            SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Mode));
+            SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Done));
+            SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Scale));
+            AddListener(Pointer, _listener, IntPtr.Zero);
+            _setListener = true;
+        }
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
+
         public void Release()
         {
             Marshal(Pointer, ReleaseOp);
@@ -916,6 +1346,7 @@ namespace OpenWindow.Backends.Wayland
         private const int SubtractOp = 2;
 
         public static WlInterface Interface = new WlInterface("wl_region", 1, 3, 0);
+        public const string InterfaceName = "wl_region";
 
         private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
         private static readonly WlMessage AddMsg = new WlMessage("add", "iiii", new WlInterface [0]);
@@ -937,6 +1368,7 @@ namespace OpenWindow.Backends.Wayland
 
         public WlRegion(IntPtr pointer)
             : base(pointer) { }
+
 
         public void Destroy()
         {
@@ -964,6 +1396,7 @@ namespace OpenWindow.Backends.Wayland
         private const int GetSubsurfaceOp = 1;
 
         public static WlInterface Interface = new WlInterface("wl_subcompositor", 1, 2, 0);
+        public const string InterfaceName = "wl_subcompositor";
 
         private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
         private static readonly WlMessage GetSubsurfaceMsg = new WlMessage("get_subsurface", "noo", new [] {WlSubsurface.Interface, WlSurface.Interface, WlSurface.Interface});
@@ -983,6 +1416,7 @@ namespace OpenWindow.Backends.Wayland
 
         public WlSubcompositor(IntPtr pointer)
             : base(pointer) { }
+
 
         public void Destroy()
         {
@@ -1008,6 +1442,7 @@ namespace OpenWindow.Backends.Wayland
         private const int SetDesyncOp = 5;
 
         public static WlInterface Interface = new WlInterface("wl_subsurface", 1, 6, 0);
+        public const string InterfaceName = "wl_subsurface";
 
         private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
         private static readonly WlMessage SetPositionMsg = new WlMessage("set_position", "ii", new WlInterface [0]);
@@ -1035,6 +1470,7 @@ namespace OpenWindow.Backends.Wayland
 
         public WlSubsurface(IntPtr pointer)
             : base(pointer) { }
+
 
         public void Destroy()
         {

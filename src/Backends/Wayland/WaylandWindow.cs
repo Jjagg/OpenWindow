@@ -3,6 +3,9 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
+using System.Diagnostics;
+using System.Diagnostics.Tracing;
+using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Wayland
 {
@@ -20,12 +23,34 @@ namespace OpenWindow.Backends.Wayland
             if (display == null)
                 throw CreateException("Failed to create Wayland display.");
 
-            var iface = new WlInterface("wl_registry", 1, 1, 2);
-
-            // THIS WORKS
-            //var registry = WlProxy.MarshalConstructor(display.Pointer, 1, iface.Pointer, IntPtr.Zero);
-
             var registry = display.GetRegistry();
+
+            registry.Global = RegistryGlobal;
+            registry.GlobalRemove = RegistryGlobalRemove;
+            registry.SetListener();
+
+            display.Roundtrip();
+            display.Roundtrip();
+            display.Flush();
+        }
+
+        private void RegistryGlobalRemove(IntPtr data, IntPtr iface, uint name)
+        {
+        }
+
+        private static void RegistryGlobal(IntPtr data, IntPtr registry, uint name, string iface, uint version)
+        {
+            switch (iface)
+            {
+                case WlCompositor.InterfaceName:
+                    break;
+                case WlShm.InterfaceName:
+                    break;
+                case WlShell.InterfaceName:
+                    break;
+                case WlSeat.InterfaceName:
+                    break;
+            }
         }
 
         #endregion

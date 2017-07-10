@@ -51,6 +51,8 @@ namespace WaylandSharpGen
                 throw new Exception("No protocol element found!");
 
             w.Using("System");
+            w.Using("System.Runtime.InteropServices");
+            w.Using("SMarshal = System.Runtime.InteropServices.Marshal");
             w.NewLine();
             w.BeginNs("OpenWindow.Backends.Wayland");
 
@@ -115,6 +117,7 @@ namespace WaylandSharpGen
             var evCount = iface.Events.Length;
             w.Field("WlInterface", "Interface", true, AccessModifier.Public,
                 $"new WlInterface(\"{iface.RawName}\", {iface.Version}, {requestCount}, {evCount})");
+            w.Line($"public const string InterfaceName = \"{iface.RawName}\";");
 
             w.NewLine();
 
@@ -162,10 +165,21 @@ namespace WaylandSharpGen
             if (GenerateRegion)
             {
                 w.NewLine();
+                w.Line("#region Events");
+            }
+
+            w.NewLine();
+            if (iface.Events.Any())
+                WriteEvents(iface.Events, w);
+
+            if (GenerateRegion)
+            {
+                w.NewLine();
+                w.Line("#endregion");
+                w.NewLine();
                 w.Line("#region Requests");
             }
 
-            // add the request methods
             foreach (var r in iface.Requests)
             {
                 w.NewLine();
@@ -179,6 +193,42 @@ namespace WaylandSharpGen
             }
 
             w.CloseBlock();
+        }
+
+        private static void WriteEvents(Message[] events, CSharpWriter w)
+        {
+            foreach (var e in events)
+                w.Line(e.EventDelegate());
+            w.NewLine();
+            
+            w.Line($"private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * {events.Length});");
+            w.Line("private bool _setListener;");
+
+            w.NewLine();
+            foreach (var e in events)
+            {
+                ParseDescription(e.Element, w);
+                ParseArgsDescription(e.Element, w);
+                w.Line($"public {e.NiceName}Handler {e.NiceName};");
+            }
+            
+            w.NewLine();
+            w.Line("public void SetListener()");
+            w.OpenBlock();
+            w.Line("if (_setListener)");
+            w.Line("    throw new Exception(\"Listener already set.\");");
+            for (var i = 0; i < events.Length; i++)
+            {
+                var e = events[i];
+                w.Line($"SMarshal.WriteIntPtr(_listener, {i} * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate({e.NiceName}));");
+            }
+            w.Line("AddListener(Pointer, _listener, IntPtr.Zero);");
+            w.Line("_setListener = true;");
+            w.CloseBlock();
+            
+            w.NewLine();
+            w.Line("[DllImport(\"libwayland-client.so\", EntryPoint = \"wl_proxy_add_listener\")]");
+            w.Line("private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);");
         }
 
         private static void WriteRequest(Message r, CSharpWriter w)

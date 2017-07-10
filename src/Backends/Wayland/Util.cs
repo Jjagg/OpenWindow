@@ -5,11 +5,6 @@ using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Wayland
 {
-    internal static class Util
-    {
-        public static readonly int IntPtrSize = Marshal.SizeOf<IntPtr>();
-    }
-
     internal sealed class ArgumentList : IDisposable
     {
         [StructLayout(LayoutKind.Explicit)]
@@ -159,9 +154,9 @@ namespace OpenWindow.Backends.Wayland
             Message.Name = name;
             Message.Signature = signature;
 
-            Message.Types = Marshal.AllocHGlobal(types.Count * Util.IntPtrSize);
+            Message.Types = Marshal.AllocHGlobal(types.Count * IntPtr.Size);
             for (var i = 0; i < types.Count; i++)
-                Marshal.WriteIntPtr(Message.Types, i * Util.IntPtrSize, types[i].Pointer);
+                Marshal.WriteIntPtr(Message.Types, i * IntPtr.Size, types[i].Pointer);
         }
 
         public void MarshalTo(IntPtr ptr)
@@ -226,13 +221,13 @@ namespace OpenWindow.Backends.Wayland
                 throw new Exception("Requests and events must be set before calling Finish.");
 
             _managed.Methods = requests.Any()
-                ? Marshal.AllocHGlobal(requests.Length * Util.IntPtrSize)
+                ? Marshal.AllocHGlobal(requests.Length * IntPtr.Size)
                 : IntPtr.Zero;
             for (var i = 0; i < requests.Length; i++)
             {
                 var ptr = Marshal.AllocHGlobal(MessageSize);
                 Marshal.StructureToPtr(requests[i].Message, ptr, false);
-                Marshal.WriteIntPtr(Pointer, i * Util.IntPtrSize, ptr);
+                Marshal.WriteIntPtr(Pointer, i * IntPtr.Size, ptr);
             }
         }
 
@@ -242,13 +237,13 @@ namespace OpenWindow.Backends.Wayland
                 throw new Exception("Requests and events must be set before calling Finish.");
 
             _managed.Methods = events.Any()
-                ? Marshal.AllocHGlobal(events.Length * Util.IntPtrSize)
+                ? Marshal.AllocHGlobal(events.Length * IntPtr.Size)
                 : IntPtr.Zero;
             for (var i = 0; i < events.Length; i++)
             {
                 var ptr = Marshal.AllocHGlobal(MessageSize);
                 Marshal.StructureToPtr(events[i].Message, ptr, false);
-                Marshal.WriteIntPtr(Pointer, i * Util.IntPtrSize, ptr);
+                Marshal.WriteIntPtr(Pointer, i * IntPtr.Size, ptr);
             }
         }
 
@@ -264,14 +259,14 @@ namespace OpenWindow.Backends.Wayland
             for (var i = 0; i < _managed.MethodCount; i++)
             {
                 Marshal.FreeHGlobal(ptr);
-                ptr += Util.IntPtrSize;
+                ptr += IntPtr.Size;
             }
 
             ptr = _managed.Events;
             for (var i = 0; i < _managed.MethodCount; i++)
             {
                 Marshal.FreeHGlobal(ptr);
-                ptr += Util.IntPtrSize;
+                ptr += IntPtr.Size;
             }
 
             Marshal.FreeHGlobal(Pointer);

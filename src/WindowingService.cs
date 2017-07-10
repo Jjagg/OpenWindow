@@ -68,7 +68,7 @@ namespace OpenWindow
                 Backends.Windows.Native.GetCurrentThreadId();
                 return true;
             }
-            catch (DllNotFoundException)
+            catch (Exception)
             {
                 return false;
             }

@@ -2,10 +2,10 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-using OpenWindow;
 using System;
+using OpenWindow;
 
-namespace Windows
+namespace HelloOpenWindow
 {
     class Program
     {
@@ -19,6 +19,7 @@ namespace Windows
 
             var service = WindowingService.Get();
             var window = service.CreateWindow();
+            Console.WriteLine(service.Logger.Dump());
             window.ClientBounds = new Rectangle(100, 100, 200, 200);
             
             window.Closing += (sender, arg) => _closing = true;
