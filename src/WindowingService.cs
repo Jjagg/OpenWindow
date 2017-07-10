@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace OpenWindow
 {
@@ -92,6 +91,15 @@ namespace OpenWindow
                     throw new InvalidOperationException();
             }
         }
+        #endregion
+
+        #region Internal helpers
+
+        internal static void Log(MessageType t, string content)
+        {
+            Get().Logger.LogMessage(t, content);
+        }
+
         #endregion
 
         #region Public API

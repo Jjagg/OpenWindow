@@ -16,10 +16,6 @@ namespace OpenWindow
         /// <summary>
         /// A warning message; used for non-fatal errors or important notifications.
         /// </summary>
-        Warning,
-        /// <summary>
-        /// Used for errors that cause issues with the application.
-        /// </summary>
-        Error
+        Warning
     }
 }

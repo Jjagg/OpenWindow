@@ -21,7 +21,7 @@ namespace OpenWindow
         /// </summary>
         /// <param name="type">The type of the message.</param>
         /// <param name="message">The content of the message.</param>
-        public void LogMessage(MessageType type, string message)
+        internal void LogMessage(MessageType type, string message)
         {
             var msg = new LogMessage(type, message, DateTime.Now);
             Messages.Add(msg);
@@ -71,7 +71,7 @@ namespace OpenWindow
         /// <param name="type">Type of the message.</param>
         /// <param name="content">Content of the message.</param>
         /// <param name="timeStamp">The time at which the message was logged.</param>
-        public LogMessage(MessageType type, string content, DateTime timeStamp)
+        internal LogMessage(MessageType type, string content, DateTime timeStamp)
         {
             Type = type;
             Content = content;
