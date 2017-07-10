@@ -10,6 +10,6 @@ namespace OpenWindow
         X,
         Mir,
         Wayland,
-        Cocoa
+        Quartz
     }
 }

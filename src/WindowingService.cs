@@ -53,7 +53,8 @@ namespace OpenWindow
                 return WindowingServiceType.Win32;
 
             // LINUX
-            throw new NotSupportedException("No Linux back ends are implemented yet.");
+            if (WaylandAvailable())
+                return WindowingServiceType.Wayland;
 
             // OSX
             throw new NotSupportedException("No OSX back ends are implemented yet.");
@@ -73,6 +74,11 @@ namespace OpenWindow
             }
         }
 
+        private static bool WaylandAvailable()
+        {
+            return true;
+        }
+
         private static WindowingService CreateService(WindowingServiceType type)
         {
             switch (type)
@@ -84,8 +90,8 @@ namespace OpenWindow
                 case WindowingServiceType.Mir:
                     throw new NotImplementedException();
                 case WindowingServiceType.Wayland:
-                    throw new NotImplementedException();
-                case WindowingServiceType.Cocoa:
+                    return new Backends.Wayland.WaylandWindowingService();
+                case WindowingServiceType.Quartz:
                     throw new NotImplementedException();
                 default:
                     throw new InvalidOperationException();

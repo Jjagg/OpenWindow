@@ -11,4 +11,7 @@
   <ItemGroup>
     <PackageReference Include="NETStandard.Library" Version="1.6" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Backends\X11" />
+  </ItemGroup>
 </Project>
