@@ -54,7 +54,7 @@ namespace OpenWindow.Backends.Windows
             if (handle == IntPtr.Zero)
             {
                 Native.UnregisterClass(_className, IntPtr.Zero);
-                throw GetLastException();
+                throw GetLastException("Failed to create window.");
             }
 
             _handle = handle;
@@ -152,7 +152,7 @@ namespace OpenWindow.Backends.Windows
                     return;
 
                 if (Native.SetActiveWindow(_handle) == IntPtr.Zero)
-                    throw GetLastException();
+                    throw GetLastException("Failed to focus window.");
 
                 _focused = value;
                 RaiseFocusChanged(_focused);
@@ -165,7 +165,7 @@ namespace OpenWindow.Backends.Windows
             set
             {
                 if (!Native.SetWindowPos(_handle, IntPtr.Zero, value.X, value.Y, 0, 0, Constants.SWP_NOSIZE | Constants.SWP_NOZORDER))
-                    throw GetLastException();
+                    throw GetLastException("Setting window position failed.");
             }
         }
 
@@ -175,7 +175,7 @@ namespace OpenWindow.Backends.Windows
             set
             {
                 if (!Native.SetWindowPos(_handle, IntPtr.Zero, 0, 0, value.X, value.Y, Constants.SWP_NOMOVE | Constants.SWP_NOZORDER))
-                    throw GetLastException();
+                    throw GetLastException("Setting window position failed.");
             }
         }
 
@@ -184,7 +184,7 @@ namespace OpenWindow.Backends.Windows
             get
             {
                 if (!Native.GetWindowRect(_handle, out var rect))
-                    throw GetLastException();
+                    throw GetLastException("Failed to get window bounds.");
                 return rect;
             }
             set
@@ -192,7 +192,7 @@ namespace OpenWindow.Backends.Windows
                 if (Bounds == value)
                     return;
                 if (!Native.SetWindowPos(_handle, IntPtr.Zero, value.X, value.Y, value.Width, value.Height, Constants.SWP_NOZORDER))
-                    throw GetLastException();
+                    throw GetLastException("Failed to set window bounds.");
             }
         }
 
@@ -201,7 +201,7 @@ namespace OpenWindow.Backends.Windows
             get
             {
                 if (!Native.GetClientRect(_handle, out var rect))
-                    throw GetLastException();
+                    throw GetLastException("Failed to get window client rectangle.");
                 return rect;
             }
             set
@@ -209,7 +209,7 @@ namespace OpenWindow.Backends.Windows
                 Rect rect = value;
                 var style = GetWindowStyle();
                 if (!Native.AdjustWindowRect(ref rect, style, false))
-                    throw GetLastException();
+                    throw GetLastException("Failed to set client rectangle.");
                 Bounds = rect;
             }
         }
@@ -220,7 +220,7 @@ namespace OpenWindow.Backends.Windows
             set
             {
                 if (!Native.SetWindowText(_handle, value))
-                    throw GetLastException();
+                    throw GetLastException("Failed to set window title.");
                 _title = value;
             }
         }
@@ -247,7 +247,7 @@ namespace OpenWindow.Backends.Windows
         {
             var result = new byte[256];
             if (!Native.GetKeyboardState(result))
-                throw GetLastException();
+                throw GetLastException("Getting keyboard state failed.");
 
             return result;
         }
@@ -275,7 +275,7 @@ namespace OpenWindow.Backends.Windows
             winClass.hCursor = Native.LoadCursor(IntPtr.Zero, Cursor.Arrow);
             
             if (Native.RegisterClass(ref winClass) == 0)
-                throw GetLastException();
+                throw GetLastException("Registering window class failed.");
         }
 
         private uint GetWindowStyle()
@@ -301,9 +301,10 @@ namespace OpenWindow.Backends.Windows
             Native.ShowWindow(_handle, ShowWindowCommand.Show);
         }
 
-        private static Exception GetLastException()
+        private static Exception GetLastException(string message)
         {
-            return Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+            var e = Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+            return new OpenWindowException(message, e);
         }
 
         #endregion

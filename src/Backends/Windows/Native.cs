@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Windows
 {
-    internal class Native
+    internal static class Native
     {
         #region Messages
 
