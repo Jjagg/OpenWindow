@@ -4,6 +4,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace OpenWindow.Backends.Windows
 {
@@ -77,13 +78,13 @@ namespace OpenWindow.Backends.Windows
         public static extern bool GetClientRect(IntPtr hWnd, out Rect lpRect);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern Boolean AdjustWindowRect(ref Rect lpRect, UInt32 dwStyle, bool bMenu);
+        public static extern bool AdjustWindowRect(ref Rect lpRect, uint dwStyle, bool bMenu);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr SetActiveWindow(IntPtr hWnd);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool SetWindowText(IntPtr hwnd, String lpString = null);
+        public static extern bool SetWindowText(IntPtr hwnd, string lpString = null);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern uint SetWindowLong([In] IntPtr hWnd, [In] int nIndex, [In] uint dwNewLong);
@@ -152,7 +153,21 @@ namespace OpenWindow.Backends.Windows
         [DllImport("user32.dll", SetLastError = true)]
         public static extern int GetSystemMetrics(SystemMetric metric);
 
-        #endregion
+        [DllImport("opengl32.dll", SetLastError = true)]
+        public static extern IntPtr wglGetProcAddress(string proc);
 
+        [DllImport("opengl32.dll", SetLastError = true)]
+        public static extern IntPtr wglCreateContext(IntPtr hdc);
+
+        [DllImport("opengl32.dll", SetLastError = true)]
+        public static extern bool wglMakeCurrent(IntPtr hdc, IntPtr hglrc);
+
+        [DllImport("opengl32.dll", SetLastError = true)]
+        public static extern bool wglDeleteContext(IntPtr hrc);
+
+        [DllImport("opengl32.dll", SetLastError = true)]
+        public static extern void glGetIntegerv(int cap, int[] msCountArray);
+
+        #endregion
     }
 }

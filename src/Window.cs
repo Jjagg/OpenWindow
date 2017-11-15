@@ -53,11 +53,11 @@ namespace OpenWindow
         /// </summary>
         public abstract string Title { get; set; }
 
+        public OpenGLWindowSettings GlSettings { get; protected set; }
+
         #endregion
 
         #region Window API: Functions
-
-        public OpenGLWindowSettings GlSettings { get; protected set; }
 
         /// <summary>
         /// Get the display that the window is on.

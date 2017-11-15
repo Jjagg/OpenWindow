@@ -65,6 +65,7 @@ namespace OpenWindow
             // life is hack
             try
             {
+                // just try P/Invoking a simple Win32 function
                 Backends.Windows.Native.GetCurrentThreadId();
                 return true;
             }

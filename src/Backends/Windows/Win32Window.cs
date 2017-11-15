@@ -59,62 +59,140 @@ namespace OpenWindow.Backends.Windows
 
             _handle = handle;
 
-            Native.ShowWindow(_handle, ShowWindowCommand.Normal);
-
             if (glSettings.EnableOpenGl)
+            {
                 InitOpenGl(glSettings);
+
+                // FIXME: use the actual ms count, not the preferred
+                if (glSettings.MultiSampleCount > 1)
+                {
+                    // we need to recreate the window to have a multisample window
+                    Native.DestroyWindow(_handle);
+                    _handle = Native.CreateWindowEx(
+                        WindowStyleEx.None,
+                        _className,
+                        string.Empty,
+                        DefaultWs,
+                        0,
+                        0,
+                        100,
+                        100,
+                        IntPtr.Zero,
+                        IntPtr.Zero,
+                        ModuleHinstance,
+                        IntPtr.Zero);
+                    InitOpenGl(glSettings);
+                }
+            }
+            else
+                GlSettings = new OpenGLWindowSettings();
+
+            Native.ShowWindow(_handle, ShowWindowCommand.Normal);
         }
 
         private void InitOpenGl(OpenGLWindowSettings s)
         {
-            var hdc = Native.GetDC(_handle);
-            if (hdc == IntPtr.Zero)
-                return;
-
-            var pfd = new PixelFormatDescriptor();
-            pfd.nSize = (short) Marshal.SizeOf<PixelFormatDescriptor>();
-            pfd.nVersion = 1;
-            const int PFD_DRAW_TO_WINDOW = 4;
-            const int PFD_SUPPORT_OPENGL = 32;
-            pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
-
-            const int PFD_DOUBLE_BUFFER = 1;
-            if (s.DoubleBuffer)
-                pfd.dwFlags |= PFD_DOUBLE_BUFFER;
-
-            const int PFD_TYPE_RGBA = 0;
-            pfd.iPixelType = PFD_TYPE_RGBA;
-
-            pfd.cRedBits = (byte) s.RedSize;
-            pfd.cGreenBits = (byte) s.GreenSize;
-            pfd.cBlueBits = (byte) s.BlueSize;
-            pfd.cAlphaBits = (byte) s.AlphaSize;
-            pfd.cColorBits = (byte) (s.RedSize + s.GreenSize + s.BlueSize);
-
-            pfd.cDepthBits = (byte) s.DepthSize;
-            pfd.cStencilBits = (byte) s.StencilSize;
-
-            var iPixelFormat = Native.ChoosePixelFormat(hdc, ref pfd);
-            Native.SetPixelFormat(hdc, iPixelFormat, ref pfd);
-
-            var ppfd = new PixelFormatDescriptor();
-            Native.DescribePixelFormat(hdc, iPixelFormat, (uint) Marshal.SizeOf<PixelFormatDescriptor>(), ref ppfd);
-
-            Native.ReleaseDC(_handle, hdc);
-
-            GlSettings = new OpenGLWindowSettings
+            var hdc = IntPtr.Zero;
+            var hglrc = IntPtr.Zero;
+            try
             {
-                EnableOpenGl = true,
-                DoubleBuffer = (ppfd.dwFlags & PFD_DOUBLE_BUFFER) != 0,
-                RedSize = pfd.cRedBits,
-                GreenSize = pfd.cGreenBits,
-                BlueSize = pfd.cBlueBits,
-                AlphaSize = pfd.cAlphaBits,
-                DepthSize = pfd.cDepthBits,
-                StencilSize = pfd.cStencilBits
-            };
+                var pfd = new PixelFormatDescriptor();
+                pfd.nSize = (short) Marshal.SizeOf<PixelFormatDescriptor>();
+                pfd.nVersion = 1;
+                const int PFD_DRAW_TO_WINDOW = 4;
+                const int PFD_SUPPORT_OPENGL = 32;
+                pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
 
-            // TODO: Check for WGL_ARB_pixel_format to set MSAA if possible
+                const int PFD_DOUBLE_BUFFER = 1;
+                if (s.DoubleBuffer)
+                    pfd.dwFlags |= PFD_DOUBLE_BUFFER;
+
+                const int PFD_TYPE_RGBA = 0;
+                pfd.iPixelType = PFD_TYPE_RGBA;
+
+                pfd.cRedBits = (byte) s.RedSize;
+                pfd.cGreenBits = (byte) s.GreenSize;
+                pfd.cBlueBits = (byte) s.BlueSize;
+                pfd.cAlphaBits = (byte) s.AlphaSize;
+                pfd.cColorBits = (byte) (s.RedSize + s.GreenSize + s.BlueSize);
+
+                pfd.cDepthBits = (byte) s.DepthSize;
+                pfd.cStencilBits = (byte) s.StencilSize;
+
+                hdc = Native.GetDC(_handle);
+                if (hdc == IntPtr.Zero)
+                {
+                    WindowingService.Log(MessageType.Warning,
+                        "Failed to get a device context. Window was not initialized with OpenGL support.");
+                    return;
+                }
+
+                var iPixelFormat = Native.ChoosePixelFormat(hdc, ref pfd);
+                if (wglChoosePixelFormatARB == null)
+                {
+                    Native.SetPixelFormat(hdc, iPixelFormat, ref pfd);
+
+                    hglrc = Native.wglCreateContext(hdc);
+                    Native.wglMakeCurrent(hdc, hglrc);
+
+                    wglChoosePixelFormatARB = LoadWglExtension<wglChoosePixelFormatArbDelegate>("wglChoosePixelFormatARB");
+                }
+
+                var actualMsCount = 0;
+                if (wglChoosePixelFormatARB != null)
+                {
+                    const int fullAcceleration = 0x2027;
+                    int[] piattrs =
+                    {
+                        (int) WglPiAttributes.DrawToWindow, 1,
+                        (int) WglPiAttributes.SupportOpengl, 1,
+                        (int) WglPiAttributes.Acceleration, fullAcceleration,
+                        (int) WglPiAttributes.DoubleBuffer, s.DoubleBuffer ? 1 : 0,
+                        (int) WglPiAttributes.RedBits, pfd.cRedBits,
+                        (int) WglPiAttributes.BlueBits, pfd.cBlueBits,
+                        (int) WglPiAttributes.GreenBits, pfd.cGreenBits,
+                        (int) WglPiAttributes.AlphaBits, pfd.cAlphaBits,
+                        (int) WglPiAttributes.DepthBits, pfd.cDepthBits,
+                        (int) WglPiAttributes.StencilBits, pfd.cStencilBits,
+                        (int) WglPiAttributes.SampleBuffers, s.MultiSampleCount > 1 ? 1 : 0,
+                        (int) WglPiAttributes.Samples, s.MultiSampleCount == 1 ? 0 : s.MultiSampleCount,
+                        0
+                    };
+
+                    var pis = new int[1];
+                    if (!wglChoosePixelFormatARB.Invoke(hdc, piattrs, null, 1, pis, out var nformats))
+                        throw GetLastException("wglChoosePixelFormatARB failed!");
+                    if (nformats == 0)
+                        throw new OpenWindowException("GL initialization failed: no matching pixel formats!");
+                    Native.SetPixelFormat(hdc, pis[0], ref pfd);
+                    // todo can we get the actual ms count here?
+                }
+                else
+                    WindowingService.Log(GlSettings.MultiSampleCount > 1 ? MessageType.Warning : MessageType.Info,
+                        "wglChoosePixelFormatARB not supported.");
+
+                var ppfd = new PixelFormatDescriptor();
+                Native.DescribePixelFormat(hdc, iPixelFormat, (uint) Marshal.SizeOf<PixelFormatDescriptor>(),
+                    ref ppfd);
+
+                GlSettings = new OpenGLWindowSettings
+                {
+                    EnableOpenGl = true,
+                    DoubleBuffer = (ppfd.dwFlags & PFD_DOUBLE_BUFFER) != 0,
+                    RedSize = pfd.cRedBits,
+                    GreenSize = pfd.cGreenBits,
+                    BlueSize = pfd.cBlueBits,
+                    AlphaSize = pfd.cAlphaBits,
+                    DepthSize = pfd.cDepthBits,
+                    StencilSize = pfd.cStencilBits,
+                    MultiSampleCount = actualMsCount
+                };
+            }
+            finally
+            {
+                if (hglrc != IntPtr.Zero) Native.wglDeleteContext(hglrc);
+                if (hdc != IntPtr.Zero) Native.ReleaseDC(_handle, hdc);
+            }
         }
 
         #endregion
@@ -309,9 +387,51 @@ namespace OpenWindow.Backends.Windows
 
         #endregion
 
+        #region Extensions
+
+        private delegate bool wglChoosePixelFormatArbDelegate(
+            IntPtr hdc,
+            [In] int[] attribIList,
+            [In] float[] attribFList,
+            uint maxFormats,
+            [Out] int[] pixelFormats,
+            out uint numFormats);
+
+        private delegate bool wglGetPixelFormatAttribivArbDelegate(
+            IntPtr hdc,
+            [In] int iPixelFormat,
+            [In] int iLayerPlane,
+            [In] uint nAttributes,
+            [In] int[] piAttributes,
+            [Out] int[] piValues);
+
+
+        private delegate string wglGetExtensionsString(IntPtr hdc);
+
+        private static wglChoosePixelFormatArbDelegate wglChoosePixelFormatARB;
+        private static wglGetPixelFormatAttribivArbDelegate wglGetPixelFormatAttribivARB;
+        private static wglGetPixelFormatAttribivArbDelegate wglGetPixelFormatAttribivEXT;
+
+        private static T LoadWglExtension<T>(string name)
+        {
+            var ptr = Native.wglGetProcAddress(name);
+            if (ptr == IntPtr.Zero)
+                return default(T);
+            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
+        }
+
+        #endregion
+
+        #region IDisposable
+
         protected override void ReleaseUnmanagedResources()
         {
             Native.UnregisterClass(_className, IntPtr.Zero);
         }
+
+        #endregion
     }
+
+    internal delegate void glBlendFuncSeparateDelegate(uint sfactorRGB, uint dfactorRGB, uint sfactorAlpha,
+        uint dfactorAlpha);
 }

@@ -13,7 +13,9 @@ namespace OpenWindow
 
         internal Logger()
         {
+#if !DISABLE_LOGGING
             Messages = new List<LogMessage>();
+#endif
         }
 
         /// <summary>
@@ -23,8 +25,10 @@ namespace OpenWindow
         /// <param name="message">The content of the message.</param>
         internal void LogMessage(MessageType type, string message)
         {
+#if !DISABLE_LOGGING
             var msg = new LogMessage(type, message, DateTime.Now);
             Messages.Add(msg);
+#endif
         }
 
         /// <summary>
@@ -32,16 +36,24 @@ namespace OpenWindow
         /// </summary>
         public void Clear()
         {
+#if !DISABLE_LOGGING
             Messages.Clear();
+#endif
         }
 
         /// <summary>
         /// Get a string dump of all messages logged so far.
         /// </summary>
         /// <returns>A string value with all logged messages concatenated, separated by new lines.</returns>
-        public string Dump()
+        public string Dump(MessageType type = MessageType.Info)
         {
-            return Messages.Aggregate("", (s1, s2) => s1 + '\n' + s2.ToString());
+#if !DISABLE_LOGGING
+            return Messages
+                    .Where(m => (int) m.Type >= (int) type)
+                    .Aggregate("", (s1, s2) => s1 + '\n' + s2.ToString());
+#else
+            return string.Empty;
+#endif
         }
     }
 

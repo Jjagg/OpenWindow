@@ -3,9 +3,6 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
-using System.Diagnostics;
-using System.Diagnostics.Tracing;
-using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Wayland
 {

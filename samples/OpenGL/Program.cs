@@ -29,13 +29,16 @@ namespace OpenGL
         static extern void glClear(uint mask);
 
         [DllImport("opengl32.dll")]
+        static extern void glEnable(int cap);
+
+        [DllImport("opengl32.dll")]
         static extern void glBegin(uint mode);
 
         [DllImport("opengl32.dll")]
         static extern void glColor3f(float red, float green, float blue);
 
         [DllImport("opengl32.dll")]
-        static extern void glVertex2i(int x, int y);
+        static extern void glVertex2f(float x, float y);
 
         [DllImport("opengl32.dll")]
         static extern void glEnd();
@@ -43,6 +46,8 @@ namespace OpenGL
         [DllImport("opengl32.dll")]
         static extern void glFlush();
 
+        [DllImport("opengl32.dll")]
+        static extern void glClearColor(float r, float g, float b, float a);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetDC(IntPtr hWnd);
@@ -120,6 +125,10 @@ namespace OpenGL
             WglMakeCurrent(_hdc, _hrc);
             ReleaseDC(_window.Handle, _hdc);
 
+            glClearColor(1, 1, 1, 1);
+            // enable multisampling
+            glEnable(0x809D);
+
             service.Update();
 
             while (true)
@@ -156,6 +165,7 @@ namespace OpenGL
             // other settings can stay at default values
             // Note that double buffering is enabled by default
             service.GlSettings.EnableOpenGl = true;
+            service.GlSettings.MultiSampleCount = 8;
 
             var window = service.CreateWindow();
             window.ClientBounds = new Rectangle(100, 100, 600, 600);
@@ -169,11 +179,11 @@ namespace OpenGL
             glClear(16384);
             glBegin(4);
             glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex2i(0, 1);
+            glVertex2f(0, -.7f);
             glColor3f(0.0f, 1.0f, 0.0f);
-            glVertex2i(-1, -1);
+            glVertex2f(-1, -1);
             glColor3f(0.0f, 0.0f, 1.0f);
-            glVertex2i(1, -1);
+            glVertex2f(1, -1);
             glEnd();
             glFlush();
         }

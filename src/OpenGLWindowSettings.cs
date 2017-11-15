@@ -48,8 +48,8 @@ namespace OpenWindow
         public int StencilSize { get; set; }
 
         /// <summary>
-        /// Number of samples for MSAA (anti-aliasing). Set to 0 to disable MSAA. Defaults to 0 (no MSAA).
+        /// Number of samples for MSAA (anti-aliasing). Set to 1 to disable MSAA. Defaults to 1 (no MSAA).
         /// </summary>
-        public int MultiSampleCount { get; set; }
+        public int MultiSampleCount { get; set; } = 1;
     }
 }
