@@ -8,9 +8,26 @@ namespace WaylandSharpGen
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static readonly string DefaultProtocolPath = "/usr/share/wayland/wayland.xml";
+        private static readonly string DefaultOutputPath = Path.Combine("generated", "WaylandBindings.cs");
+
+        private static int Main(string[] args)
         {
-            var path = args.Length > 0 ? args[0] : "/usr/share/wayland/wayland.xml";
+            if (args.Length > 0 && (args[0] == "-h" || args[0] == "--help"))
+            {
+                Console.WriteLine("usage:  dotnet WaylandSharpGen.dll [protocol] [output]");
+                return 0;
+            }
+
+            if (args.Length == 0)
+                Console.WriteLine("No protocol path specified, using default path.");
+
+            var path = args.Length > 0 ? args[0] : DefaultProtocolPath;
+            Console.WriteLine($"Using protocol at '{path}'.");
+            if (!File.Exists(path)) {
+                Console.WriteLine("Protocol file not found. Exiting...");
+                return 1;
+            }
 
             var doc = XDocument.Load(path);
             var w = new CSharpWriter
@@ -23,11 +40,11 @@ namespace WaylandSharpGen
             w.NewLine();
             ParseProtocol(doc, w);
 
-            const string dir = "generated";
-            const string file = "WaylandBindings.cs";
-            Directory.CreateDirectory(dir);
-            var fn = Path.Combine(dir, file);
-            File.WriteAllText(fn, w.ToString());
+            var fp = args.Length > 1 ? args[1] : DefaultOutputPath;
+            Directory.CreateDirectory(Path.GetDirectoryName(fp));
+            File.WriteAllText(fp, w.ToString());
+            Console.WriteLine($"Wrote output to '{fp}'.");
+            return 0;
         }
 
         private static readonly bool GenerateComments = false;
