@@ -8,7 +8,6 @@ namespace OpenWindow
     {
         Win32,
         X,
-        Mir,
         Wayland,
         Quartz
     }

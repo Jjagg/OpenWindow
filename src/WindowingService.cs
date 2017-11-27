@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace OpenWindow
 {
@@ -49,35 +50,27 @@ namespace OpenWindow
 
         private static WindowingServiceType GetWindowingServiceType()
         {
-            if (Win32Available())
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return WindowingServiceType.Win32;
 
             // LINUX
-            if (WaylandAvailable())
-                return WindowingServiceType.Wayland;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                if (UnixGetVariable("XDG_SESSION_TYPE").Contains("x11"))
+                    return WindowingServiceType.X;
+                if (!string.IsNullOrEmpty(UnixGetVariable("WAYLAND_DISPLAY")))
+                    return WindowingServiceType.Wayland;
+                // failed to detect
+                // TODO check if above is reliable enough, we can always just try both
+                throw new OpenWindowException("Failed to detect if x11 or Wayland is used." +
+                                              "Please open an issue on the OpenWindow repo for this.");
+            }
 
             // OSX
-            throw new NotSupportedException("No OSX back ends are implemented yet.");
-        }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                throw new NotImplementedException("No OSX back end is implemented yet.");
 
-        private static bool Win32Available()
-        {
-            // life is hack
-            try
-            {
-                // just try P/Invoking a simple Win32 function
-                Backends.Windows.Native.GetCurrentThreadId();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        private static bool WaylandAvailable()
-        {
-            return true;
+            throw new NotSupportedException("OS was not reported to be Windows, Linux or OSX by .NET host.");
         }
 
         private static WindowingService CreateService(WindowingServiceType type)
@@ -88,8 +81,6 @@ namespace OpenWindow
                     return new Backends.Windows.Win32WindowingService();
                 case WindowingServiceType.X:
                     throw new NotImplementedException();
-                case WindowingServiceType.Mir:
-                    throw new NotImplementedException();
                 case WindowingServiceType.Wayland:
                     return new Backends.Wayland.WaylandWindowingService();
                 case WindowingServiceType.Quartz:
@@ -99,6 +90,17 @@ namespace OpenWindow
             }
         }
         #endregion
+
+
+        [DllImport("libc", EntryPoint = "getenv")]
+        private static extern IntPtr GetEnv([In][MarshalAs(UnmanagedType.LPStr)] string name);
+
+        // NOTE: .NET's GetEnvironmentVariable is in .NET Standard 1.3+
+        // we want to stick to 1.1 so we PInvoke libc
+        private static string UnixGetVariable(string name)
+        {
+            return Marshal.PtrToStringAnsi(GetEnv(name));
+        }
 
         #region Internal helpers
 
