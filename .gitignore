@@ -19,7 +19,13 @@ packages/
 *.DotSettings.user
 
 #JetBrains
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/dictionaries
+**/.idea/**/workspace.xml
+**/.idea/**/tasks.xml
+**/.idea/dictionaries
+**/.idea/dictionaries
+
+#Rider
+**/.idea/**/*.iml
+**/.idea/**/contentModel.xml
+**/.idea/**/modules.xml
 
