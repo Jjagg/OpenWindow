@@ -20,7 +20,7 @@ namespace OpenWindow.Backends.Wayland
             [FieldOffset(0)] public int H; // fd
         }
 
-        private static readonly int StructSize = Marshal.SizeOf<ArgumentStruct>();
+        private static readonly int StructSize = Marshal.SizeOf(typeof(ArgumentStruct));
         private readonly List<IntPtr> _unmanaged;
 
         public IntPtr Pointer { get; }
@@ -104,7 +104,7 @@ namespace OpenWindow.Backends.Wayland
 
         public WlArray()
         {
-            Pointer = Marshal.AllocHGlobal(Marshal.SizeOf<ArrayStruct>());
+            Pointer = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(ArrayStruct)));
             ArrayInit(Pointer);
         }
 
@@ -145,7 +145,7 @@ namespace OpenWindow.Backends.Wayland
             public IntPtr Types;
         }
 
-        public static int StructSize = Marshal.SizeOf<MessageStruct>();
+        public static int StructSize = Marshal.SizeOf(typeof(MessageStruct));
 
         public readonly MessageStruct Message;
 
@@ -195,7 +195,7 @@ namespace OpenWindow.Backends.Wayland
             public IntPtr Events;
         }
 
-        private static readonly int MessageSize = Marshal.SizeOf<WlMessage.MessageStruct>();
+        private static readonly int MessageSize = Marshal.SizeOf(typeof(WlMessage.MessageStruct));
 
         private InterfaceStruct _managed;
         public IntPtr Pointer { get; }
@@ -212,7 +212,7 @@ namespace OpenWindow.Backends.Wayland
             _managed.EventCount = eventCount;
             _managed.Events = eventCount == 0 ? IntPtr.Zero : Marshal.AllocHGlobal(eventCount * WlMessage.StructSize);
 
-            Pointer = Marshal.AllocHGlobal(Marshal.SizeOf<InterfaceStruct>());
+            Pointer = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(InterfaceStruct)));
         }
 
         public void SetRequests(WlMessage[] requests)

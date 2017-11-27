@@ -97,7 +97,7 @@ namespace OpenWindow.Backends.Windows
             try
             {
                 var pfd = new PixelFormatDescriptor();
-                pfd.nSize = (short) Marshal.SizeOf<PixelFormatDescriptor>();
+                pfd.nSize = (short) Marshal.SizeOf(typeof(PixelFormatDescriptor));
                 pfd.nVersion = 1;
                 const int PFD_DRAW_TO_WINDOW = 4;
                 const int PFD_SUPPORT_OPENGL = 32;
@@ -172,7 +172,7 @@ namespace OpenWindow.Backends.Windows
                         "wglChoosePixelFormatARB not supported.");
 
                 var ppfd = new PixelFormatDescriptor();
-                Native.DescribePixelFormat(hdc, iPixelFormat, (uint) Marshal.SizeOf<PixelFormatDescriptor>(),
+                Native.DescribePixelFormat(hdc, iPixelFormat, (uint) Marshal.SizeOf(typeof(PixelFormatDescriptor)),
                     ref ppfd);
 
                 GlSettings = new OpenGLWindowSettings
@@ -412,12 +412,12 @@ namespace OpenWindow.Backends.Windows
         private static wglGetPixelFormatAttribivArbDelegate wglGetPixelFormatAttribivARB;
         private static wglGetPixelFormatAttribivArbDelegate wglGetPixelFormatAttribivEXT;
 
-        private static T LoadWglExtension<T>(string name)
+        private static T LoadWglExtension<T>(string name) where T : class
         {
             var ptr = Native.wglGetProcAddress(name);
             if (ptr == IntPtr.Zero)
                 return default(T);
-            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
+            return Marshal.GetDelegateForFunctionPointer(ptr, typeof(T)) as T;
         }
 
         #endregion
