@@ -1,4 +1,4 @@
-﻿namespace WaylandSharpGen
+﻿namespace ProtocolGeneratorHelper
 {
     public enum AccessModifier
     {

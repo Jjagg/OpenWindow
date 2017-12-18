@@ -9,4 +9,7 @@
   <ItemGroup>
     <Folder Include="generated" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProtocolGeneratorHelper\ProtocolGeneratorHelper.csproj" />
+  </ItemGroup>
 </Project>

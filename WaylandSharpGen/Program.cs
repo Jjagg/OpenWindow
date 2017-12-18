@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
+using ProtocolGeneratorHelper;
 
 namespace WaylandSharpGen
 {
@@ -41,7 +42,7 @@ namespace WaylandSharpGen
             };
 
             w.LineComment("This file was generated from an xml Wayland protocol specification");
-            w.LineComment("by WaylandSharpGen. https://github.com/Jjagg/WaylandSharpGen");
+            w.LineComment("by WaylandSharpGen. https://github.com/Jjagg/OpenWindow/tree/master/WaylandSharpGen");
             w.NewLine();
             ParseProtocol(doc, w);
 

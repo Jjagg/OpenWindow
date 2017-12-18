@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
-namespace WaylandSharpGen
+namespace ProtocolGeneratorHelper
 {
-    public class Util
+    public static class Util
     {
         public static string ToPascalCase(string text)
         {
