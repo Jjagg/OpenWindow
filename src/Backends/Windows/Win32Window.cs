@@ -122,7 +122,7 @@ namespace OpenWindow.Backends.Windows
                 hdc = Native.GetDC(_handle);
                 if (hdc == IntPtr.Zero)
                 {
-                    WindowingService.Log(MessageType.Warning,
+                    WindowingService.LogWarning(
                         "Failed to get a device context. Window was not initialized with OpenGL support.");
                     return;
                 }
@@ -168,7 +168,7 @@ namespace OpenWindow.Backends.Windows
                     // todo can we get the actual ms count here?
                 }
                 else
-                    WindowingService.Log(GlSettings.MultiSampleCount > 1 ? MessageType.Warning : MessageType.Info,
+                    WindowingService.Log(GlSettings.MultiSampleCount > 1 ? Logger.Level.Warning : Logger.Level.Info,
                         "wglChoosePixelFormatARB not supported.");
 
                 var ppfd = new PixelFormatDescriptor();

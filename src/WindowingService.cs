@@ -4,11 +4,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace OpenWindow
 {
-    public abstract class WindowingService
+    public abstract class WindowingService : IDisposable
     {
         #region Fields
 
@@ -22,8 +23,6 @@ namespace OpenWindow
         {
             ManagedWindows = new Dictionary<IntPtr, Window>();
             GlSettings = new OpenGLWindowSettings();
-
-            Logger = new Logger();
         }
 
         #endregion
@@ -42,6 +41,7 @@ namespace OpenWindow
         private static void InitializeInstance()
         {
             var type = GetWindowingServiceType();
+            LogInfo($"Detected windowing backend '{type}'.");
             _instance = CreateService(type);
             _instance.Initialize();
         }
@@ -60,7 +60,6 @@ namespace OpenWindow
                     return WindowingServiceType.X;
                 if (!string.IsNullOrEmpty(UnixGetVariable("WAYLAND_DISPLAY")))
                     return WindowingServiceType.Wayland;
-                // failed to detect
                 // TODO check if above is reliable enough, we can always just try both
                 throw new OpenWindowException("Failed to detect if x11 or Wayland is used." +
                                               "Please open an issue on the OpenWindow repo for this.");
@@ -80,7 +79,7 @@ namespace OpenWindow
                 case WindowingServiceType.Win32:
                     return new Backends.Windows.Win32WindowingService();
                 case WindowingServiceType.X:
-                    throw new NotImplementedException();
+                    return new Backends.X.XWindowingService();
                 case WindowingServiceType.Wayland:
                     return new Backends.Wayland.WaylandWindowingService();
                 case WindowingServiceType.Quartz:
@@ -102,11 +101,31 @@ namespace OpenWindow
             return Marshal.PtrToStringAnsi(GetEnv(name));
         }
 
-        #region Internal helpers
+        #region Logging
 
-        internal static void Log(MessageType t, string content)
+        public static void LogDebug(string message)
         {
-            Get().Logger.LogMessage(t, content);
+            Log(Logger.Level.Debug, message);
+        }
+
+        public static void LogInfo(string message)
+        {
+            Log(Logger.Level.Info, message);
+        }
+
+        public static void LogWarning(string message)
+        {
+            Log(Logger.Level.Warning, message);
+        }
+
+        public static void LogError(string message)
+        {
+            Log(Logger.Level.Error, message);
+        }
+
+        internal static void Log(Logger.Level l, string content)
+        {
+            Logger.Log(l, content);
         }
 
         #endregion
@@ -116,7 +135,7 @@ namespace OpenWindow
         /// <summary>
         /// Provides logged messages.
         /// </summary>
-        public Logger Logger { get; set; }
+        public static Logger Logger { get; } = new Logger();
 
         /// <summary>
         /// The number of windows managed by this service.
@@ -134,6 +153,14 @@ namespace OpenWindow
         /// </summary>
         /// <returns>An array containing connected displays.</returns>
         public abstract Display[] Displays { get; }
+
+        /// <summary>
+        /// Set the output writer for log messages.
+        /// </summary>
+        public void SetLogWriter(TextWriter writer)
+        {
+            Logger.OutputWriter = writer;
+        }
 
         /// <summary>
         /// Get a window owned by this service by its handle.
@@ -158,5 +185,15 @@ namespace OpenWindow
         public abstract void Update();
 
         #endregion
+
+        protected virtual void Dispose(bool disposing)
+        {
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

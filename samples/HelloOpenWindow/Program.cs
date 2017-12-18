@@ -34,8 +34,8 @@ namespace HelloOpenWindow
         private static void Initialize()
         {
             _service = WindowingService.Get();
+            _service.SetLogWriter(Console.Out);
             _window = _service.CreateWindow();
-            Console.WriteLine(_service.Logger.Dump());
             _window.ClientBounds = new Rectangle(100, 100, 400, 400);
             _window.Title = "Hello, OpenWindow!";
 

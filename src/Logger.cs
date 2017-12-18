@@ -1,34 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace OpenWindow
 {
-    public class Logger
+    public sealed class Logger : IDisposable
     {
-        /// <summary>
-        /// A list of logged messages.
-        /// </summary>
-        public List<LogMessage> Messages { get; }
+        private TextWriter _outputWriter;
+        private string _format;
 
-        internal Logger()
+        /// <summary>
+        /// Get or set the <see cref="TextWriter"/> that immediately writes away log messages.
+        /// </summary>
+        public TextWriter OutputWriter
         {
-#if !DISABLE_LOGGING
-            Messages = new List<LogMessage>();
-#endif
+            get { return _outputWriter; }
+            set
+            {
+                _outputWriter?.Dispose();
+                _outputWriter = value;
+            }
         }
 
         /// <summary>
-        /// Log a message. Uses <see cref="DateTime"/>
+        /// A list of logged messages.
         /// </summary>
-        /// <param name="type">The type of the message.</param>
-        /// <param name="message">The content of the message.</param>
-        internal void LogMessage(MessageType type, string message)
+        public List<Message> Messages { get; }
+
+        /// <summary>
+        /// Create a new Logger.
+        /// </summary>
+        public Logger()
         {
-#if !DISABLE_LOGGING
-            var msg = new LogMessage(type, message, DateTime.Now);
+            Messages = new List<Message>();
+            _format = "[{0:T}] {1}: {2}";
+        }
+
+        /// <summary>
+        /// Log a message. Uses <see cref="DateTime.Now"/>
+        /// </summary>
+        /// <param name="level">The log level of the message.</param>
+        /// <param name="message">The content of the message.</param>
+        public void Log(Level level, string message)
+        {
+            var msg = new Message(level, message, DateTime.Now);
             Messages.Add(msg);
-#endif
+            OutputWriter?.Write(msg.ToString(_format));
         }
 
         /// <summary>
@@ -36,63 +54,78 @@ namespace OpenWindow
         /// </summary>
         public void Clear()
         {
-#if !DISABLE_LOGGING
             Messages.Clear();
-#endif
         }
 
         /// <summary>
         /// Get a string dump of all messages logged so far.
         /// </summary>
         /// <returns>A string value with all logged messages concatenated, separated by new lines.</returns>
-        public string Dump(MessageType type = MessageType.Info)
+        public string Dump(Level level = Level.Info)
         {
-#if !DISABLE_LOGGING
             return Messages
-                    .Where(m => (int) m.Type >= (int) type)
+                    .Where(m => (int) m.Level >= (int) level)
                     .Aggregate("", (s1, s2) => s1 + '\n' + s2.ToString());
-#else
-            return string.Empty;
-#endif
-        }
-    }
-
-    /// <summary>
-    /// Type for a message logged by <see cref="Logger"/>.
-    /// </summary>
-    public class LogMessage
-    {
-        /// <summary>
-        /// The type of the message. Indicates severity.
-        /// </summary>
-        public MessageType Type { get; }
-
-        /// <summary>
-        /// The content of the message.
-        /// </summary>
-        public string Content { get; }
-
-        /// <summary>
-        /// Time at which the message was logged.
-        /// </summary>
-        public DateTime TimeStamp { get; }
-
-        /// <summary>
-        /// Create a <see cref="LogMessage"/>.
-        /// </summary>
-        /// <param name="type">Type of the message.</param>
-        /// <param name="content">Content of the message.</param>
-        /// <param name="timeStamp">The time at which the message was logged.</param>
-        internal LogMessage(MessageType type, string content, DateTime timeStamp)
-        {
-            Type = type;
-            Content = content;
-            TimeStamp = timeStamp;
         }
 
-        public override string ToString()
+        public void Dispose()
         {
-            return $"[{TimeStamp:T}] {Type.ToString().ToUpperInvariant()}: {Content}";
+            _outputWriter?.Dispose();
+        }
+
+        /// <summary>
+        /// A Message logged by <see cref="Logger"/>.
+        /// </summary>
+        public class Message
+        {
+            /// <summary>
+            /// The type of the message. Indicates severity.
+            /// </summary>
+            public Level Level { get; }
+
+            /// <summary>
+            /// The content of the message.
+            /// </summary>
+            public string Content { get; }
+
+            /// <summary>
+            /// Time at which the message was logged.
+            /// </summary>
+            public DateTime TimeStamp { get; }
+
+            /// <summary>
+            /// Create a <see cref="Message"/>.
+            /// </summary>
+            /// <param name="level">Log level of the message.</param>
+            /// <param name="content">Content of the message.</param>
+            /// <param name="timeStamp">The time at which the message was logged.</param>
+            public Message(Level level, string content, DateTime timeStamp)
+            {
+                Level = level;
+                Content = content;
+                TimeStamp = timeStamp;
+            }
+
+            public override string ToString()
+            {
+                return $"[{TimeStamp:T}] {Level.ToString().ToUpperInvariant()}: {Content}";
+            }
+
+            public string ToString(string format)
+            {
+                return string.Format(format, TimeStamp, Level.ToString().ToUpperInvariant(), Content);
+            }
+        }
+
+        /// <summary>
+        /// Log level.
+        /// </summary>
+        public enum Level
+        {
+            Debug,
+            Info,
+            Warning,
+            Error
         }
     }
 }
