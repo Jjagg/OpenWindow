@@ -19,7 +19,11 @@ namespace OpenWindow.Backends.Wayland
 
         public override void Update()
         {
-            throw new System.NotImplementedException();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            WlInterfaces.CleanUp();
         }
     }
 }

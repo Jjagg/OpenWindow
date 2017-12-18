@@ -1,4 +1,4 @@
-﻿// This file was generated from an xml Wayland protocol specification
+// This file was generated from an xml Wayland protocol specification
 
 using System;
 using System.Runtime.InteropServices;

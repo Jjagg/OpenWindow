@@ -6,6 +6,10 @@ using System.Collections.Generic;
 
 namespace WaylandSharpGen
 {
+    /// <summary>
+    /// This program generates a file with a C# implementation
+    /// of a Wayland protocol client.
+    /// </summary>
     internal class Program
     {
         private static readonly string DefaultProtocolPath = "/usr/share/wayland/wayland.xml";
@@ -37,6 +41,7 @@ namespace WaylandSharpGen
             };
 
             w.LineComment("This file was generated from an xml Wayland protocol specification");
+            w.LineComment("by WaylandSharpGen. https://github.com/Jjagg/WaylandSharpGen");
             w.NewLine();
             ParseProtocol(doc, w);
 
@@ -47,8 +52,8 @@ namespace WaylandSharpGen
             return 0;
         }
 
-        private static readonly bool GenerateComments = false;
-        private static readonly bool GenerateRegion = false;
+        private static readonly bool GenerateComments = true;
+        private static readonly bool GenerateRegion = true;
 
         private const string ProtocolElement = "protocol";
         private const string DescriptionElement = "description";
