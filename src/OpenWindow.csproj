@@ -3,12 +3,4 @@
     <TargetFramework>netstandard1.1</TargetFramework>
     <SignAssembly>False</SignAssembly>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Samples\**" />
-    <EmbeddedResource Remove="Samples\**" />
-    <None Remove="Samples\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NETStandard.Library" Version="1.6" />
-  </ItemGroup>
 </Project>

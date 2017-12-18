@@ -125,7 +125,7 @@ namespace OpenGL
             WglMakeCurrent(_hdc, _hrc);
             ReleaseDC(_window.Handle, _hdc);
 
-            glClearColor(1, 1, 1, 1);
+            glClearColor(0, 0, 0, 1);
             // enable multisampling
             glEnable(0x809D);
 
@@ -179,7 +179,7 @@ namespace OpenGL
             glClear(16384);
             glBegin(4);
             glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex2f(0, -.7f);
+            glVertex2f(0, 1f);
             glColor3f(0.0f, 1.0f, 0.0f);
             glVertex2f(-1, -1);
             glColor3f(0.0f, 0.0f, 1.0f);

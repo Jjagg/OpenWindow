@@ -13,10 +13,8 @@ namespace HelloOpenWindow
         private static Window _window;
 
         private static readonly Random Rand = new Random();
-        private static Rectangle _rect;
         private static bool _closing;
 
-        private static bool _lastf;
         private static bool _lastr;
         private static bool _lastb;
 
@@ -35,6 +33,7 @@ namespace HelloOpenWindow
         {
             _service = WindowingService.Get();
             _service.SetLogWriter(Console.Out);
+
             _window = _service.CreateWindow();
             _window.ClientBounds = new Rectangle(100, 100, 400, 400);
             _window.Title = "Hello, OpenWindow!";
@@ -45,22 +44,6 @@ namespace HelloOpenWindow
         private static void Update()
         {
             var keystate = _window.GetKeyboardState();
-
-            var f = (keystate[(int) VirtualKey.F] & 0x80) != 0;
-
-            if (f && !_lastf)
-            {
-                if (!_window.Borderless)
-                {
-                    _rect = _window.Bounds;
-                    _window.SetFullscreen();
-                }
-                else
-                {
-                    _window.Borderless = false;
-                    _window.Bounds = _rect;
-                }
-            }
 
             var b = (keystate[(int) VirtualKey.B] & 0x80) != 0;
 
@@ -80,7 +63,6 @@ namespace HelloOpenWindow
                 _window.Bounds = new Rectangle(x, y, width, height);
             }
 
-            _lastf = f;
             _lastb = b;
             _lastr = r;
         }
