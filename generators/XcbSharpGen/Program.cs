@@ -44,7 +44,7 @@ namespace XcbSharpGen
             w.BeginNs("OpenWindow.Backends.Wayland");
 
             w.LineComment("This file was generated from xml XCB header specifications");
-            w.LineComment("by XcbSharpGen. https://github.com/Jjagg/OpenWindow/tree/master/XcbSharpGen");
+            w.LineComment("by XcbSharpGen. https://github.com/Jjagg/OpenWindow/tree/master/generators/XcbSharpGen");
             w.NewLine();
 
             var importedHeaders = new List<string>();

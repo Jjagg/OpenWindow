@@ -46,7 +46,7 @@ namespace WaylandSharpGen
             };
 
             w.LineComment("This file was generated from an xml Wayland protocol specification");
-            w.LineComment("by WaylandSharpGen. https://github.com/Jjagg/OpenWindow/tree/master/WaylandSharpGen");
+            w.LineComment("by WaylandSharpGen. https://github.com/Jjagg/OpenWindow/tree/master/generators/WaylandSharpGen");
             w.NewLine();
             ParseProtocol(doc, w);
 
