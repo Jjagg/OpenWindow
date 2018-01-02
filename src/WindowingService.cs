@@ -108,15 +108,22 @@ namespace OpenWindow
         #endregion
 
 
+#if NETSTANDARD1_1
         [DllImport("libc", EntryPoint = "getenv")]
         private static extern IntPtr GetEnv([In][MarshalAs(UnmanagedType.LPStr)] string name);
 
         // NOTE: .NET's GetEnvironmentVariable is in .NET Standard 1.3+
-        // we want to stick to 1.1 so we PInvoke libc
+        // we want to support 1.1 so we PInvoke libc
         private static string UnixGetVariable(string name)
         {
             return Marshal.PtrToStringAnsi(GetEnv(name));
         }
+#else
+        private static string UnixGetVariable(string name)
+        {
+            return Environment.GetEnvironmentVariable(name);
+        }
+#endif
 
         #region Logging
 
