@@ -38,6 +38,10 @@ namespace OpenWindow
         {
             Messages = new List<Message>();
             _format = "[{0:T}] {1}: {2}";
+#if NETSTANDARD1_3
+            // default to stdout when available
+            _outputWriter = Console.Out;
+#endif
         }
 
         /// <summary>
