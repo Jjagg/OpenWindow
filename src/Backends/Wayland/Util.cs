@@ -20,30 +20,70 @@ namespace OpenWindow.Backends.Wayland
             [FieldOffset(0)] public int H; // fd
         }
 
-        private static readonly int StructSize = Marshal.SizeOf(typeof(ArgumentStruct));
-        private readonly List<IntPtr> _unmanaged;
+        private static readonly int StructSize = MarshalHelpers.SizeOf<ArgumentStruct>();
 
         public IntPtr Pointer { get; }
+
+        public ArgumentList(object arg1)
+        {
+            Pointer = Marshal.AllocHGlobal(StructSize);
+            Set(0, arg1);
+        }
+
+        public ArgumentList(object arg1, object arg2)
+        {
+            Pointer = Marshal.AllocHGlobal(2 * StructSize);
+            Set(0, arg1);
+            Set(1, arg2);
+        }
+
+        public ArgumentList(object arg1, object arg2, object arg3)
+        {
+            Pointer = Marshal.AllocHGlobal(3 * StructSize);
+            Set(0, arg1);
+            Set(1, arg2);
+            Set(2, arg3);
+        }
+
+        public ArgumentList(object arg1, object arg2, object arg3, object arg4)
+        {
+            Pointer = Marshal.AllocHGlobal(3 * StructSize);
+            Set(0, arg1);
+            Set(1, arg2);
+            Set(2, arg3);
+            Set(3, arg4);
+        }
+
+        public ArgumentList(object arg1, object arg2, object arg3, object arg4, object arg5)
+        {
+            Pointer = Marshal.AllocHGlobal(3 * StructSize);
+            Set(0, arg1);
+            Set(1, arg2);
+            Set(2, arg3);
+            Set(3, arg4);
+            Set(4, arg5);
+        }
 
         public ArgumentList(params object[] args)
         {
             Pointer = Marshal.AllocHGlobal(args.Length * StructSize);
-            _unmanaged = new List<IntPtr>();
 
             for (var i = 0; i < args.Length; i++)
-            {
-                var o = args[i];
-                if (o is int)
-                    Set(i, (int) o);
-                else if (o is uint)
-                    Set(i, (uint) o);
-                else if (o is string)
-                    Set(i, (string) o);
-                else if (o is WlObject)
-                    Set(i, (WlObject) o);
-                else if (o is WlArray)
-                    Set(i, (WlArray) o);
-            }
+                Set(i, args[i]);
+        }
+
+        private void Set(int i, object o)
+        {
+            if (o is int)
+                Set(i, (int) o);
+            else if (o is uint)
+                Set(i, (uint) o);
+            else if (o is string)
+                Set(i, (string) o);
+            else if (o is WlObject)
+                Set(i, (WlObject) o);
+            else if (o is WlArray)
+                Set(i, (WlArray) o);
         }
 
         private void Set(int i, int value)
@@ -59,7 +99,6 @@ namespace OpenWindow.Backends.Wayland
         private void Set(int i, string value)
         {
             var ptr = Marshal.StringToHGlobalAnsi(value);
-            _unmanaged.Add(ptr);
             Marshal.WriteIntPtr(Pointer, i * StructSize, ptr);
         }
 
@@ -104,7 +143,7 @@ namespace OpenWindow.Backends.Wayland
 
         public WlArray()
         {
-            Pointer = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(ArrayStruct)));
+            Pointer = Marshal.AllocHGlobal(MarshalHelpers.SizeOf<ArrayStruct>());
             ArrayInit(Pointer);
         }
 
@@ -145,7 +184,7 @@ namespace OpenWindow.Backends.Wayland
             public IntPtr Types;
         }
 
-        public static int StructSize = Marshal.SizeOf(typeof(MessageStruct));
+        public static int StructSize = MarshalHelpers.SizeOf<MessageStruct>();
 
         public readonly MessageStruct Message;
 
@@ -195,7 +234,7 @@ namespace OpenWindow.Backends.Wayland
             public IntPtr Events;
         }
 
-        private static readonly int MessageSize = Marshal.SizeOf(typeof(WlMessage.MessageStruct));
+        private static readonly int MessageSize = MarshalHelpers.SizeOf<WlMessage.MessageStruct>();
 
         private InterfaceStruct _managed;
         public IntPtr Pointer { get; }
@@ -212,7 +251,7 @@ namespace OpenWindow.Backends.Wayland
             _managed.EventCount = eventCount;
             _managed.Events = eventCount == 0 ? IntPtr.Zero : Marshal.AllocHGlobal(eventCount * WlMessage.StructSize);
 
-            Pointer = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(InterfaceStruct)));
+            Pointer = Marshal.AllocHGlobal(MarshalHelpers.SizeOf<InterfaceStruct>());
         }
 
         public void SetRequests(WlMessage[] requests)
