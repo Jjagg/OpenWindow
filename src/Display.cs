@@ -2,6 +2,8 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
+using System;
+
 namespace OpenWindow
 {
     /// <summary>
@@ -9,6 +11,11 @@ namespace OpenWindow
     /// </summary>
     public class Display
     {
+        /// <summary>
+        /// Handle to the native display object.
+        /// </summary>
+        public IntPtr Handle { get; }
+
         /// <summary>
         /// An identifier for the display.
         /// </summary>
@@ -29,8 +36,9 @@ namespace OpenWindow
         /// </summary>
         public bool IsPrimary { get; }
 
-        internal Display(string name, Rectangle bounds, Rectangle workingArea, bool isPrimary)
+        internal Display(IntPtr handle, string name, Rectangle bounds, Rectangle workingArea, bool isPrimary)
         {
+            Handle = handle;
             Name = name;
             Bounds = bounds;
             WorkingArea = workingArea;

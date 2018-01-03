@@ -47,8 +47,7 @@ namespace OpenWindow.Backends.Windows
                     sb.Append(c);
                 }
             }
-
-            return new Display(sb.ToString(), mi.monitorRect, mi.workAreaRect, mi.IsPrimary);
+            return new Display(handle, sb.ToString(), mi.monitorRect, mi.workAreaRect, mi.IsPrimary);
         }
 
     }
