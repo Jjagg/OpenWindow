@@ -10,23 +10,24 @@ namespace OpenWindow.Backends.Wayland
     {
         #region Private Fields
 
-        private WlSurface _wlSurface;
-        private XdgSurface _xdgSurface;
-        private XdgToplevel _xdgTopLevel;
+        private readonly WlSurface _wlSurface;
+        private readonly XdgSurface _xdgSurface;
+        private readonly XdgToplevel _xdgTopLevel;
 
         #endregion
         
         #region Constructor
 
-        public WaylandWindow(XdgWmBase xdgWmBase, WlSurface wlSurface, OpenGlSurfaceSettings glSettings, bool show)
+        public WaylandWindow(WlSurface wlSurface, XdgSurface xdgSurface, OpenGlSurfaceSettings glSettings, bool show)
             : base(false)
         {
             _wlSurface = wlSurface;
-            wlSurface.Enter = SurfaceEnter;
-            wlSurface.Leave = SurfaceLeave;
-            _xdgSurface = xdgWmBase.GetXdgSurface(wlSurface);
+            _xdgSurface = xdgSurface;
             _xdgTopLevel = _xdgSurface.GetToplevel();
-            wlSurface.Commit();
+
+            _wlSurface.Enter = SurfaceEnter;
+            _wlSurface.Leave = SurfaceLeave;
+            _wlSurface.Commit();
         }
 
         private void SurfaceEnter(IntPtr data, IntPtr iface, IntPtr output)
@@ -41,8 +42,13 @@ namespace OpenWindow.Backends.Wayland
         
         #region Window Properties
         
+        // TODO what to expose here? Is just 1 pointer enough?
+        public override IntPtr Handle { get; }
+        public override bool Borderless { get; set; }
+        public override bool Resizable { get; set; }
+        public override bool IsFocused { get; set; }
         public override Point Position { get; set; }
-        public override Size Size { get; set; }
+        public override Point Size { get; set; }
         public override Rectangle Bounds { get; set; }
         public override Rectangle ClientBounds { get; set; }
 
@@ -57,7 +63,9 @@ namespace OpenWindow.Backends.Wayland
 
         public override byte[] GetKeyboardState()
         {
-            throw new NotImplementedException();
+            _xdgTopLevel.Destroy();
+            _xdgSurface.Destroy();
+            _wlSurface.Destroy();
         }
 
         public override bool IsDown(Key key)

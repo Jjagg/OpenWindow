@@ -56,7 +56,9 @@ namespace OpenWindow
             var type = GetWindowingServiceType();
             LogInfo($"Detected windowing backend '{type}'.");
             _instance = CreateService(type);
+            LogDebug("Created WindowingService.");
             _instance.Initialize();
+            LogDebug("Initialized WindowingService.");
         }
 
         protected abstract void Initialize();

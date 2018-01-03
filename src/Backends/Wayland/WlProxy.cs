@@ -39,22 +39,25 @@ namespace OpenWindow.Backends.Wayland
         //[DllImport("libwayland-client.so", EntryPoint = "wl_proxy_get_id")]
         //public static extern int GetId(IntPtr proxy);
         
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_add_listener")]
+        protected static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);
+
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_get_listener")]
         public static extern IntPtr GetListener(IntPtr proxy);
         
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_get_user_data")]
-        public static extern IntPtr GetUserData(IntPtr proxy);
+        private static extern IntPtr GetUserData(IntPtr proxy);
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_set_user_data")]
-        public static extern void SetUserData(IntPtr proxy, IntPtr data);
+        private static extern void SetUserData(IntPtr proxy, IntPtr data);
         
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_get_version")]
         public static extern uint GetVersion(IntPtr proxy);
         
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_marshal")]
-        public static extern void Marshal(IntPtr proxy, int opcode);
+        protected static extern void Marshal(IntPtr proxy, int opcode);
         
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_marshal_array")]
-        public static extern void MarshalArray(IntPtr proxy, int opcode, IntPtr data);
+        protected static extern void MarshalArray(IntPtr proxy, int opcode, IntPtr data);
         
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_marshal_constructor")]
         public static extern IntPtr MarshalConstructor(IntPtr proxy, int opcode, IntPtr iface, IntPtr data);

@@ -15,24 +15,29 @@ namespace OpenWindow.Backends.Wayland
             Disconnect(Pointer);
         }
 
-        public void Roundtrip()
+        public int Roundtrip()
         {
-            Roundtrip(Pointer);
+            return Roundtrip(Pointer);
         }
 
-        public void Flush()
+        public int Flush()
         {
-            Flush(Pointer);
+            return Flush(Pointer);
         }
 
-        public void Dispatch()
+        public int Dispatch()
         {
-            Dispatch(Pointer);
+            return Dispatch(Pointer);
         }
         
-        public void DispatchPending()
+        public int DispatchPending()
         {
-            Dispatch(Pointer);
+            return DispatchPending(Pointer);
+        }
+
+        public int GetError()
+        {
+            return GetError(Pointer);
         }
         
         [DllImport("libwayland-client.so", EntryPoint = "wl_display_connect")]
@@ -52,6 +57,9 @@ namespace OpenWindow.Backends.Wayland
         
         [DllImport("libwayland-client.so", EntryPoint = "wl_display_dispatch_pending")]
         private static extern int DispatchPending(IntPtr dpy);
+
+        [DllImport("libwayland-client.so", EntryPoint = "wl_display_get_error")]
+        private static extern int GetError(IntPtr dpy);
 
         private void ReleaseUnmanagedResources()
         {

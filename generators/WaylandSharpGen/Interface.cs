@@ -12,6 +12,7 @@ namespace WaylandSharpGen
     {
         private const string EventElement = "event";
         private const string RequestElement = "request";
+        private const string EnumElement = "enum";
         private const string NameAttrib = "name";
         private const string VersionAttrib = "version";
 
@@ -23,6 +24,7 @@ namespace WaylandSharpGen
 
         public readonly Message[] Requests;
         public readonly Message[] Events;
+        public readonly WlEnum[] Enums;
 
         public Interface(XElement element)
         {
@@ -32,6 +34,7 @@ namespace WaylandSharpGen
             Version = element.Attribute(VersionAttrib)?.Value ?? "1";
             Requests = element.Elements(RequestElement).Select(e => new Message(e)).ToArray();
             Events = element.Elements(EventElement).Select(e => new Message(e)).ToArray();
+            Enums = element.Elements(EnumElement).Select(e => new WlEnum(e)).ToArray();
         }
     }
 }

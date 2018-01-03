@@ -111,10 +111,9 @@ namespace WaylandSharpGen
 
         private static void WriteInterface(Interface iface, CSharpWriter w)
         {
-            ParseDescription(iface.Element, w);
+            WriteDescription(iface.Element, w);
 
-            // TODO when is something a proxy?
-            var baseClass = iface.Requests.Any() ? "WlProxy" : "WlObject";
+            var baseClass = "WlProxy";
             w.BeginClass(iface.ClsName + " : " + baseClass, AccessModifier.Internal, false, true);
 
             if (GenerateRegion)
@@ -193,34 +192,65 @@ namespace WaylandSharpGen
             w.Line($"public {iface.ClsName}(IntPtr pointer)");
             w.Line("    : base(pointer) { }");
 
-            if (GenerateRegion)
-            {
-                w.NewLine();
-                w.Line("#region Events");
-            }
-
-            w.NewLine();
             if (iface.Events.Any())
-                WriteEvents(iface.Events, w);
-
-            if (GenerateRegion)
             {
+                if (GenerateRegion)
+                {
+                    w.NewLine();
+                    w.Line("#region Events");
+                }
+
                 w.NewLine();
-                w.Line("#endregion");
-                w.NewLine();
-                w.Line("#region Requests");
+                if (iface.Events.Any())
+                    WriteEvents(iface.Events, w);
+
+                if (GenerateRegion)
+                {
+                    w.NewLine();
+                    w.Line("#endregion");
+                }
             }
 
-            foreach (var r in iface.Requests)
+            if (iface.Requests.Any())
             {
-                w.NewLine();
-                WriteRequest(r, w);
+                if (GenerateRegion)
+                {
+                    w.NewLine();
+                    w.Line("#region Requests");
+                }
+
+                foreach (var r in iface.Requests)
+                {
+                    w.NewLine();
+                    WriteRequest(r, w);
+                }
+
+                if (GenerateRegion)
+                {
+                    w.NewLine();
+                    w.Line("#endregion");
+                }
             }
 
-            if (GenerateRegion)
+            if (iface.Enums.Any())
             {
-                w.NewLine();
-                w.Line("#endregion");
+                 if (GenerateRegion)
+                {
+                    w.NewLine();
+                    w.Line("#region Enums");
+                }
+
+                foreach (var e in iface.Enums)
+                {
+                    w.NewLine();
+                    WriteEnum(e, w);
+                }
+
+                if (GenerateRegion)
+                {
+                    w.NewLine();
+                    w.Line("#endregion");
+                }   
             }
 
             w.CloseBlock();
@@ -229,43 +259,46 @@ namespace WaylandSharpGen
         private static void WriteEvents(Message[] events, CSharpWriter w)
         {
             foreach (var e in events)
+            {
+                WriteArgsDescription(e.Element, w);
                 w.Line(e.EventDelegate());
-            w.NewLine();
-            
-            w.Line($"private IntPtr _listener = SMarshal.AllocHGlobal(IntPtr.Size * {events.Length});");
+                w.NewLine();
+            }
+
+            w.Line($"private IntPtr _listener;");
             w.Line("private bool _setListener;");
 
             w.NewLine();
             foreach (var e in events)
             {
-                ParseDescription(e.Element, w);
-                ParseArgsDescription(e.Element, w);
+                if (GenerateComments)
+                {
+                    WriteDescription(e.Element, w);
+                }
                 w.Line($"public {e.NiceName}Handler {e.NiceName};");
+                w.NewLine();
             }
             
-            w.NewLine();
             w.Line("public void SetListener()");
             w.OpenBlock();
             w.Line("if (_setListener)");
             w.Line("    throw new Exception(\"Listener already set.\");");
+            w.Line($"_listener = SMarshal.AllocHGlobal(IntPtr.Size * {events.Length});");
             for (var i = 0; i < events.Length; i++)
             {
                 var e = events[i];
-                w.Line($"SMarshal.WriteIntPtr(_listener, {i} * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate({e.NiceName}));");
+                w.Line($"if ({e.NiceName} != null)");
+                w.Line($"    SMarshal.WriteIntPtr(_listener, {i} * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate({e.NiceName}));");
             }
             w.Line("AddListener(Pointer, _listener, IntPtr.Zero);");
             w.Line("_setListener = true;");
             w.CloseBlock();
-            
-            w.NewLine();
-            w.Line("[DllImport(\"libwayland-client.so\", EntryPoint = \"wl_proxy_add_listener\")]");
-            w.Line("private static extern int AddListener(IntPtr proxy, IntPtr listener, IntPtr data);");
         }
 
         private static void WriteRequest(Message r, CSharpWriter w)
         {
-            ParseDescription(r.Element, w);
-            ParseArgsDescription(r.Element, w);
+            WriteDescription(r.Element, w);
+            WriteArgsDescription(r.Element, w);
 
             var parameters = new List<string>();
             // arguments for calling the static variant of the method
@@ -299,14 +332,7 @@ namespace WaylandSharpGen
                 }
                 else
                 {
-                    if (arg.Type == ArgType.Object)
-                    {
-                        parameters.Add(arg.InterfaceCls + " " + arg.Name);
-                    }
-                    else
-                    {
-                        parameters.Add(arg.ParamType + " " + arg.Name);
-                    }
+                    parameters.Add(arg.ParamType + " " + arg.Name);
                     args.Add(arg.Name);
                     internalArgs.Add(arg.Name);
                 }
@@ -371,23 +397,52 @@ namespace WaylandSharpGen
             w.CloseBlock();
         }
 
-        private static void ParseDescription(XElement e, CSharpWriter w)
+        private static void WriteEnum(WlEnum e, CSharpWriter w)
+        {
+            if (GenerateComments)
+                WriteDescription(e.Element, w);
+            if (e.Bitfield)
+                w.Line("[Flags]");
+            w.BeginEnum($"{Util.ToPascalCase(e.Name)}Enum");
+
+            foreach (var entry in e.Entries)
+            {
+                if (GenerateComments)
+                    w.DocSummary(entry.Summary);
+                var name = Util.ToPascalCase(entry.Name);
+                // number only names get a 'V' prepended
+                if (name.All(c => char.IsDigit(c)))
+                    name = "V" + name;
+                w.Line($"{name} = {entry.Value},");
+                if (GenerateComments)
+                    w.NewLine();
+            }
+
+            w.CloseBlock();
+        }
+
+        private static void WriteDescription(XElement e, CSharpWriter w)
         {
             if (GenerateComments)
             {
+                var summary = e.Attribute(SummaryAttrib);
                 var descr = e.Element(DescriptionElement);
                 if (descr != null)
                 {
-                    var lines = descr.Value
+                    var descrStr = descr.Value;
+                    var summaryStr = summary == null ? string.Empty : summary.Value + "\n";
+                    descrStr = $"{summaryStr}<p>" + descrStr + "</p>";
+                    var lines = descrStr
                         .Trim()
                         .Split('\n')
+                        .SelectMany(l => string.IsNullOrEmpty(l) ? new [] {"</p>", "<p>"} : new [] {l})
                         .Select(s => s.Trim());
                     w.DocSummary(lines);
                 }
             }
         }
 
-        private static void ParseArgsDescription(XElement request, CSharpWriter w)
+        private static void WriteArgsDescription(XElement request, CSharpWriter w)
         {
             if (GenerateComments)
             {

@@ -49,9 +49,10 @@ namespace WaylandSharpGen
             foreach (var a in Arguments)
             {
                 sb.Append(", ");
-                sb.Append(a.ParamType == "WlObject" ? "IntPtr" : a.ParamType);
-                // @ in case argument names are C# keywords
-                sb.Append(" @");
+                sb.Append(a.Type == ArgType.Object ? "IntPtr" : a.ParamType);
+                sb.Append(" ");
+                if (Util.IsCSharpKeyword(a.Name))
+                    sb.Append("@");
                 sb.Append(a.Name);
             }
             sb.Append(");");
