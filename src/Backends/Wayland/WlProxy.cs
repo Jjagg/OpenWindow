@@ -10,6 +10,16 @@ namespace OpenWindow.Backends.Wayland
         {
         }
 
+        public void SetUserData(IntPtr data)
+        {
+            SetUserData(Pointer, data);
+        }
+
+        public IntPtr GetUserData()
+        {
+            return GetUserData(Pointer);
+        }
+
         public void Destroy()
         {
             Destroy(Pointer);
