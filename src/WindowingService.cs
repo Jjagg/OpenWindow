@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Collection.ObjectModel;
 
 namespace OpenWindow
 {
@@ -203,8 +204,13 @@ namespace OpenWindow
         /// <summary>
         /// Get the connected displays.
         /// </summary>
-        /// <returns>An array containing connected displays.</returns>
-        public abstract Display[] Displays { get; }
+        /// <returns>A <see cref="ReadOnlyCollection" /> containing connected displays.</returns>
+        public abstract ReadOnlyCollection<Display> Displays { get; }
+
+        /// <summary>
+        /// Get the primary display or <code>null</code> if the primary display could not be found.
+        /// </summary>
+        public abstract Display PrimaryDisplay { get; }
 
         /// <summary>
         /// Get a window owned by this service by its handle.

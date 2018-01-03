@@ -3,11 +3,12 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Windows
 {
-    internal class Win32Window : Window
+    internal sealed class Win32Window : Window
     {
         #region Static
 
@@ -291,9 +292,10 @@ namespace OpenWindow.Backends.Windows
         {
             var displayHandle = Native.MonitorFromWindow(Handle, Constants.MonitorDefaultToNearest);
             var service = (Win32WindowingService) WindowingService.Get();
-            if (!service.DisplayDict.ContainsKey(displayHandle))
+            var display = service.Displays.FirstOrDefault(d => d.Handle == displayHandle);
+            if (display == null)
                 throw new InvalidOperationException("Containing display for a window was not a known display! This should not happen!");
-            return service.DisplayDict[displayHandle];
+            return display;
         }
 
         /// <inheritdoc />

@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -12,8 +13,9 @@ namespace OpenWindow.Backends.Windows
 {
     internal class Win32WindowingService : WindowingService
     {
-        internal Dictionary<IntPtr, Display> DisplayDict;
-        public override Display[] Displays => DisplayDict.Values.ToArray();
+        private List<Display> _displays;
+        public override ReadOnlyCollection<Display> Displays => new ReadOnlyCollection<Display>(_displays);
+        public override Display PrimaryDisplay => _displays.FirstOrDefault(d => d.IsPrimary);
 
         public Win32WindowingService()
         {
@@ -24,11 +26,11 @@ namespace OpenWindow.Backends.Windows
         protected override void Initialize()
         {
             // detect connected displays
-            DisplayDict = new Dictionary<IntPtr, Display>();
+            _displays = new List<Display>();
             Native.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
                 delegate(IntPtr handle, IntPtr hdc, ref Rect rect, IntPtr data)
                 {
-                    DisplayDict.Add(handle, Util.DisplayFromMonitorHandle(handle));
+                    _displays.Add(Util.DisplayFromMonitorHandle(handle));
                     return true;
                 }, IntPtr.Zero);
         }

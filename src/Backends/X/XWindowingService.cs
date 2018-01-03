@@ -3,6 +3,7 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
+using System.Collections.ObjectModel;
 
 namespace OpenWindow.Backends.X
 {
@@ -10,8 +11,9 @@ namespace OpenWindow.Backends.X
     {
         private IntPtr _xcbConnection;
         
-        public override Display[] Displays { get; }
-        
+        public override ReadOnlyCollection<Display> Displays { get; }
+        public override Display PrimaryDisplay { get; }
+
         protected override void Initialize()
         {
             _xcbConnection = Native.Connect(string.Empty, IntPtr.Zero);
