@@ -13,10 +13,12 @@ namespace WaylandSharpGen
         private const string NameAttrib = "name";
         private const string TypeAttrib = "type";
         private const string InterfaceAttrib = "interface";
+        private const string EnumAttrib = "enum";
         private const string AllowNullAttrib = "allow-null";
 
         public readonly string Name;
         public readonly ArgType Type;
+        public readonly string EnumType;
         public readonly string Signature;
         public readonly string ParamType;
         public readonly string Interface;
@@ -28,13 +30,15 @@ namespace WaylandSharpGen
         {
             Name = element.Attribute(NameAttrib).Value;
             Enum.TryParse(element.Attribute(TypeAttrib).Value, true, out Type);
-            ParamType = ArgToParamType(Type);
+            EnumType = element.Attribute(EnumAttrib)?.Value;
             Interface = element.Attribute(InterfaceAttrib)?.Value;
             InterfaceCls = Util.ToPascalCase(Interface);
             ObjectType = Type == ArgType.New_id || Type == ArgType.Object;
             var allowNull = element.Attribute(AllowNullAttrib);
             AllowNull = allowNull == null ? false : bool.Parse(allowNull.Value);
             Signature = (AllowNull ? "?" : string.Empty) + ArgToSig(Type);
+
+            ParamType = GetParamType();
         }
         
         private static char ArgToSig(ArgType type)
@@ -62,9 +66,14 @@ namespace WaylandSharpGen
             }
         }
 
-        private static string ArgToParamType(ArgType type)
+        private string GetParamType()
         {
-            switch (type)
+            if (EnumType != null)
+                return Util.ToPascalCase(EnumType) + "Enum";
+            if (Type == ArgType.Object)
+                return InterfaceCls ?? "WlObject";
+
+            switch (Type)
             {
                 case ArgType.Int:
                     return "int";
@@ -74,8 +83,6 @@ namespace WaylandSharpGen
                     return "int";
                 case ArgType.String:
                     return "string";
-                case ArgType.Object:
-                    return "WlObject";
                 case ArgType.New_id:
                     return "WlObject";
                 case ArgType.Array:
@@ -83,7 +90,7 @@ namespace WaylandSharpGen
                 case ArgType.Fd:
                     return "int";
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+                    throw new ArgumentOutOfRangeException(nameof(Type), Type, null);
             }
         }
     }

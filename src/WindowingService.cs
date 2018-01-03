@@ -58,7 +58,9 @@ namespace OpenWindow
             Backend = GetWindowingBackend();
             LogInfo($"Detected windowing backend '{Backend}'.");
             _instance = CreateService(Backend);
+            LogDebug("Created WindowingService.");
             _instance.Initialize();
+            LogDebug("Initialized WindowingService.");
         }
 
         /// <summary>

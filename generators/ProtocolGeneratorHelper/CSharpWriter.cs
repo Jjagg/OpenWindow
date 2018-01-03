@@ -69,6 +69,13 @@ namespace ProtocolGeneratorHelper
             OpenBlock();
         }
 
+        public void BeginEnum(string name, AccessModifier? am = null)
+        {
+            var ams = ArgAm(am);
+            AppendLine($"{ams} enum {name}");
+            OpenBlock();
+        }
+
         public void Constant(string type, string name, string value, AccessModifier? am = null)
         {
             var ams = ArgAm(am);
