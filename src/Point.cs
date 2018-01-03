@@ -13,7 +13,7 @@ namespace OpenWindow
     public struct Point
     {
         /// <summary>
-        /// The Point2 at (0, 0).
+        /// The Point at (0, 0).
         /// </summary>
         public static readonly Point Zero;
 
@@ -43,7 +43,7 @@ namespace OpenWindow
         /// </summary>
         /// <param name="p1">First point.</param>
         /// <param name="p2">Second point.</param>
-        /// <returns><code>new Point2(p1.X + p2.X, p1.Y + p2.Y)</code></returns>
+        /// <returns><code>new Point(p1.X + p2.X, p1.Y + p2.Y)</code></returns>
         public static Point operator +(Point p1, Point p2)
         {
             return new Point(p1.X + p2.X, p1.Y + p2.Y);
@@ -54,7 +54,7 @@ namespace OpenWindow
         /// </summary>
         /// <param name="p1">Point to subtract from.</param>
         /// <param name="p2">Point to subtract.</param>
-        /// <returns><code>new Point2(p1.X - p2.X, p1.Y - p2.Y)</code></returns>
+        /// <returns><code>new Point(p1.X - p2.X, p1.Y - p2.Y)</code></returns>
         public static Point operator -(Point p1, Point p2)
         {
             return new Point(p1.X - p2.X, p1.Y - p2.Y);
@@ -65,7 +65,7 @@ namespace OpenWindow
         /// </summary>
         /// <param name="p">Point to subtract from.</param>
         /// <param name="s">Size to subtract.</param>
-        /// <returns><code>new Point2(p.X - s.Width, p.Y - s.height)</code></returns>
+        /// <returns><code>new Point(p.X - s.Width, p.Y - s.height)</code></returns>
         public static Point operator -(Point p, Size s)
         {
             return new Point(p.X - s.Width, p.Y - s.Height);
@@ -76,7 +76,7 @@ namespace OpenWindow
         /// </summary>
         /// <param name="s">Factor to scale by.</param>
         /// <param name="p">Point to scale.</param>
-        /// <returns><code>new Point2(s * p.X, s * p.Y)</code></returns>
+        /// <returns><code>new Point(s * p.X, s * p.Y)</code></returns>
         public static Point operator *(int s, Point p)
         {
             return new Point(s * p.X, s * p.Y);
@@ -87,7 +87,7 @@ namespace OpenWindow
         /// </summary>
         /// <param name="p">Point to scale.</param>
         /// <param name="s">Factor to scale by.</param>
-        /// <returns><code>new Point2(s * p.X, s * p.Y)</code></returns>
+        /// <returns><code>new Point(s * p.X, s * p.Y)</code></returns>
         public static Point operator *(Point p,int s)
         {
             return new Point(s * p.X, s * p.Y);
