@@ -276,13 +276,21 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="name">numeric name of the global object</param>
         /// <param name="interface">interface implemented by the object</param>
         /// <param name="version">interface version</param>
-        public delegate void GlobalHandler(IntPtr data, IntPtr iface, uint name, string @interface, uint version);
+        public delegate void GlobalHandler(IntPtr data, IntPtr iface, uint name, IntPtr @interface, uint version);
 
         /// <param name="name">numeric name of the global object</param>
         public delegate void GlobalRemoveHandler(IntPtr data, IntPtr iface, uint name);
 
-        private IntPtr _listener;
+        private Listener _listener;
+        private IntPtr _listenerPtr;
         private bool _setListener;
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct Listener
+        {
+            [MarshalAs(UnmanagedType.FunctionPtr)] public GlobalHandler GlobalHandler;
+            [MarshalAs(UnmanagedType.FunctionPtr)] public GlobalRemoveHandler GlobalRemoveHandler;
+        }
 
         /// <summary>
         /// <p>
@@ -318,12 +326,10 @@ namespace OpenWindow.Backends.Wayland
         {
             if (_setListener)
                 throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 2);
-            if (Global != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Global));
-            if (GlobalRemove != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(GlobalRemove));
-            AddListener(Pointer, _listener, IntPtr.Zero);
+            _listener = new Listener {GlobalHandler = Global, GlobalRemoveHandler = GlobalRemove};
+            _listenerPtr = SMarshal.AllocHGlobal(2 * SMarshal.SizeOf(typeof(IntPtr)));
+            SMarshal.StructureToPtr(_listener, _listenerPtr, false);
+            AddListener(Pointer, _listenerPtr, IntPtr.Zero);
             _setListener = true;
         }
 

@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Wayland
 {
@@ -65,10 +66,11 @@ namespace OpenWindow.Backends.Wayland
             throw new OpenWindowException($"Irrecoverable error reported by Wayland server: {message}");
         }
 
-        private void RegistryGlobal(IntPtr data, IntPtr registry, uint name, string iface, uint version)
+        private void RegistryGlobal(IntPtr data, IntPtr registry, uint name, IntPtr iface, uint version)
         {
-            LogDebug($"Registry global announce for {name} of type {iface}.");
-            switch (iface)
+            LogDebug($"Registry global announce for {name} of type {iface}");
+            LogDebug($"Data: {data}; Registry: {registry}; Name: {name}; iface: {iface} Version: {version}");
+            /*switch (iface)
             {
                 case WlOutput.InterfaceName:
                     var output = _wlRegistry.Bind<WlOutput>(name, WlOutput.Interface);
@@ -91,7 +93,7 @@ namespace OpenWindow.Backends.Wayland
                     _xdgWmBase = _wlRegistry.Bind<XdgWmBase>(name, XdgWmBase.Interface);
                     _xdgWmBase.Ping = XdgWmBasePingHandler;
                     break;
-            }
+            }*/
         }
 
         private void RegistryGlobalRemove(IntPtr data, IntPtr iface, uint name)
