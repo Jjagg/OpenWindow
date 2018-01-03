@@ -31,9 +31,16 @@ namespace OpenWindow
         #region Window API: Properties
 
         /// <summary>
-        /// Get a pointer to the native window handle.
+        /// Get the native window handle.
         /// </summary>
         public IntPtr Handle { get; protected set; }
+ 
+        /// <summary>
+        /// Get or set arbitrary data associated with this window.
+        /// OpenWindow does not touch this property. You can safely use it
+        /// to attach any data you want.
+        /// </summary>
+        public object Tag { get; set; }
 
         /// <summary>
         /// <code>false</code> if the underlying native window was created by OpenWindow with the
