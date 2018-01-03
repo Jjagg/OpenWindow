@@ -1,5 +1,7 @@
 // This file was generated from an xml Wayland protocol specification
-// by WaylandSharpGen. https://github.com/Jjagg/WaylandSharpGen
+// by WaylandSharpGen. https://github.com/Jjagg/OpenWindow/tree/master/generators/WaylandSharpGen
+
+// Protocol: wayland
 
 using System;
 using System.Runtime.InteropServices;
@@ -7,7 +9,7 @@ using SMarshal = System.Runtime.InteropServices.Marshal;
 
 namespace OpenWindow.Backends.Wayland
 {
-    internal static partial class WlInterfaces
+    internal static partial class WaylandInterfaces
     {
         public static void CleanUp()
         {
@@ -139,7 +141,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="callback">callback object for the sync request</param>
         public WlCallback Sync()
         {
-            var ptr = MarshalConstructor(Pointer, SyncOp, WlCallback.Interface.Pointer, IntPtr.Zero);
+            return Sync(Pointer);
+        }
+
+        public static WlCallback Sync(IntPtr pointer)
+        {
+            var ptr = MarshalConstructor(pointer, SyncOp, WlCallback.Interface.Pointer, IntPtr.Zero);
             return new WlCallback(ptr);
         }
 
@@ -151,7 +158,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="registry">global registry object</param>
         public WlRegistry GetRegistry()
         {
-            var ptr = MarshalConstructor(Pointer, GetRegistryOp, WlRegistry.Interface.Pointer, IntPtr.Zero);
+            return GetRegistry(Pointer);
+        }
+
+        public static WlRegistry GetRegistry(IntPtr pointer)
+        {
+            var ptr = MarshalConstructor(pointer, GetRegistryOp, WlRegistry.Interface.Pointer, IntPtr.Zero);
             return new WlRegistry(ptr);
         }
 
@@ -272,8 +284,14 @@ namespace OpenWindow.Backends.Wayland
         public T Bind<T>(uint name, WlInterface iface)
             where T : WlObject
         {
+            return Bind<T>(Pointer, name, iface);
+        }
+
+        public static T Bind<T>(IntPtr pointer, uint name, WlInterface iface)
+            where T : WlObject
+        {
             var args = new ArgumentList(name);
-            var ptr = MarshalArrayConstructor(Pointer, BindOp, args.Pointer, iface.Pointer);
+            var ptr = MarshalArrayConstructor(pointer, BindOp, args.Pointer, iface.Pointer);
             args.Dispose();
             return (T) Activator.CreateInstance(typeof(T), new [] { ptr });
         }
@@ -399,7 +417,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">the new surface</param>
         public WlSurface CreateSurface()
         {
-            var ptr = MarshalConstructor(Pointer, CreateSurfaceOp, WlSurface.Interface.Pointer, IntPtr.Zero);
+            return CreateSurface(Pointer);
+        }
+
+        public static WlSurface CreateSurface(IntPtr pointer)
+        {
+            var ptr = MarshalConstructor(pointer, CreateSurfaceOp, WlSurface.Interface.Pointer, IntPtr.Zero);
             return new WlSurface(ptr);
         }
 
@@ -409,7 +432,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">the new region</param>
         public WlRegion CreateRegion()
         {
-            var ptr = MarshalConstructor(Pointer, CreateRegionOp, WlRegion.Interface.Pointer, IntPtr.Zero);
+            return CreateRegion(Pointer);
+        }
+
+        public static WlRegion CreateRegion(IntPtr pointer)
+        {
+            var ptr = MarshalConstructor(pointer, CreateRegionOp, WlRegion.Interface.Pointer, IntPtr.Zero);
             return new WlRegion(ptr);
         }
 
@@ -491,8 +519,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="format">buffer pixel format</param>
         public WlBuffer CreateBuffer(int offset, int width, int height, int stride, uint format)
         {
+            return CreateBuffer(Pointer, offset, width, height, stride, format);
+        }
+
+        public static WlBuffer CreateBuffer(IntPtr pointer, int offset, int width, int height, int stride, uint format)
+        {
             var args = new ArgumentList(offset, width, height, stride, format);
-            var ptr = MarshalArrayConstructor(Pointer, CreateBufferOp, args.Pointer, WlBuffer.Interface.Pointer);
+            var ptr = MarshalArrayConstructor(pointer, CreateBufferOp, args.Pointer, WlBuffer.Interface.Pointer);
             args.Dispose();
             return new WlBuffer(ptr);
         }
@@ -506,7 +539,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Destroy()
         {
-            Marshal(Pointer, DestroyOp);
+            Destroy(Pointer);
+        }
+
+        public static void Destroy(IntPtr pointer)
+        {
+            Marshal(pointer, DestroyOp);
         }
 
         /// <summary>
@@ -518,7 +556,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="size">new size of the pool, in bytes</param>
         public void Resize(int size)
         {
-            Marshal(Pointer, ResizeOp);
+            Resize(Pointer, size);
+        }
+
+        public static void Resize(IntPtr pointer, int size)
+        {
+            Marshal(pointer, ResizeOp);
         }
 
         #endregion
@@ -610,8 +653,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="size">pool size, in bytes</param>
         public WlShmPool CreatePool(int fd, int size)
         {
+            return CreatePool(Pointer, fd, size);
+        }
+
+        public static WlShmPool CreatePool(IntPtr pointer, int fd, int size)
+        {
             var args = new ArgumentList(fd, size);
-            var ptr = MarshalArrayConstructor(Pointer, CreatePoolOp, args.Pointer, WlShmPool.Interface.Pointer);
+            var ptr = MarshalArrayConstructor(pointer, CreatePoolOp, args.Pointer, WlShmPool.Interface.Pointer);
             args.Dispose();
             return new WlShmPool(ptr);
         }
@@ -705,7 +753,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Destroy()
         {
-            Marshal(Pointer, DestroyOp);
+            Destroy(Pointer);
+        }
+
+        public static void Destroy(IntPtr pointer)
+        {
+            Marshal(pointer, DestroyOp);
         }
 
         #endregion
@@ -863,8 +916,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="mime_type">mime type accepted by the client</param>
         public void Accept(uint serial, string mime_type)
         {
+            Accept(Pointer, serial, mime_type);
+        }
+
+        public static void Accept(IntPtr pointer, uint serial, string mime_type)
+        {
             var args = new ArgumentList(serial, mime_type);
-            MarshalArray(Pointer, AcceptOp, args.Pointer);
+            MarshalArray(pointer, AcceptOp, args.Pointer);
             args.Dispose();
         }
 
@@ -889,8 +947,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="fd">file descriptor for data transfer</param>
         public void Receive(string mime_type, int fd)
         {
+            Receive(Pointer, mime_type, fd);
+        }
+
+        public static void Receive(IntPtr pointer, string mime_type, int fd)
+        {
             var args = new ArgumentList(mime_type, fd);
-            MarshalArray(Pointer, ReceiveOp, args.Pointer);
+            MarshalArray(pointer, ReceiveOp, args.Pointer);
             args.Dispose();
         }
 
@@ -899,7 +962,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Destroy()
         {
-            Marshal(Pointer, DestroyOp);
+            Destroy(Pointer);
+        }
+
+        public static void Destroy(IntPtr pointer)
+        {
+            Marshal(pointer, DestroyOp);
         }
 
         /// <summary>
@@ -917,7 +985,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Finish()
         {
-            Marshal(Pointer, FinishOp);
+            Finish(Pointer);
+        }
+
+        public static void Finish(IntPtr pointer)
+        {
+            Marshal(pointer, FinishOp);
         }
 
         /// <summary>
@@ -957,8 +1030,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="preferred_action">action preferred by the destination client</param>
         public void SetActions(uint dnd_actions, uint preferred_action)
         {
+            SetActions(Pointer, dnd_actions, preferred_action);
+        }
+
+        public static void SetActions(IntPtr pointer, uint dnd_actions, uint preferred_action)
+        {
             var args = new ArgumentList(dnd_actions, preferred_action);
-            MarshalArray(Pointer, SetActionsOp, args.Pointer);
+            MarshalArray(pointer, SetActionsOp, args.Pointer);
             args.Dispose();
         }
 
@@ -1140,7 +1218,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="mime_type">mime type offered by the data source</param>
         public void Offer(string mime_type)
         {
-            Marshal(Pointer, OfferOp);
+            Offer(Pointer, mime_type);
+        }
+
+        public static void Offer(IntPtr pointer, string mime_type)
+        {
+            Marshal(pointer, OfferOp);
         }
 
         /// <summary>
@@ -1148,7 +1231,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Destroy()
         {
-            Marshal(Pointer, DestroyOp);
+            Destroy(Pointer);
+        }
+
+        public static void Destroy(IntPtr pointer)
+        {
+            Marshal(pointer, DestroyOp);
         }
 
         /// <summary>
@@ -1169,7 +1257,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="dnd_actions">actions supported by the data source</param>
         public void SetActions(uint dnd_actions)
         {
-            Marshal(Pointer, SetActionsOp);
+            SetActions(Pointer, dnd_actions);
+        }
+
+        public static void SetActions(IntPtr pointer, uint dnd_actions)
+        {
+            Marshal(pointer, SetActionsOp);
         }
 
         #endregion
@@ -1357,10 +1450,15 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="origin">surface where the drag originates</param>
         /// <param name="icon">drag-and-drop icon surface</param>
         /// <param name="serial">serial number of the implicit grab on the origin</param>
-        public void StartDrag(WlObject source, WlObject origin, WlObject icon, uint serial)
+        public void StartDrag(WlDataSource source, WlSurface origin, WlSurface icon, uint serial)
         {
-            var args = new ArgumentList(WlDataSource.Interface.Pointer, WlSurface.Interface.Pointer, WlSurface.Interface.Pointer, serial);
-            MarshalArray(Pointer, StartDragOp, args.Pointer);
+            StartDrag(Pointer, source, origin, icon, serial);
+        }
+
+        public static void StartDrag(IntPtr pointer, WlDataSource source, WlSurface origin, WlSurface icon, uint serial)
+        {
+            var args = new ArgumentList(source, origin, icon, serial);
+            MarshalArray(pointer, StartDragOp, args.Pointer);
             args.Dispose();
         }
 
@@ -1372,10 +1470,15 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="source">data source for the selection</param>
         /// <param name="serial">serial number of the event that triggered this request</param>
-        public void SetSelection(WlObject source, uint serial)
+        public void SetSelection(WlDataSource source, uint serial)
         {
-            var args = new ArgumentList(WlDataSource.Interface.Pointer, serial);
-            MarshalArray(Pointer, SetSelectionOp, args.Pointer);
+            SetSelection(Pointer, source, serial);
+        }
+
+        public static void SetSelection(IntPtr pointer, WlDataSource source, uint serial)
+        {
+            var args = new ArgumentList(source, serial);
+            MarshalArray(pointer, SetSelectionOp, args.Pointer);
             args.Dispose();
         }
 
@@ -1384,7 +1487,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Release()
         {
-            Marshal(Pointer, ReleaseOp);
+            Release(Pointer);
+        }
+
+        public static void Release(IntPtr pointer)
+        {
+            Marshal(pointer, ReleaseOp);
         }
 
         #endregion
@@ -1450,7 +1558,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">data source to create</param>
         public WlDataSource CreateDataSource()
         {
-            var ptr = MarshalConstructor(Pointer, CreateDataSourceOp, WlDataSource.Interface.Pointer, IntPtr.Zero);
+            return CreateDataSource(Pointer);
+        }
+
+        public static WlDataSource CreateDataSource(IntPtr pointer)
+        {
+            var ptr = MarshalConstructor(pointer, CreateDataSourceOp, WlDataSource.Interface.Pointer, IntPtr.Zero);
             return new WlDataSource(ptr);
         }
 
@@ -1459,10 +1572,15 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="id">data device to create</param>
         /// <param name="seat">seat associated with the data device</param>
-        public WlDataDevice GetDataDevice(WlObject seat)
+        public WlDataDevice GetDataDevice(WlSeat seat)
         {
-            var args = new ArgumentList(WlSeat.Interface.Pointer);
-            var ptr = MarshalArrayConstructor(Pointer, GetDataDeviceOp, args.Pointer, WlDataDevice.Interface.Pointer);
+            return GetDataDevice(Pointer, seat);
+        }
+
+        public static WlDataDevice GetDataDevice(IntPtr pointer, WlSeat seat)
+        {
+            var args = new ArgumentList(seat);
+            var ptr = MarshalArrayConstructor(pointer, GetDataDeviceOp, args.Pointer, WlDataDevice.Interface.Pointer);
             args.Dispose();
             return new WlDataDevice(ptr);
         }
@@ -1525,10 +1643,15 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="id">shell surface to create</param>
         /// <param name="surface">surface to be given the shell surface role</param>
-        public WlShellSurface GetShellSurface(WlObject surface)
+        public WlShellSurface GetShellSurface(WlSurface surface)
         {
-            var args = new ArgumentList(WlSurface.Interface.Pointer);
-            var ptr = MarshalArrayConstructor(Pointer, GetShellSurfaceOp, args.Pointer, WlShellSurface.Interface.Pointer);
+            return GetShellSurface(Pointer, surface);
+        }
+
+        public static WlShellSurface GetShellSurface(IntPtr pointer, WlSurface surface)
+        {
+            var args = new ArgumentList(surface);
+            var ptr = MarshalArrayConstructor(pointer, GetShellSurfaceOp, args.Pointer, WlShellSurface.Interface.Pointer);
             args.Dispose();
             return new WlShellSurface(ptr);
         }
@@ -1678,7 +1801,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="serial">serial number of the ping event</param>
         public void Pong(uint serial)
         {
-            Marshal(Pointer, PongOp);
+            Pong(Pointer, serial);
+        }
+
+        public static void Pong(IntPtr pointer, uint serial)
+        {
+            Marshal(pointer, PongOp);
         }
 
         /// <summary>
@@ -1690,10 +1818,15 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="seat">seat whose pointer is used</param>
         /// <param name="serial">serial number of the implicit grab on the pointer</param>
-        public void Move(WlObject seat, uint serial)
+        public void Move(WlSeat seat, uint serial)
         {
-            var args = new ArgumentList(WlSeat.Interface.Pointer, serial);
-            MarshalArray(Pointer, MoveOp, args.Pointer);
+            Move(Pointer, seat, serial);
+        }
+
+        public static void Move(IntPtr pointer, WlSeat seat, uint serial)
+        {
+            var args = new ArgumentList(seat, serial);
+            MarshalArray(pointer, MoveOp, args.Pointer);
             args.Dispose();
         }
 
@@ -1707,10 +1840,15 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="seat">seat whose pointer is used</param>
         /// <param name="serial">serial number of the implicit grab on the pointer</param>
         /// <param name="edges">which edge or corner is being dragged</param>
-        public void Resize(WlObject seat, uint serial, uint edges)
+        public void Resize(WlSeat seat, uint serial, uint edges)
         {
-            var args = new ArgumentList(WlSeat.Interface.Pointer, serial, edges);
-            MarshalArray(Pointer, ResizeOp, args.Pointer);
+            Resize(Pointer, seat, serial, edges);
+        }
+
+        public static void Resize(IntPtr pointer, WlSeat seat, uint serial, uint edges)
+        {
+            var args = new ArgumentList(seat, serial, edges);
+            MarshalArray(pointer, ResizeOp, args.Pointer);
             args.Dispose();
         }
 
@@ -1721,7 +1859,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void SetToplevel()
         {
-            Marshal(Pointer, SetToplevelOp);
+            SetToplevel(Pointer);
+        }
+
+        public static void SetToplevel(IntPtr pointer)
+        {
+            Marshal(pointer, SetToplevelOp);
         }
 
         /// <summary>
@@ -1737,10 +1880,15 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="x">surface-local x coordinate</param>
         /// <param name="y">surface-local y coordinate</param>
         /// <param name="flags">transient surface behavior</param>
-        public void SetTransient(WlObject parent, int x, int y, uint flags)
+        public void SetTransient(WlSurface parent, int x, int y, uint flags)
         {
-            var args = new ArgumentList(WlSurface.Interface.Pointer, x, y, flags);
-            MarshalArray(Pointer, SetTransientOp, args.Pointer);
+            SetTransient(Pointer, parent, x, y, flags);
+        }
+
+        public static void SetTransient(IntPtr pointer, WlSurface parent, int x, int y, uint flags)
+        {
+            var args = new ArgumentList(parent, x, y, flags);
+            MarshalArray(pointer, SetTransientOp, args.Pointer);
             args.Dispose();
         }
 
@@ -1782,10 +1930,15 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="method">method for resolving size conflict</param>
         /// <param name="framerate">framerate in mHz</param>
         /// <param name="output">output on which the surface is to be fullscreen</param>
-        public void SetFullscreen(uint method, uint framerate, WlObject output)
+        public void SetFullscreen(uint method, uint framerate, WlOutput output)
         {
-            var args = new ArgumentList(method, framerate, WlOutput.Interface.Pointer);
-            MarshalArray(Pointer, SetFullscreenOp, args.Pointer);
+            SetFullscreen(Pointer, method, framerate, output);
+        }
+
+        public static void SetFullscreen(IntPtr pointer, uint method, uint framerate, WlOutput output)
+        {
+            var args = new ArgumentList(method, framerate, output);
+            MarshalArray(pointer, SetFullscreenOp, args.Pointer);
             args.Dispose();
         }
 
@@ -1816,10 +1969,15 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="x">surface-local x coordinate</param>
         /// <param name="y">surface-local y coordinate</param>
         /// <param name="flags">transient surface behavior</param>
-        public void SetPopup(WlObject seat, uint serial, WlObject parent, int x, int y, uint flags)
+        public void SetPopup(WlSeat seat, uint serial, WlSurface parent, int x, int y, uint flags)
         {
-            var args = new ArgumentList(WlSeat.Interface.Pointer, serial, WlSurface.Interface.Pointer, x, y, flags);
-            MarshalArray(Pointer, SetPopupOp, args.Pointer);
+            SetPopup(Pointer, seat, serial, parent, x, y, flags);
+        }
+
+        public static void SetPopup(IntPtr pointer, WlSeat seat, uint serial, WlSurface parent, int x, int y, uint flags)
+        {
+            var args = new ArgumentList(seat, serial, parent, x, y, flags);
+            MarshalArray(pointer, SetPopupOp, args.Pointer);
             args.Dispose();
         }
 
@@ -1844,9 +2002,14 @@ namespace OpenWindow.Backends.Wayland
         /// The details depend on the compositor implementation.
         /// </summary>
         /// <param name="output">output on which the surface is to be maximized</param>
-        public void SetMaximized(WlObject output)
+        public void SetMaximized(WlOutput output)
         {
-            Marshal(Pointer, SetMaximizedOp);
+            SetMaximized(Pointer, output);
+        }
+
+        public static void SetMaximized(IntPtr pointer, WlOutput output)
+        {
+            Marshal(pointer, SetMaximizedOp);
         }
 
         /// <summary>
@@ -1861,7 +2024,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="title">surface title</param>
         public void SetTitle(string title)
         {
-            Marshal(Pointer, SetTitleOp);
+            SetTitle(Pointer, title);
+        }
+
+        public static void SetTitle(IntPtr pointer, string title)
+        {
+            Marshal(pointer, SetTitleOp);
         }
 
         /// <summary>
@@ -1875,7 +2043,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="class_">surface class</param>
         public void SetClass(string class_)
         {
-            Marshal(Pointer, SetClassOp);
+            SetClass(Pointer, class_);
+        }
+
+        public static void SetClass(IntPtr pointer, string class_)
+        {
+            Marshal(pointer, SetClassOp);
         }
 
         #endregion
@@ -2028,7 +2201,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Destroy()
         {
-            Marshal(Pointer, DestroyOp);
+            Destroy(Pointer);
+        }
+
+        public static void Destroy(IntPtr pointer)
+        {
+            Marshal(pointer, DestroyOp);
         }
 
         /// <summary>
@@ -2075,10 +2253,15 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="buffer">buffer of surface contents</param>
         /// <param name="x">surface-local x coordinate</param>
         /// <param name="y">surface-local y coordinate</param>
-        public void Attach(WlObject buffer, int x, int y)
+        public void Attach(WlBuffer buffer, int x, int y)
         {
-            var args = new ArgumentList(WlBuffer.Interface.Pointer, x, y);
-            MarshalArray(Pointer, AttachOp, args.Pointer);
+            Attach(Pointer, buffer, x, y);
+        }
+
+        public static void Attach(IntPtr pointer, WlBuffer buffer, int x, int y)
+        {
+            var args = new ArgumentList(buffer, x, y);
+            MarshalArray(pointer, AttachOp, args.Pointer);
             args.Dispose();
         }
 
@@ -2111,8 +2294,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="height">height of damage rectangle</param>
         public void Damage(int x, int y, int width, int height)
         {
+            Damage(Pointer, x, y, width, height);
+        }
+
+        public static void Damage(IntPtr pointer, int x, int y, int width, int height)
+        {
             var args = new ArgumentList(x, y, width, height);
-            MarshalArray(Pointer, DamageOp, args.Pointer);
+            MarshalArray(pointer, DamageOp, args.Pointer);
             args.Dispose();
         }
 
@@ -2153,7 +2341,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="callback">callback object for the frame request</param>
         public WlCallback Frame()
         {
-            var ptr = MarshalConstructor(Pointer, FrameOp, WlCallback.Interface.Pointer, IntPtr.Zero);
+            return Frame(Pointer);
+        }
+
+        public static WlCallback Frame(IntPtr pointer)
+        {
+            var ptr = MarshalConstructor(pointer, FrameOp, WlCallback.Interface.Pointer, IntPtr.Zero);
             return new WlCallback(ptr);
         }
 
@@ -2184,9 +2377,14 @@ namespace OpenWindow.Backends.Wayland
         /// region to be set to empty.
         /// </summary>
         /// <param name="region">opaque region of the surface</param>
-        public void SetOpaqueRegion(WlObject region)
+        public void SetOpaqueRegion(WlRegion region)
         {
-            Marshal(Pointer, SetOpaqueRegionOp);
+            SetOpaqueRegion(Pointer, region);
+        }
+
+        public static void SetOpaqueRegion(IntPtr pointer, WlRegion region)
+        {
+            Marshal(pointer, SetOpaqueRegionOp);
         }
 
         /// <summary>
@@ -2214,9 +2412,14 @@ namespace OpenWindow.Backends.Wayland
         /// to infinite.
         /// </summary>
         /// <param name="region">input region of the surface</param>
-        public void SetInputRegion(WlObject region)
+        public void SetInputRegion(WlRegion region)
         {
-            Marshal(Pointer, SetInputRegionOp);
+            SetInputRegion(Pointer, region);
+        }
+
+        public static void SetInputRegion(IntPtr pointer, WlRegion region)
+        {
+            Marshal(pointer, SetInputRegionOp);
         }
 
         /// <summary>
@@ -2240,7 +2443,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Commit()
         {
-            Marshal(Pointer, CommitOp);
+            Commit(Pointer);
+        }
+
+        public static void Commit(IntPtr pointer)
+        {
+            Marshal(pointer, CommitOp);
         }
 
         /// <summary>
@@ -2277,7 +2485,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="transform">transform for interpreting buffer contents</param>
         public void SetBufferTransform(int transform)
         {
-            Marshal(Pointer, SetBufferTransformOp);
+            SetBufferTransform(Pointer, transform);
+        }
+
+        public static void SetBufferTransform(IntPtr pointer, int transform)
+        {
+            Marshal(pointer, SetBufferTransformOp);
         }
 
         /// <summary>
@@ -2308,7 +2521,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="scale">positive scale for interpreting buffer contents</param>
         public void SetBufferScale(int scale)
         {
-            Marshal(Pointer, SetBufferScaleOp);
+            SetBufferScale(Pointer, scale);
+        }
+
+        public static void SetBufferScale(IntPtr pointer, int scale)
+        {
+            Marshal(pointer, SetBufferScaleOp);
         }
 
         /// <summary>
@@ -2351,8 +2569,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="height">height of damage rectangle</param>
         public void DamageBuffer(int x, int y, int width, int height)
         {
+            DamageBuffer(Pointer, x, y, width, height);
+        }
+
+        public static void DamageBuffer(IntPtr pointer, int x, int y, int width, int height)
+        {
             var args = new ArgumentList(x, y, width, height);
-            MarshalArray(Pointer, DamageBufferOp, args.Pointer);
+            MarshalArray(pointer, DamageBufferOp, args.Pointer);
             args.Dispose();
         }
 
@@ -2479,7 +2702,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">seat pointer</param>
         public WlPointer GetPointer()
         {
-            var ptr = MarshalConstructor(Pointer, GetPointerOp, WlPointer.Interface.Pointer, IntPtr.Zero);
+            return GetPointer(Pointer);
+        }
+
+        public static WlPointer GetPointer(IntPtr pointer)
+        {
+            var ptr = MarshalConstructor(pointer, GetPointerOp, WlPointer.Interface.Pointer, IntPtr.Zero);
             return new WlPointer(ptr);
         }
 
@@ -2495,7 +2723,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">seat keyboard</param>
         public WlKeyboard GetKeyboard()
         {
-            var ptr = MarshalConstructor(Pointer, GetKeyboardOp, WlKeyboard.Interface.Pointer, IntPtr.Zero);
+            return GetKeyboard(Pointer);
+        }
+
+        public static WlKeyboard GetKeyboard(IntPtr pointer)
+        {
+            var ptr = MarshalConstructor(pointer, GetKeyboardOp, WlKeyboard.Interface.Pointer, IntPtr.Zero);
             return new WlKeyboard(ptr);
         }
 
@@ -2511,7 +2744,12 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">seat touch interface</param>
         public WlTouch GetTouch()
         {
-            var ptr = MarshalConstructor(Pointer, GetTouchOp, WlTouch.Interface.Pointer, IntPtr.Zero);
+            return GetTouch(Pointer);
+        }
+
+        public static WlTouch GetTouch(IntPtr pointer)
+        {
+            var ptr = MarshalConstructor(pointer, GetTouchOp, WlTouch.Interface.Pointer, IntPtr.Zero);
             return new WlTouch(ptr);
         }
 
@@ -2521,7 +2759,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Release()
         {
-            Marshal(Pointer, ReleaseOp);
+            Release(Pointer);
+        }
+
+        public static void Release(IntPtr pointer)
+        {
+            Marshal(pointer, ReleaseOp);
         }
 
         #endregion
@@ -2840,10 +3083,15 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="surface">pointer surface</param>
         /// <param name="hotspot_x">surface-local x coordinate</param>
         /// <param name="hotspot_y">surface-local y coordinate</param>
-        public void SetCursor(uint serial, WlObject surface, int hotspot_x, int hotspot_y)
+        public void SetCursor(uint serial, WlSurface surface, int hotspot_x, int hotspot_y)
         {
-            var args = new ArgumentList(serial, WlSurface.Interface.Pointer, hotspot_x, hotspot_y);
-            MarshalArray(Pointer, SetCursorOp, args.Pointer);
+            SetCursor(Pointer, serial, surface, hotspot_x, hotspot_y);
+        }
+
+        public static void SetCursor(IntPtr pointer, uint serial, WlSurface surface, int hotspot_x, int hotspot_y)
+        {
+            var args = new ArgumentList(serial, surface, hotspot_x, hotspot_y);
+            MarshalArray(pointer, SetCursorOp, args.Pointer);
             args.Dispose();
         }
 
@@ -2856,7 +3104,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Release()
         {
-            Marshal(Pointer, ReleaseOp);
+            Release(Pointer);
+        }
+
+        public static void Release(IntPtr pointer)
+        {
+            Marshal(pointer, ReleaseOp);
         }
 
         #endregion
@@ -3000,7 +3253,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Release()
         {
-            Marshal(Pointer, ReleaseOp);
+            Release(Pointer);
+        }
+
+        public static void Release(IntPtr pointer)
+        {
+            Marshal(pointer, ReleaseOp);
         }
 
         #endregion
@@ -3198,7 +3456,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Release()
         {
-            Marshal(Pointer, ReleaseOp);
+            Release(Pointer);
+        }
+
+        public static void Release(IntPtr pointer)
+        {
+            Marshal(pointer, ReleaseOp);
         }
 
         #endregion
@@ -3344,7 +3607,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Release()
         {
-            Marshal(Pointer, ReleaseOp);
+            Release(Pointer);
+        }
+
+        public static void Release(IntPtr pointer)
+        {
+            Marshal(pointer, ReleaseOp);
         }
 
         #endregion
@@ -3406,7 +3674,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Destroy()
         {
-            Marshal(Pointer, DestroyOp);
+            Destroy(Pointer);
+        }
+
+        public static void Destroy(IntPtr pointer)
+        {
+            Marshal(pointer, DestroyOp);
         }
 
         /// <summary>
@@ -3418,8 +3691,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="height">rectangle height</param>
         public void Add(int x, int y, int width, int height)
         {
+            Add(Pointer, x, y, width, height);
+        }
+
+        public static void Add(IntPtr pointer, int x, int y, int width, int height)
+        {
             var args = new ArgumentList(x, y, width, height);
-            MarshalArray(Pointer, AddOp, args.Pointer);
+            MarshalArray(pointer, AddOp, args.Pointer);
             args.Dispose();
         }
 
@@ -3432,8 +3710,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="height">rectangle height</param>
         public void Subtract(int x, int y, int width, int height)
         {
+            Subtract(Pointer, x, y, width, height);
+        }
+
+        public static void Subtract(IntPtr pointer, int x, int y, int width, int height)
+        {
             var args = new ArgumentList(x, y, width, height);
-            MarshalArray(Pointer, SubtractOp, args.Pointer);
+            MarshalArray(pointer, SubtractOp, args.Pointer);
             args.Dispose();
         }
 
@@ -3510,7 +3793,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Destroy()
         {
-            Marshal(Pointer, DestroyOp);
+            Destroy(Pointer);
+        }
+
+        public static void Destroy(IntPtr pointer)
+        {
+            Marshal(pointer, DestroyOp);
         }
 
         /// <summary>
@@ -3525,10 +3813,15 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">the new sub-surface object ID</param>
         /// <param name="surface">the surface to be turned into a sub-surface</param>
         /// <param name="parent">the parent surface</param>
-        public WlSubsurface GetSubsurface(WlObject surface, WlObject parent)
+        public WlSubsurface GetSubsurface(WlSurface surface, WlSurface parent)
         {
-            var args = new ArgumentList(WlSurface.Interface.Pointer, WlSurface.Interface.Pointer);
-            var ptr = MarshalArrayConstructor(Pointer, GetSubsurfaceOp, args.Pointer, WlSubsurface.Interface.Pointer);
+            return GetSubsurface(Pointer, surface, parent);
+        }
+
+        public static WlSubsurface GetSubsurface(IntPtr pointer, WlSurface surface, WlSurface parent)
+        {
+            var args = new ArgumentList(surface, parent);
+            var ptr = MarshalArrayConstructor(pointer, GetSubsurfaceOp, args.Pointer, WlSubsurface.Interface.Pointer);
             args.Dispose();
             return new WlSubsurface(ptr);
         }
@@ -3650,7 +3943,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void Destroy()
         {
-            Marshal(Pointer, DestroyOp);
+            Destroy(Pointer);
+        }
+
+        public static void Destroy(IntPtr pointer)
+        {
+            Marshal(pointer, DestroyOp);
         }
 
         /// <summary>
@@ -3675,8 +3973,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="y">y coordinate in the parent surface</param>
         public void SetPosition(int x, int y)
         {
+            SetPosition(Pointer, x, y);
+        }
+
+        public static void SetPosition(IntPtr pointer, int x, int y)
+        {
             var args = new ArgumentList(x, y);
-            MarshalArray(Pointer, SetPositionOp, args.Pointer);
+            MarshalArray(pointer, SetPositionOp, args.Pointer);
             args.Dispose();
         }
 
@@ -3698,9 +4001,14 @@ namespace OpenWindow.Backends.Wayland
         /// of its siblings and parent.
         /// </summary>
         /// <param name="sibling">the reference surface</param>
-        public void PlaceAbove(WlObject sibling)
+        public void PlaceAbove(WlSurface sibling)
         {
-            Marshal(Pointer, PlaceAboveOp);
+            PlaceAbove(Pointer, sibling);
+        }
+
+        public static void PlaceAbove(IntPtr pointer, WlSurface sibling)
+        {
+            Marshal(pointer, PlaceAboveOp);
         }
 
         /// <summary>
@@ -3708,9 +4016,14 @@ namespace OpenWindow.Backends.Wayland
         /// See wl_subsurface.place_above.
         /// </summary>
         /// <param name="sibling">the reference surface</param>
-        public void PlaceBelow(WlObject sibling)
+        public void PlaceBelow(WlSurface sibling)
         {
-            Marshal(Pointer, PlaceBelowOp);
+            PlaceBelow(Pointer, sibling);
+        }
+
+        public static void PlaceBelow(IntPtr pointer, WlSurface sibling)
+        {
+            Marshal(pointer, PlaceBelowOp);
         }
 
         /// <summary>
@@ -3730,7 +4043,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void SetSync()
         {
-            Marshal(Pointer, SetSyncOp);
+            SetSync(Pointer);
+        }
+
+        public static void SetSync(IntPtr pointer)
+        {
+            Marshal(pointer, SetSyncOp);
         }
 
         /// <summary>
@@ -3756,7 +4074,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public void SetDesync()
         {
-            Marshal(Pointer, SetDesyncOp);
+            SetDesync(Pointer);
+        }
+
+        public static void SetDesync(IntPtr pointer)
+        {
+            Marshal(pointer, SetDesyncOp);
         }
 
         #endregion

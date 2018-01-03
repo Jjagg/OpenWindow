@@ -9,46 +9,32 @@ namespace OpenWindow.Backends.Wayland
     internal class WaylandWindow : Window
     {
         #region Private Fields
-        
+
+        private WlSurface _wlSurface;
+        private XdgSurface _xdgSurface;
+        private XdgToplevel _xdgTopLevel;
+
         #endregion
         
         #region Constructor
 
-        public WaylandWindow(OpenGlSurfaceSettings glSettings, bool show)
+        public WaylandWindow(XdgWmBase xdgWmBase, WlSurface wlSurface, OpenGlSurfaceSettings glSettings, bool show)
             : base(false)
         {
-            var display = WlDisplay.Connect();
-            if (display == null)
-                throw CreateException("Failed to create Wayland display.");
-
-            var registry = display.GetRegistry();
-
-            registry.Global = RegistryGlobal;
-            registry.GlobalRemove = RegistryGlobalRemove;
-            registry.SetListener();
-
-            display.Roundtrip();
-            display.Roundtrip();
-            display.Flush();
+            _wlSurface = wlSurface;
+            wlSurface.Enter = SurfaceEnter;
+            wlSurface.Leave = SurfaceLeave;
+            _xdgSurface = xdgWmBase.GetXdgSurface(wlSurface);
+            _xdgTopLevel = _xdgSurface.GetToplevel();
+            wlSurface.Commit();
         }
 
-        private void RegistryGlobalRemove(IntPtr data, IntPtr iface, uint name)
+        private void SurfaceEnter(IntPtr data, IntPtr iface, IntPtr output)
         {
         }
 
-        private static void RegistryGlobal(IntPtr data, IntPtr registry, uint name, string iface, uint version)
+        private void SurfaceLeave(IntPtr data, IntPtr iface, IntPtr output)
         {
-            switch (iface)
-            {
-                case WlCompositor.InterfaceName:
-                    break;
-                case WlShm.InterfaceName:
-                    break;
-                case WlShell.InterfaceName:
-                    break;
-                case WlSeat.InterfaceName:
-                    break;
-            }
         }
 
         #endregion

@@ -77,6 +77,10 @@ namespace WaylandSharpGen
             if (protocolElement == null)
                 throw new Exception("No protocol element found!");
 
+            var protocolName = protocolElement.Attribute(NameAttrib).Value;
+            w.LineComment($"Protocol: {protocolName}");
+            w.NewLine();
+
             w.Using("System");
             w.Using("System.Runtime.InteropServices");
             w.Using("SMarshal = System.Runtime.InteropServices.Marshal");
@@ -86,7 +90,7 @@ namespace WaylandSharpGen
             var interfaceElements = protocolElement.Elements(InterfaceElement);
             var ifaces = interfaceElements.Select(e => new Interface(e)).ToArray();
 
-            w.BeginClass("WlInterfaces", AccessModifier.Internal, true, true);
+            w.BeginClass($"{Util.ToPascalCase(protocolName)}Interfaces", AccessModifier.Internal, true, true);
 
             w.BeginMethod("CleanUp", null, null, true, AccessModifier.Public);
 
@@ -95,7 +99,7 @@ namespace WaylandSharpGen
 
             w.CloseBlock();
 
-            w.CloseBlock(); // WlInterfaces*/
+            w.CloseBlock(); // {ProtocolName}Interfaces*/
 
             foreach (var iface in ifaces)
             {
@@ -263,8 +267,10 @@ namespace WaylandSharpGen
             ParseDescription(r.Element, w);
             ParseArgsDescription(r.Element, w);
 
-            var ps = new List<string>();
-            var argsString = $"Pointer, {r.NiceName + OpCodeSuffix}";
+            var parameters = new List<string>();
+            // arguments for calling the static variant of the method
+            var internalArgs = new List<string>();
+            var argsString = $"{r.NiceName + OpCodeSuffix}";
             var args = new List<string>();
 
             var ifaceArg = string.Empty;
@@ -279,10 +285,11 @@ namespace WaylandSharpGen
                     newId = true;
                     if (arg.Interface == null)
                     {
-                        ps.Add("WlInterface iface");
+                        parameters.Add("WlInterface iface");
                         ifaceArg = ", iface.Pointer";
                         ret = "T";
                         generic = true;
+                        internalArgs.Add("iface");
                     }
                     else
                     {
@@ -293,19 +300,31 @@ namespace WaylandSharpGen
                 else
                 {
                     if (arg.Type == ArgType.Object)
-                        args.Add(arg.InterfaceCls + ".Interface.Pointer");
+                    {
+                        parameters.Add(arg.InterfaceCls + " " + arg.Name);
+                    }
                     else
-                        args.Add(arg.Name);
-
-                    ps.Add(arg.ParamType + " " + arg.Name);
+                    {
+                        parameters.Add(arg.ParamType + " " + arg.Name);
+                    }
+                    args.Add(arg.Name);
+                    internalArgs.Add(arg.Name);
                 }
             }
 
-            var paramsString = ps.Any() ? ps.Aggregate((s1, s2) => s1 + ", " + s2) : string.Empty;
+            var internalArgsString = internalArgs.Any() ? ", " + internalArgs.Aggregate((s1, s2) => s1 + ", " + s2) : string.Empty;
+            var paramsString = parameters.Any() ? parameters.Aggregate((s1, s2) => s1 + ", " + s2) : string.Empty;
             string createReturn;
             if (generic)
             {
                 w.Line($"public T {r.NiceName}<T>({paramsString})");
+                w.Line("    where T : WlObject");
+                w.OpenBlock();
+                w.Line($"return {r.NiceName}<T>(Pointer{internalArgsString});");
+                w.CloseBlock();
+
+                w.NewLine();
+                w.Line($"public static T {r.NiceName}<T>(IntPtr pointer, {paramsString})");
                 w.Line("    where T : WlObject");
                 w.OpenBlock();
                 createReturn = "return (T) Activator.CreateInstance(typeof(T), new [] { ptr });";
@@ -313,6 +332,12 @@ namespace WaylandSharpGen
             else
             {
                 w.BeginMethod(r.NiceName, ret, paramsString);
+                w.Line((ret == "void" ? string.Empty : "return ") + $"{r.NiceName}(Pointer{internalArgsString});");
+                w.CloseBlock();
+                w.NewLine();
+
+                var paramsString2 = paramsString == string.Empty ? string.Empty : ", " + paramsString;
+                w.BeginMethod(r.NiceName, ret, "IntPtr pointer" + paramsString2, sttic: true);
                 createReturn = $"return new {ret}(ptr);";
             }
 
@@ -337,7 +362,7 @@ namespace WaylandSharpGen
                 methodName += "Constructor";
 
             var newPtr = ret != "void" ? "var ptr = " : string.Empty;
-            w.Line($"{newPtr}{methodName}({argsString});");
+            w.Line($"{newPtr}{methodName}(pointer, {argsString});");
             if (array)
                 w.Line("args.Dispose();");
             if (ret != "void")
