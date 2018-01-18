@@ -60,6 +60,8 @@ namespace OpenWindow.Backends.Windows
         public override void WaitEvent()
         {
             Native.GetMessage(out var nativeMessage, IntPtr.Zero, 0, 0);
+            Native.TranslateMessage(ref nativeMessage);
+            Native.DispatchMessage(ref nativeMessage);
         }
 
         // we need to keep a reference to the delegate so it is not garbage collected

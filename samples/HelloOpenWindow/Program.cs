@@ -3,7 +3,6 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using OpenWindow;
 
@@ -73,8 +72,7 @@ namespace HelloOpenWindow
 
             while (!_window.ShouldClose)
             {
-                _service.PumpEvents();
-                Thread.Sleep(10);
+                _service.WaitEvent();
             }
 
             // destroy the window
