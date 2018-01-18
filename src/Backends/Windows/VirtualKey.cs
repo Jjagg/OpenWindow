@@ -6,23 +6,24 @@ using System;
 
 namespace OpenWindow
 {
+    // https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
     [Flags]
-    public enum VirtualKey : int
+    internal enum VirtualKey : uint
     {
-        ///<summary>
-        ///Left mouse button
-        ///</summary>
+        /// <summary>
+        /// Left mouse button
+        /// </summary>
         Mouse1 = 0x01,
         ///<summary>
-        ///Right mouse button
+        /// Right mouse button
         ///</summary>
         Mouse2 = 0x02,
         ///<summary>
-        ///Control-break processing
+        /// Control-break processing
         ///</summary>
         Cancel = 0x03,
         ///<summary>
-        ///Middle mouse button (three-button mouse)
+        /// Middle mouse button (three-button mouse)
         ///</summary>
         Mouse3 = 0x04,
         ///<summary>
@@ -112,7 +113,7 @@ namespace OpenWindow
         ///<summary>
         /// IME mode change request
         ///</summary>
-        ModeCHange = 0x1F,
+        ModeChange = 0x1F,
         ///<summary>
         /// SPACEBAR
         ///</summary>
@@ -604,49 +605,49 @@ namespace OpenWindow
         ///<summary>
         /// The '+' key
         ///</summary>
-        OemPLUS = 0xBB,
+        OemPlus = 0xBB,
         ///<summary>
         /// The ',' key
         ///</summary>
-        OemCOMMA = 0xBC,
+        OemComma = 0xBC,
         ///<summary>
         /// The '-' key
         ///</summary>
-        OemMINUS = 0xBD,
+        OemMinus = 0xBD,
         ///<summary>
         /// The '.' key
         ///</summary>
-        OemPERIOD = 0xBE,
+        OemPeriod = 0xBE,
         ///<summary>
-        ///Used for miscellaneous characters; it can vary by keyboard.
+        /// Used for miscellaneous characters; it can vary by keyboard.
         ///</summary>
         Oem1 = 0xBA,
         ///<summary>
-        ///Used for miscellaneous characters; it can vary by keyboard.
+        /// Used for miscellaneous characters; it can vary by keyboard.
         ///</summary>
         Oem2 = 0xBF,
         ///<summary>
-        ///Used for miscellaneous characters; it can vary by keyboard.
+        /// Used for miscellaneous characters; it can vary by keyboard.
         ///</summary>
         Oem3 = 0xC0,
         ///<summary>
-        ///Used for miscellaneous characters; it can vary by keyboard.
+        /// Used for miscellaneous characters; it can vary by keyboard.
         ///</summary>
         Oem4 = 0xDB,
         ///<summary>
-        ///Used for miscellaneous characters; it can vary by keyboard.
+        /// Used for miscellaneous characters; it can vary by keyboard.
         ///</summary>
         Oem5 = 0xDC,
         ///<summary>
-        ///Used for miscellaneous characters; it can vary by keyboard.
+        /// Used for miscellaneous characters; it can vary by keyboard.
         ///</summary>
         Oem6 = 0xDD,
         ///<summary>
-        ///Used for miscellaneous characters; it can vary by keyboard.
+        /// Used for miscellaneous characters; it can vary by keyboard.
         ///</summary>
         Oem7 = 0xDE,
         ///<summary>
-        ///Used for miscellaneous characters; it can vary by keyboard.
+        /// Used for miscellaneous characters; it can vary by keyboard.
         ///</summary>
         Oem8 = 0xDF,
         ///<summary>
@@ -662,35 +663,35 @@ namespace OpenWindow
         ///</summary>
         Packet = 0xE7,
         ///<summary>
-        ///Attn key
+        /// Attn key
         ///</summary>
         Attn = 0xF6,
         ///<summary>
-        ///CrSel key
+        /// CrSel key
         ///</summary>
         CrSel = 0xF7,
         ///<summary>
-        ///ExSel key
+        /// ExSel key
         ///</summary>
         ExSel = 0xF8,
         ///<summary>
-        ///Erase EOF key
+        /// Erase EOF key
         ///</summary>
         EraseEOF = 0xF9,
         ///<summary>
-        ///Play key
+        /// Play key
         ///</summary>
         Play = 0xFA,
         ///<summary>
-        ///Zoom key
+        /// Zoom key
         ///</summary>
         Zoom = 0xFB,
         ///<summary>
-        ///PA1 key
+        /// PA1 key
         ///</summary>
         Pa1 = 0xFD,
         ///<summary>
-        ///Clear key
+        /// Clear key
         ///</summary>
         OemClear = 0xFE
     }

@@ -46,7 +46,7 @@ namespace OpenWindow
         {
             var msg = new Message(level, message, DateTime.Now);
             Messages.Add(msg);
-            OutputWriter?.Write(msg.ToString(_format));
+            OutputWriter?.WriteLine(msg.ToString(_format));
         }
 
         /// <summary>

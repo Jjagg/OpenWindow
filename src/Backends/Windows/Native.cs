@@ -124,6 +124,9 @@ namespace OpenWindow.Backends.Windows
         [DllImport("user32.dll", SetLastError = true)]
         public static extern short GetKeyState(VirtualKey nVirtKey);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern VirtualKey MapVirtualKey([In] uint key, [In] KeyMapType keyMapType);
+
         #endregion
 
         #region gdi

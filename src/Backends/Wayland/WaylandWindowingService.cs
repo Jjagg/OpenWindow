@@ -2,6 +2,8 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
+using System;
+
 namespace OpenWindow.Backends.Wayland
 {
     public class WaylandWindowingService : WindowingService
@@ -11,14 +13,24 @@ namespace OpenWindow.Backends.Wayland
         }
 
         public override Display[] Displays { get; }
-        public override Window CreateWindow()
+        public override Window CreateWindow(bool show = true)
         {
-            var window = new WaylandWindow(GlSettings);
+            var window = new WaylandWindow(GlSettings, show);
             return window;
         }
 
-        public override void Update()
+        public override Window WindowFromHandle(IntPtr handle)
         {
+            throw new NotImplementedException();
+        }
+
+        public override void PumpEvents()
+        {
+        }
+
+        public override void WaitEvent()
+        {
+            throw new System.NotImplementedException();
         }
 
         protected override void Dispose(bool disposing)

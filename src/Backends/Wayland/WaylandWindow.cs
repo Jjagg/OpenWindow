@@ -14,7 +14,8 @@ namespace OpenWindow.Backends.Wayland
         
         #region Constructor
 
-        public WaylandWindow(OpenGLWindowSettings glSettings)
+        public WaylandWindow(OpenGLWindowSettings glSettings, bool show)
+            : base(false)
         {
             var display = WlDisplay.Connect();
             if (display == null)
@@ -54,15 +55,11 @@ namespace OpenWindow.Backends.Wayland
         
         #region Window Properties
         
-        public override IntPtr Handle { get; }
-        public override bool Borderless { get; set; }
-        public override bool Resizable { get; set; }
-        public override bool IsFocused { get; set; }
         public override Point Position { get; set; }
-        public override Point Size { get; set; } public override Rectangle Bounds { get; set; }
+        public override Point Size { get; set; }
+        public override Rectangle Bounds { get; set; }
         public override Rectangle ClientBounds { get; set; }
-        public override string Title { get; set; }
-        
+
         #endregion
         
         #region Window Functions
@@ -72,23 +69,77 @@ namespace OpenWindow.Backends.Wayland
             throw new NotImplementedException();
         }
 
-        public override void Close()
-        {
-            throw new NotImplementedException();
-        }
-
         public override byte[] GetKeyboardState()
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsDown(VirtualKey key)
+        public override bool IsDown(Key key)
         {
             throw new NotImplementedException();
         }
-        
+
+        public override KeyMod GetKeyModifiers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsCapsLockOn()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsNumLockOn()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsScrollLockOn()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
-        
+
+        #region Protected Methods
+
+        protected override void InternalSetVisible(bool value)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void InternalMaximize()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void InternalMinimize()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void InternalRestore()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void InternalSetTitle(string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void InternalSetBorderless(bool value)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void InternalSetResizable(bool value)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #region Private Methods
 
         private void GlobalAddEvent(object data, IntPtr registry, uint id, string iface, uint version)

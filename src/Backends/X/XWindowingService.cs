@@ -19,13 +19,24 @@ namespace OpenWindow.Backends.X
                 throw new OpenWindowException("Failed to connect to the X server.");
         }
 
-        public override Window CreateWindow()
+        public override Window CreateWindow(bool show = true)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
-        public override void Update()
+        public override Window WindowFromHandle(IntPtr handle)
         {
+            throw new NotImplementedException();
+        }
+
+        public override void PumpEvents()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void WaitEvent()
+        {
+            throw new NotImplementedException();
         }
 
         protected override void Dispose(bool disposing)

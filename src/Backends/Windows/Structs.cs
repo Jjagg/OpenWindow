@@ -86,8 +86,8 @@ namespace OpenWindow.Backends.Windows
     {
         public short nSize;
         public short nVersion;
-        public int dwFlags;
-        public byte iPixelType;
+        public PfdFlags dwFlags;
+        public PfdType iPixelType;
         public byte cColorBits;
         public byte cRedBits;
         public byte cRedShift;

@@ -4,11 +4,19 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
 namespace OpenWindow
 {
+    // TODO every member 'protected' in WindowingService or Window should be made
+    // private protected once it's supported. I'm not doing this now to enforce
+    // that I don't use them outside the class hierarchy.
+
+    /// <summary>
+    /// Singleton object used to create and manage <see cref="Window"/> instances.
+    /// </summary>
     public abstract class WindowingService : IDisposable
     {
         #region Fields
@@ -30,6 +38,11 @@ namespace OpenWindow
         #region Singleton
 
         private static WindowingService _instance;
+
+        /// <summary>
+        /// Get the <see cref="WindowingService"/> instance.
+        /// </summary>
+        /// <returns>The <see cref="WindowingService"/> instance.</returns>
         public static WindowingService Get()
         {
             if (_instance == null)
@@ -103,29 +116,52 @@ namespace OpenWindow
 
         #region Logging
 
+        /// <summary>
+        /// Log a message with log level <see cref="OpenWindow.Logger.Level.Debug"/>.
+        /// Only included when the DEBUG symbol is set.
+        /// </summary>
+        /// <param name="message">Message to log.</param>
+        [Conditional("DEBUG")]
         public static void LogDebug(string message)
         {
             Log(Logger.Level.Debug, message);
         }
 
+        /// <summary>
+        /// Log a message with log level <see cref="OpenWindow.Logger.Level.Info"/>.
+        /// </summary>
+        /// <param name="message">Message to log.</param>
         public static void LogInfo(string message)
         {
             Log(Logger.Level.Info, message);
         }
 
+        /// <summary>
+        /// Log a message with log level <see cref="OpenWindow.Logger.Level.Warning"/>.
+        /// </summary>
+        /// <param name="message">Message to log.</param>
         public static void LogWarning(string message)
         {
             Log(Logger.Level.Warning, message);
         }
 
+        /// <summary>
+        /// Log a message with log level <see cref="OpenWindow.Logger.Level.Error"/>.
+        /// </summary>
+        /// <param name="message">Message to log.</param>
         public static void LogError(string message)
         {
             Log(Logger.Level.Error, message);
         }
 
-        internal static void Log(Logger.Level l, string content)
+        /// <summary>
+        /// Log a message.
+        /// </summary>
+        /// <param name="level">The log level.</param>
+        /// <param name="message">The message.</param>
+        private static void Log(Logger.Level level, string message)
         {
-            Logger.Log(l, content);
+            Logger.Log(level, message);
         }
 
         #endregion
@@ -155,14 +191,6 @@ namespace OpenWindow
         public abstract Display[] Displays { get; }
 
         /// <summary>
-        /// Set the output writer for log messages.
-        /// </summary>
-        public void SetLogWriter(TextWriter writer)
-        {
-            Logger.OutputWriter = writer;
-        }
-
-        /// <summary>
         /// Get a window owned by this service by its handle.
         /// </summary>
         /// <param name="handle">The native handle to the window.</param>
@@ -176,13 +204,29 @@ namespace OpenWindow
         /// <summary>
         /// Create a new <see cref="Window"/>.
         /// </summary>
-        /// <returns>A new <see cref="Window"/></returns>
-        public abstract Window CreateWindow();
+        /// <param name="show">
+        /// If <code>true</code>, makes the window visible, else keeps it hidden.
+        /// The window can be made visible by calling <see cref="Window.Show"/>.
+        /// </param>
+        /// <returns>A new <see cref="Window"/>.</returns>
+        public abstract Window CreateWindow(bool show = true);
 
         /// <summary>
-        /// Update the windows owned by this service.
+        /// Create a <see cref="Window"/> given a handle to an existing native window.
         /// </summary>
-        public abstract void Update();
+        /// <param name="handle">Handle to an existing window.</param>
+        /// <returns>A new <see cref="Window"/> created from the native <paramref name="handle"/>.</returns>
+        public abstract Window WindowFromHandle(IntPtr handle);
+
+        /// <summary>
+        /// Process all received events for windows managed by this service.
+        /// </summary>
+        public abstract void PumpEvents();
+
+        /// <summary>
+        /// Wait for the next event and process it before returning control to the caller.
+        /// </summary>
+        public abstract void WaitEvent();
 
         #endregion
 

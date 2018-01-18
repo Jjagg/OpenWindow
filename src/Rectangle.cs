@@ -69,5 +69,10 @@ namespace OpenWindow
         {
             return !(a == b);
         }
+
+        public override string ToString()
+        {
+            return $"{X}, {Y}, {Width}, {Height}";
+        }
     }
 }

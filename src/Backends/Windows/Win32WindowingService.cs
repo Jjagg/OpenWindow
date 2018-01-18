@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace OpenWindow.Backends.Windows
@@ -15,6 +16,7 @@ namespace OpenWindow.Backends.Windows
 
         public Win32WindowingService()
         {
+            KeyMap.Create();
             WndProc = ProcessWindowMessage;
         }
 
@@ -30,23 +32,22 @@ namespace OpenWindow.Backends.Windows
                 }, IntPtr.Zero);
         }
 
-        public override Window CreateWindow()
+        /// <inheritdoc />
+        public override Window CreateWindow(bool show = true)
         {
-            var window = new Win32Window(GlSettings);
-
-            window.Closing += HandleClosing;
+            var window = new Win32Window(GlSettings, show);
             ManagedWindows.Add(window.Handle, window);
-
             return window;
         }
 
-        private void HandleClosing(object sender, EventArgs args)
+        /// <inheritdoc />
+        public override Window WindowFromHandle(IntPtr handle)
         {
-            var window = sender as Window;
-            ManagedWindows.Remove(window.Handle);
+            return new Win32Window(handle);
         }
 
-        public override void Update()
+        /// <inheritdoc />
+        public override void PumpEvents()
         {
             while (Native.PeekMessage(out var nativeMessage, IntPtr.Zero, 0, 0, 1))
             {
@@ -54,9 +55,15 @@ namespace OpenWindow.Backends.Windows
                 Native.DispatchMessage(ref nativeMessage);
             }
         }
-        
+
+        /// <inheritdoc />
+        public override void WaitEvent()
+        {
+            Native.GetMessage(out var nativeMessage, IntPtr.Zero, 0, 0);
+        }
+
         // we need to keep a reference to the delegate so it is not garbage collected
-        public WndProc WndProc;
+        public readonly WndProc WndProc;
 
         private IntPtr ProcessWindowMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
         {
@@ -64,25 +71,69 @@ namespace OpenWindow.Backends.Windows
             {
                 switch (msg)
                 {
-                    case WindowMessage.Activate:
-                        window.IsFocused = (short) wParam != 0;
-                        break;
+                    case WindowMessage.SetFocus:
+                        window._focused = true;
+                        window.RaiseFocusChanged(true);
+                        return IntPtr.Zero;
+
+                    case WindowMessage.KillFocus:
+                        window._focused = false;
+                        window.RaiseFocusChanged(false);
+                        return IntPtr.Zero;
+
                     case WindowMessage.KeyDown:
-                        // TODO
+                    case WindowMessage.SysKeyDown:
+                    {
+                        var lp = ParamToInt(lParam);
+                        var scanCode = (uint) ((lp >> 16) & 0xFF);
+                        var vk = Native.MapVirtualKey(scanCode, KeyMapType.ScToVkEx);
+                        var key = KeyMap.Map[(int) vk];
+                        var c = (char) Native.MapVirtualKey((uint) vk, KeyMapType.VkToChar);
+                        var repeats = lp & 0xFFFF;
+                        window.RaiseKeyDown(key, repeats, (int) scanCode, c);
+                        if (repeats == 0)
+                            window.RaiseKeyPressed(key, (int) scanCode, c);
                         break;
+                    }
                     case WindowMessage.KeyUp:
-                        // TODO
+                    case WindowMessage.SysKeyUp:
+                    {
+                        var lp = ParamToInt(lParam);
+                        var scanCode = (uint) ((lp >> 16) & 0xFF);
+                        var vk = Native.MapVirtualKey(scanCode, KeyMapType.ScToVkEx);
+                        var key = KeyMap.Map[(int) vk];
+                        var c = (char) Native.MapVirtualKey((uint) vk, KeyMapType.VkToChar);
+                        window.RaiseKeyUp(key, (int) scanCode, c);
                         break;
+                    }
                     case WindowMessage.Char:
-                        window.RaiseTextInput((char) wParam);
-                        break;
+                    {
+                        var lp = ParamToInt(lParam);
+                        var scanCode = (uint) ((lp >> 16) & 0xFF);
+                        var vk = Native.MapVirtualKey(scanCode, KeyMapType.ScToVkEx);
+                        if (vk != VirtualKey.Escape && vk != VirtualKey.Tab && vk != VirtualKey.Back)
+                            window.RaiseTextInput((char) wParam);
+
+                        return IntPtr.Zero;
+                    }
+
+                    case WindowMessage.Close:
+                        window.Close();
+                        return IntPtr.Zero;
+
                     case WindowMessage.Destroy:
+                        ManagedWindows.Remove(window.Handle);
                         window.RaiseClosing();
-                        break;
+                        return IntPtr.Zero;
                 }
             }
 
             return Native.DefWindowProc(hWnd, msg, wParam, lParam);
+        }
+
+        private int ParamToInt(IntPtr param)
+        {
+             return (int) (param.ToInt64() & 0xFFFF0000);
         }
     }
 }

@@ -14,13 +14,30 @@ namespace OpenWindow.Backends.Windows
 
     internal enum WindowMessage : uint
     {
-        Destroy  = 0x0002,
-        Activate = 0x0006,
-        Close    = 0x0010,
-        Quit     = 0x0012,
-        KeyDown  = 0x0100,
-        KeyUp    = 0x0101,
-        Char     = 0x0102,
+        Destroy     = 0x0002,
+        Activate    = 0x0006,
+        SetFocus    = 0x0007,
+        KillFocus   = 0x0008,
+        Close       = 0x0010,
+        Quit        = 0x0012,
+        KeyDown     = 0x0100,
+        KeyUp       = 0x0101,
+        Char        = 0x0102,
+        SysKeyDown  = 0x0104,
+        SysKeyUp    = 0x0105,
+    }
+
+    [Flags]
+    internal enum PfdFlags
+    {
+        DoubleBuffer  = 1,
+        DrawToWindow  = 1 << 2,
+        SupportOpengl = 1 << 5
+    }
+
+    internal enum PfdType : byte
+    {
+        Rgba = 0
     }
 
     internal enum ShowWindowCommand
@@ -153,5 +170,13 @@ namespace OpenWindow.Backends.Windows
         AuxBuffers                  = 0x2024,
         SampleBuffers               = 0x2041,
         Samples                     = 0x2042,
+    }
+
+    internal enum KeyMapType : uint
+    {
+        VktoSc = 0,
+        ScToVk = 1,
+        VkToChar = 2,
+        ScToVkEx = 3
     }
 }

@@ -58,67 +58,15 @@ namespace OpenGL
 
         #endregion
 
-        #region Structs
-
-        [StructLayout(LayoutKind.Sequential)]
-        struct PixelFormatDescriptor
-        {
-            public short nSize;
-            public short nVersion;
-            public int dwFlags;
-            public byte iPixelType;
-            public byte cColorBits;
-            public byte cRedBits;
-            public byte cRedShift;
-            public byte cGreenBits;
-            public byte cGreenShift;
-            public byte cBlueBits;
-            public byte cBlueShift;
-            public byte cAlphaBits;
-            public byte cAlphaShift;
-            public byte cAccumBits;
-            public byte cAccumRedBits;
-            public byte cAccumGreenBits;
-            public byte cAccumBlueBits;
-            public byte cAccumAlphaBits;
-            public byte cDepthBits;
-            public byte cStencilBits;
-            public byte cAuxBuffers;
-            public byte iLayerType;
-            public byte bReserved;
-            public int dwLayerMask;
-            public int dwVisibleMask;
-            public int dwDamageMask;
-        }
-
-        private const int PfdDrawToWindow = 4;
-        private const int PfdSupportOpenGL = 32;
-        private const int PfdTypeRgba = 0;
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Rect
-        {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-        }
-
-        #endregion
-
         private static Window _window;
         private static IntPtr _hdc;
         private static IntPtr _hrc;
-
-        private static bool _closing;
 
         static void Main(string[] args)
         {
             var service = WindowingService.Get();
 
             _window = CreateWindow(service);
-
-            _window.Closing += HandleClosing;
 
             _hdc = GetDC(_window.Handle);
             _hrc = WglCreateContext(_hdc);
@@ -129,15 +77,10 @@ namespace OpenGL
             // enable multisampling
             glEnable(0x809D);
 
-            service.Update();
+            service.PumpEvents();
 
-            while (true)
+            while (!_window.ShouldClose)
             {
-                service.Update();
-
-                if (_closing)
-                    break;
-
                 DrawTriangle();
 
                 _hdc = GetDC(_window.Handle);
@@ -148,13 +91,10 @@ namespace OpenGL
                 ReleaseDC(_window.Handle, _hdc);
 
                 Thread.Sleep(10);
-            }
-        }
 
-        private static void HandleClosing(object sender, EventArgs args)
-        {
-            _closing = true;
-            
+                service.PumpEvents();
+            }
+
             WglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
             WglDeleteContext(_hrc);
         }

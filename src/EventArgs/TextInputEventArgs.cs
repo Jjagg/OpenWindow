@@ -8,7 +8,7 @@ namespace OpenWindow
     {
         public readonly char Character;
 
-        public TextInputEventArgs(char character)
+        internal TextInputEventArgs(char character)
         {
             Character = character;
         }
