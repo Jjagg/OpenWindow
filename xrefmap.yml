@@ -1225,120 +1225,120 @@ references:
   commentId: Overload:OpenWindow.MouseState.X2Down
   fullName: OpenWindow.MouseState.X2Down
   nameWithType: MouseState.X2Down
-- uid: OpenWindow.OpenGLWindowSettings
-  name: OpenGLWindowSettings
-  href: _api/OpenWindow.OpenGLWindowSettings.html
-  commentId: T:OpenWindow.OpenGLWindowSettings
-  fullName: OpenWindow.OpenGLWindowSettings
-  nameWithType: OpenGLWindowSettings
-- uid: OpenWindow.OpenGLWindowSettings.AlphaSize
+- uid: OpenWindow.OpenGlSurfaceSettings
+  name: OpenGlSurfaceSettings
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html
+  commentId: T:OpenWindow.OpenGlSurfaceSettings
+  fullName: OpenWindow.OpenGlSurfaceSettings
+  nameWithType: OpenGlSurfaceSettings
+- uid: OpenWindow.OpenGlSurfaceSettings.AlphaSize
   name: AlphaSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_AlphaSize
-  commentId: P:OpenWindow.OpenGLWindowSettings.AlphaSize
-  fullName: OpenWindow.OpenGLWindowSettings.AlphaSize
-  nameWithType: OpenGLWindowSettings.AlphaSize
-- uid: OpenWindow.OpenGLWindowSettings.AlphaSize*
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_AlphaSize
+  commentId: P:OpenWindow.OpenGlSurfaceSettings.AlphaSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.AlphaSize
+  nameWithType: OpenGlSurfaceSettings.AlphaSize
+- uid: OpenWindow.OpenGlSurfaceSettings.AlphaSize*
   name: AlphaSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_AlphaSize_
-  commentId: Overload:OpenWindow.OpenGLWindowSettings.AlphaSize
-  fullName: OpenWindow.OpenGLWindowSettings.AlphaSize
-  nameWithType: OpenGLWindowSettings.AlphaSize
-- uid: OpenWindow.OpenGLWindowSettings.BlueSize
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_AlphaSize_
+  commentId: Overload:OpenWindow.OpenGlSurfaceSettings.AlphaSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.AlphaSize
+  nameWithType: OpenGlSurfaceSettings.AlphaSize
+- uid: OpenWindow.OpenGlSurfaceSettings.BlueSize
   name: BlueSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_BlueSize
-  commentId: P:OpenWindow.OpenGLWindowSettings.BlueSize
-  fullName: OpenWindow.OpenGLWindowSettings.BlueSize
-  nameWithType: OpenGLWindowSettings.BlueSize
-- uid: OpenWindow.OpenGLWindowSettings.BlueSize*
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_BlueSize
+  commentId: P:OpenWindow.OpenGlSurfaceSettings.BlueSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.BlueSize
+  nameWithType: OpenGlSurfaceSettings.BlueSize
+- uid: OpenWindow.OpenGlSurfaceSettings.BlueSize*
   name: BlueSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_BlueSize_
-  commentId: Overload:OpenWindow.OpenGLWindowSettings.BlueSize
-  fullName: OpenWindow.OpenGLWindowSettings.BlueSize
-  nameWithType: OpenGLWindowSettings.BlueSize
-- uid: OpenWindow.OpenGLWindowSettings.DepthSize
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_BlueSize_
+  commentId: Overload:OpenWindow.OpenGlSurfaceSettings.BlueSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.BlueSize
+  nameWithType: OpenGlSurfaceSettings.BlueSize
+- uid: OpenWindow.OpenGlSurfaceSettings.DepthSize
   name: DepthSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_DepthSize
-  commentId: P:OpenWindow.OpenGLWindowSettings.DepthSize
-  fullName: OpenWindow.OpenGLWindowSettings.DepthSize
-  nameWithType: OpenGLWindowSettings.DepthSize
-- uid: OpenWindow.OpenGLWindowSettings.DepthSize*
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_DepthSize
+  commentId: P:OpenWindow.OpenGlSurfaceSettings.DepthSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.DepthSize
+  nameWithType: OpenGlSurfaceSettings.DepthSize
+- uid: OpenWindow.OpenGlSurfaceSettings.DepthSize*
   name: DepthSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_DepthSize_
-  commentId: Overload:OpenWindow.OpenGLWindowSettings.DepthSize
-  fullName: OpenWindow.OpenGLWindowSettings.DepthSize
-  nameWithType: OpenGLWindowSettings.DepthSize
-- uid: OpenWindow.OpenGLWindowSettings.DoubleBuffer
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_DepthSize_
+  commentId: Overload:OpenWindow.OpenGlSurfaceSettings.DepthSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.DepthSize
+  nameWithType: OpenGlSurfaceSettings.DepthSize
+- uid: OpenWindow.OpenGlSurfaceSettings.DoubleBuffer
   name: DoubleBuffer
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_DoubleBuffer
-  commentId: P:OpenWindow.OpenGLWindowSettings.DoubleBuffer
-  fullName: OpenWindow.OpenGLWindowSettings.DoubleBuffer
-  nameWithType: OpenGLWindowSettings.DoubleBuffer
-- uid: OpenWindow.OpenGLWindowSettings.DoubleBuffer*
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_DoubleBuffer
+  commentId: P:OpenWindow.OpenGlSurfaceSettings.DoubleBuffer
+  fullName: OpenWindow.OpenGlSurfaceSettings.DoubleBuffer
+  nameWithType: OpenGlSurfaceSettings.DoubleBuffer
+- uid: OpenWindow.OpenGlSurfaceSettings.DoubleBuffer*
   name: DoubleBuffer
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_DoubleBuffer_
-  commentId: Overload:OpenWindow.OpenGLWindowSettings.DoubleBuffer
-  fullName: OpenWindow.OpenGLWindowSettings.DoubleBuffer
-  nameWithType: OpenGLWindowSettings.DoubleBuffer
-- uid: OpenWindow.OpenGLWindowSettings.EnableOpenGl
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_DoubleBuffer_
+  commentId: Overload:OpenWindow.OpenGlSurfaceSettings.DoubleBuffer
+  fullName: OpenWindow.OpenGlSurfaceSettings.DoubleBuffer
+  nameWithType: OpenGlSurfaceSettings.DoubleBuffer
+- uid: OpenWindow.OpenGlSurfaceSettings.EnableOpenGl
   name: EnableOpenGl
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_EnableOpenGl
-  commentId: P:OpenWindow.OpenGLWindowSettings.EnableOpenGl
-  fullName: OpenWindow.OpenGLWindowSettings.EnableOpenGl
-  nameWithType: OpenGLWindowSettings.EnableOpenGl
-- uid: OpenWindow.OpenGLWindowSettings.EnableOpenGl*
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_EnableOpenGl
+  commentId: P:OpenWindow.OpenGlSurfaceSettings.EnableOpenGl
+  fullName: OpenWindow.OpenGlSurfaceSettings.EnableOpenGl
+  nameWithType: OpenGlSurfaceSettings.EnableOpenGl
+- uid: OpenWindow.OpenGlSurfaceSettings.EnableOpenGl*
   name: EnableOpenGl
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_EnableOpenGl_
-  commentId: Overload:OpenWindow.OpenGLWindowSettings.EnableOpenGl
-  fullName: OpenWindow.OpenGLWindowSettings.EnableOpenGl
-  nameWithType: OpenGLWindowSettings.EnableOpenGl
-- uid: OpenWindow.OpenGLWindowSettings.GreenSize
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_EnableOpenGl_
+  commentId: Overload:OpenWindow.OpenGlSurfaceSettings.EnableOpenGl
+  fullName: OpenWindow.OpenGlSurfaceSettings.EnableOpenGl
+  nameWithType: OpenGlSurfaceSettings.EnableOpenGl
+- uid: OpenWindow.OpenGlSurfaceSettings.GreenSize
   name: GreenSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_GreenSize
-  commentId: P:OpenWindow.OpenGLWindowSettings.GreenSize
-  fullName: OpenWindow.OpenGLWindowSettings.GreenSize
-  nameWithType: OpenGLWindowSettings.GreenSize
-- uid: OpenWindow.OpenGLWindowSettings.GreenSize*
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_GreenSize
+  commentId: P:OpenWindow.OpenGlSurfaceSettings.GreenSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.GreenSize
+  nameWithType: OpenGlSurfaceSettings.GreenSize
+- uid: OpenWindow.OpenGlSurfaceSettings.GreenSize*
   name: GreenSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_GreenSize_
-  commentId: Overload:OpenWindow.OpenGLWindowSettings.GreenSize
-  fullName: OpenWindow.OpenGLWindowSettings.GreenSize
-  nameWithType: OpenGLWindowSettings.GreenSize
-- uid: OpenWindow.OpenGLWindowSettings.MultiSampleCount
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_GreenSize_
+  commentId: Overload:OpenWindow.OpenGlSurfaceSettings.GreenSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.GreenSize
+  nameWithType: OpenGlSurfaceSettings.GreenSize
+- uid: OpenWindow.OpenGlSurfaceSettings.MultiSampleCount
   name: MultiSampleCount
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_MultiSampleCount
-  commentId: P:OpenWindow.OpenGLWindowSettings.MultiSampleCount
-  fullName: OpenWindow.OpenGLWindowSettings.MultiSampleCount
-  nameWithType: OpenGLWindowSettings.MultiSampleCount
-- uid: OpenWindow.OpenGLWindowSettings.MultiSampleCount*
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_MultiSampleCount
+  commentId: P:OpenWindow.OpenGlSurfaceSettings.MultiSampleCount
+  fullName: OpenWindow.OpenGlSurfaceSettings.MultiSampleCount
+  nameWithType: OpenGlSurfaceSettings.MultiSampleCount
+- uid: OpenWindow.OpenGlSurfaceSettings.MultiSampleCount*
   name: MultiSampleCount
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_MultiSampleCount_
-  commentId: Overload:OpenWindow.OpenGLWindowSettings.MultiSampleCount
-  fullName: OpenWindow.OpenGLWindowSettings.MultiSampleCount
-  nameWithType: OpenGLWindowSettings.MultiSampleCount
-- uid: OpenWindow.OpenGLWindowSettings.RedSize
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_MultiSampleCount_
+  commentId: Overload:OpenWindow.OpenGlSurfaceSettings.MultiSampleCount
+  fullName: OpenWindow.OpenGlSurfaceSettings.MultiSampleCount
+  nameWithType: OpenGlSurfaceSettings.MultiSampleCount
+- uid: OpenWindow.OpenGlSurfaceSettings.RedSize
   name: RedSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_RedSize
-  commentId: P:OpenWindow.OpenGLWindowSettings.RedSize
-  fullName: OpenWindow.OpenGLWindowSettings.RedSize
-  nameWithType: OpenGLWindowSettings.RedSize
-- uid: OpenWindow.OpenGLWindowSettings.RedSize*
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_RedSize
+  commentId: P:OpenWindow.OpenGlSurfaceSettings.RedSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.RedSize
+  nameWithType: OpenGlSurfaceSettings.RedSize
+- uid: OpenWindow.OpenGlSurfaceSettings.RedSize*
   name: RedSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_RedSize_
-  commentId: Overload:OpenWindow.OpenGLWindowSettings.RedSize
-  fullName: OpenWindow.OpenGLWindowSettings.RedSize
-  nameWithType: OpenGLWindowSettings.RedSize
-- uid: OpenWindow.OpenGLWindowSettings.StencilSize
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_RedSize_
+  commentId: Overload:OpenWindow.OpenGlSurfaceSettings.RedSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.RedSize
+  nameWithType: OpenGlSurfaceSettings.RedSize
+- uid: OpenWindow.OpenGlSurfaceSettings.StencilSize
   name: StencilSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_StencilSize
-  commentId: P:OpenWindow.OpenGLWindowSettings.StencilSize
-  fullName: OpenWindow.OpenGLWindowSettings.StencilSize
-  nameWithType: OpenGLWindowSettings.StencilSize
-- uid: OpenWindow.OpenGLWindowSettings.StencilSize*
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_StencilSize
+  commentId: P:OpenWindow.OpenGlSurfaceSettings.StencilSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.StencilSize
+  nameWithType: OpenGlSurfaceSettings.StencilSize
+- uid: OpenWindow.OpenGlSurfaceSettings.StencilSize*
   name: StencilSize
-  href: _api/OpenWindow.OpenGLWindowSettings.html#OpenWindow_OpenGLWindowSettings_StencilSize_
-  commentId: Overload:OpenWindow.OpenGLWindowSettings.StencilSize
-  fullName: OpenWindow.OpenGLWindowSettings.StencilSize
-  nameWithType: OpenGLWindowSettings.StencilSize
+  href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_StencilSize_
+  commentId: Overload:OpenWindow.OpenGlSurfaceSettings.StencilSize
+  fullName: OpenWindow.OpenGlSurfaceSettings.StencilSize
+  nameWithType: OpenGlSurfaceSettings.StencilSize
 - uid: OpenWindow.OpenWindowException
   name: OpenWindowException
   href: _api/OpenWindow.OpenWindowException.html
@@ -1486,6 +1486,12 @@ references:
   commentId: M:OpenWindow.Point.op_Subtraction(OpenWindow.Point,OpenWindow.Point)
   fullName: OpenWindow.Point.Subtraction(OpenWindow.Point, OpenWindow.Point)
   nameWithType: Point.Subtraction(Point, Point)
+- uid: OpenWindow.Point.op_Subtraction(OpenWindow.Point,OpenWindow.Size)
+  name: Subtraction(Point, Size)
+  href: _api/OpenWindow.Point.html#OpenWindow_Point_op_Subtraction_OpenWindow_Point_OpenWindow_Size_
+  commentId: M:OpenWindow.Point.op_Subtraction(OpenWindow.Point,OpenWindow.Size)
+  fullName: OpenWindow.Point.Subtraction(OpenWindow.Point, OpenWindow.Size)
+  nameWithType: Point.Subtraction(Point, Size)
 - uid: OpenWindow.Point.op_Subtraction*
   name: Subtraction
   href: _api/OpenWindow.Point.html#OpenWindow_Point_op_Subtraction_
@@ -1528,6 +1534,12 @@ references:
   commentId: T:OpenWindow.Rectangle
   fullName: OpenWindow.Rectangle
   nameWithType: Rectangle
+- uid: OpenWindow.Rectangle.#ctor(OpenWindow.Point,OpenWindow.Size)
+  name: Rectangle(Point, Size)
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle__ctor_OpenWindow_Point_OpenWindow_Size_
+  commentId: M:OpenWindow.Rectangle.#ctor(OpenWindow.Point,OpenWindow.Size)
+  fullName: OpenWindow.Rectangle.Rectangle(OpenWindow.Point, OpenWindow.Size)
+  nameWithType: Rectangle.Rectangle(Point, Size)
 - uid: OpenWindow.Rectangle.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)
   name: Rectangle(Int32, Int32, Int32, Int32)
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle__ctor_System_Int32_System_Int32_System_Int32_System_Int32_
@@ -1552,6 +1564,72 @@ references:
   commentId: Overload:OpenWindow.Rectangle.Bottom
   fullName: OpenWindow.Rectangle.Bottom
   nameWithType: Rectangle.Bottom
+- uid: OpenWindow.Rectangle.BottomLeft
+  name: BottomLeft
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_BottomLeft
+  commentId: P:OpenWindow.Rectangle.BottomLeft
+  fullName: OpenWindow.Rectangle.BottomLeft
+  nameWithType: Rectangle.BottomLeft
+- uid: OpenWindow.Rectangle.BottomLeft*
+  name: BottomLeft
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_BottomLeft_
+  commentId: Overload:OpenWindow.Rectangle.BottomLeft
+  fullName: OpenWindow.Rectangle.BottomLeft
+  nameWithType: Rectangle.BottomLeft
+- uid: OpenWindow.Rectangle.BottomRight
+  name: BottomRight
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_BottomRight
+  commentId: P:OpenWindow.Rectangle.BottomRight
+  fullName: OpenWindow.Rectangle.BottomRight
+  nameWithType: Rectangle.BottomRight
+- uid: OpenWindow.Rectangle.BottomRight*
+  name: BottomRight
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_BottomRight_
+  commentId: Overload:OpenWindow.Rectangle.BottomRight
+  fullName: OpenWindow.Rectangle.BottomRight
+  nameWithType: Rectangle.BottomRight
+- uid: OpenWindow.Rectangle.Center
+  name: Center
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Center
+  commentId: P:OpenWindow.Rectangle.Center
+  fullName: OpenWindow.Rectangle.Center
+  nameWithType: Rectangle.Center
+- uid: OpenWindow.Rectangle.Center*
+  name: Center
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Center_
+  commentId: Overload:OpenWindow.Rectangle.Center
+  fullName: OpenWindow.Rectangle.Center
+  nameWithType: Rectangle.Center
+- uid: OpenWindow.Rectangle.Deconstruct(OpenWindow.Point@,OpenWindow.Size@)
+  name: Deconstruct(out Point, out Size)
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Deconstruct_OpenWindow_Point__OpenWindow_Size__
+  commentId: M:OpenWindow.Rectangle.Deconstruct(OpenWindow.Point@,OpenWindow.Size@)
+  name.vb: Deconstruct(ByRef Point, ByRef Size)
+  fullName: OpenWindow.Rectangle.Deconstruct(out OpenWindow.Point, out OpenWindow.Size)
+  fullName.vb: OpenWindow.Rectangle.Deconstruct(ByRef OpenWindow.Point, ByRef OpenWindow.Size)
+  nameWithType: Rectangle.Deconstruct(out Point, out Size)
+  nameWithType.vb: Rectangle.Deconstruct(ByRef Point, ByRef Size)
+- uid: OpenWindow.Rectangle.Deconstruct(System.Int32@,System.Int32@,System.Int32@,System.Int32@)
+  name: Deconstruct(out Int32, out Int32, out Int32, out Int32)
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Deconstruct_System_Int32__System_Int32__System_Int32__System_Int32__
+  commentId: M:OpenWindow.Rectangle.Deconstruct(System.Int32@,System.Int32@,System.Int32@,System.Int32@)
+  name.vb: Deconstruct(ByRef Int32, ByRef Int32, ByRef Int32, ByRef Int32)
+  fullName: OpenWindow.Rectangle.Deconstruct(out System.Int32, out System.Int32, out System.Int32, out System.Int32)
+  fullName.vb: OpenWindow.Rectangle.Deconstruct(ByRef System.Int32, ByRef System.Int32, ByRef System.Int32, ByRef System.Int32)
+  nameWithType: Rectangle.Deconstruct(out Int32, out Int32, out Int32, out Int32)
+  nameWithType.vb: Rectangle.Deconstruct(ByRef Int32, ByRef Int32, ByRef Int32, ByRef Int32)
+- uid: OpenWindow.Rectangle.Deconstruct*
+  name: Deconstruct
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Deconstruct_
+  commentId: Overload:OpenWindow.Rectangle.Deconstruct
+  fullName: OpenWindow.Rectangle.Deconstruct
+  nameWithType: Rectangle.Deconstruct
+- uid: OpenWindow.Rectangle.Empty
+  name: Empty
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Empty
+  commentId: F:OpenWindow.Rectangle.Empty
+  fullName: OpenWindow.Rectangle.Empty
+  nameWithType: Rectangle.Empty
 - uid: OpenWindow.Rectangle.Equals(OpenWindow.Rectangle)
   name: Equals(Rectangle)
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Equals_OpenWindow_Rectangle_
@@ -1570,6 +1648,30 @@ references:
   commentId: Overload:OpenWindow.Rectangle.Equals
   fullName: OpenWindow.Rectangle.Equals
   nameWithType: Rectangle.Equals
+- uid: OpenWindow.Rectangle.FromExtremes(OpenWindow.Point,OpenWindow.Point)
+  name: FromExtremes(Point, Point)
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_FromExtremes_OpenWindow_Point_OpenWindow_Point_
+  commentId: M:OpenWindow.Rectangle.FromExtremes(OpenWindow.Point,OpenWindow.Point)
+  fullName: OpenWindow.Rectangle.FromExtremes(OpenWindow.Point, OpenWindow.Point)
+  nameWithType: Rectangle.FromExtremes(Point, Point)
+- uid: OpenWindow.Rectangle.FromExtremes*
+  name: FromExtremes
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_FromExtremes_
+  commentId: Overload:OpenWindow.Rectangle.FromExtremes
+  fullName: OpenWindow.Rectangle.FromExtremes
+  nameWithType: Rectangle.FromExtremes
+- uid: OpenWindow.Rectangle.FromHalfExtents(OpenWindow.Point,OpenWindow.Size)
+  name: FromHalfExtents(Point, Size)
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_FromHalfExtents_OpenWindow_Point_OpenWindow_Size_
+  commentId: M:OpenWindow.Rectangle.FromHalfExtents(OpenWindow.Point,OpenWindow.Size)
+  fullName: OpenWindow.Rectangle.FromHalfExtents(OpenWindow.Point, OpenWindow.Size)
+  nameWithType: Rectangle.FromHalfExtents(Point, Size)
+- uid: OpenWindow.Rectangle.FromHalfExtents*
+  name: FromHalfExtents
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_FromHalfExtents_
+  commentId: Overload:OpenWindow.Rectangle.FromHalfExtents
+  fullName: OpenWindow.Rectangle.FromHalfExtents
+  nameWithType: Rectangle.FromHalfExtents
 - uid: OpenWindow.Rectangle.GetHashCode
   name: GetHashCode()
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_GetHashCode
@@ -1582,12 +1684,54 @@ references:
   commentId: Overload:OpenWindow.Rectangle.GetHashCode
   fullName: OpenWindow.Rectangle.GetHashCode
   nameWithType: Rectangle.GetHashCode
+- uid: OpenWindow.Rectangle.GetPoints
+  name: GetPoints()
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_GetPoints
+  commentId: M:OpenWindow.Rectangle.GetPoints
+  fullName: OpenWindow.Rectangle.GetPoints()
+  nameWithType: Rectangle.GetPoints()
+- uid: OpenWindow.Rectangle.GetPoints*
+  name: GetPoints
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_GetPoints_
+  commentId: Overload:OpenWindow.Rectangle.GetPoints
+  fullName: OpenWindow.Rectangle.GetPoints
+  nameWithType: Rectangle.GetPoints
+- uid: OpenWindow.Rectangle.HalfExtents
+  name: HalfExtents
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_HalfExtents
+  commentId: P:OpenWindow.Rectangle.HalfExtents
+  fullName: OpenWindow.Rectangle.HalfExtents
+  nameWithType: Rectangle.HalfExtents
+- uid: OpenWindow.Rectangle.HalfExtents*
+  name: HalfExtents
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_HalfExtents_
+  commentId: Overload:OpenWindow.Rectangle.HalfExtents
+  fullName: OpenWindow.Rectangle.HalfExtents
+  nameWithType: Rectangle.HalfExtents
 - uid: OpenWindow.Rectangle.Height
   name: Height
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Height
   commentId: F:OpenWindow.Rectangle.Height
   fullName: OpenWindow.Rectangle.Height
   nameWithType: Rectangle.Height
+- uid: OpenWindow.Rectangle.Inflate(System.Int32)
+  name: Inflate(Int32)
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Inflate_System_Int32_
+  commentId: M:OpenWindow.Rectangle.Inflate(System.Int32)
+  fullName: OpenWindow.Rectangle.Inflate(System.Int32)
+  nameWithType: Rectangle.Inflate(Int32)
+- uid: OpenWindow.Rectangle.Inflate(System.Int32,System.Int32)
+  name: Inflate(Int32, Int32)
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Inflate_System_Int32_System_Int32_
+  commentId: M:OpenWindow.Rectangle.Inflate(System.Int32,System.Int32)
+  fullName: OpenWindow.Rectangle.Inflate(System.Int32, System.Int32)
+  nameWithType: Rectangle.Inflate(Int32, Int32)
+- uid: OpenWindow.Rectangle.Inflate*
+  name: Inflate
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Inflate_
+  commentId: Overload:OpenWindow.Rectangle.Inflate
+  fullName: OpenWindow.Rectangle.Inflate
+  nameWithType: Rectangle.Inflate
 - uid: OpenWindow.Rectangle.Left
   name: Left
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Left
@@ -1672,6 +1816,30 @@ references:
   commentId: Overload:OpenWindow.Rectangle.Top
   fullName: OpenWindow.Rectangle.Top
   nameWithType: Rectangle.Top
+- uid: OpenWindow.Rectangle.TopLeft
+  name: TopLeft
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_TopLeft
+  commentId: P:OpenWindow.Rectangle.TopLeft
+  fullName: OpenWindow.Rectangle.TopLeft
+  nameWithType: Rectangle.TopLeft
+- uid: OpenWindow.Rectangle.TopLeft*
+  name: TopLeft
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_TopLeft_
+  commentId: Overload:OpenWindow.Rectangle.TopLeft
+  fullName: OpenWindow.Rectangle.TopLeft
+  nameWithType: Rectangle.TopLeft
+- uid: OpenWindow.Rectangle.TopRight
+  name: TopRight
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_TopRight
+  commentId: P:OpenWindow.Rectangle.TopRight
+  fullName: OpenWindow.Rectangle.TopRight
+  nameWithType: Rectangle.TopRight
+- uid: OpenWindow.Rectangle.TopRight*
+  name: TopRight
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_TopRight_
+  commentId: Overload:OpenWindow.Rectangle.TopRight
+  fullName: OpenWindow.Rectangle.TopRight
+  nameWithType: Rectangle.TopRight
 - uid: OpenWindow.Rectangle.ToString
   name: ToString()
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_ToString
@@ -1684,6 +1852,12 @@ references:
   commentId: Overload:OpenWindow.Rectangle.ToString
   fullName: OpenWindow.Rectangle.ToString
   nameWithType: Rectangle.ToString
+- uid: OpenWindow.Rectangle.Unit
+  name: Unit
+  href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Unit
+  commentId: F:OpenWindow.Rectangle.Unit
+  fullName: OpenWindow.Rectangle.Unit
+  nameWithType: Rectangle.Unit
 - uid: OpenWindow.Rectangle.Width
   name: Width
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Width
@@ -1801,6 +1975,24 @@ references:
   commentId: Overload:OpenWindow.Size.op_Equality
   fullName: OpenWindow.Size.Equality
   nameWithType: Size.Equality
+- uid: OpenWindow.Size.op_Implicit(OpenWindow.Point)~OpenWindow.Size
+  name: Implicit(Point to Size)
+  href: _api/OpenWindow.Size.html#OpenWindow_Size_op_Implicit_OpenWindow_Point__OpenWindow_Size
+  commentId: M:OpenWindow.Size.op_Implicit(OpenWindow.Point)~OpenWindow.Size
+  name.vb: Widening(Point to Size)
+  fullName: OpenWindow.Size.Implicit(OpenWindow.Point to OpenWindow.Size)
+  fullName.vb: OpenWindow.Size.Widening(OpenWindow.Point to OpenWindow.Size)
+  nameWithType: Size.Implicit(Point to Size)
+  nameWithType.vb: Size.Widening(Point to Size)
+- uid: OpenWindow.Size.op_Implicit*
+  name: Implicit
+  href: _api/OpenWindow.Size.html#OpenWindow_Size_op_Implicit_
+  commentId: Overload:OpenWindow.Size.op_Implicit
+  name.vb: Widening
+  fullName: OpenWindow.Size.Implicit
+  fullName.vb: OpenWindow.Size.Widening
+  nameWithType: Size.Implicit
+  nameWithType.vb: Size.Widening
 - uid: OpenWindow.Size.op_Inequality(OpenWindow.Size,OpenWindow.Size)
   name: Inequality(Size, Size)
   href: _api/OpenWindow.Size.html#OpenWindow_Size_op_Inequality_OpenWindow_Size_OpenWindow_Size_

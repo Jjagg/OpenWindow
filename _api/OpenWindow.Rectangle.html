@@ -73,7 +73,8 @@
   
   <h1 id="OpenWindow_Rectangle" data-uid="OpenWindow.Rectangle" class="text-break">Struct Rectangle
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Value type representing a rectangle with integer coordinates.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -98,12 +99,594 @@
   
   
   <a id="OpenWindow_Rectangle__ctor_" data-uid="OpenWindow.Rectangle.#ctor*"></a>
+  <h4 id="OpenWindow_Rectangle__ctor_OpenWindow_Point_OpenWindow_Size_" data-uid="OpenWindow.Rectangle.#ctor(OpenWindow.Point,OpenWindow.Size)">Rectangle(Point, Size)</h4>
+  <div class="markdown level1 summary"><p>Create a new rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Rectangle(Point pos, Size size)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td><span class="parametername">pos</span></td>
+        <td><p>Coordinates of the top left point of the rectangle.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Size.html">Size</a></td>
+        <td><span class="parametername">size</span></td>
+        <td><p>Size of the rectangle.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle__ctor_" data-uid="OpenWindow.Rectangle.#ctor*"></a>
   <h4 id="OpenWindow_Rectangle__ctor_System_Int32_System_Int32_System_Int32_System_Int32_" data-uid="OpenWindow.Rectangle.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">Rectangle(Int32, Int32, Int32, Int32)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Create a rectangle.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Rectangle(int x, int y, int width, int height)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">x</span></td>
+        <td><p>X coordinate of the rectangle.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">y</span></td>
+        <td><p>Y coordinate of the rectangle.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">width</span></td>
+        <td><p>Width of the rectangle.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">height</span></td>
+        <td><p>Height of the rectangle.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="OpenWindow_Rectangle_Empty" data-uid="OpenWindow.Rectangle.Empty">Empty</h4>
+  <div class="markdown level1 summary"><p>Rectangle with position and size of (0, 0).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Rectangle Empty</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Rectangle_Height" data-uid="OpenWindow.Rectangle.Height">Height</h4>
+  <div class="markdown level1 summary"><p>Height of the rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int Height</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Rectangle_Unit" data-uid="OpenWindow.Rectangle.Unit">Unit</h4>
+  <div class="markdown level1 summary"><p>Rectangle with position (0, 0) and size (1, 1)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Rectangle Unit</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Rectangle_Width" data-uid="OpenWindow.Rectangle.Width">Width</h4>
+  <div class="markdown level1 summary"><p>Width of the rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int Width</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Rectangle_X" data-uid="OpenWindow.Rectangle.X">X</h4>
+  <div class="markdown level1 summary"><p>X coordinate of the rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int X</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Rectangle_Y" data-uid="OpenWindow.Rectangle.Y">Y</h4>
+  <div class="markdown level1 summary"><p>Y coordinate of the rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int Y</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="OpenWindow_Rectangle_Bottom_" data-uid="OpenWindow.Rectangle.Bottom*"></a>
+  <h4 id="OpenWindow_Rectangle_Bottom" data-uid="OpenWindow.Rectangle.Bottom">Bottom</h4>
+  <div class="markdown level1 summary"><p>Bottom of the rectangle. Equal to <pre><code><a class="xref" href="OpenWindow.Rectangle.html#OpenWindow_Rectangle_Y">Y</a> + <a class="xref" href="OpenWindow.Rectangle.html#OpenWindow_Rectangle_Height">Height</a></code></pre>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Bottom { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_BottomLeft_" data-uid="OpenWindow.Rectangle.BottomLeft*"></a>
+  <h4 id="OpenWindow_Rectangle_BottomLeft" data-uid="OpenWindow.Rectangle.BottomLeft">BottomLeft</h4>
+  <div class="markdown level1 summary"><p>Location of the bottom left corner of the rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Point BottomLeft { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_BottomRight_" data-uid="OpenWindow.Rectangle.BottomRight*"></a>
+  <h4 id="OpenWindow_Rectangle_BottomRight" data-uid="OpenWindow.Rectangle.BottomRight">BottomRight</h4>
+  <div class="markdown level1 summary"><p>Location of the bottom right corner of the rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Point BottomRight { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_Center_" data-uid="OpenWindow.Rectangle.Center*"></a>
+  <h4 id="OpenWindow_Rectangle_Center" data-uid="OpenWindow.Rectangle.Center">Center</h4>
+  <div class="markdown level1 summary"><p>Center of the rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Point Center { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_HalfExtents_" data-uid="OpenWindow.Rectangle.HalfExtents*"></a>
+  <h4 id="OpenWindow_Rectangle_HalfExtents" data-uid="OpenWindow.Rectangle.HalfExtents">HalfExtents</h4>
+  <div class="markdown level1 summary"><p>Half of the size of the rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Size HalfExtents { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Size.html">Size</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_Left_" data-uid="OpenWindow.Rectangle.Left*"></a>
+  <h4 id="OpenWindow_Rectangle_Left" data-uid="OpenWindow.Rectangle.Left">Left</h4>
+  <div class="markdown level1 summary"><p>Left of the rectangle. Same as <a class="xref" href="OpenWindow.Rectangle.html#OpenWindow_Rectangle_X">X</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Left { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_Position_" data-uid="OpenWindow.Rectangle.Position*"></a>
+  <h4 id="OpenWindow_Rectangle_Position" data-uid="OpenWindow.Rectangle.Position">Position</h4>
+  <div class="markdown level1 summary"><p>Location of the top left corner of the rectangle. Same as <a class="xref" href="OpenWindow.Rectangle.html#OpenWindow_Rectangle_TopLeft">TopLeft</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Point Position { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_Right_" data-uid="OpenWindow.Rectangle.Right*"></a>
+  <h4 id="OpenWindow_Rectangle_Right" data-uid="OpenWindow.Rectangle.Right">Right</h4>
+  <div class="markdown level1 summary"><p>Right of the rectangle. Equal to <pre><code><a class="xref" href="OpenWindow.Rectangle.html#OpenWindow_Rectangle_X">X</a> + <a class="xref" href="OpenWindow.Rectangle.html#OpenWindow_Rectangle_Width">Width</a></code></pre>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Right { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_Size_" data-uid="OpenWindow.Rectangle.Size*"></a>
+  <h4 id="OpenWindow_Rectangle_Size" data-uid="OpenWindow.Rectangle.Size">Size</h4>
+  <div class="markdown level1 summary"><p>Size of the rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Size Size { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Size.html">Size</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_Top_" data-uid="OpenWindow.Rectangle.Top*"></a>
+  <h4 id="OpenWindow_Rectangle_Top" data-uid="OpenWindow.Rectangle.Top">Top</h4>
+  <div class="markdown level1 summary"><p>Top of the rectangle. Same as <a class="xref" href="OpenWindow.Rectangle.html#OpenWindow_Rectangle_Y">Y</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Top { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_TopLeft_" data-uid="OpenWindow.Rectangle.TopLeft*"></a>
+  <h4 id="OpenWindow_Rectangle_TopLeft" data-uid="OpenWindow.Rectangle.TopLeft">TopLeft</h4>
+  <div class="markdown level1 summary"><p>Location of the top left corner of the rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Point TopLeft { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_TopRight_" data-uid="OpenWindow.Rectangle.TopRight*"></a>
+  <h4 id="OpenWindow_Rectangle_TopRight" data-uid="OpenWindow.Rectangle.TopRight">TopRight</h4>
+  <div class="markdown level1 summary"><p>Location of the top right corner of the rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Point TopRight { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="OpenWindow_Rectangle_Deconstruct_" data-uid="OpenWindow.Rectangle.Deconstruct*"></a>
+  <h4 id="OpenWindow_Rectangle_Deconstruct_OpenWindow_Point__OpenWindow_Size__" data-uid="OpenWindow.Rectangle.Deconstruct(OpenWindow.Point@,OpenWindow.Size@)">Deconstruct(out Point, out Size)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Deconstruct(out Point position, out Size size)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td><span class="parametername">position</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Size.html">Size</a></td>
+        <td><span class="parametername">size</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_Deconstruct_" data-uid="OpenWindow.Rectangle.Deconstruct*"></a>
+  <h4 id="OpenWindow_Rectangle_Deconstruct_System_Int32__System_Int32__System_Int32__System_Int32__" data-uid="OpenWindow.Rectangle.Deconstruct(System.Int32@,System.Int32@,System.Int32@,System.Int32@)">Deconstruct(out Int32, out Int32, out Int32, out Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Deconstruct(out int x, out int y, out int width, out int height)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -137,258 +720,6 @@
       </tr>
     </tbody>
   </table>
-  <h3 id="fields">Fields
-  </h3>
-  
-  
-  <h4 id="OpenWindow_Rectangle_Height" data-uid="OpenWindow.Rectangle.Height">Height</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly int Height</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="OpenWindow_Rectangle_Width" data-uid="OpenWindow.Rectangle.Width">Width</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly int Width</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="OpenWindow_Rectangle_X" data-uid="OpenWindow.Rectangle.X">X</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly int X</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="OpenWindow_Rectangle_Y" data-uid="OpenWindow.Rectangle.Y">Y</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly int Y</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="properties">Properties
-  </h3>
-  
-  
-  <a id="OpenWindow_Rectangle_Bottom_" data-uid="OpenWindow.Rectangle.Bottom*"></a>
-  <h4 id="OpenWindow_Rectangle_Bottom" data-uid="OpenWindow.Rectangle.Bottom">Bottom</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int Bottom { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="OpenWindow_Rectangle_Left_" data-uid="OpenWindow.Rectangle.Left*"></a>
-  <h4 id="OpenWindow_Rectangle_Left" data-uid="OpenWindow.Rectangle.Left">Left</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int Left { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="OpenWindow_Rectangle_Position_" data-uid="OpenWindow.Rectangle.Position*"></a>
-  <h4 id="OpenWindow_Rectangle_Position" data-uid="OpenWindow.Rectangle.Position">Position</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Point Position { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="OpenWindow_Rectangle_Right_" data-uid="OpenWindow.Rectangle.Right*"></a>
-  <h4 id="OpenWindow_Rectangle_Right" data-uid="OpenWindow.Rectangle.Right">Right</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int Right { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="OpenWindow_Rectangle_Size_" data-uid="OpenWindow.Rectangle.Size*"></a>
-  <h4 id="OpenWindow_Rectangle_Size" data-uid="OpenWindow.Rectangle.Size">Size</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Size Size { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="OpenWindow.Size.html">Size</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="OpenWindow_Rectangle_Top_" data-uid="OpenWindow.Rectangle.Top*"></a>
-  <h4 id="OpenWindow_Rectangle_Top" data-uid="OpenWindow.Rectangle.Top">Top</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int Top { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-  </h3>
   
   
   <a id="OpenWindow_Rectangle_Equals_" data-uid="OpenWindow.Rectangle.Equals*"></a>
@@ -397,7 +728,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool Equals(Rectangle that)</code></pre>
+    <pre><code class="lang-csharp hljs">public bool Equals(Rectangle other)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -411,7 +742,7 @@
     <tbody>
       <tr>
         <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
-        <td><span class="parametername">that</span></td>
+        <td><span class="parametername">other</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -477,6 +808,106 @@
   <div><span class="xref">System.ValueType.Equals(System.Object)</span></div>
   
   
+  <a id="OpenWindow_Rectangle_FromExtremes_" data-uid="OpenWindow.Rectangle.FromExtremes*"></a>
+  <h4 id="OpenWindow_Rectangle_FromExtremes_OpenWindow_Point_OpenWindow_Point_" data-uid="OpenWindow.Rectangle.FromExtremes(OpenWindow.Point,OpenWindow.Point)">FromExtremes(Point, Point)</h4>
+  <div class="markdown level1 summary"><p>Create a rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Rectangle FromExtremes(Point tl, Point br)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td><span class="parametername">tl</span></td>
+        <td><p>Top left of the rectangle.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td><span class="parametername">br</span></td>
+        <td><p>Bottom right of the rectangle.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_FromHalfExtents_" data-uid="OpenWindow.Rectangle.FromHalfExtents*"></a>
+  <h4 id="OpenWindow_Rectangle_FromHalfExtents_OpenWindow_Point_OpenWindow_Size_" data-uid="OpenWindow.Rectangle.FromHalfExtents(OpenWindow.Point,OpenWindow.Size)">FromHalfExtents(Point, Size)</h4>
+  <div class="markdown level1 summary"><p>Create a rectangle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Rectangle FromHalfExtents(Point center, Size halfExtents)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td><span class="parametername">center</span></td>
+        <td><p>Center of the rectangle.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Size.html">Size</a></td>
+        <td><span class="parametername">halfExtents</span></td>
+        <td><p>Half of the size of the rectangle.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <a id="OpenWindow_Rectangle_GetHashCode_" data-uid="OpenWindow.Rectangle.GetHashCode*"></a>
   <h4 id="OpenWindow_Rectangle_GetHashCode" data-uid="OpenWindow.Rectangle.GetHashCode">GetHashCode()</h4>
   <div class="markdown level1 summary"></div>
@@ -502,6 +933,133 @@
   </table>
   <h5 class="overrides">Overrides</h5>
   <div><span class="xref">System.ValueType.GetHashCode()</span></div>
+  
+  
+  <a id="OpenWindow_Rectangle_GetPoints_" data-uid="OpenWindow.Rectangle.GetPoints*"></a>
+  <h4 id="OpenWindow_Rectangle_GetPoints" data-uid="OpenWindow.Rectangle.GetPoints">GetPoints()</h4>
+  <div class="markdown level1 summary"><p>Get the corners of the rectangle. Order is top left, top right, bottom right, bottom left.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;Point&gt; GetPoints()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="OpenWindow.Point.html">Point</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Rectangle_Inflate_" data-uid="OpenWindow.Rectangle.Inflate*"></a>
+  <h4 id="OpenWindow_Rectangle_Inflate_System_Int32_" data-uid="OpenWindow.Rectangle.Inflate(System.Int32)">Inflate(Int32)</h4>
+  <div class="markdown level1 summary"><p>Create a rectangle with the same center, but expanded by <code data-dev-comment-type="paramref" class="paramref">v</code> at all sides.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Rectangle Inflate(int v)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">v</span></td>
+        <td><p>Amount to inflate the rectangle at the four sides.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OpenWindow_Rectangle_Inflate_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>A negative value can be passed. This create a shrinked rectangle.</p>
+</div>
+  
+  
+  <a id="OpenWindow_Rectangle_Inflate_" data-uid="OpenWindow.Rectangle.Inflate*"></a>
+  <h4 id="OpenWindow_Rectangle_Inflate_System_Int32_System_Int32_" data-uid="OpenWindow.Rectangle.Inflate(System.Int32,System.Int32)">Inflate(Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Create a rectangle with the same center, but expanded by <code data-dev-comment-type="paramref" class="paramref">h</code> at the horizontal sides
+and by <code data-dev-comment-type="paramref" class="paramref">v</code> at the vertical sides.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Rectangle Inflate(int h, int v)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">h</span></td>
+        <td><p>Amount to inflate the rectangle at the left and right sides.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">v</span></td>
+        <td><p>Amount to inflate the rectangle at the top and bottom sides.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OpenWindow_Rectangle_Inflate_System_Int32_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>A negative value can be passed. This create a shrinked rectangle.</p>
+</div>
   
   
   <a id="OpenWindow_Rectangle_ToString_" data-uid="OpenWindow.Rectangle.ToString*"></a>
@@ -539,7 +1097,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool operator ==(Rectangle a, Rectangle b)</code></pre>
+    <pre><code class="lang-csharp hljs">public static bool operator ==(Rectangle left, Rectangle right)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -553,12 +1111,12 @@
     <tbody>
       <tr>
         <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
-        <td><span class="parametername">a</span></td>
+        <td><span class="parametername">left</span></td>
         <td></td>
       </tr>
       <tr>
         <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
-        <td><span class="parametername">b</span></td>
+        <td><span class="parametername">right</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -586,7 +1144,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool operator !=(Rectangle a, Rectangle b)</code></pre>
+    <pre><code class="lang-csharp hljs">public static bool operator !=(Rectangle left, Rectangle right)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -600,12 +1158,12 @@
     <tbody>
       <tr>
         <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
-        <td><span class="parametername">a</span></td>
+        <td><span class="parametername">left</span></td>
         <td></td>
       </tr>
       <tr>
         <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
-        <td><span class="parametername">b</span></td>
+        <td><span class="parametername">right</span></td>
         <td></td>
       </tr>
     </tbody>

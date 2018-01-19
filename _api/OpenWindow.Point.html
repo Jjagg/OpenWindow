@@ -678,6 +678,56 @@
       </tr>
     </tbody>
   </table>
+  
+  
+  <a id="OpenWindow_Point_op_Subtraction_" data-uid="OpenWindow.Point.op_Subtraction*"></a>
+  <h4 id="OpenWindow_Point_op_Subtraction_OpenWindow_Point_OpenWindow_Size_" data-uid="OpenWindow.Point.op_Subtraction(OpenWindow.Point,OpenWindow.Size)">Subtraction(Point, Size)</h4>
+  <div class="markdown level1 summary"><p>Subtract a size from a point.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Point operator -(Point p, Size s)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td><span class="parametername">p</span></td>
+        <td><p>Point to subtract from.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Size.html">Size</a></td>
+        <td><span class="parametername">s</span></td>
+        <td><p>Size to subtract.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td><pre><code>new Point2(p.X - s.Width, p.Y - s.height)</code></pre></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           

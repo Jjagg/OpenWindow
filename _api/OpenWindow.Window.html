@@ -73,7 +73,9 @@
   
   <h1 id="OpenWindow_Window" data-uid="OpenWindow.Window" class="text-break">Class Window
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>A wrapper for a native window.
+Exposes a unified API to interact with native Windows across platforms.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -201,7 +203,8 @@
   
   <a id="OpenWindow_Window_CursorVisible_" data-uid="OpenWindow.Window.CursorVisible*"></a>
   <h4 id="OpenWindow_Window_CursorVisible" data-uid="OpenWindow.Window.CursorVisible">CursorVisible</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Indicates if the mouse cursor is visible.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -279,11 +282,14 @@ Defaults to true (default has a border).</p>
   
   <a id="OpenWindow_Window_GlSettings_" data-uid="OpenWindow.Window.GlSettings*"></a>
   <h4 id="OpenWindow_Window_GlSettings" data-uid="OpenWindow.Window.GlSettings">GlSettings</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Surface settings of this window. Not relevant when you do not use OpenGL to render to this window.
+<a class="xref" href="OpenWindow.OpenGlSurfaceSettings.html">OpenGlSurfaceSettings</a>
+<a class="xref" href="OpenWindow.WindowingService.html#OpenWindow_WindowingService_GlSettings">GlSettings</a></p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public OpenGLWindowSettings GlSettings { get; protected set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public OpenGlSurfaceSettings GlSettings { get; protected set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -295,7 +301,7 @@ Defaults to true (default has a border).</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="OpenWindow.OpenGLWindowSettings.html">OpenGLWindowSettings</a></td>
+        <td><a class="xref" href="OpenWindow.OpenGlSurfaceSettings.html">OpenGlSurfaceSettings</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -541,7 +547,7 @@ if it was created from an existing native window handle with the
   
   <a id="OpenWindow_Window_Dispose_" data-uid="OpenWindow.Window.Dispose*"></a>
   <h4 id="OpenWindow_Window_Dispose" data-uid="OpenWindow.Window.Dispose">Dispose()</h4>
-  <div class="markdown level1 summary"><p>Destroys the window.</p>
+  <div class="markdown level1 summary"><p>Destroy the window and release unmanaged resources.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -589,8 +595,7 @@ if it was created from an existing native window handle with the
   
   <a id="OpenWindow_Window_GetKeyboardState_" data-uid="OpenWindow.Window.GetKeyboardState*"></a>
   <h4 id="OpenWindow_Window_GetKeyboardState" data-uid="OpenWindow.Window.GetKeyboardState">GetKeyboardState()</h4>
-  <div class="markdown level1 summary"><p>Get a byte array with the status data for each virtual key.</p>
-</div>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -607,9 +612,7 @@ if it was created from an existing native window handle with the
     <tbody>
       <tr>
         <td><span class="xref">System.Byte</span>[]</td>
-        <td><p>A byte array representing the state of the keyboard.
-Use <span class="xref">OpenWindow.Backends.Windows.VirtualKey</span> members to index into it.</p>
-</td>
+        <td></td>
       </tr>
     </tbody>
   </table>

@@ -101,34 +101,42 @@
       <h4><a class="xref" href="OpenWindow.MouseMovedEventArgs.html">MouseMovedEventArgs</a></h4>
       <section><p>Contains data for the <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_MouseMoved">MouseMoved</a> event.</p>
 </section>
-      <h4><a class="xref" href="OpenWindow.OpenGLWindowSettings.html">OpenGLWindowSettings</a></h4>
-      <section></section>
+      <h4><a class="xref" href="OpenWindow.OpenGlSurfaceSettings.html">OpenGlSurfaceSettings</a></h4>
+      <section><p>Surface settings to request when creating a window. This must be properly configured
+if you plan on drawing to this window with OpenGL. See the OpenGL sample for an example.</p>
+</section>
       <h4><a class="xref" href="OpenWindow.OpenWindowException.html">OpenWindowException</a></h4>
-      <section></section>
+      <section><p>Exception thrown by OpenWindow when no built in exception is suitable.</p>
+</section>
       <h4><a class="xref" href="OpenWindow.TextInputEventArgs.html">TextInputEventArgs</a></h4>
       <section><p>Contains data for the <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_TextInput">TextInput</a> event.</p>
 </section>
       <h4><a class="xref" href="OpenWindow.Window.html">Window</a></h4>
-      <section></section>
+      <section><p>A wrapper for a native window.
+Exposes a unified API to interact with native Windows across platforms.</p>
+</section>
       <h4><a class="xref" href="OpenWindow.WindowingService.html">WindowingService</a></h4>
       <section><p>Singleton object used to create and manage <a class="xref" href="OpenWindow.Window.html">Window</a> instances.</p>
 </section>
     <h3 id="structs">Structs
   </h3>
       <h4><a class="xref" href="OpenWindow.MouseState.html">MouseState</a></h4>
-      <section></section>
+      <section><p>State of the mouse. Returned by <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_GetMouseState">GetMouseState()</a>.</p>
+</section>
       <h4><a class="xref" href="OpenWindow.Point.html">Point</a></h4>
       <section><p>An immutable value type representing a point with an integer x and y coordinate.</p>
 </section>
       <h4><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></h4>
-      <section></section>
+      <section><p>Value type representing a rectangle with integer coordinates.</p>
+</section>
       <h4><a class="xref" href="OpenWindow.Size.html">Size</a></h4>
       <section><p>An immutable value type representing a point with an integer x and y coordinate.</p>
 </section>
     <h3 id="enums">Enums
   </h3>
       <h4><a class="xref" href="OpenWindow.Key.html">Key</a></h4>
-      <section></section>
+      <section><p>Virtual keys used to report keyboard input.</p>
+</section>
       <h4><a class="xref" href="OpenWindow.KeyMod.html">KeyMod</a></h4>
       <section><p>Input modifiers.</p>
 </section>
@@ -136,9 +144,11 @@
       <section><p>Log level.</p>
 </section>
       <h4><a class="xref" href="OpenWindow.MouseButton.html">MouseButton</a></h4>
-      <section></section>
+      <section><p>Mouse buttons used for reporting mouse/touch pad input.</p>
+</section>
       <h4><a class="xref" href="OpenWindow.WindowingServiceType.html">WindowingServiceType</a></h4>
-      <section></section>
+      <section><p>Supported Windowing service backends.</p>
+</section>
 </article>
           </div>
           
