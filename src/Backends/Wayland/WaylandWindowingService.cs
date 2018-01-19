@@ -6,7 +6,7 @@ using System;
 
 namespace OpenWindow.Backends.Wayland
 {
-    public class WaylandWindowingService : WindowingService
+    internal class WaylandWindowingService : WindowingService
     {
         protected override void Initialize()
         {

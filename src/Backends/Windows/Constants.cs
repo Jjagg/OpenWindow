@@ -4,7 +4,7 @@
 
 namespace OpenWindow.Backends.Windows
 {
-    public static class Constants
+    internal static class Constants
     {
         public const uint MonitorDefaultToNull = 0;
         public const uint MonitorDefaultToPrimary = 1;

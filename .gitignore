@@ -29,3 +29,6 @@ packages/
 **/.idea/**/contentModel.xml
 **/.idea/**/modules.xml
 
+#DocFX
+**/_*/
+
