@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Wayland
 {
@@ -157,8 +156,6 @@ namespace OpenWindow.Backends.Wayland
         {
             XdgWmBase.Pong(iface, serial);
         }
-
-        public override Display[] Displays { get; }
 
         public override Window CreateWindow(bool show = true)
         {

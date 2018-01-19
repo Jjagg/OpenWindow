@@ -135,11 +135,5 @@ namespace OpenWindow
         {
             return $"{X} {Y}";
         }
-
-        public void Deconstruct(out int x, out int y)
-        {
-            x = X;
-            y = Y;
-        }
     }
 }

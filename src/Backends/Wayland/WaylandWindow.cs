@@ -42,30 +42,23 @@ namespace OpenWindow.Backends.Wayland
         
         #region Window Properties
         
-        // TODO what to expose here? Is just 1 pointer enough?
-        public override IntPtr Handle { get; }
-        public override bool Borderless { get; set; }
-        public override bool Resizable { get; set; }
-        public override bool IsFocused { get; set; }
         public override Point Position { get; set; }
-        public override Point Size { get; set; }
+        public override Size Size { get; set; }
         public override Rectangle Bounds { get; set; }
         public override Rectangle ClientBounds { get; set; }
 
         #endregion
-        
+
         #region Window Functions
-        
-        public override OpenWindow.Display GetContainingDisplay()
+
+        public override Display GetContainingDisplay()
         {
             throw new NotImplementedException();
         }
 
         public override byte[] GetKeyboardState()
         {
-            _xdgTopLevel.Destroy();
-            _xdgSurface.Destroy();
-            _wlSurface.Destroy();
+            throw new NotImplementedException();
         }
 
         public override bool IsDown(Key key)
@@ -145,6 +138,17 @@ namespace OpenWindow.Backends.Wayland
         protected override void InternalSetCursorVisible(bool value)
         {
             throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        protected override void ReleaseUnmanagedResources()
+        {
+            _xdgTopLevel.Destroy();
+            _xdgSurface.Destroy();
+            _wlSurface.Destroy();
         }
 
         #endregion

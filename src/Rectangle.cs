@@ -232,13 +232,5 @@ namespace OpenWindow
         {
             return $"{nameof(X)}: {X}, {nameof(Y)}: {Y}, {nameof(Width)}: {Width}, {nameof(Height)}: {Height}";
         }
-
-        public void Deconstruct(out int x, out int y, out int width, out int height)
-        {
-            x = X;
-            y = Y;
-            width = Width;
-            height = Height;
-        }
     }
 }
