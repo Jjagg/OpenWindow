@@ -56,7 +56,7 @@ namespace OpenWindow.Backends.Wayland
         #region Window Properties
         
         public override Point Position { get; set; }
-        public override Point Size { get; set; }
+        public override Size Size { get; set; }
         public override Rectangle Bounds { get; set; }
         public override Rectangle ClientBounds { get; set; }
 
@@ -99,6 +99,16 @@ namespace OpenWindow.Backends.Wayland
             throw new NotImplementedException();
         }
 
+        public override MouseState GetMouseState()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetCursorPosition(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Protected Methods
@@ -134,6 +144,11 @@ namespace OpenWindow.Backends.Wayland
         }
 
         protected override void InternalSetResizable(bool value)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void InternalSetCursorVisible(bool value)
         {
             throw new NotImplementedException();
         }

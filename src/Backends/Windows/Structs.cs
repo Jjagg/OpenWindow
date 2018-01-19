@@ -82,7 +82,7 @@ namespace OpenWindow.Backends.Windows
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct PixelFormatDescriptor
+    internal struct PixelFormatDescriptor
     {
         public short nSize;
         public short nVersion;
@@ -110,5 +110,24 @@ namespace OpenWindow.Backends.Windows
         public int dwLayerMask;
         public int dwVisibleMask;
         public int dwDamageMask;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct TrackMouseEvent
+    {
+        public int cbSize;
+        public uint dwFlags;
+        public IntPtr hwndTrack;
+        public uint dwHoverTime;
+
+        public static TrackMouseEvent CreateLeave(IntPtr handle)
+        {
+            var tme = new TrackMouseEvent();
+            tme.cbSize = 20;
+            tme.dwFlags = 2;
+            tme.hwndTrack = handle;
+            tme.dwHoverTime = 4294967295;
+            return tme;
+        }
     }
 }

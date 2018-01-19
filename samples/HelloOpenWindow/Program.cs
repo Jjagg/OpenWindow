@@ -30,8 +30,10 @@ namespace HelloOpenWindow
             _window.CloseRequested += (s, e) => Console.WriteLine("Received request to close the window!");
             _window.Closing += (s, e) => Console.WriteLine("Closing the window! Bye :)");
             _window.FocusChanged += (s, e) => Console.WriteLine(e.HasFocus ? "Got focus!" : "Lost focus!");
+            _window.MouseDown += (s, e) => Console.WriteLine($"Mouse button '{e.Button}' was pressed.");
+            _window.MouseUp += (s, e) => Console.WriteLine($"Mouse button '{e.Button}' was released.");
 
-            _window.KeyPressed += (s, e) =>
+            _window.KeyPress += (s, e) =>
             {
                 switch (e.Key)
                 {
@@ -61,6 +63,9 @@ namespace HelloOpenWindow
                         break;
                     case Key.L:
                         _window.Maximize();
+                        break;
+                    case Key.C:
+                        _window.CursorVisible = !_window.CursorVisible;
                         break;
                     case Key.Escape:
                         _window.Close();

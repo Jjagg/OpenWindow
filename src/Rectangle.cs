@@ -15,7 +15,7 @@ namespace OpenWindow
         public readonly int Height;
 
         public Point Position => new Point(X, Y);
-        public Point Size => new Point(Width, Height);
+        public Size Size => new Size(Width, Height);
 
         public int Left => X;
         public int Top => Y;

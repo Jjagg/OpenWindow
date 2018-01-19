@@ -4,7 +4,7 @@
 
 using System;
 
-namespace OpenWindow
+namespace OpenWindow.Backends.Windows
 {
     // https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
     [Flags]
@@ -13,11 +13,11 @@ namespace OpenWindow
         /// <summary>
         /// Left mouse button
         /// </summary>
-        Mouse1 = 0x01,
+        LButton = 0x01,
         ///<summary>
         /// Right mouse button
         ///</summary>
-        Mouse2 = 0x02,
+        RButton = 0x02,
         ///<summary>
         /// Control-break processing
         ///</summary>
@@ -25,7 +25,7 @@ namespace OpenWindow
         ///<summary>
         /// Middle mouse button (three-button mouse)
         ///</summary>
-        Mouse3 = 0x04,
+        MButton = 0x04,
         ///<summary>
         /// X1 mouse button
         ///</summary>

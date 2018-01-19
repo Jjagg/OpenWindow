@@ -4,7 +4,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenWindow.Backends.Windows
 {
@@ -125,7 +124,23 @@ namespace OpenWindow.Backends.Windows
         public static extern short GetKeyState(VirtualKey nVirtKey);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern VirtualKey MapVirtualKey([In] uint key, [In] KeyMapType keyMapType);
+        public static extern VirtualKey MapVirtualKey(uint key, KeyMapType keyMapType);
+
+        #endregion
+
+        #region Mouse
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool TrackMouseEvent(ref TrackMouseEvent tme);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool GetCursorPos(out Point point);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SetCursorPos(int x, int y);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern int ShowCursor(bool show);
 
         #endregion
 
@@ -167,9 +182,6 @@ namespace OpenWindow.Backends.Windows
 
         [DllImport("opengl32.dll", SetLastError = true)]
         public static extern bool wglDeleteContext(IntPtr hrc);
-
-        [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glGetIntegerv(int cap, int[] msCountArray);
 
         #endregion
     }

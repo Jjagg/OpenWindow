@@ -2,12 +2,14 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
+using System;
+
 namespace OpenWindow
 {
     /// <summary>
     /// Contains data for the <see cref="Window.KeyDown"/> event.
     /// </summary>
-    public class KeyDownEventArgs : System.EventArgs
+    public class KeyDownEventArgs : EventArgs
     {
         /// <summary>
         /// The <see cref="Key"/> that was pressed or released.
@@ -30,14 +32,16 @@ namespace OpenWindow
         public readonly char Character;
 
         /// <summary>
-        /// <code>true</code> if <see cref="RepeatCount"/> > 0, <code>false</code> otherwise.
+        /// <code>true</code> if this is a repeated key press, triggered by the user holding down the key,
+        /// <code>false</code> otherwise.
         /// </summary>
-        public bool Repeated => RepeatCount > 0;
+        public readonly bool Repeated;
 
-        internal KeyDownEventArgs(Key key, int repeatCount, int scanCode, char character)
+        internal KeyDownEventArgs(Key key, int repeatCount, bool repeated, int scanCode, char character)
         {
             Key = key;
             RepeatCount = repeatCount;
+            Repeated = repeated;
             ScanCode = scanCode;
             Character = character;
         }

@@ -9,7 +9,12 @@ Inputs:
 
 - **b**: Toggle border
 - **r**: Toggle resizable
+- **h**: Hide the window for 2 seconds
 - **m**: Move the window to a random position with a random size
-- **p**: Print some information about the window to console.
+- **p**: Print some information about the window to console
+- **j**: Minimize the window
+- **k**: Restore the window
+- **l**: Maximize the window
+- **c**: Toggle cursor visibility
 - **Esc**: Close the window
 

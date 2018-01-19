@@ -3,6 +3,7 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
+using OpenWindow.Backends.Windows;
 
 namespace OpenWindow
 {
@@ -16,6 +17,7 @@ namespace OpenWindow
         private bool _decorated = true;
         private bool _resizable;
         internal bool _focused;
+        private bool _cursorVisible = true;
 
         private bool _disposed;
 
@@ -126,7 +128,7 @@ namespace OpenWindow
         /// <summary>
         /// The size of this window (including border).
         /// </summary>
-        public abstract Point Size { get; set; }
+        public abstract Size Size { get; set; }
 
         /// <summary>
         /// The bounds of this window (including border).
@@ -138,7 +140,30 @@ namespace OpenWindow
         /// </summary>
         public abstract Rectangle ClientBounds { get; set; }
 
+        public bool CursorVisible
+        {
+            get => _cursorVisible;
+            set
+            {
+                CheckDisposed();
+                if (_cursorVisible != value)
+                {
+                    _cursorVisible = value;
+                    InternalSetCursorVisible(value);
+                }
+            }
+        }
+
         public OpenGLWindowSettings GlSettings { get; protected set; }
+
+        #endregion
+
+        #region Constructor
+
+        protected Window(bool userManaged)
+        {
+            UserManaged = userManaged;
+        }
 
         #endregion
 
@@ -250,12 +275,20 @@ namespace OpenWindow
         /// <returns><code>true</code> if scroll lock is turned on, <code>false</code> if it is turned off.</returns>
         public abstract bool IsScrollLockOn();
 
-        #endregion
+        /// <summary>
+        /// Get the state of the mouse.
+        /// </summary>
+        /// <returns>The current mouse state.</returns>
+        public abstract MouseState GetMouseState();
 
-        protected Window(bool userManaged)
-        {
-            UserManaged = userManaged;
-        }
+        /// <summary>
+        /// Set the position of the mouse cursor.
+        /// </summary>
+        /// <param name="x">X coordinate.</param>
+        /// <param name="y">Y coordinate.</param>
+        public abstract void SetCursorPosition(int x, int y);
+
+        #endregion
 
         #region Window API: Events
 
@@ -282,7 +315,7 @@ namespace OpenWindow
         /// <summary>
         /// Invoked when a key is pressed down. Not invoked when a key is held down like <see cref="KeyDown"/>.
         /// </summary>
-        public event EventHandler<KeyEventArgs> KeyPressed;
+        public event EventHandler<KeyEventArgs> KeyPress;
 
         /// <summary>
         /// Invoked when a key is released.
@@ -294,13 +327,29 @@ namespace OpenWindow
         /// </summary>
         public event EventHandler<TextInputEventArgs> TextInput;
 
+        /// <summary>
+        /// Invoked when the mouse moves in the client area of the window.
+        /// </summary>
+        public event EventHandler<MouseMovedEventArgs> MouseMoved;
+
+        /// <summary>
+        /// Invoked when a mouse button is pressed down.
+        /// </summary>
+        public event EventHandler<MouseEventArgs> MouseDown;
+
+        /// <summary>
+        /// Invoked when a mouse button is released.
+        /// </summary>
+        public event EventHandler<MouseEventArgs> MouseUp;
+
+        /// <summary>
+        /// Invoked when the mouse pointer leaves the bounds of the window.
+        /// </summary>
+        public event EventHandler<EventArgs> MouseLeave;
+
         #endregion
 
         #region Internal Functions
-
-        internal virtual void Update()
-        {
-        }
 
         internal void RaiseCloseRequested()
         {
@@ -317,14 +366,14 @@ namespace OpenWindow
             FocusChanged?.Invoke(this, new FocusChangedEventArgs(newFocus));
         }
 
-        internal void RaiseKeyDown(Key key, int repeatCount, int scanCode, char character)
+        internal void RaiseKeyDown(Key key, int repeatCount, bool repeated, int scanCode, char character)
         {
-            KeyDown?.Invoke(this, new KeyDownEventArgs(key, repeatCount, scanCode, character));
+            KeyDown?.Invoke(this, new KeyDownEventArgs(key, repeatCount, repeated, scanCode, character));
         }
 
         internal void RaiseKeyPressed(Key key, int scanCode, char character)
         {
-            KeyPressed?.Invoke(this, new KeyEventArgs(key, scanCode, character));
+            KeyPress?.Invoke(this, new KeyEventArgs(key, scanCode, character));
         }
 
         internal void RaiseKeyUp(Key key, int scanCode, char character)
@@ -335,6 +384,26 @@ namespace OpenWindow
         internal void RaiseTextInput(char c)
         {
             TextInput?.Invoke(this, new TextInputEventArgs(c));
+        }
+
+        internal void RaiseMouseMoved(Point position)
+        {
+            MouseMoved?.Invoke(this, new MouseMovedEventArgs(position));
+        }
+
+        internal void RaiseMouseDown(MouseButton button, Point position)
+        {
+            MouseDown?.Invoke(this, new MouseEventArgs(button, position));
+        }
+
+        internal void RaiseMouseUp(MouseButton button, Point position)
+        {
+            MouseUp?.Invoke(this, new MouseEventArgs(button, position));
+        }
+
+        internal void RaiseMouseLeave()
+        {
+            MouseLeave?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion
@@ -348,6 +417,7 @@ namespace OpenWindow
         protected abstract void InternalSetTitle(string value);
         protected abstract void InternalSetBorderless(bool value);
         protected abstract void InternalSetResizable(bool value);
+        protected abstract void InternalSetCursorVisible(bool value);
 
         #endregion
 

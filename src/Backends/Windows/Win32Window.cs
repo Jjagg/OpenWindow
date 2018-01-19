@@ -212,12 +212,12 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
-        public override Point Size
+        public override Size Size
         {
             get => Bounds.Size;
             set
             {
-                if (!Native.SetWindowPos(Handle, IntPtr.Zero, 0, 0, value.X, value.Y, Constants.SWP_NOMOVE | Constants.SWP_NOZORDER))
+                if (!Native.SetWindowPos(Handle, IntPtr.Zero, 0, 0, value.Width, value.Height, Constants.SWP_NOMOVE | Constants.SWP_NOZORDER))
                     throw GetLastException("Setting window position failed.");
             }
         }
@@ -316,6 +316,34 @@ namespace OpenWindow.Backends.Windows
             return KeyEnabled(VirtualKey.ScrollLock);
         }
 
+        /// <inheritdoc />
+        public override MouseState GetMouseState()
+        {
+            var btns = MouseButton.None;
+            if (Native.GetKeyState(VirtualKey.LButton) < 0)
+                btns |= MouseButton.Left;
+            if (Native.GetKeyState(VirtualKey.MButton) < 0)
+                btns |= MouseButton.Middle;
+            if (Native.GetKeyState(VirtualKey.RButton) < 0)
+                btns |= MouseButton.Right;
+            if (Native.GetKeyState(VirtualKey.XButton1) < 0)
+                btns |= MouseButton.X1;
+            if (Native.GetKeyState(VirtualKey.XButton2) < 0)
+                btns |= MouseButton.X2;
+
+            if (!Native.GetCursorPos(out var position))
+                throw GetLastException("Failed to get cursor position.");
+
+            return new MouseState(btns, position);
+        }
+
+        /// <inheritdoc />
+        public override void SetCursorPosition(int x, int y)
+        {
+            if (!Native.SetCursorPos(x, y))
+                throw GetLastException("Failed to set cursor position.");
+        }
+
         #endregion
 
         #region Private Methods
@@ -369,6 +397,13 @@ namespace OpenWindow.Backends.Windows
         private bool KeyEnabled(VirtualKey key)
         {
             return (Native.GetKeyState(key) & 0x1) > 0;
+        }
+
+        public void TrackMouseLeave()
+        {
+            var tme = TrackMouseEvent.CreateLeave(Handle);
+            if (!Native.TrackMouseEvent(ref tme))
+                throw GetLastException("TrackMouseEvent failed.");
         }
 
         #endregion
@@ -444,6 +479,11 @@ namespace OpenWindow.Backends.Windows
         protected override void InternalSetResizable(bool value)
         {
             UpdateStyle();
+        }
+
+        protected override void InternalSetCursorVisible(bool value)
+        {
+            Native.ShowCursor(value);
         }
 
         #endregion

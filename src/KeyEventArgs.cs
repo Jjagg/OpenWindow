@@ -5,7 +5,7 @@
 namespace OpenWindow
 {
     /// <summary>
-    /// Contains data for the <see cref="Window.KeyUp"/> and <see cref="Window.KeyPressed"/> events.
+    /// Contains data for the <see cref="Window.KeyUp"/> and <see cref="Window.KeyPress"/> events.
     /// </summary>
     public class KeyEventArgs : System.EventArgs
     {
