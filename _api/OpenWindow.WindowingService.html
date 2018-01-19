@@ -1,0 +1,661 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class WindowingService
+   | OpenWindow Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class WindowingService
+   | OpenWindow Documentation ">
+    <meta name="generator" content="docfx 2.28.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="OpenWindow.WindowingService">
+  
+  
+  <h1 id="OpenWindow_WindowingService" data-uid="OpenWindow.WindowingService" class="text-break">Class WindowingService
+  </h1>
+  <div class="markdown level0 summary"><p>Singleton object used to create and manage <a class="xref" href="OpenWindow.Window.html">Window</a> instances.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">WindowingService</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="OpenWindow.html">OpenWindow</a></h6>
+  <h6><strong>Assembly</strong>: OpenWindow.dll</h6>
+  <h5 id="OpenWindow_WindowingService_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class WindowingService : IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="OpenWindow_WindowingService__ctor_" data-uid="OpenWindow.WindowingService.#ctor*"></a>
+  <h4 id="OpenWindow_WindowingService__ctor" data-uid="OpenWindow.WindowingService.#ctor">WindowingService()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected WindowingService()</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="OpenWindow_WindowingService_ManagedWindows" data-uid="OpenWindow.WindowingService.ManagedWindows">ManagedWindows</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected readonly Dictionary&lt;IntPtr, Window&gt; ManagedWindows</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.IntPtr</span>, <a class="xref" href="OpenWindow.Window.html">Window</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="OpenWindow_WindowingService_Displays_" data-uid="OpenWindow.WindowingService.Displays*"></a>
+  <h4 id="OpenWindow_WindowingService_Displays" data-uid="OpenWindow.WindowingService.Displays">Displays</h4>
+  <div class="markdown level1 summary"><p>Get the connected displays.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract Display[] Displays { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Display.html">Display</a>[]</td>
+        <td><p>An array containing connected displays.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_WindowingService_GlSettings_" data-uid="OpenWindow.WindowingService.GlSettings*"></a>
+  <h4 id="OpenWindow_WindowingService_GlSettings" data-uid="OpenWindow.WindowingService.GlSettings">GlSettings</h4>
+  <div class="markdown level1 summary"><p>The settings to use for an OpenGL window. You only need to touch this when using OpenGL for rendering.
+Value at the time of calling <a class="xref" href="OpenWindow.WindowingService.html#OpenWindow_WindowingService_CreateWindow_System_Boolean_">CreateWindow(Boolean)</a> is used for that window.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public OpenGLWindowSettings GlSettings { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.OpenGLWindowSettings.html">OpenGLWindowSettings</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_WindowingService_Logger_" data-uid="OpenWindow.WindowingService.Logger*"></a>
+  <h4 id="OpenWindow_WindowingService_Logger" data-uid="OpenWindow.WindowingService.Logger">Logger</h4>
+  <div class="markdown level1 summary"><p>Provides logged messages.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Logger Logger { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Logger.html">Logger</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_WindowingService_WindowCount_" data-uid="OpenWindow.WindowingService.WindowCount*"></a>
+  <h4 id="OpenWindow_WindowingService_WindowCount" data-uid="OpenWindow.WindowingService.WindowCount">WindowCount</h4>
+  <div class="markdown level1 summary"><p>The number of windows managed by this service.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int WindowCount { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="OpenWindow_WindowingService_CreateWindow_" data-uid="OpenWindow.WindowingService.CreateWindow*"></a>
+  <h4 id="OpenWindow_WindowingService_CreateWindow_System_Boolean_" data-uid="OpenWindow.WindowingService.CreateWindow(System.Boolean)">CreateWindow(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Create a new <a class="xref" href="OpenWindow.Window.html">Window</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract Window CreateWindow(bool show = true)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">show</span></td>
+        <td><p>If <pre><code>true</code></pre>, makes the window visible, else keeps it hidden.
+The window can be made visible by calling <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_Show">Show()</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Window.html">Window</a></td>
+        <td><p>A new <a class="xref" href="OpenWindow.Window.html">Window</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_WindowingService_Dispose_" data-uid="OpenWindow.WindowingService.Dispose*"></a>
+  <h4 id="OpenWindow_WindowingService_Dispose" data-uid="OpenWindow.WindowingService.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_WindowingService_Dispose_" data-uid="OpenWindow.WindowingService.Dispose*"></a>
+  <h4 id="OpenWindow_WindowingService_Dispose_System_Boolean_" data-uid="OpenWindow.WindowingService.Dispose(System.Boolean)">Dispose(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">disposing</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_WindowingService_Get_" data-uid="OpenWindow.WindowingService.Get*"></a>
+  <h4 id="OpenWindow_WindowingService_Get" data-uid="OpenWindow.WindowingService.Get">Get()</h4>
+  <div class="markdown level1 summary"><p>Get the <a class="xref" href="OpenWindow.WindowingService.html">WindowingService</a> instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static WindowingService Get()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.WindowingService.html">WindowingService</a></td>
+        <td><p>The <a class="xref" href="OpenWindow.WindowingService.html">WindowingService</a> instance.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_WindowingService_Initialize_" data-uid="OpenWindow.WindowingService.Initialize*"></a>
+  <h4 id="OpenWindow_WindowingService_Initialize" data-uid="OpenWindow.WindowingService.Initialize">Initialize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void Initialize()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_WindowingService_LogDebug_" data-uid="OpenWindow.WindowingService.LogDebug*"></a>
+  <h4 id="OpenWindow_WindowingService_LogDebug_System_String_" data-uid="OpenWindow.WindowingService.LogDebug(System.String)">LogDebug(String)</h4>
+  <div class="markdown level1 summary"><p>Log a message with log level <a class="xref" href="OpenWindow.Logger.Level.html#OpenWindow_Logger_Level_Debug">Debug</a>.
+Only included when the DEBUG symbol is set.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Conditional(&quot;DEBUG&quot;)]
+public static void LogDebug(string message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Message to log.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_WindowingService_LogError_" data-uid="OpenWindow.WindowingService.LogError*"></a>
+  <h4 id="OpenWindow_WindowingService_LogError_System_String_" data-uid="OpenWindow.WindowingService.LogError(System.String)">LogError(String)</h4>
+  <div class="markdown level1 summary"><p>Log a message with log level <a class="xref" href="OpenWindow.Logger.Level.html#OpenWindow_Logger_Level_Error">Error</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void LogError(string message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Message to log.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_WindowingService_LogInfo_" data-uid="OpenWindow.WindowingService.LogInfo*"></a>
+  <h4 id="OpenWindow_WindowingService_LogInfo_System_String_" data-uid="OpenWindow.WindowingService.LogInfo(System.String)">LogInfo(String)</h4>
+  <div class="markdown level1 summary"><p>Log a message with log level <a class="xref" href="OpenWindow.Logger.Level.html#OpenWindow_Logger_Level_Info">Info</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void LogInfo(string message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Message to log.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_WindowingService_LogWarning_" data-uid="OpenWindow.WindowingService.LogWarning*"></a>
+  <h4 id="OpenWindow_WindowingService_LogWarning_System_String_" data-uid="OpenWindow.WindowingService.LogWarning(System.String)">LogWarning(String)</h4>
+  <div class="markdown level1 summary"><p>Log a message with log level <a class="xref" href="OpenWindow.Logger.Level.html#OpenWindow_Logger_Level_Warning">Warning</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void LogWarning(string message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Message to log.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_WindowingService_PumpEvents_" data-uid="OpenWindow.WindowingService.PumpEvents*"></a>
+  <h4 id="OpenWindow_WindowingService_PumpEvents" data-uid="OpenWindow.WindowingService.PumpEvents">PumpEvents()</h4>
+  <div class="markdown level1 summary"><p>Process all received events for windows managed by this service.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void PumpEvents()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_WindowingService_TryGetWindow_" data-uid="OpenWindow.WindowingService.TryGetWindow*"></a>
+  <h4 id="OpenWindow_WindowingService_TryGetWindow_System_IntPtr_OpenWindow_Window__" data-uid="OpenWindow.WindowingService.TryGetWindow(System.IntPtr,OpenWindow.Window@)">TryGetWindow(IntPtr, out Window)</h4>
+  <div class="markdown level1 summary"><p>Get a window owned by this service by its handle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryGetWindow(IntPtr handle, out Window window)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">handle</span></td>
+        <td><p>The native handle to the window.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Window.html">Window</a></td>
+        <td><span class="parametername">window</span></td>
+        <td><p>The window with the specified handle or null if the lookup failed.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if the window was found, false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_WindowingService_WaitEvent_" data-uid="OpenWindow.WindowingService.WaitEvent*"></a>
+  <h4 id="OpenWindow_WindowingService_WaitEvent" data-uid="OpenWindow.WindowingService.WaitEvent">WaitEvent()</h4>
+  <div class="markdown level1 summary"><p>Wait for the next event and process it before returning control to the caller.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void WaitEvent()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_WindowingService_WindowFromHandle_" data-uid="OpenWindow.WindowingService.WindowFromHandle*"></a>
+  <h4 id="OpenWindow_WindowingService_WindowFromHandle_System_IntPtr_" data-uid="OpenWindow.WindowingService.WindowFromHandle(System.IntPtr)">WindowFromHandle(IntPtr)</h4>
+  <div class="markdown level1 summary"><p>Create a <a class="xref" href="OpenWindow.Window.html">Window</a> given a handle to an existing native window.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract Window WindowFromHandle(IntPtr handle)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">handle</span></td>
+        <td><p>Handle to an existing window.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Window.html">Window</a></td>
+        <td><p>A new <a class="xref" href="OpenWindow.Window.html">Window</a> created from the native <code data-dev-comment-type="paramref" class="paramref">handle</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

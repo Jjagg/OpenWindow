@@ -4,27 +4,288 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
-      "type": "Conceptual",
-      "source_relative_path": "api/index.md",
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.Display.yml",
       "output": {
         ".html": {
-          "relative_path": "api/index.html",
-          "hash": "8d9kMdmmtmM1EBiDGYzn3A=="
+          "relative_path": "_api/OpenWindow.Display.html",
+          "hash": "M2aWJY6mAKFkcFv5ugk21A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
-      "log_codes": [
-        "EmptyTocItemName"
-      ],
-      "type": "Toc",
-      "source_relative_path": "api/toc.yml",
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.FocusChangedEventArgs.yml",
       "output": {
         ".html": {
-          "relative_path": "api/toc.html",
-          "hash": "3HHd9h8E8GY9MArlTOC9JA=="
+          "relative_path": "_api/OpenWindow.FocusChangedEventArgs.html",
+          "hash": "vzbiB6E98gdAcT9Nj4mNjA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.Key.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.Key.html",
+          "hash": "OjN3a56IY7hHv2q59vekDg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.KeyDownEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.KeyDownEventArgs.html",
+          "hash": "Ia/3yXK4Cm+3GOYDokjzng=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.KeyEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.KeyEventArgs.html",
+          "hash": "Qab71k03DkLpaOB04DFh2Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.KeyMod.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.KeyMod.html",
+          "hash": "MJIWTfMMTom4T0TQFDY99g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.Logger.Level.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.Logger.Level.html",
+          "hash": "7JHYY62cJZvDRQk0Kkd1SA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.Logger.Message.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.Logger.Message.html",
+          "hash": "GhegTGvZ55gkMZswNOVQ9w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.Logger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.Logger.html",
+          "hash": "PYZaN9YdXQw6Eyw35KPbKA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.MouseButton.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.MouseButton.html",
+          "hash": "wIIDxSAMVczP/4y+VVFMZQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.MouseEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.MouseEventArgs.html",
+          "hash": "VSlYHIPvykKWJpuhi+7zjQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.MouseMovedEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.MouseMovedEventArgs.html",
+          "hash": "/MZE63eikAx/0VhB2wZ2wQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.MouseState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.MouseState.html",
+          "hash": "J7iSbP77/l4gCBNQhJ04bg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.OpenGLWindowSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.OpenGLWindowSettings.html",
+          "hash": "sZS0Ssr6En9gsN4wYMhLcg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.OpenWindowException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.OpenWindowException.html",
+          "hash": "ma7catp1HpyLAKH/L6c1Jg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.Point.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.Point.html",
+          "hash": "I162YFRiFJqIB8D8fBqjZw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.Rectangle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.Rectangle.html",
+          "hash": "vAPCG4RkY0ADdnh3G5mORw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.Size.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.Size.html",
+          "hash": "Bu2r6/76M3p4vQJiV1wz2A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.TextInputEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.TextInputEventArgs.html",
+          "hash": "pQAC8TAW3++rfeT0g8wmcg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.Window.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.Window.html",
+          "hash": "i7td1WgF5zNINTpSFVNnZQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.WindowingService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.WindowingService.html",
+          "hash": "gsZBeW8MGwbHCKKa9s7nbg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.WindowingServiceType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.WindowingServiceType.html",
+          "hash": "34BB1n8Vh1F+ExXY6tc8Yg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.html",
+          "hash": "Hc21GieVS67pzoL+7jtsxw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "_api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/toc.html",
+          "hash": "/jp3iApQ3+0pVEfQ7iGp9A=="
         }
       },
       "is_incremental": false,
@@ -39,7 +300,7 @@
           "hash": "KIvAgPWhQxJzIZ0YiIHNqw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -60,10 +321,10 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "75rBeYHTRipfyCEtugcQGg=="
+          "hash": "OOGgTcxy50Hn7Thjn+q1ww=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -72,7 +333,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "ob7LqWp4kTNLz+9W4omdTw=="
+          "hash": "uyOnug60svxt41U0F1S+XQ=="
         }
       },
       "is_incremental": false,
@@ -82,8 +343,7 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": false,
-        "details": "Cannot build incrementally because last build info is missing.",
+        "can_incremental": true,
         "incrementalPhase": "build"
       },
       "processors": {
@@ -93,15 +353,19 @@
           "incrementalPhase": "build"
         },
         "ConceptualDocumentProcessor": {
-          "can_incremental": false,
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
           "incrementalPhase": "build"
         }
       }
     },
     {
       "status": {
-        "can_incremental": false,
-        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
         "incrementalPhase": "postProcessing"
       },
       "processors": {}

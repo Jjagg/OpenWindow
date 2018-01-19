@@ -1,0 +1,1399 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Window
+   | OpenWindow Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Window
+   | OpenWindow Documentation ">
+    <meta name="generator" content="docfx 2.28.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="OpenWindow.Window">
+  
+  
+  <h1 id="OpenWindow_Window" data-uid="OpenWindow.Window" class="text-break">Class Window
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">Window</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="OpenWindow.html">OpenWindow</a></h6>
+  <h6><strong>Assembly</strong>: OpenWindow.dll</h6>
+  <h5 id="OpenWindow_Window_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class Window : IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="OpenWindow_Window__ctor_" data-uid="OpenWindow.Window.#ctor*"></a>
+  <h4 id="OpenWindow_Window__ctor_System_Boolean_" data-uid="OpenWindow.Window.#ctor(System.Boolean)">Window(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Window(bool userManaged)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">userManaged</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="OpenWindow_Window_Bounds_" data-uid="OpenWindow.Window.Bounds*"></a>
+  <h4 id="OpenWindow_Window_Bounds" data-uid="OpenWindow.Window.Bounds">Bounds</h4>
+  <div class="markdown level1 summary"><p>The bounds of this window (including border).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract Rectangle Bounds { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_ClientBounds_" data-uid="OpenWindow.Window.ClientBounds*"></a>
+  <h4 id="OpenWindow_Window_ClientBounds" data-uid="OpenWindow.Window.ClientBounds">ClientBounds</h4>
+  <div class="markdown level1 summary"><p>The bounds of this window (excluding border).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract Rectangle ClientBounds { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Rectangle.html">Rectangle</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_CursorVisible_" data-uid="OpenWindow.Window.CursorVisible*"></a>
+  <h4 id="OpenWindow_Window_CursorVisible" data-uid="OpenWindow.Window.CursorVisible">CursorVisible</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CursorVisible { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_Decorated_" data-uid="OpenWindow.Window.Decorated*"></a>
+  <h4 id="OpenWindow_Window_Decorated" data-uid="OpenWindow.Window.Decorated">Decorated</h4>
+  <div class="markdown level1 summary"><p>Indicates if this window is decorated, i.e. has a border.
+Defaults to true (default has a border).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Decorated { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_Focused_" data-uid="OpenWindow.Window.Focused*"></a>
+  <h4 id="OpenWindow_Window_Focused" data-uid="OpenWindow.Window.Focused">Focused</h4>
+  <div class="markdown level1 summary"><p>Indicates if this window has keyboard focus.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Focused { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_GlSettings_" data-uid="OpenWindow.Window.GlSettings*"></a>
+  <h4 id="OpenWindow_Window_GlSettings" data-uid="OpenWindow.Window.GlSettings">GlSettings</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public OpenGLWindowSettings GlSettings { get; protected set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.OpenGLWindowSettings.html">OpenGLWindowSettings</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_Handle_" data-uid="OpenWindow.Window.Handle*"></a>
+  <h4 id="OpenWindow_Window_Handle" data-uid="OpenWindow.Window.Handle">Handle</h4>
+  <div class="markdown level1 summary"><p>Get a pointer to the native window handle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IntPtr Handle { get; protected set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_Position_" data-uid="OpenWindow.Window.Position*"></a>
+  <h4 id="OpenWindow_Window_Position" data-uid="OpenWindow.Window.Position">Position</h4>
+  <div class="markdown level1 summary"><p>The position of the top left of this window (including border).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract Point Position { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Point.html">Point</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_Resizable_" data-uid="OpenWindow.Window.Resizable*"></a>
+  <h4 id="OpenWindow_Window_Resizable" data-uid="OpenWindow.Window.Resizable">Resizable</h4>
+  <div class="markdown level1 summary"><p>Indicates if users can resize the window.
+Defaults to false.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Resizable { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_ShouldClose_" data-uid="OpenWindow.Window.ShouldClose*"></a>
+  <h4 id="OpenWindow_Window_ShouldClose" data-uid="OpenWindow.Window.ShouldClose">ShouldClose</h4>
+  <div class="markdown level1 summary"><p>If set to <pre><code>true</code></pre> a request to close this window has been sent either by caling <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_Close">Close()</a>
+or by the window manager. An application usually wants to monitor this flag, but can freely decide what to
+do when it is set.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ShouldClose { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_Size_" data-uid="OpenWindow.Window.Size*"></a>
+  <h4 id="OpenWindow_Window_Size" data-uid="OpenWindow.Window.Size">Size</h4>
+  <div class="markdown level1 summary"><p>The size of this window (including border).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract Size Size { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Size.html">Size</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_Title_" data-uid="OpenWindow.Window.Title*"></a>
+  <h4 id="OpenWindow_Window_Title" data-uid="OpenWindow.Window.Title">Title</h4>
+  <div class="markdown level1 summary"><p>The text that is displayed in the title bar of the window (if it has a title bar).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Title { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_UserManaged_" data-uid="OpenWindow.Window.UserManaged*"></a>
+  <h4 id="OpenWindow_Window_UserManaged" data-uid="OpenWindow.Window.UserManaged">UserManaged</h4>
+  <div class="markdown level1 summary"><pre><code>false</code></pre> if the underlying native window was created by OpenWindow with the
+<p><a class="xref" href="OpenWindow.WindowingService.html#OpenWindow_WindowingService_CreateWindow_System_Boolean_">CreateWindow(Boolean)</a> method, <pre><code>true</code></pre>
+if it was created from an existing native window handle with the
+<a class="xref" href="OpenWindow.WindowingService.html#OpenWindow_WindowingService_WindowFromHandle_System_IntPtr_">WindowFromHandle(IntPtr)</a> method.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool UserManaged { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_Visible_" data-uid="OpenWindow.Window.Visible*"></a>
+  <h4 id="OpenWindow_Window_Visible" data-uid="OpenWindow.Window.Visible">Visible</h4>
+  <div class="markdown level1 summary"><p>Indicates if this window is visible.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Visible { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="OpenWindow_Window_CheckDisposed_" data-uid="OpenWindow.Window.CheckDisposed*"></a>
+  <h4 id="OpenWindow_Window_CheckDisposed" data-uid="OpenWindow.Window.CheckDisposed">CheckDisposed()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void CheckDisposed()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_Close_" data-uid="OpenWindow.Window.Close*"></a>
+  <h4 id="OpenWindow_Window_Close" data-uid="OpenWindow.Window.Close">Close()</h4>
+  <div class="markdown level1 summary"><p>Sets the <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_ShouldClose">ShouldClose</a> flag to <pre><code>true</code></pre>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Close()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_Dispose_" data-uid="OpenWindow.Window.Dispose*"></a>
+  <h4 id="OpenWindow_Window_Dispose" data-uid="OpenWindow.Window.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"><p>Destroys the window.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_Finalize_" data-uid="OpenWindow.Window.Finalize*"></a>
+  <h4 id="OpenWindow_Window_Finalize" data-uid="OpenWindow.Window.Finalize">Finalize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void Finalize()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_GetContainingDisplay_" data-uid="OpenWindow.Window.GetContainingDisplay*"></a>
+  <h4 id="OpenWindow_Window_GetContainingDisplay" data-uid="OpenWindow.Window.GetContainingDisplay">GetContainingDisplay()</h4>
+  <div class="markdown level1 summary"><p>Get the display that the window is on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract Display GetContainingDisplay()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Display.html">Display</a></td>
+        <td><p>The display the window is on.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_GetKeyboardState_" data-uid="OpenWindow.Window.GetKeyboardState*"></a>
+  <h4 id="OpenWindow_Window_GetKeyboardState" data-uid="OpenWindow.Window.GetKeyboardState">GetKeyboardState()</h4>
+  <div class="markdown level1 summary"><p>Get a byte array with the status data for each virtual key.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract byte[] GetKeyboardState()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><p>A byte array representing the state of the keyboard.
+Use <span class="xref">OpenWindow.Backends.Windows.VirtualKey</span> members to index into it.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_GetKeyModifiers_" data-uid="OpenWindow.Window.GetKeyModifiers*"></a>
+  <h4 id="OpenWindow_Window_GetKeyModifiers" data-uid="OpenWindow.Window.GetKeyModifiers">GetKeyModifiers()</h4>
+  <div class="markdown level1 summary"><p>Get the key modifiers currently enabled.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract KeyMod GetKeyModifiers()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.KeyMod.html">KeyMod</a></td>
+        <td><p>The enabled key modifiers.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_GetMouseState_" data-uid="OpenWindow.Window.GetMouseState*"></a>
+  <h4 id="OpenWindow_Window_GetMouseState" data-uid="OpenWindow.Window.GetMouseState">GetMouseState()</h4>
+  <div class="markdown level1 summary"><p>Get the state of the mouse.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract MouseState GetMouseState()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.MouseState.html">MouseState</a></td>
+        <td><p>The current mouse state.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_Hide_" data-uid="OpenWindow.Window.Hide*"></a>
+  <h4 id="OpenWindow_Window_Hide" data-uid="OpenWindow.Window.Hide">Hide()</h4>
+  <div class="markdown level1 summary"><p>Hides the window. Equivalent to setting <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_Visible">Visible</a> to <pre><code>false</code></pre>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Hide()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_InternalMaximize_" data-uid="OpenWindow.Window.InternalMaximize*"></a>
+  <h4 id="OpenWindow_Window_InternalMaximize" data-uid="OpenWindow.Window.InternalMaximize">InternalMaximize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void InternalMaximize()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_InternalMinimize_" data-uid="OpenWindow.Window.InternalMinimize*"></a>
+  <h4 id="OpenWindow_Window_InternalMinimize" data-uid="OpenWindow.Window.InternalMinimize">InternalMinimize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void InternalMinimize()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_InternalRestore_" data-uid="OpenWindow.Window.InternalRestore*"></a>
+  <h4 id="OpenWindow_Window_InternalRestore" data-uid="OpenWindow.Window.InternalRestore">InternalRestore()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void InternalRestore()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_InternalSetBorderless_" data-uid="OpenWindow.Window.InternalSetBorderless*"></a>
+  <h4 id="OpenWindow_Window_InternalSetBorderless_System_Boolean_" data-uid="OpenWindow.Window.InternalSetBorderless(System.Boolean)">InternalSetBorderless(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void InternalSetBorderless(bool value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_InternalSetCursorVisible_" data-uid="OpenWindow.Window.InternalSetCursorVisible*"></a>
+  <h4 id="OpenWindow_Window_InternalSetCursorVisible_System_Boolean_" data-uid="OpenWindow.Window.InternalSetCursorVisible(System.Boolean)">InternalSetCursorVisible(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void InternalSetCursorVisible(bool value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_InternalSetResizable_" data-uid="OpenWindow.Window.InternalSetResizable*"></a>
+  <h4 id="OpenWindow_Window_InternalSetResizable_System_Boolean_" data-uid="OpenWindow.Window.InternalSetResizable(System.Boolean)">InternalSetResizable(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void InternalSetResizable(bool value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_InternalSetTitle_" data-uid="OpenWindow.Window.InternalSetTitle*"></a>
+  <h4 id="OpenWindow_Window_InternalSetTitle_System_String_" data-uid="OpenWindow.Window.InternalSetTitle(System.String)">InternalSetTitle(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void InternalSetTitle(string value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_InternalSetVisible_" data-uid="OpenWindow.Window.InternalSetVisible*"></a>
+  <h4 id="OpenWindow_Window_InternalSetVisible_System_Boolean_" data-uid="OpenWindow.Window.InternalSetVisible(System.Boolean)">InternalSetVisible(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void InternalSetVisible(bool value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_IsCapsLockOn_" data-uid="OpenWindow.Window.IsCapsLockOn*"></a>
+  <h4 id="OpenWindow_Window_IsCapsLockOn" data-uid="OpenWindow.Window.IsCapsLockOn">IsCapsLockOn()</h4>
+  <div class="markdown level1 summary"><p>Check if caps lock is turned on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract bool IsCapsLockOn()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><pre><code>true</code></pre> if caps lock is turned on, <pre><code>false</code></pre> if it is turned off.</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_IsDown_" data-uid="OpenWindow.Window.IsDown*"></a>
+  <h4 id="OpenWindow_Window_IsDown_OpenWindow_Key_" data-uid="OpenWindow.Window.IsDown(OpenWindow.Key)">IsDown(Key)</h4>
+  <div class="markdown level1 summary"><p>Check if the specified key is down.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract bool IsDown(Key key)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Key.html">Key</a></td>
+        <td><span class="parametername">key</span></td>
+        <td><p>The key to check for.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if the key is down, false if it is up.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_IsNumLockOn_" data-uid="OpenWindow.Window.IsNumLockOn*"></a>
+  <h4 id="OpenWindow_Window_IsNumLockOn" data-uid="OpenWindow.Window.IsNumLockOn">IsNumLockOn()</h4>
+  <div class="markdown level1 summary"><p>Check if num lock is turned on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract bool IsNumLockOn()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><pre><code>true</code></pre> if num lock is turned on, <pre><code>false</code></pre> if it is turned off.</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_IsScrollLockOn_" data-uid="OpenWindow.Window.IsScrollLockOn*"></a>
+  <h4 id="OpenWindow_Window_IsScrollLockOn" data-uid="OpenWindow.Window.IsScrollLockOn">IsScrollLockOn()</h4>
+  <div class="markdown level1 summary"><p>Check if scroll lock is turned on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract bool IsScrollLockOn()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><pre><code>true</code></pre> if scroll lock is turned on, <pre><code>false</code></pre> if it is turned off.</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_Maximize_" data-uid="OpenWindow.Window.Maximize*"></a>
+  <h4 id="OpenWindow_Window_Maximize" data-uid="OpenWindow.Window.Maximize">Maximize()</h4>
+  <div class="markdown level1 summary"><p>Make the window fill the entire display it&apos;s on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Maximize()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_Minimize_" data-uid="OpenWindow.Window.Minimize*"></a>
+  <h4 id="OpenWindow_Window_Minimize" data-uid="OpenWindow.Window.Minimize">Minimize()</h4>
+  <div class="markdown level1 summary"><p>Minimize or iconify the window.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Minimize()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_ReleaseUnmanagedResources_" data-uid="OpenWindow.Window.ReleaseUnmanagedResources*"></a>
+  <h4 id="OpenWindow_Window_ReleaseUnmanagedResources" data-uid="OpenWindow.Window.ReleaseUnmanagedResources">ReleaseUnmanagedResources()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void ReleaseUnmanagedResources()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_Restore_" data-uid="OpenWindow.Window.Restore*"></a>
+  <h4 id="OpenWindow_Window_Restore" data-uid="OpenWindow.Window.Restore">Restore()</h4>
+  <div class="markdown level1 summary"><p>Restore the window. If it was minimized or maximized, the original bounds will be restored.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Restore()</code></pre>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_SetCursorPosition_" data-uid="OpenWindow.Window.SetCursorPosition*"></a>
+  <h4 id="OpenWindow_Window_SetCursorPosition_System_Int32_System_Int32_" data-uid="OpenWindow.Window.SetCursorPosition(System.Int32,System.Int32)">SetCursorPosition(Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Set the position of the mouse cursor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void SetCursorPosition(int x, int y)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">x</span></td>
+        <td><p>X coordinate.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">y</span></td>
+        <td><p>Y coordinate.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OpenWindow_Window_SetFullscreen_" data-uid="OpenWindow.Window.SetFullscreen*"></a>
+  <h4 id="OpenWindow_Window_SetFullscreen" data-uid="OpenWindow.Window.SetFullscreen">SetFullscreen()</h4>
+  <div class="markdown level1 summary"><p>Makes the window borderless and sets the <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_ClientBounds">ClientBounds</a> to 
+the size of the display it is on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetFullscreen()</code></pre>
+  </div>
+  <h5 id="OpenWindow_Window_SetFullscreen_seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_GetContainingDisplay">GetContainingDisplay()</a></div>
+  </div>
+  
+  
+  <a id="OpenWindow_Window_Show_" data-uid="OpenWindow.Window.Show*"></a>
+  <h4 id="OpenWindow_Window_Show" data-uid="OpenWindow.Window.Show">Show()</h4>
+  <div class="markdown level1 summary"><p>Shows the window. Equivalent to setting <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_Visible">Visible</a> to <pre><code>true</code></pre>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Show()</code></pre>
+  </div>
+  <h3 id="events">Events
+  </h3>
+  
+  
+  <h4 id="OpenWindow_Window_CloseRequested" data-uid="OpenWindow.Window.CloseRequested">CloseRequested</h4>
+  <div class="markdown level1 summary"><p>Invoked when the <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_ShouldClose">ShouldClose</a> flag is set to <pre><code>true</code></pre>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;EventArgs&gt; CloseRequested</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<span class="xref">System.EventArgs</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Window_Closing" data-uid="OpenWindow.Window.Closing">Closing</h4>
+  <div class="markdown level1 summary"><p>Invoked right before the window closes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;EventArgs&gt; Closing</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<span class="xref">System.EventArgs</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Window_FocusChanged" data-uid="OpenWindow.Window.FocusChanged">FocusChanged</h4>
+  <div class="markdown level1 summary"><p>Invoked after the window focus changed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;FocusChangedEventArgs&gt; FocusChanged</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="OpenWindow.FocusChangedEventArgs.html">FocusChangedEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Window_KeyDown" data-uid="OpenWindow.Window.KeyDown">KeyDown</h4>
+  <div class="markdown level1 summary"><p>Invoked when a key is pressed down or a key is repeated.
+<a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_KeyDown">KeyDown</a>
+<a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_KeyUp">KeyUp</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;KeyDownEventArgs&gt; KeyDown</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="OpenWindow.KeyDownEventArgs.html">KeyDownEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OpenWindow_Window_KeyDown_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>For handling text input, it&apos;s easier to use the specialized <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_TextInput">TextInput</a> event.</p>
+</div>
+  
+  
+  <h4 id="OpenWindow_Window_KeyPress" data-uid="OpenWindow.Window.KeyPress">KeyPress</h4>
+  <div class="markdown level1 summary"><p>Invoked when a key is pressed down. Not invoked when a key is held down.
+<a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_KeyDown">KeyDown</a>
+<a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_KeyUp">KeyUp</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;KeyEventArgs&gt; KeyPress</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="OpenWindow.KeyEventArgs.html">KeyEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Window_KeyUp" data-uid="OpenWindow.Window.KeyUp">KeyUp</h4>
+  <div class="markdown level1 summary"><p>Invoked when a key is released.
+<a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_KeyDown">KeyDown</a>
+<a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_KeyUp">KeyUp</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;KeyEventArgs&gt; KeyUp</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="OpenWindow.KeyEventArgs.html">KeyEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Window_MouseDown" data-uid="OpenWindow.Window.MouseDown">MouseDown</h4>
+  <div class="markdown level1 summary"><p>Invoked when a mouse button is pressed down.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;MouseEventArgs&gt; MouseDown</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="OpenWindow.MouseEventArgs.html">MouseEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Window_MouseLeave" data-uid="OpenWindow.Window.MouseLeave">MouseLeave</h4>
+  <div class="markdown level1 summary"><p>Invoked when the mouse pointer leaves the bounds of the window.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;EventArgs&gt; MouseLeave</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<span class="xref">System.EventArgs</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Window_MouseMoved" data-uid="OpenWindow.Window.MouseMoved">MouseMoved</h4>
+  <div class="markdown level1 summary"><p>Invoked when the mouse moves in the client area of the window.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;MouseMovedEventArgs&gt; MouseMoved</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="OpenWindow.MouseMovedEventArgs.html">MouseMovedEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Window_MouseUp" data-uid="OpenWindow.Window.MouseUp">MouseUp</h4>
+  <div class="markdown level1 summary"><p>Invoked when a mouse button is released.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;MouseEventArgs&gt; MouseUp</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="OpenWindow.MouseEventArgs.html">MouseEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OpenWindow_Window_TextInput" data-uid="OpenWindow.Window.TextInput">TextInput</h4>
+  <div class="markdown level1 summary"><p>Invoked when a keypress happens. Contains the correct character for text input.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;TextInputEventArgs&gt; TextInput</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="OpenWindow.TextInputEventArgs.html">TextInputEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
