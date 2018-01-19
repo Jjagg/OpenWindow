@@ -14,7 +14,7 @@ namespace OpenWindow.Backends.Wayland
         
         #region Constructor
 
-        public WaylandWindow(OpenGLWindowSettings glSettings, bool show)
+        public WaylandWindow(OpenGlSurfaceSettings glSettings, bool show)
             : base(false)
         {
             var display = WlDisplay.Connect();

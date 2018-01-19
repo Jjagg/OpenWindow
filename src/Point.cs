@@ -61,6 +61,17 @@ namespace OpenWindow
         }
 
         /// <summary>
+        /// Subtract a size from a point.
+        /// </summary>
+        /// <param name="p">Point to subtract from.</param>
+        /// <param name="s">Size to subtract.</param>
+        /// <returns><code>new Point2(p.X - s.Width, p.Y - s.height)</code></returns>
+        public static Point operator -(Point p, Size s)
+        {
+            return new Point(p.X - s.Width, p.Y - s.Height);
+        }
+
+        /// <summary>
         /// Multiply a points components by a scalar value.
         /// </summary>
         /// <param name="s">Factor to scale by.</param>

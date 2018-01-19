@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace OpenWindow
 {
+    /// <summary>
+    /// A simple class for logging messages.
+    /// </summary>
     public sealed class Logger : IDisposable
     {
         private TextWriter _outputWriter;

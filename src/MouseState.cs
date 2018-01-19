@@ -4,6 +4,9 @@
 
 namespace OpenWindow
 {
+    /// <summary>
+    /// State of the mouse. Returned by <see cref="Window.GetMouseState"/>.
+    /// </summary>
     public struct MouseState
     {
         /// <summary>

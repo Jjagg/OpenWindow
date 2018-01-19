@@ -79,6 +79,16 @@ namespace OpenWindow
             return new Size(s * p.Width, s * p.Height);
         }
 
+        /// <summary>
+        /// Implicitly convert a <see cref="Point"/> to a <see cref="Size"/>.
+        /// </summary>
+        /// <param name="p">Point to convert.</param>
+        /// <returns>new Size(p.X, p.Y)</returns>
+        public static implicit operator Size(Point p)
+        {
+            return new Size(p.X, p.Y);
+        }
+
         public void Deconstruct(out int x, out int y)
         {
             x = Width;

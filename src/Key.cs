@@ -1,5 +1,8 @@
 ﻿namespace OpenWindow
 {
+    /// <summary>
+    /// Virtual keys used to report keyboard input.
+    /// </summary>
     public enum Key
     {
         /// <summary>

@@ -4,7 +4,11 @@
 
 namespace OpenWindow
 {
-    public class OpenGLWindowSettings
+    /// <summary>
+    /// Surface settings to request when creating a window. This must be properly configured
+    /// if you plan on drawing to this window with OpenGL. See the OpenGL sample for an example.
+    /// </summary>
+    public class OpenGlSurfaceSettings
     {
         /// <summary>
         /// To create a window suitable for rendering with OpenGL, set this to <code>true</code>.

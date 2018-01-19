@@ -33,7 +33,7 @@ namespace OpenWindow.Backends.Windows
             // TODO init properties
         }
 
-        public Win32Window(OpenGLWindowSettings glSettings, bool show)
+        public Win32Window(OpenGlSurfaceSettings glSettings, bool show)
             : base(false)
         {
             RegisterNewWindowClass();
@@ -86,13 +86,13 @@ namespace OpenWindow.Backends.Windows
                 }
             }
             else
-                GlSettings = new OpenGLWindowSettings();
+                GlSettings = new OpenGlSurfaceSettings();
 
             if (show)
                 Native.ShowWindow(Handle, ShowWindowCommand.Normal);
         }
 
-        private void InitOpenGl(OpenGLWindowSettings s)
+        private void InitOpenGl(OpenGlSurfaceSettings s)
         {
             var hdc = IntPtr.Zero;
             var hglrc = IntPtr.Zero;
@@ -176,7 +176,7 @@ namespace OpenWindow.Backends.Windows
                 var ppfd = new PixelFormatDescriptor();
                 Native.DescribePixelFormat(hdc, iPixelFormat, (uint) Marshal.SizeOf(typeof(PixelFormatDescriptor)), ref ppfd);
 
-                GlSettings = new OpenGLWindowSettings
+                GlSettings = new OpenGlSurfaceSettings
                 {
                     EnableOpenGl = true,
                     DoubleBuffer = (ppfd.dwFlags & PfdFlags.DoubleBuffer) != 0,

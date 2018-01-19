@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
 
 namespace OpenWindow
@@ -30,7 +29,7 @@ namespace OpenWindow
         protected WindowingService()
         {
             ManagedWindows = new Dictionary<IntPtr, Window>();
-            GlSettings = new OpenGLWindowSettings();
+            GlSettings = new OpenGlSurfaceSettings();
         }
 
         #endregion
@@ -182,7 +181,7 @@ namespace OpenWindow
         /// The settings to use for an OpenGL window. You only need to touch this when using OpenGL for rendering.
         /// Value at the time of calling <see cref="CreateWindow"/> is used for that window.
         /// </summary>
-        public OpenGLWindowSettings GlSettings { get; }
+        public OpenGlSurfaceSettings GlSettings { get; }
 
         /// <summary>
         /// Get the connected displays.
@@ -234,6 +233,10 @@ namespace OpenWindow
         {
         }
 
+        /// <summary>
+        /// Destroy the <see cref="WindowingService"/> instance and release unmanaged resources.
+        /// Call this before exiting your program.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);

@@ -3,10 +3,13 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
-using OpenWindow.Backends.Windows;
 
 namespace OpenWindow
 {
+    /// <summary>
+    /// A wrapper for a native window.
+    /// Exposes a unified API to interact with native Windows across platforms.
+    /// </summary>
     public abstract class Window : IDisposable
     {
         #region Private Fields
@@ -140,6 +143,9 @@ namespace OpenWindow
         /// </summary>
         public abstract Rectangle ClientBounds { get; set; }
 
+        /// <summary>
+        /// Indicates if the mouse cursor is visible.
+        /// </summary>
         public bool CursorVisible
         {
             get => _cursorVisible;
@@ -154,7 +160,12 @@ namespace OpenWindow
             }
         }
 
-        public OpenGLWindowSettings GlSettings { get; protected set; }
+        /// <summary>
+        /// Surface settings of this window. Not relevant when you do not use OpenGL to render to this window.
+        /// <seealso cref="OpenGlSurfaceSettings"/>
+        /// <seealso cref="WindowingService.GlSettings"/>
+        /// </summary>
+        public OpenGlSurfaceSettings GlSettings { get; protected set; }
 
         #endregion
 
@@ -235,13 +246,7 @@ namespace OpenWindow
             RaiseCloseRequested();
         }
 
-        /// <summary>
-        /// Get a byte array with the status data for each virtual key.
-        /// </summary>
-        /// <returns>
-        /// A byte array representing the state of the keyboard.
-        /// Use <see cref="VirtualKey"/> members to index into it.
-        /// </returns>
+        // TODO maintain keyboard state
         public abstract byte[] GetKeyboardState();
 
         /// <summary>
@@ -453,7 +458,7 @@ namespace OpenWindow
         }
 
         /// <summary>
-        /// Destroys the window.
+        /// Destroy the window and release unmanaged resources.
         /// </summary>
         public void Dispose()
         {
