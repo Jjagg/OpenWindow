@@ -309,21 +309,30 @@ namespace OpenWindow
 
         /// <summary>
         /// Invoked when a key is pressed down or a key is repeated.
+        /// <seealso cref="KeyDown"/>
+        /// <seealso cref="KeyUp"/>
         /// </summary>
+        /// <remarks>
+        /// For handling text input, it's easier to use the specialized <see cref="TextInput"/> event.
+        /// </remarks>
         public event EventHandler<KeyDownEventArgs> KeyDown;
 
         /// <summary>
-        /// Invoked when a key is pressed down. Not invoked when a key is held down like <see cref="KeyDown"/>.
+        /// Invoked when a key is pressed down. Not invoked when a key is held down.
+        /// <seealso cref="KeyDown"/>
+        /// <seealso cref="KeyUp"/>
         /// </summary>
         public event EventHandler<KeyEventArgs> KeyPress;
 
         /// <summary>
         /// Invoked when a key is released.
+        /// <seealso cref="KeyDown"/>
+        /// <seealso cref="KeyUp"/>
         /// </summary>
         public event EventHandler<KeyEventArgs> KeyUp;
 
         /// <summary>
-        /// Invoked when a keypress happens.
+        /// Invoked when a keypress happens. Contains the correct character for text input.
         /// </summary>
         public event EventHandler<TextInputEventArgs> TextInput;
 
