@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class KeyEventArgs
+    <title>Class WindowData
    | OpenWindow Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class KeyEventArgs
+    <meta name="title" content="Class WindowData
    | OpenWindow Documentation ">
     <meta name="generator" content="docfx 2.36.1.0">
     
@@ -68,25 +68,23 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="OpenWindow.KeyEventArgs">
+            <article class="content wrap" id="_content" data-uid="OpenWindow.WindowData">
   
   
-  <h1 id="OpenWindow_KeyEventArgs" data-uid="OpenWindow.KeyEventArgs" class="text-break">Class KeyEventArgs
+  <h1 id="OpenWindow_WindowData" data-uid="OpenWindow.WindowData" class="text-break">Class WindowData
   </h1>
-  <div class="markdown level0 summary"><p>Contains data for the <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_KeyUp">KeyUp</a> and <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_KeyPress">KeyPress</a> events.</p>
+  <div class="markdown level0 summary"><p>Base class for classes containing platform-specific data on windows.
+Returned by <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_GetPlatformData">GetPlatformData()</a>.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.eventargs">EventArgs</a></div>
-    <div class="level2"><span class="xref">KeyEventArgs</span></div>
+    <div class="level1"><span class="xref">WindowData</span></div>
+      <div class="level2"><a class="xref" href="OpenWindow.Backends.Windows.Win32WindowData.html">Win32WindowData</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.eventargs.empty">EventArgs.Empty</a>
-    </div>
     <div>
       <span class="xref">System.Object.Equals(System.Object)</span>
     </div>
@@ -111,23 +109,61 @@
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="OpenWindow.html">OpenWindow</a></h6>
   <h6><strong>Assembly</strong>: OpenWindow.dll</h6>
-  <h5 id="OpenWindow_KeyEventArgs_syntax">Syntax</h5>
+  <h5 id="OpenWindow_WindowData_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class KeyEventArgs : EventArgs</code></pre>
+    <pre><code class="lang-csharp hljs">public class WindowData</code></pre>
   </div>
-  <h3 id="fields">Fields
+  <h3 id="constructors">Constructors
   </h3>
   
   
-  <h4 id="OpenWindow_KeyEventArgs_Character" data-uid="OpenWindow.KeyEventArgs.Character">Character</h4>
-  <div class="markdown level1 summary"><p>The character corresponding to the pressed key.</p>
+  <a id="OpenWindow_WindowData__ctor_" data-uid="OpenWindow.WindowData.#ctor*"></a>
+  <h4 id="OpenWindow_WindowData__ctor_OpenWindow_WindowingService_OpenWindow_Window_" data-uid="OpenWindow.WindowData.#ctor(OpenWindow.WindowingService,OpenWindow.Window)">WindowData(WindowingService, Window)</h4>
+  <div class="markdown level1 summary"><p>Create a <a class="xref" href="OpenWindow.WindowData.html">WindowData</a> instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly char Character</code></pre>
+    <pre><code class="lang-csharp hljs">public WindowData(WindowingService windowingService, Window window)</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.WindowingService.html">WindowingService</a></td>
+        <td><span class="parametername">windowingService</span></td>
+        <td><p>The <a class="xref" href="OpenWindow.WindowData.html#OpenWindow_WindowData_WindowingService">WindowingService</a> that manages the window.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OpenWindow.Window.html">Window</a></td>
+        <td><span class="parametername">window</span></td>
+        <td><p>The window that this object contains data on.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="OpenWindow_WindowData_Window_" data-uid="OpenWindow.WindowData.Window*"></a>
+  <h4 id="OpenWindow_WindowData_Window" data-uid="OpenWindow.WindowData.Window">Window</h4>
+  <div class="markdown level1 summary"><p>The window that this object contains data on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Window Window { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -137,22 +173,24 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.char">Char</a></td>
+        <td><a class="xref" href="OpenWindow.Window.html">Window</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   
   
-  <h4 id="OpenWindow_KeyEventArgs_Key" data-uid="OpenWindow.KeyEventArgs.Key">Key</h4>
-  <div class="markdown level1 summary"><p>The <a class="xref" href="OpenWindow.KeyEventArgs.html#OpenWindow_KeyEventArgs_Key">Key</a> that was pressed or released.</p>
+  <a id="OpenWindow_WindowData_WindowingService_" data-uid="OpenWindow.WindowData.WindowingService*"></a>
+  <h4 id="OpenWindow_WindowData_WindowingService" data-uid="OpenWindow.WindowData.WindowingService">WindowingService</h4>
+  <div class="markdown level1 summary"><p>The <a class="xref" href="OpenWindow.WindowData.html#OpenWindow_WindowData_WindowingService">WindowingService</a> that manages the window or <pre><code>null</code></pre> for a
+<a class="xref" href="OpenWindow.VirtualWindow.html">VirtualWindow</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly Key Key</code></pre>
+    <pre><code class="lang-csharp hljs">public WindowingService WindowingService { get; }</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -162,32 +200,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="OpenWindow.Key.html">Key</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="OpenWindow_KeyEventArgs_ScanCode" data-uid="OpenWindow.KeyEventArgs.ScanCode">ScanCode</h4>
-  <div class="markdown level1 summary"><p>The scancode of the physicial key that was pressed or released. This is a platform-specific identifier.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly int ScanCode</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><a class="xref" href="OpenWindow.WindowingService.html">WindowingService</a></td>
         <td></td>
       </tr>
     </tbody>

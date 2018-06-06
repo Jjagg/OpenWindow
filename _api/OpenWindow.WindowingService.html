@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class WindowingService
    | OpenWindow Documentation ">
-    <meta name="generator" content="docfx 2.28.2.0">
+    <meta name="generator" content="docfx 2.36.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -22,7 +22,7 @@
     
     
   </head>
-  <body data-spy="scroll" data-target="#affix">
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
         
@@ -78,12 +78,12 @@
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
     <div class="level1"><span class="xref">WindowingService</span></div>
   </div>
   <div classs="implements">
     <h5>Implements</h5>
-    <div><span class="xref">System.IDisposable</span></div>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -121,7 +121,8 @@
   
   <a id="OpenWindow_WindowingService__ctor_" data-uid="OpenWindow.WindowingService.#ctor*"></a>
   <h4 id="OpenWindow_WindowingService__ctor" data-uid="OpenWindow.WindowingService.#ctor">WindowingService()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Create a <a class="xref" href="OpenWindow.WindowingService.html">WindowingService</a>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -132,7 +133,8 @@
   
   
   <h4 id="OpenWindow_WindowingService_ManagedWindows" data-uid="OpenWindow.WindowingService.ManagedWindows">ManagedWindows</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>A map from handles to the windows managed by this service.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -148,13 +150,39 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.IntPtr</span>, <a class="xref" href="OpenWindow.Window.html">Window</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.intptr">IntPtr</a>, <a class="xref" href="OpenWindow.Window.html">Window</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <h3 id="properties">Properties
   </h3>
+  
+  
+  <a id="OpenWindow_WindowingService_Backend_" data-uid="OpenWindow.WindowingService.Backend*"></a>
+  <h4 id="OpenWindow_WindowingService_Backend" data-uid="OpenWindow.WindowingService.Backend">Backend</h4>
+  <div class="markdown level1 summary"><p>The <a class="xref" href="OpenWindow.WindowingBackend.html">WindowingBackend</a> that this service uses.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static WindowingBackend Backend { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OpenWindow.WindowingBackend.html">WindowingBackend</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   
   
   <a id="OpenWindow_WindowingService_Displays_" data-uid="OpenWindow.WindowingService.Displays*"></a>
@@ -256,7 +284,7 @@ Value at the time of calling <a class="xref" href="OpenWindow.WindowingService.h
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -285,7 +313,7 @@ Value at the time of calling <a class="xref" href="OpenWindow.WindowingService.h
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
         <td><span class="parametername">show</span></td>
         <td><p>If <pre><code>true</code></pre>, makes the window visible, else keeps it hidden.
 The window can be made visible by calling <a class="xref" href="OpenWindow.Window.html#OpenWindow_Window_Show">Show()</a>.</p>
@@ -342,7 +370,7 @@ Call this before exiting your program.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
         <td><span class="parametername">disposing</span></td>
         <td></td>
       </tr>
@@ -379,7 +407,8 @@ Call this before exiting your program.</p>
   
   <a id="OpenWindow_WindowingService_Initialize_" data-uid="OpenWindow.WindowingService.Initialize*"></a>
   <h4 id="OpenWindow_WindowingService_Initialize" data-uid="OpenWindow.WindowingService.Initialize">Initialize()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initialize this <a class="xref" href="OpenWindow.WindowingService.html">WindowingService</a>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -409,7 +438,7 @@ public static void LogDebug(string message)</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
         <td><span class="parametername">message</span></td>
         <td><p>Message to log.</p>
 </td>
@@ -438,7 +467,7 @@ public static void LogDebug(string message)</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
         <td><span class="parametername">message</span></td>
         <td><p>Message to log.</p>
 </td>
@@ -467,7 +496,7 @@ public static void LogDebug(string message)</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
         <td><span class="parametername">message</span></td>
         <td><p>Message to log.</p>
 </td>
@@ -496,7 +525,7 @@ public static void LogDebug(string message)</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
         <td><span class="parametername">message</span></td>
         <td><p>Message to log.</p>
 </td>
@@ -536,7 +565,7 @@ public static void LogDebug(string message)</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IntPtr</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.intptr">IntPtr</a></td>
         <td><span class="parametername">handle</span></td>
         <td><p>The native handle to the window.</p>
 </td>
@@ -559,7 +588,7 @@ public static void LogDebug(string message)</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
         <td><p>True if the window was found, false otherwise.</p>
 </td>
       </tr>
@@ -598,7 +627,7 @@ public static void LogDebug(string message)</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IntPtr</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.intptr">IntPtr</a></td>
         <td><span class="parametername">handle</span></td>
         <td><p>Handle to an existing window.</p>
 </td>
@@ -623,7 +652,7 @@ public static void LogDebug(string message)</code></pre>
   </table>
   <h3 id="implements">Implements</h3>
   <div>
-      <span class="xref">System.IDisposable</span>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.idisposable">System.IDisposable</a>
   </div>
 </article>
           </div>
@@ -650,7 +679,7 @@ public static void LogDebug(string message)</code></pre>
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+            <span>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

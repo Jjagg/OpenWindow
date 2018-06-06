@@ -7,6 +7,44 @@ references:
   commentId: N:OpenWindow
   fullName: OpenWindow
   nameWithType: OpenWindow
+- uid: OpenWindow.Backends.Windows
+  name: OpenWindow.Backends.Windows
+  href: _api/OpenWindow.Backends.Windows.html
+  commentId: N:OpenWindow.Backends.Windows
+  fullName: OpenWindow.Backends.Windows
+  nameWithType: OpenWindow.Backends.Windows
+- uid: OpenWindow.Backends.Windows.Win32WindowData
+  name: Win32WindowData
+  href: _api/OpenWindow.Backends.Windows.Win32WindowData.html
+  commentId: T:OpenWindow.Backends.Windows.Win32WindowData
+  fullName: OpenWindow.Backends.Windows.Win32WindowData
+  nameWithType: Win32WindowData
+- uid: OpenWindow.Backends.Windows.Win32WindowData.HInstance
+  name: HInstance
+  href: _api/OpenWindow.Backends.Windows.Win32WindowData.html#OpenWindow_Backends_Windows_Win32WindowData_HInstance
+  commentId: P:OpenWindow.Backends.Windows.Win32WindowData.HInstance
+  fullName: OpenWindow.Backends.Windows.Win32WindowData.HInstance
+  nameWithType: Win32WindowData.HInstance
+- uid: OpenWindow.Backends.Windows.Win32WindowData.HInstance*
+  name: HInstance
+  href: _api/OpenWindow.Backends.Windows.Win32WindowData.html#OpenWindow_Backends_Windows_Win32WindowData_HInstance_
+  commentId: Overload:OpenWindow.Backends.Windows.Win32WindowData.HInstance
+  isSpec: "True"
+  fullName: OpenWindow.Backends.Windows.Win32WindowData.HInstance
+  nameWithType: Win32WindowData.HInstance
+- uid: OpenWindow.Backends.Windows.Win32WindowData.Hwnd
+  name: Hwnd
+  href: _api/OpenWindow.Backends.Windows.Win32WindowData.html#OpenWindow_Backends_Windows_Win32WindowData_Hwnd
+  commentId: P:OpenWindow.Backends.Windows.Win32WindowData.Hwnd
+  fullName: OpenWindow.Backends.Windows.Win32WindowData.Hwnd
+  nameWithType: Win32WindowData.Hwnd
+- uid: OpenWindow.Backends.Windows.Win32WindowData.Hwnd*
+  name: Hwnd
+  href: _api/OpenWindow.Backends.Windows.Win32WindowData.html#OpenWindow_Backends_Windows_Win32WindowData_Hwnd_
+  commentId: Overload:OpenWindow.Backends.Windows.Win32WindowData.Hwnd
+  isSpec: "True"
+  fullName: OpenWindow.Backends.Windows.Win32WindowData.Hwnd
+  nameWithType: Win32WindowData.Hwnd
 - uid: OpenWindow.Display
   name: Display
   href: _api/OpenWindow.Display.html
@@ -23,6 +61,7 @@ references:
   name: Bounds
   href: _api/OpenWindow.Display.html#OpenWindow_Display_Bounds_
   commentId: Overload:OpenWindow.Display.Bounds
+  isSpec: "True"
   fullName: OpenWindow.Display.Bounds
   nameWithType: Display.Bounds
 - uid: OpenWindow.Display.IsPrimary
@@ -35,6 +74,7 @@ references:
   name: IsPrimary
   href: _api/OpenWindow.Display.html#OpenWindow_Display_IsPrimary_
   commentId: Overload:OpenWindow.Display.IsPrimary
+  isSpec: "True"
   fullName: OpenWindow.Display.IsPrimary
   nameWithType: Display.IsPrimary
 - uid: OpenWindow.Display.Name
@@ -47,6 +87,7 @@ references:
   name: Name
   href: _api/OpenWindow.Display.html#OpenWindow_Display_Name_
   commentId: Overload:OpenWindow.Display.Name
+  isSpec: "True"
   fullName: OpenWindow.Display.Name
   nameWithType: Display.Name
 - uid: OpenWindow.Display.WorkingArea
@@ -59,6 +100,7 @@ references:
   name: WorkingArea
   href: _api/OpenWindow.Display.html#OpenWindow_Display_WorkingArea_
   commentId: Overload:OpenWindow.Display.WorkingArea
+  isSpec: "True"
   fullName: OpenWindow.Display.WorkingArea
   nameWithType: Display.WorkingArea
 - uid: OpenWindow.FocusChangedEventArgs
@@ -887,6 +929,7 @@ references:
   name: Logger
   href: _api/OpenWindow.Logger.html#OpenWindow_Logger__ctor_
   commentId: Overload:OpenWindow.Logger.#ctor
+  isSpec: "True"
   fullName: OpenWindow.Logger.Logger
   nameWithType: Logger.Logger
 - uid: OpenWindow.Logger.Clear
@@ -899,6 +942,7 @@ references:
   name: Clear
   href: _api/OpenWindow.Logger.html#OpenWindow_Logger_Clear_
   commentId: Overload:OpenWindow.Logger.Clear
+  isSpec: "True"
   fullName: OpenWindow.Logger.Clear
   nameWithType: Logger.Clear
 - uid: OpenWindow.Logger.Dispose
@@ -911,6 +955,7 @@ references:
   name: Dispose
   href: _api/OpenWindow.Logger.html#OpenWindow_Logger_Dispose_
   commentId: Overload:OpenWindow.Logger.Dispose
+  isSpec: "True"
   fullName: OpenWindow.Logger.Dispose
   nameWithType: Logger.Dispose
 - uid: OpenWindow.Logger.Dump(OpenWindow.Logger.Level)
@@ -923,6 +968,7 @@ references:
   name: Dump
   href: _api/OpenWindow.Logger.html#OpenWindow_Logger_Dump_
   commentId: Overload:OpenWindow.Logger.Dump
+  isSpec: "True"
   fullName: OpenWindow.Logger.Dump
   nameWithType: Logger.Dump
 - uid: OpenWindow.Logger.Level
@@ -965,6 +1011,7 @@ references:
   name: Log
   href: _api/OpenWindow.Logger.html#OpenWindow_Logger_Log_
   commentId: Overload:OpenWindow.Logger.Log
+  isSpec: "True"
   fullName: OpenWindow.Logger.Log
   nameWithType: Logger.Log
 - uid: OpenWindow.Logger.Message
@@ -983,6 +1030,7 @@ references:
   name: Message
   href: _api/OpenWindow.Logger.Message.html#OpenWindow_Logger_Message__ctor_
   commentId: Overload:OpenWindow.Logger.Message.#ctor
+  isSpec: "True"
   fullName: OpenWindow.Logger.Message.Message
   nameWithType: Logger.Message.Message
 - uid: OpenWindow.Logger.Message.Content
@@ -995,6 +1043,7 @@ references:
   name: Content
   href: _api/OpenWindow.Logger.Message.html#OpenWindow_Logger_Message_Content_
   commentId: Overload:OpenWindow.Logger.Message.Content
+  isSpec: "True"
   fullName: OpenWindow.Logger.Message.Content
   nameWithType: Logger.Message.Content
 - uid: OpenWindow.Logger.Message.Level
@@ -1007,6 +1056,7 @@ references:
   name: Level
   href: _api/OpenWindow.Logger.Message.html#OpenWindow_Logger_Message_Level_
   commentId: Overload:OpenWindow.Logger.Message.Level
+  isSpec: "True"
   fullName: OpenWindow.Logger.Message.Level
   nameWithType: Logger.Message.Level
 - uid: OpenWindow.Logger.Message.TimeStamp
@@ -1019,6 +1069,7 @@ references:
   name: TimeStamp
   href: _api/OpenWindow.Logger.Message.html#OpenWindow_Logger_Message_TimeStamp_
   commentId: Overload:OpenWindow.Logger.Message.TimeStamp
+  isSpec: "True"
   fullName: OpenWindow.Logger.Message.TimeStamp
   nameWithType: Logger.Message.TimeStamp
 - uid: OpenWindow.Logger.Message.ToString
@@ -1037,6 +1088,7 @@ references:
   name: ToString
   href: _api/OpenWindow.Logger.Message.html#OpenWindow_Logger_Message_ToString_
   commentId: Overload:OpenWindow.Logger.Message.ToString
+  isSpec: "True"
   fullName: OpenWindow.Logger.Message.ToString
   nameWithType: Logger.Message.ToString
 - uid: OpenWindow.Logger.Messages
@@ -1049,6 +1101,7 @@ references:
   name: Messages
   href: _api/OpenWindow.Logger.html#OpenWindow_Logger_Messages_
   commentId: Overload:OpenWindow.Logger.Messages
+  isSpec: "True"
   fullName: OpenWindow.Logger.Messages
   nameWithType: Logger.Messages
 - uid: OpenWindow.Logger.OutputWriter
@@ -1061,50 +1114,51 @@ references:
   name: OutputWriter
   href: _api/OpenWindow.Logger.html#OpenWindow_Logger_OutputWriter_
   commentId: Overload:OpenWindow.Logger.OutputWriter
+  isSpec: "True"
   fullName: OpenWindow.Logger.OutputWriter
   nameWithType: Logger.OutputWriter
-- uid: OpenWindow.MouseButton
-  name: MouseButton
-  href: _api/OpenWindow.MouseButton.html
-  commentId: T:OpenWindow.MouseButton
-  fullName: OpenWindow.MouseButton
-  nameWithType: MouseButton
-- uid: OpenWindow.MouseButton.Left
+- uid: OpenWindow.MouseButtons
+  name: MouseButtons
+  href: _api/OpenWindow.MouseButtons.html
+  commentId: T:OpenWindow.MouseButtons
+  fullName: OpenWindow.MouseButtons
+  nameWithType: MouseButtons
+- uid: OpenWindow.MouseButtons.Left
   name: Left
-  href: _api/OpenWindow.MouseButton.html#OpenWindow_MouseButton_Left
-  commentId: F:OpenWindow.MouseButton.Left
-  fullName: OpenWindow.MouseButton.Left
-  nameWithType: MouseButton.Left
-- uid: OpenWindow.MouseButton.Middle
+  href: _api/OpenWindow.MouseButtons.html#OpenWindow_MouseButtons_Left
+  commentId: F:OpenWindow.MouseButtons.Left
+  fullName: OpenWindow.MouseButtons.Left
+  nameWithType: MouseButtons.Left
+- uid: OpenWindow.MouseButtons.Middle
   name: Middle
-  href: _api/OpenWindow.MouseButton.html#OpenWindow_MouseButton_Middle
-  commentId: F:OpenWindow.MouseButton.Middle
-  fullName: OpenWindow.MouseButton.Middle
-  nameWithType: MouseButton.Middle
-- uid: OpenWindow.MouseButton.None
+  href: _api/OpenWindow.MouseButtons.html#OpenWindow_MouseButtons_Middle
+  commentId: F:OpenWindow.MouseButtons.Middle
+  fullName: OpenWindow.MouseButtons.Middle
+  nameWithType: MouseButtons.Middle
+- uid: OpenWindow.MouseButtons.None
   name: None
-  href: _api/OpenWindow.MouseButton.html#OpenWindow_MouseButton_None
-  commentId: F:OpenWindow.MouseButton.None
-  fullName: OpenWindow.MouseButton.None
-  nameWithType: MouseButton.None
-- uid: OpenWindow.MouseButton.Right
+  href: _api/OpenWindow.MouseButtons.html#OpenWindow_MouseButtons_None
+  commentId: F:OpenWindow.MouseButtons.None
+  fullName: OpenWindow.MouseButtons.None
+  nameWithType: MouseButtons.None
+- uid: OpenWindow.MouseButtons.Right
   name: Right
-  href: _api/OpenWindow.MouseButton.html#OpenWindow_MouseButton_Right
-  commentId: F:OpenWindow.MouseButton.Right
-  fullName: OpenWindow.MouseButton.Right
-  nameWithType: MouseButton.Right
-- uid: OpenWindow.MouseButton.X1
+  href: _api/OpenWindow.MouseButtons.html#OpenWindow_MouseButtons_Right
+  commentId: F:OpenWindow.MouseButtons.Right
+  fullName: OpenWindow.MouseButtons.Right
+  nameWithType: MouseButtons.Right
+- uid: OpenWindow.MouseButtons.X1
   name: X1
-  href: _api/OpenWindow.MouseButton.html#OpenWindow_MouseButton_X1
-  commentId: F:OpenWindow.MouseButton.X1
-  fullName: OpenWindow.MouseButton.X1
-  nameWithType: MouseButton.X1
-- uid: OpenWindow.MouseButton.X2
+  href: _api/OpenWindow.MouseButtons.html#OpenWindow_MouseButtons_X1
+  commentId: F:OpenWindow.MouseButtons.X1
+  fullName: OpenWindow.MouseButtons.X1
+  nameWithType: MouseButtons.X1
+- uid: OpenWindow.MouseButtons.X2
   name: X2
-  href: _api/OpenWindow.MouseButton.html#OpenWindow_MouseButton_X2
-  commentId: F:OpenWindow.MouseButton.X2
-  fullName: OpenWindow.MouseButton.X2
-  nameWithType: MouseButton.X2
+  href: _api/OpenWindow.MouseButtons.html#OpenWindow_MouseButtons_X2
+  commentId: F:OpenWindow.MouseButtons.X2
+  fullName: OpenWindow.MouseButtons.X2
+  nameWithType: MouseButtons.X2
 - uid: OpenWindow.MouseEventArgs
   name: MouseEventArgs
   href: _api/OpenWindow.MouseEventArgs.html
@@ -1141,16 +1195,17 @@ references:
   commentId: T:OpenWindow.MouseState
   fullName: OpenWindow.MouseState
   nameWithType: MouseState
-- uid: OpenWindow.MouseState.#ctor(OpenWindow.MouseButton,OpenWindow.Point)
-  name: MouseState(MouseButton, Point)
-  href: _api/OpenWindow.MouseState.html#OpenWindow_MouseState__ctor_OpenWindow_MouseButton_OpenWindow_Point_
-  commentId: M:OpenWindow.MouseState.#ctor(OpenWindow.MouseButton,OpenWindow.Point)
-  fullName: OpenWindow.MouseState.MouseState(OpenWindow.MouseButton, OpenWindow.Point)
-  nameWithType: MouseState.MouseState(MouseButton, Point)
+- uid: OpenWindow.MouseState.#ctor(OpenWindow.MouseButtons,OpenWindow.Point)
+  name: MouseState(MouseButtons, Point)
+  href: _api/OpenWindow.MouseState.html#OpenWindow_MouseState__ctor_OpenWindow_MouseButtons_OpenWindow_Point_
+  commentId: M:OpenWindow.MouseState.#ctor(OpenWindow.MouseButtons,OpenWindow.Point)
+  fullName: OpenWindow.MouseState.MouseState(OpenWindow.MouseButtons, OpenWindow.Point)
+  nameWithType: MouseState.MouseState(MouseButtons, Point)
 - uid: OpenWindow.MouseState.#ctor*
   name: MouseState
   href: _api/OpenWindow.MouseState.html#OpenWindow_MouseState__ctor_
   commentId: Overload:OpenWindow.MouseState.#ctor
+  isSpec: "True"
   fullName: OpenWindow.MouseState.MouseState
   nameWithType: MouseState.MouseState
 - uid: OpenWindow.MouseState.ButtonsDown
@@ -1169,6 +1224,7 @@ references:
   name: LeftDown
   href: _api/OpenWindow.MouseState.html#OpenWindow_MouseState_LeftDown_
   commentId: Overload:OpenWindow.MouseState.LeftDown
+  isSpec: "True"
   fullName: OpenWindow.MouseState.LeftDown
   nameWithType: MouseState.LeftDown
 - uid: OpenWindow.MouseState.MiddleDown
@@ -1181,6 +1237,7 @@ references:
   name: MiddleDown
   href: _api/OpenWindow.MouseState.html#OpenWindow_MouseState_MiddleDown_
   commentId: Overload:OpenWindow.MouseState.MiddleDown
+  isSpec: "True"
   fullName: OpenWindow.MouseState.MiddleDown
   nameWithType: MouseState.MiddleDown
 - uid: OpenWindow.MouseState.Position
@@ -1199,6 +1256,7 @@ references:
   name: RightDown
   href: _api/OpenWindow.MouseState.html#OpenWindow_MouseState_RightDown_
   commentId: Overload:OpenWindow.MouseState.RightDown
+  isSpec: "True"
   fullName: OpenWindow.MouseState.RightDown
   nameWithType: MouseState.RightDown
 - uid: OpenWindow.MouseState.X1Down
@@ -1211,6 +1269,7 @@ references:
   name: X1Down
   href: _api/OpenWindow.MouseState.html#OpenWindow_MouseState_X1Down_
   commentId: Overload:OpenWindow.MouseState.X1Down
+  isSpec: "True"
   fullName: OpenWindow.MouseState.X1Down
   nameWithType: MouseState.X1Down
 - uid: OpenWindow.MouseState.X2Down
@@ -1223,6 +1282,7 @@ references:
   name: X2Down
   href: _api/OpenWindow.MouseState.html#OpenWindow_MouseState_X2Down_
   commentId: Overload:OpenWindow.MouseState.X2Down
+  isSpec: "True"
   fullName: OpenWindow.MouseState.X2Down
   nameWithType: MouseState.X2Down
 - uid: OpenWindow.OpenGlSurfaceSettings
@@ -1241,6 +1301,7 @@ references:
   name: AlphaSize
   href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_AlphaSize_
   commentId: Overload:OpenWindow.OpenGlSurfaceSettings.AlphaSize
+  isSpec: "True"
   fullName: OpenWindow.OpenGlSurfaceSettings.AlphaSize
   nameWithType: OpenGlSurfaceSettings.AlphaSize
 - uid: OpenWindow.OpenGlSurfaceSettings.BlueSize
@@ -1253,6 +1314,7 @@ references:
   name: BlueSize
   href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_BlueSize_
   commentId: Overload:OpenWindow.OpenGlSurfaceSettings.BlueSize
+  isSpec: "True"
   fullName: OpenWindow.OpenGlSurfaceSettings.BlueSize
   nameWithType: OpenGlSurfaceSettings.BlueSize
 - uid: OpenWindow.OpenGlSurfaceSettings.DepthSize
@@ -1265,6 +1327,7 @@ references:
   name: DepthSize
   href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_DepthSize_
   commentId: Overload:OpenWindow.OpenGlSurfaceSettings.DepthSize
+  isSpec: "True"
   fullName: OpenWindow.OpenGlSurfaceSettings.DepthSize
   nameWithType: OpenGlSurfaceSettings.DepthSize
 - uid: OpenWindow.OpenGlSurfaceSettings.DoubleBuffer
@@ -1277,6 +1340,7 @@ references:
   name: DoubleBuffer
   href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_DoubleBuffer_
   commentId: Overload:OpenWindow.OpenGlSurfaceSettings.DoubleBuffer
+  isSpec: "True"
   fullName: OpenWindow.OpenGlSurfaceSettings.DoubleBuffer
   nameWithType: OpenGlSurfaceSettings.DoubleBuffer
 - uid: OpenWindow.OpenGlSurfaceSettings.EnableOpenGl
@@ -1289,6 +1353,7 @@ references:
   name: EnableOpenGl
   href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_EnableOpenGl_
   commentId: Overload:OpenWindow.OpenGlSurfaceSettings.EnableOpenGl
+  isSpec: "True"
   fullName: OpenWindow.OpenGlSurfaceSettings.EnableOpenGl
   nameWithType: OpenGlSurfaceSettings.EnableOpenGl
 - uid: OpenWindow.OpenGlSurfaceSettings.GreenSize
@@ -1301,6 +1366,7 @@ references:
   name: GreenSize
   href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_GreenSize_
   commentId: Overload:OpenWindow.OpenGlSurfaceSettings.GreenSize
+  isSpec: "True"
   fullName: OpenWindow.OpenGlSurfaceSettings.GreenSize
   nameWithType: OpenGlSurfaceSettings.GreenSize
 - uid: OpenWindow.OpenGlSurfaceSettings.MultiSampleCount
@@ -1313,6 +1379,7 @@ references:
   name: MultiSampleCount
   href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_MultiSampleCount_
   commentId: Overload:OpenWindow.OpenGlSurfaceSettings.MultiSampleCount
+  isSpec: "True"
   fullName: OpenWindow.OpenGlSurfaceSettings.MultiSampleCount
   nameWithType: OpenGlSurfaceSettings.MultiSampleCount
 - uid: OpenWindow.OpenGlSurfaceSettings.RedSize
@@ -1325,6 +1392,7 @@ references:
   name: RedSize
   href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_RedSize_
   commentId: Overload:OpenWindow.OpenGlSurfaceSettings.RedSize
+  isSpec: "True"
   fullName: OpenWindow.OpenGlSurfaceSettings.RedSize
   nameWithType: OpenGlSurfaceSettings.RedSize
 - uid: OpenWindow.OpenGlSurfaceSettings.StencilSize
@@ -1337,6 +1405,7 @@ references:
   name: StencilSize
   href: _api/OpenWindow.OpenGlSurfaceSettings.html#OpenWindow_OpenGlSurfaceSettings_StencilSize_
   commentId: Overload:OpenWindow.OpenGlSurfaceSettings.StencilSize
+  isSpec: "True"
   fullName: OpenWindow.OpenGlSurfaceSettings.StencilSize
   nameWithType: OpenGlSurfaceSettings.StencilSize
 - uid: OpenWindow.OpenWindowException
@@ -1361,6 +1430,7 @@ references:
   name: OpenWindowException
   href: _api/OpenWindow.OpenWindowException.html#OpenWindow_OpenWindowException__ctor_
   commentId: Overload:OpenWindow.OpenWindowException.#ctor
+  isSpec: "True"
   fullName: OpenWindow.OpenWindowException.OpenWindowException
   nameWithType: OpenWindowException.OpenWindowException
 - uid: OpenWindow.Point
@@ -1379,6 +1449,7 @@ references:
   name: Point
   href: _api/OpenWindow.Point.html#OpenWindow_Point__ctor_
   commentId: Overload:OpenWindow.Point.#ctor
+  isSpec: "True"
   fullName: OpenWindow.Point.Point
   nameWithType: Point.Point
 - uid: OpenWindow.Point.Deconstruct(System.Int32@,System.Int32@)
@@ -1394,6 +1465,7 @@ references:
   name: Deconstruct
   href: _api/OpenWindow.Point.html#OpenWindow_Point_Deconstruct_
   commentId: Overload:OpenWindow.Point.Deconstruct
+  isSpec: "True"
   fullName: OpenWindow.Point.Deconstruct
   nameWithType: Point.Deconstruct
 - uid: OpenWindow.Point.Equals(OpenWindow.Point)
@@ -1412,6 +1484,7 @@ references:
   name: Equals
   href: _api/OpenWindow.Point.html#OpenWindow_Point_Equals_
   commentId: Overload:OpenWindow.Point.Equals
+  isSpec: "True"
   fullName: OpenWindow.Point.Equals
   nameWithType: Point.Equals
 - uid: OpenWindow.Point.GetHashCode
@@ -1424,6 +1497,7 @@ references:
   name: GetHashCode
   href: _api/OpenWindow.Point.html#OpenWindow_Point_GetHashCode_
   commentId: Overload:OpenWindow.Point.GetHashCode
+  isSpec: "True"
   fullName: OpenWindow.Point.GetHashCode
   nameWithType: Point.GetHashCode
 - uid: OpenWindow.Point.op_Addition(OpenWindow.Point,OpenWindow.Point)
@@ -1436,6 +1510,7 @@ references:
   name: Addition
   href: _api/OpenWindow.Point.html#OpenWindow_Point_op_Addition_
   commentId: Overload:OpenWindow.Point.op_Addition
+  isSpec: "True"
   fullName: OpenWindow.Point.Addition
   nameWithType: Point.Addition
 - uid: OpenWindow.Point.op_Equality(OpenWindow.Point,OpenWindow.Point)
@@ -1448,6 +1523,7 @@ references:
   name: Equality
   href: _api/OpenWindow.Point.html#OpenWindow_Point_op_Equality_
   commentId: Overload:OpenWindow.Point.op_Equality
+  isSpec: "True"
   fullName: OpenWindow.Point.Equality
   nameWithType: Point.Equality
 - uid: OpenWindow.Point.op_Inequality(OpenWindow.Point,OpenWindow.Point)
@@ -1460,6 +1536,7 @@ references:
   name: Inequality
   href: _api/OpenWindow.Point.html#OpenWindow_Point_op_Inequality_
   commentId: Overload:OpenWindow.Point.op_Inequality
+  isSpec: "True"
   fullName: OpenWindow.Point.Inequality
   nameWithType: Point.Inequality
 - uid: OpenWindow.Point.op_Multiply(OpenWindow.Point,System.Int32)
@@ -1478,6 +1555,7 @@ references:
   name: Multiply
   href: _api/OpenWindow.Point.html#OpenWindow_Point_op_Multiply_
   commentId: Overload:OpenWindow.Point.op_Multiply
+  isSpec: "True"
   fullName: OpenWindow.Point.Multiply
   nameWithType: Point.Multiply
 - uid: OpenWindow.Point.op_Subtraction(OpenWindow.Point,OpenWindow.Point)
@@ -1496,6 +1574,7 @@ references:
   name: Subtraction
   href: _api/OpenWindow.Point.html#OpenWindow_Point_op_Subtraction_
   commentId: Overload:OpenWindow.Point.op_Subtraction
+  isSpec: "True"
   fullName: OpenWindow.Point.Subtraction
   nameWithType: Point.Subtraction
 - uid: OpenWindow.Point.ToString
@@ -1508,6 +1587,7 @@ references:
   name: ToString
   href: _api/OpenWindow.Point.html#OpenWindow_Point_ToString_
   commentId: Overload:OpenWindow.Point.ToString
+  isSpec: "True"
   fullName: OpenWindow.Point.ToString
   nameWithType: Point.ToString
 - uid: OpenWindow.Point.X
@@ -1550,6 +1630,7 @@ references:
   name: Rectangle
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle__ctor_
   commentId: Overload:OpenWindow.Rectangle.#ctor
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Rectangle
   nameWithType: Rectangle.Rectangle
 - uid: OpenWindow.Rectangle.Bottom
@@ -1562,6 +1643,7 @@ references:
   name: Bottom
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Bottom_
   commentId: Overload:OpenWindow.Rectangle.Bottom
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Bottom
   nameWithType: Rectangle.Bottom
 - uid: OpenWindow.Rectangle.BottomLeft
@@ -1574,6 +1656,7 @@ references:
   name: BottomLeft
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_BottomLeft_
   commentId: Overload:OpenWindow.Rectangle.BottomLeft
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.BottomLeft
   nameWithType: Rectangle.BottomLeft
 - uid: OpenWindow.Rectangle.BottomRight
@@ -1586,6 +1669,7 @@ references:
   name: BottomRight
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_BottomRight_
   commentId: Overload:OpenWindow.Rectangle.BottomRight
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.BottomRight
   nameWithType: Rectangle.BottomRight
 - uid: OpenWindow.Rectangle.Center
@@ -1598,6 +1682,7 @@ references:
   name: Center
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Center_
   commentId: Overload:OpenWindow.Rectangle.Center
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Center
   nameWithType: Rectangle.Center
 - uid: OpenWindow.Rectangle.Deconstruct(OpenWindow.Point@,OpenWindow.Size@)
@@ -1622,6 +1707,7 @@ references:
   name: Deconstruct
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Deconstruct_
   commentId: Overload:OpenWindow.Rectangle.Deconstruct
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Deconstruct
   nameWithType: Rectangle.Deconstruct
 - uid: OpenWindow.Rectangle.Empty
@@ -1646,6 +1732,7 @@ references:
   name: Equals
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Equals_
   commentId: Overload:OpenWindow.Rectangle.Equals
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Equals
   nameWithType: Rectangle.Equals
 - uid: OpenWindow.Rectangle.FromExtremes(OpenWindow.Point,OpenWindow.Point)
@@ -1658,6 +1745,7 @@ references:
   name: FromExtremes
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_FromExtremes_
   commentId: Overload:OpenWindow.Rectangle.FromExtremes
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.FromExtremes
   nameWithType: Rectangle.FromExtremes
 - uid: OpenWindow.Rectangle.FromHalfExtents(OpenWindow.Point,OpenWindow.Size)
@@ -1670,6 +1758,7 @@ references:
   name: FromHalfExtents
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_FromHalfExtents_
   commentId: Overload:OpenWindow.Rectangle.FromHalfExtents
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.FromHalfExtents
   nameWithType: Rectangle.FromHalfExtents
 - uid: OpenWindow.Rectangle.GetHashCode
@@ -1682,6 +1771,7 @@ references:
   name: GetHashCode
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_GetHashCode_
   commentId: Overload:OpenWindow.Rectangle.GetHashCode
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.GetHashCode
   nameWithType: Rectangle.GetHashCode
 - uid: OpenWindow.Rectangle.GetPoints
@@ -1694,6 +1784,7 @@ references:
   name: GetPoints
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_GetPoints_
   commentId: Overload:OpenWindow.Rectangle.GetPoints
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.GetPoints
   nameWithType: Rectangle.GetPoints
 - uid: OpenWindow.Rectangle.HalfExtents
@@ -1706,6 +1797,7 @@ references:
   name: HalfExtents
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_HalfExtents_
   commentId: Overload:OpenWindow.Rectangle.HalfExtents
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.HalfExtents
   nameWithType: Rectangle.HalfExtents
 - uid: OpenWindow.Rectangle.Height
@@ -1730,6 +1822,7 @@ references:
   name: Inflate
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Inflate_
   commentId: Overload:OpenWindow.Rectangle.Inflate
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Inflate
   nameWithType: Rectangle.Inflate
 - uid: OpenWindow.Rectangle.Left
@@ -1742,6 +1835,7 @@ references:
   name: Left
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Left_
   commentId: Overload:OpenWindow.Rectangle.Left
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Left
   nameWithType: Rectangle.Left
 - uid: OpenWindow.Rectangle.op_Equality(OpenWindow.Rectangle,OpenWindow.Rectangle)
@@ -1754,6 +1848,7 @@ references:
   name: Equality
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_op_Equality_
   commentId: Overload:OpenWindow.Rectangle.op_Equality
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Equality
   nameWithType: Rectangle.Equality
 - uid: OpenWindow.Rectangle.op_Inequality(OpenWindow.Rectangle,OpenWindow.Rectangle)
@@ -1766,6 +1861,7 @@ references:
   name: Inequality
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_op_Inequality_
   commentId: Overload:OpenWindow.Rectangle.op_Inequality
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Inequality
   nameWithType: Rectangle.Inequality
 - uid: OpenWindow.Rectangle.Position
@@ -1778,6 +1874,7 @@ references:
   name: Position
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Position_
   commentId: Overload:OpenWindow.Rectangle.Position
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Position
   nameWithType: Rectangle.Position
 - uid: OpenWindow.Rectangle.Right
@@ -1790,6 +1887,7 @@ references:
   name: Right
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Right_
   commentId: Overload:OpenWindow.Rectangle.Right
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Right
   nameWithType: Rectangle.Right
 - uid: OpenWindow.Rectangle.Size
@@ -1802,6 +1900,7 @@ references:
   name: Size
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Size_
   commentId: Overload:OpenWindow.Rectangle.Size
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Size
   nameWithType: Rectangle.Size
 - uid: OpenWindow.Rectangle.Top
@@ -1814,6 +1913,7 @@ references:
   name: Top
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_Top_
   commentId: Overload:OpenWindow.Rectangle.Top
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.Top
   nameWithType: Rectangle.Top
 - uid: OpenWindow.Rectangle.TopLeft
@@ -1826,6 +1926,7 @@ references:
   name: TopLeft
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_TopLeft_
   commentId: Overload:OpenWindow.Rectangle.TopLeft
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.TopLeft
   nameWithType: Rectangle.TopLeft
 - uid: OpenWindow.Rectangle.TopRight
@@ -1838,6 +1939,7 @@ references:
   name: TopRight
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_TopRight_
   commentId: Overload:OpenWindow.Rectangle.TopRight
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.TopRight
   nameWithType: Rectangle.TopRight
 - uid: OpenWindow.Rectangle.ToString
@@ -1850,6 +1952,7 @@ references:
   name: ToString
   href: _api/OpenWindow.Rectangle.html#OpenWindow_Rectangle_ToString_
   commentId: Overload:OpenWindow.Rectangle.ToString
+  isSpec: "True"
   fullName: OpenWindow.Rectangle.ToString
   nameWithType: Rectangle.ToString
 - uid: OpenWindow.Rectangle.Unit
@@ -1892,6 +1995,7 @@ references:
   name: Size
   href: _api/OpenWindow.Size.html#OpenWindow_Size__ctor_
   commentId: Overload:OpenWindow.Size.#ctor
+  isSpec: "True"
   fullName: OpenWindow.Size.Size
   nameWithType: Size.Size
 - uid: OpenWindow.Size.Deconstruct(System.Int32@,System.Int32@)
@@ -1907,6 +2011,7 @@ references:
   name: Deconstruct
   href: _api/OpenWindow.Size.html#OpenWindow_Size_Deconstruct_
   commentId: Overload:OpenWindow.Size.Deconstruct
+  isSpec: "True"
   fullName: OpenWindow.Size.Deconstruct
   nameWithType: Size.Deconstruct
 - uid: OpenWindow.Size.Empty
@@ -1931,6 +2036,7 @@ references:
   name: Equals
   href: _api/OpenWindow.Size.html#OpenWindow_Size_Equals_
   commentId: Overload:OpenWindow.Size.Equals
+  isSpec: "True"
   fullName: OpenWindow.Size.Equals
   nameWithType: Size.Equals
 - uid: OpenWindow.Size.GetHashCode
@@ -1943,6 +2049,7 @@ references:
   name: GetHashCode
   href: _api/OpenWindow.Size.html#OpenWindow_Size_GetHashCode_
   commentId: Overload:OpenWindow.Size.GetHashCode
+  isSpec: "True"
   fullName: OpenWindow.Size.GetHashCode
   nameWithType: Size.GetHashCode
 - uid: OpenWindow.Size.Height
@@ -1961,6 +2068,7 @@ references:
   name: Addition
   href: _api/OpenWindow.Size.html#OpenWindow_Size_op_Addition_
   commentId: Overload:OpenWindow.Size.op_Addition
+  isSpec: "True"
   fullName: OpenWindow.Size.Addition
   nameWithType: Size.Addition
 - uid: OpenWindow.Size.op_Equality(OpenWindow.Size,OpenWindow.Size)
@@ -1973,6 +2081,7 @@ references:
   name: Equality
   href: _api/OpenWindow.Size.html#OpenWindow_Size_op_Equality_
   commentId: Overload:OpenWindow.Size.op_Equality
+  isSpec: "True"
   fullName: OpenWindow.Size.Equality
   nameWithType: Size.Equality
 - uid: OpenWindow.Size.op_Implicit(OpenWindow.Point)~OpenWindow.Size
@@ -1988,6 +2097,7 @@ references:
   name: Implicit
   href: _api/OpenWindow.Size.html#OpenWindow_Size_op_Implicit_
   commentId: Overload:OpenWindow.Size.op_Implicit
+  isSpec: "True"
   name.vb: Widening
   fullName: OpenWindow.Size.Implicit
   fullName.vb: OpenWindow.Size.Widening
@@ -2003,6 +2113,7 @@ references:
   name: Inequality
   href: _api/OpenWindow.Size.html#OpenWindow_Size_op_Inequality_
   commentId: Overload:OpenWindow.Size.op_Inequality
+  isSpec: "True"
   fullName: OpenWindow.Size.Inequality
   nameWithType: Size.Inequality
 - uid: OpenWindow.Size.op_Multiply(OpenWindow.Size,System.Int32)
@@ -2021,6 +2132,7 @@ references:
   name: Multiply
   href: _api/OpenWindow.Size.html#OpenWindow_Size_op_Multiply_
   commentId: Overload:OpenWindow.Size.op_Multiply
+  isSpec: "True"
   fullName: OpenWindow.Size.Multiply
   nameWithType: Size.Multiply
 - uid: OpenWindow.Size.op_Subtraction(OpenWindow.Size,OpenWindow.Size)
@@ -2033,6 +2145,7 @@ references:
   name: Subtraction
   href: _api/OpenWindow.Size.html#OpenWindow_Size_op_Subtraction_
   commentId: Overload:OpenWindow.Size.op_Subtraction
+  isSpec: "True"
   fullName: OpenWindow.Size.Subtraction
   nameWithType: Size.Subtraction
 - uid: OpenWindow.Size.ToString
@@ -2045,6 +2158,7 @@ references:
   name: ToString
   href: _api/OpenWindow.Size.html#OpenWindow_Size_ToString_
   commentId: Overload:OpenWindow.Size.ToString
+  isSpec: "True"
   fullName: OpenWindow.Size.ToString
   nameWithType: Size.ToString
 - uid: OpenWindow.Size.Width
@@ -2065,6 +2179,415 @@ references:
   commentId: F:OpenWindow.TextInputEventArgs.Character
   fullName: OpenWindow.TextInputEventArgs.Character
   nameWithType: TextInputEventArgs.Character
+- uid: OpenWindow.VirtualWindow
+  name: VirtualWindow
+  href: _api/OpenWindow.VirtualWindow.html
+  commentId: T:OpenWindow.VirtualWindow
+  fullName: OpenWindow.VirtualWindow
+  nameWithType: VirtualWindow
+- uid: OpenWindow.VirtualWindow.#ctor
+  name: VirtualWindow()
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow__ctor
+  commentId: M:OpenWindow.VirtualWindow.#ctor
+  fullName: OpenWindow.VirtualWindow.VirtualWindow()
+  nameWithType: VirtualWindow.VirtualWindow()
+- uid: OpenWindow.VirtualWindow.#ctor*
+  name: VirtualWindow
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow__ctor_
+  commentId: Overload:OpenWindow.VirtualWindow.#ctor
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.VirtualWindow
+  nameWithType: VirtualWindow.VirtualWindow
+- uid: OpenWindow.VirtualWindow.BorderBottom
+  name: BorderBottom
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_BorderBottom
+  commentId: P:OpenWindow.VirtualWindow.BorderBottom
+  fullName: OpenWindow.VirtualWindow.BorderBottom
+  nameWithType: VirtualWindow.BorderBottom
+- uid: OpenWindow.VirtualWindow.BorderBottom*
+  name: BorderBottom
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_BorderBottom_
+  commentId: Overload:OpenWindow.VirtualWindow.BorderBottom
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.BorderBottom
+  nameWithType: VirtualWindow.BorderBottom
+- uid: OpenWindow.VirtualWindow.BorderLeft
+  name: BorderLeft
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_BorderLeft
+  commentId: P:OpenWindow.VirtualWindow.BorderLeft
+  fullName: OpenWindow.VirtualWindow.BorderLeft
+  nameWithType: VirtualWindow.BorderLeft
+- uid: OpenWindow.VirtualWindow.BorderLeft*
+  name: BorderLeft
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_BorderLeft_
+  commentId: Overload:OpenWindow.VirtualWindow.BorderLeft
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.BorderLeft
+  nameWithType: VirtualWindow.BorderLeft
+- uid: OpenWindow.VirtualWindow.BorderRight
+  name: BorderRight
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_BorderRight
+  commentId: P:OpenWindow.VirtualWindow.BorderRight
+  fullName: OpenWindow.VirtualWindow.BorderRight
+  nameWithType: VirtualWindow.BorderRight
+- uid: OpenWindow.VirtualWindow.BorderRight*
+  name: BorderRight
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_BorderRight_
+  commentId: Overload:OpenWindow.VirtualWindow.BorderRight
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.BorderRight
+  nameWithType: VirtualWindow.BorderRight
+- uid: OpenWindow.VirtualWindow.BorderTop
+  name: BorderTop
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_BorderTop
+  commentId: P:OpenWindow.VirtualWindow.BorderTop
+  fullName: OpenWindow.VirtualWindow.BorderTop
+  nameWithType: VirtualWindow.BorderTop
+- uid: OpenWindow.VirtualWindow.BorderTop*
+  name: BorderTop
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_BorderTop_
+  commentId: Overload:OpenWindow.VirtualWindow.BorderTop
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.BorderTop
+  nameWithType: VirtualWindow.BorderTop
+- uid: OpenWindow.VirtualWindow.Bounds
+  name: Bounds
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_Bounds
+  commentId: P:OpenWindow.VirtualWindow.Bounds
+  fullName: OpenWindow.VirtualWindow.Bounds
+  nameWithType: VirtualWindow.Bounds
+- uid: OpenWindow.VirtualWindow.Bounds*
+  name: Bounds
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_Bounds_
+  commentId: Overload:OpenWindow.VirtualWindow.Bounds
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.Bounds
+  nameWithType: VirtualWindow.Bounds
+- uid: OpenWindow.VirtualWindow.ClientBounds
+  name: ClientBounds
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_ClientBounds
+  commentId: P:OpenWindow.VirtualWindow.ClientBounds
+  fullName: OpenWindow.VirtualWindow.ClientBounds
+  nameWithType: VirtualWindow.ClientBounds
+- uid: OpenWindow.VirtualWindow.ClientBounds*
+  name: ClientBounds
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_ClientBounds_
+  commentId: Overload:OpenWindow.VirtualWindow.ClientBounds
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.ClientBounds
+  nameWithType: VirtualWindow.ClientBounds
+- uid: OpenWindow.VirtualWindow.GetContainingDisplay
+  name: GetContainingDisplay()
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_GetContainingDisplay
+  commentId: M:OpenWindow.VirtualWindow.GetContainingDisplay
+  fullName: OpenWindow.VirtualWindow.GetContainingDisplay()
+  nameWithType: VirtualWindow.GetContainingDisplay()
+- uid: OpenWindow.VirtualWindow.GetContainingDisplay*
+  name: GetContainingDisplay
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_GetContainingDisplay_
+  commentId: Overload:OpenWindow.VirtualWindow.GetContainingDisplay
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.GetContainingDisplay
+  nameWithType: VirtualWindow.GetContainingDisplay
+- uid: OpenWindow.VirtualWindow.GetKeyModifiers
+  name: GetKeyModifiers()
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_GetKeyModifiers
+  commentId: M:OpenWindow.VirtualWindow.GetKeyModifiers
+  fullName: OpenWindow.VirtualWindow.GetKeyModifiers()
+  nameWithType: VirtualWindow.GetKeyModifiers()
+- uid: OpenWindow.VirtualWindow.GetKeyModifiers*
+  name: GetKeyModifiers
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_GetKeyModifiers_
+  commentId: Overload:OpenWindow.VirtualWindow.GetKeyModifiers
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.GetKeyModifiers
+  nameWithType: VirtualWindow.GetKeyModifiers
+- uid: OpenWindow.VirtualWindow.GetMouseState
+  name: GetMouseState()
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_GetMouseState
+  commentId: M:OpenWindow.VirtualWindow.GetMouseState
+  fullName: OpenWindow.VirtualWindow.GetMouseState()
+  nameWithType: VirtualWindow.GetMouseState()
+- uid: OpenWindow.VirtualWindow.GetMouseState*
+  name: GetMouseState
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_GetMouseState_
+  commentId: Overload:OpenWindow.VirtualWindow.GetMouseState
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.GetMouseState
+  nameWithType: VirtualWindow.GetMouseState
+- uid: OpenWindow.VirtualWindow.InternalMaximize
+  name: InternalMaximize()
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalMaximize
+  commentId: M:OpenWindow.VirtualWindow.InternalMaximize
+  fullName: OpenWindow.VirtualWindow.InternalMaximize()
+  nameWithType: VirtualWindow.InternalMaximize()
+- uid: OpenWindow.VirtualWindow.InternalMaximize*
+  name: InternalMaximize
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalMaximize_
+  commentId: Overload:OpenWindow.VirtualWindow.InternalMaximize
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.InternalMaximize
+  nameWithType: VirtualWindow.InternalMaximize
+- uid: OpenWindow.VirtualWindow.InternalMinimize
+  name: InternalMinimize()
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalMinimize
+  commentId: M:OpenWindow.VirtualWindow.InternalMinimize
+  fullName: OpenWindow.VirtualWindow.InternalMinimize()
+  nameWithType: VirtualWindow.InternalMinimize()
+- uid: OpenWindow.VirtualWindow.InternalMinimize*
+  name: InternalMinimize
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalMinimize_
+  commentId: Overload:OpenWindow.VirtualWindow.InternalMinimize
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.InternalMinimize
+  nameWithType: VirtualWindow.InternalMinimize
+- uid: OpenWindow.VirtualWindow.InternalRestore
+  name: InternalRestore()
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalRestore
+  commentId: M:OpenWindow.VirtualWindow.InternalRestore
+  fullName: OpenWindow.VirtualWindow.InternalRestore()
+  nameWithType: VirtualWindow.InternalRestore()
+- uid: OpenWindow.VirtualWindow.InternalRestore*
+  name: InternalRestore
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalRestore_
+  commentId: Overload:OpenWindow.VirtualWindow.InternalRestore
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.InternalRestore
+  nameWithType: VirtualWindow.InternalRestore
+- uid: OpenWindow.VirtualWindow.InternalSetBorderless(System.Boolean)
+  name: InternalSetBorderless(Boolean)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalSetBorderless_System_Boolean_
+  commentId: M:OpenWindow.VirtualWindow.InternalSetBorderless(System.Boolean)
+  fullName: OpenWindow.VirtualWindow.InternalSetBorderless(System.Boolean)
+  nameWithType: VirtualWindow.InternalSetBorderless(Boolean)
+- uid: OpenWindow.VirtualWindow.InternalSetBorderless*
+  name: InternalSetBorderless
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalSetBorderless_
+  commentId: Overload:OpenWindow.VirtualWindow.InternalSetBorderless
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.InternalSetBorderless
+  nameWithType: VirtualWindow.InternalSetBorderless
+- uid: OpenWindow.VirtualWindow.InternalSetCursorVisible(System.Boolean)
+  name: InternalSetCursorVisible(Boolean)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalSetCursorVisible_System_Boolean_
+  commentId: M:OpenWindow.VirtualWindow.InternalSetCursorVisible(System.Boolean)
+  fullName: OpenWindow.VirtualWindow.InternalSetCursorVisible(System.Boolean)
+  nameWithType: VirtualWindow.InternalSetCursorVisible(Boolean)
+- uid: OpenWindow.VirtualWindow.InternalSetCursorVisible*
+  name: InternalSetCursorVisible
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalSetCursorVisible_
+  commentId: Overload:OpenWindow.VirtualWindow.InternalSetCursorVisible
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.InternalSetCursorVisible
+  nameWithType: VirtualWindow.InternalSetCursorVisible
+- uid: OpenWindow.VirtualWindow.InternalSetResizable(System.Boolean)
+  name: InternalSetResizable(Boolean)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalSetResizable_System_Boolean_
+  commentId: M:OpenWindow.VirtualWindow.InternalSetResizable(System.Boolean)
+  fullName: OpenWindow.VirtualWindow.InternalSetResizable(System.Boolean)
+  nameWithType: VirtualWindow.InternalSetResizable(Boolean)
+- uid: OpenWindow.VirtualWindow.InternalSetResizable*
+  name: InternalSetResizable
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalSetResizable_
+  commentId: Overload:OpenWindow.VirtualWindow.InternalSetResizable
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.InternalSetResizable
+  nameWithType: VirtualWindow.InternalSetResizable
+- uid: OpenWindow.VirtualWindow.InternalSetTitle(System.String)
+  name: InternalSetTitle(String)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalSetTitle_System_String_
+  commentId: M:OpenWindow.VirtualWindow.InternalSetTitle(System.String)
+  fullName: OpenWindow.VirtualWindow.InternalSetTitle(System.String)
+  nameWithType: VirtualWindow.InternalSetTitle(String)
+- uid: OpenWindow.VirtualWindow.InternalSetTitle*
+  name: InternalSetTitle
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalSetTitle_
+  commentId: Overload:OpenWindow.VirtualWindow.InternalSetTitle
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.InternalSetTitle
+  nameWithType: VirtualWindow.InternalSetTitle
+- uid: OpenWindow.VirtualWindow.InternalSetVisible(System.Boolean)
+  name: InternalSetVisible(Boolean)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalSetVisible_System_Boolean_
+  commentId: M:OpenWindow.VirtualWindow.InternalSetVisible(System.Boolean)
+  fullName: OpenWindow.VirtualWindow.InternalSetVisible(System.Boolean)
+  nameWithType: VirtualWindow.InternalSetVisible(Boolean)
+- uid: OpenWindow.VirtualWindow.InternalSetVisible*
+  name: InternalSetVisible
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_InternalSetVisible_
+  commentId: Overload:OpenWindow.VirtualWindow.InternalSetVisible
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.InternalSetVisible
+  nameWithType: VirtualWindow.InternalSetVisible
+- uid: OpenWindow.VirtualWindow.IsCapsLockOn
+  name: IsCapsLockOn()
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_IsCapsLockOn
+  commentId: M:OpenWindow.VirtualWindow.IsCapsLockOn
+  fullName: OpenWindow.VirtualWindow.IsCapsLockOn()
+  nameWithType: VirtualWindow.IsCapsLockOn()
+- uid: OpenWindow.VirtualWindow.IsCapsLockOn*
+  name: IsCapsLockOn
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_IsCapsLockOn_
+  commentId: Overload:OpenWindow.VirtualWindow.IsCapsLockOn
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.IsCapsLockOn
+  nameWithType: VirtualWindow.IsCapsLockOn
+- uid: OpenWindow.VirtualWindow.IsDown(OpenWindow.Key)
+  name: IsDown(Key)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_IsDown_OpenWindow_Key_
+  commentId: M:OpenWindow.VirtualWindow.IsDown(OpenWindow.Key)
+  fullName: OpenWindow.VirtualWindow.IsDown(OpenWindow.Key)
+  nameWithType: VirtualWindow.IsDown(Key)
+- uid: OpenWindow.VirtualWindow.IsDown*
+  name: IsDown
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_IsDown_
+  commentId: Overload:OpenWindow.VirtualWindow.IsDown
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.IsDown
+  nameWithType: VirtualWindow.IsDown
+- uid: OpenWindow.VirtualWindow.IsNumLockOn
+  name: IsNumLockOn()
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_IsNumLockOn
+  commentId: M:OpenWindow.VirtualWindow.IsNumLockOn
+  fullName: OpenWindow.VirtualWindow.IsNumLockOn()
+  nameWithType: VirtualWindow.IsNumLockOn()
+- uid: OpenWindow.VirtualWindow.IsNumLockOn*
+  name: IsNumLockOn
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_IsNumLockOn_
+  commentId: Overload:OpenWindow.VirtualWindow.IsNumLockOn
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.IsNumLockOn
+  nameWithType: VirtualWindow.IsNumLockOn
+- uid: OpenWindow.VirtualWindow.IsScrollLockOn
+  name: IsScrollLockOn()
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_IsScrollLockOn
+  commentId: M:OpenWindow.VirtualWindow.IsScrollLockOn
+  fullName: OpenWindow.VirtualWindow.IsScrollLockOn()
+  nameWithType: VirtualWindow.IsScrollLockOn()
+- uid: OpenWindow.VirtualWindow.IsScrollLockOn*
+  name: IsScrollLockOn
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_IsScrollLockOn_
+  commentId: Overload:OpenWindow.VirtualWindow.IsScrollLockOn
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.IsScrollLockOn
+  nameWithType: VirtualWindow.IsScrollLockOn
+- uid: OpenWindow.VirtualWindow.Position
+  name: Position
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_Position
+  commentId: P:OpenWindow.VirtualWindow.Position
+  fullName: OpenWindow.VirtualWindow.Position
+  nameWithType: VirtualWindow.Position
+- uid: OpenWindow.VirtualWindow.Position*
+  name: Position
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_Position_
+  commentId: Overload:OpenWindow.VirtualWindow.Position
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.Position
+  nameWithType: VirtualWindow.Position
+- uid: OpenWindow.VirtualWindow.SetCapsLock(System.Boolean)
+  name: SetCapsLock(Boolean)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetCapsLock_System_Boolean_
+  commentId: M:OpenWindow.VirtualWindow.SetCapsLock(System.Boolean)
+  fullName: OpenWindow.VirtualWindow.SetCapsLock(System.Boolean)
+  nameWithType: VirtualWindow.SetCapsLock(Boolean)
+- uid: OpenWindow.VirtualWindow.SetCapsLock*
+  name: SetCapsLock
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetCapsLock_
+  commentId: Overload:OpenWindow.VirtualWindow.SetCapsLock
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.SetCapsLock
+  nameWithType: VirtualWindow.SetCapsLock
+- uid: OpenWindow.VirtualWindow.SetCursorPosition(System.Int32,System.Int32)
+  name: SetCursorPosition(Int32, Int32)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetCursorPosition_System_Int32_System_Int32_
+  commentId: M:OpenWindow.VirtualWindow.SetCursorPosition(System.Int32,System.Int32)
+  fullName: OpenWindow.VirtualWindow.SetCursorPosition(System.Int32, System.Int32)
+  nameWithType: VirtualWindow.SetCursorPosition(Int32, Int32)
+- uid: OpenWindow.VirtualWindow.SetCursorPosition*
+  name: SetCursorPosition
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetCursorPosition_
+  commentId: Overload:OpenWindow.VirtualWindow.SetCursorPosition
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.SetCursorPosition
+  nameWithType: VirtualWindow.SetCursorPosition
+- uid: OpenWindow.VirtualWindow.SetKeyDown(OpenWindow.Key,System.Boolean)
+  name: SetKeyDown(Key, Boolean)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetKeyDown_OpenWindow_Key_System_Boolean_
+  commentId: M:OpenWindow.VirtualWindow.SetKeyDown(OpenWindow.Key,System.Boolean)
+  fullName: OpenWindow.VirtualWindow.SetKeyDown(OpenWindow.Key, System.Boolean)
+  nameWithType: VirtualWindow.SetKeyDown(Key, Boolean)
+- uid: OpenWindow.VirtualWindow.SetKeyDown*
+  name: SetKeyDown
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetKeyDown_
+  commentId: Overload:OpenWindow.VirtualWindow.SetKeyDown
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.SetKeyDown
+  nameWithType: VirtualWindow.SetKeyDown
+- uid: OpenWindow.VirtualWindow.SetModifiers(OpenWindow.KeyMod)
+  name: SetModifiers(KeyMod)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetModifiers_OpenWindow_KeyMod_
+  commentId: M:OpenWindow.VirtualWindow.SetModifiers(OpenWindow.KeyMod)
+  fullName: OpenWindow.VirtualWindow.SetModifiers(OpenWindow.KeyMod)
+  nameWithType: VirtualWindow.SetModifiers(KeyMod)
+- uid: OpenWindow.VirtualWindow.SetModifiers*
+  name: SetModifiers
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetModifiers_
+  commentId: Overload:OpenWindow.VirtualWindow.SetModifiers
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.SetModifiers
+  nameWithType: VirtualWindow.SetModifiers
+- uid: OpenWindow.VirtualWindow.SetMouseButtons(OpenWindow.MouseButtons)
+  name: SetMouseButtons(MouseButtons)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetMouseButtons_OpenWindow_MouseButtons_
+  commentId: M:OpenWindow.VirtualWindow.SetMouseButtons(OpenWindow.MouseButtons)
+  fullName: OpenWindow.VirtualWindow.SetMouseButtons(OpenWindow.MouseButtons)
+  nameWithType: VirtualWindow.SetMouseButtons(MouseButtons)
+- uid: OpenWindow.VirtualWindow.SetMouseButtons*
+  name: SetMouseButtons
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetMouseButtons_
+  commentId: Overload:OpenWindow.VirtualWindow.SetMouseButtons
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.SetMouseButtons
+  nameWithType: VirtualWindow.SetMouseButtons
+- uid: OpenWindow.VirtualWindow.SetNumLock(System.Boolean)
+  name: SetNumLock(Boolean)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetNumLock_System_Boolean_
+  commentId: M:OpenWindow.VirtualWindow.SetNumLock(System.Boolean)
+  fullName: OpenWindow.VirtualWindow.SetNumLock(System.Boolean)
+  nameWithType: VirtualWindow.SetNumLock(Boolean)
+- uid: OpenWindow.VirtualWindow.SetNumLock*
+  name: SetNumLock
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetNumLock_
+  commentId: Overload:OpenWindow.VirtualWindow.SetNumLock
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.SetNumLock
+  nameWithType: VirtualWindow.SetNumLock
+- uid: OpenWindow.VirtualWindow.SetScrollLock(System.Boolean)
+  name: SetScrollLock(Boolean)
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetScrollLock_System_Boolean_
+  commentId: M:OpenWindow.VirtualWindow.SetScrollLock(System.Boolean)
+  fullName: OpenWindow.VirtualWindow.SetScrollLock(System.Boolean)
+  nameWithType: VirtualWindow.SetScrollLock(Boolean)
+- uid: OpenWindow.VirtualWindow.SetScrollLock*
+  name: SetScrollLock
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_SetScrollLock_
+  commentId: Overload:OpenWindow.VirtualWindow.SetScrollLock
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.SetScrollLock
+  nameWithType: VirtualWindow.SetScrollLock
+- uid: OpenWindow.VirtualWindow.Size
+  name: Size
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_Size
+  commentId: P:OpenWindow.VirtualWindow.Size
+  fullName: OpenWindow.VirtualWindow.Size
+  nameWithType: VirtualWindow.Size
+- uid: OpenWindow.VirtualWindow.Size*
+  name: Size
+  href: _api/OpenWindow.VirtualWindow.html#OpenWindow_VirtualWindow_Size_
+  commentId: Overload:OpenWindow.VirtualWindow.Size
+  isSpec: "True"
+  fullName: OpenWindow.VirtualWindow.Size
+  nameWithType: VirtualWindow.Size
 - uid: OpenWindow.Window
   name: Window
   href: _api/OpenWindow.Window.html
@@ -2081,6 +2604,7 @@ references:
   name: Window
   href: _api/OpenWindow.Window.html#OpenWindow_Window__ctor_
   commentId: Overload:OpenWindow.Window.#ctor
+  isSpec: "True"
   fullName: OpenWindow.Window.Window
   nameWithType: Window.Window
 - uid: OpenWindow.Window.Bounds
@@ -2093,6 +2617,7 @@ references:
   name: Bounds
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Bounds_
   commentId: Overload:OpenWindow.Window.Bounds
+  isSpec: "True"
   fullName: OpenWindow.Window.Bounds
   nameWithType: Window.Bounds
 - uid: OpenWindow.Window.CheckDisposed
@@ -2105,6 +2630,7 @@ references:
   name: CheckDisposed
   href: _api/OpenWindow.Window.html#OpenWindow_Window_CheckDisposed_
   commentId: Overload:OpenWindow.Window.CheckDisposed
+  isSpec: "True"
   fullName: OpenWindow.Window.CheckDisposed
   nameWithType: Window.CheckDisposed
 - uid: OpenWindow.Window.ClientBounds
@@ -2117,6 +2643,7 @@ references:
   name: ClientBounds
   href: _api/OpenWindow.Window.html#OpenWindow_Window_ClientBounds_
   commentId: Overload:OpenWindow.Window.ClientBounds
+  isSpec: "True"
   fullName: OpenWindow.Window.ClientBounds
   nameWithType: Window.ClientBounds
 - uid: OpenWindow.Window.Close
@@ -2129,6 +2656,7 @@ references:
   name: Close
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Close_
   commentId: Overload:OpenWindow.Window.Close
+  isSpec: "True"
   fullName: OpenWindow.Window.Close
   nameWithType: Window.Close
 - uid: OpenWindow.Window.CloseRequested
@@ -2153,6 +2681,7 @@ references:
   name: CursorVisible
   href: _api/OpenWindow.Window.html#OpenWindow_Window_CursorVisible_
   commentId: Overload:OpenWindow.Window.CursorVisible
+  isSpec: "True"
   fullName: OpenWindow.Window.CursorVisible
   nameWithType: Window.CursorVisible
 - uid: OpenWindow.Window.Decorated
@@ -2165,6 +2694,7 @@ references:
   name: Decorated
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Decorated_
   commentId: Overload:OpenWindow.Window.Decorated
+  isSpec: "True"
   fullName: OpenWindow.Window.Decorated
   nameWithType: Window.Decorated
 - uid: OpenWindow.Window.Dispose
@@ -2177,6 +2707,7 @@ references:
   name: Dispose
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Dispose_
   commentId: Overload:OpenWindow.Window.Dispose
+  isSpec: "True"
   fullName: OpenWindow.Window.Dispose
   nameWithType: Window.Dispose
 - uid: OpenWindow.Window.Finalize
@@ -2189,6 +2720,7 @@ references:
   name: Finalize
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Finalize_
   commentId: Overload:OpenWindow.Window.Finalize
+  isSpec: "True"
   fullName: OpenWindow.Window.Finalize
   nameWithType: Window.Finalize
 - uid: OpenWindow.Window.FocusChanged
@@ -2207,6 +2739,7 @@ references:
   name: Focused
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Focused_
   commentId: Overload:OpenWindow.Window.Focused
+  isSpec: "True"
   fullName: OpenWindow.Window.Focused
   nameWithType: Window.Focused
 - uid: OpenWindow.Window.GetContainingDisplay
@@ -2219,20 +2752,9 @@ references:
   name: GetContainingDisplay
   href: _api/OpenWindow.Window.html#OpenWindow_Window_GetContainingDisplay_
   commentId: Overload:OpenWindow.Window.GetContainingDisplay
+  isSpec: "True"
   fullName: OpenWindow.Window.GetContainingDisplay
   nameWithType: Window.GetContainingDisplay
-- uid: OpenWindow.Window.GetKeyboardState
-  name: GetKeyboardState()
-  href: _api/OpenWindow.Window.html#OpenWindow_Window_GetKeyboardState
-  commentId: M:OpenWindow.Window.GetKeyboardState
-  fullName: OpenWindow.Window.GetKeyboardState()
-  nameWithType: Window.GetKeyboardState()
-- uid: OpenWindow.Window.GetKeyboardState*
-  name: GetKeyboardState
-  href: _api/OpenWindow.Window.html#OpenWindow_Window_GetKeyboardState_
-  commentId: Overload:OpenWindow.Window.GetKeyboardState
-  fullName: OpenWindow.Window.GetKeyboardState
-  nameWithType: Window.GetKeyboardState
 - uid: OpenWindow.Window.GetKeyModifiers
   name: GetKeyModifiers()
   href: _api/OpenWindow.Window.html#OpenWindow_Window_GetKeyModifiers
@@ -2243,6 +2765,7 @@ references:
   name: GetKeyModifiers
   href: _api/OpenWindow.Window.html#OpenWindow_Window_GetKeyModifiers_
   commentId: Overload:OpenWindow.Window.GetKeyModifiers
+  isSpec: "True"
   fullName: OpenWindow.Window.GetKeyModifiers
   nameWithType: Window.GetKeyModifiers
 - uid: OpenWindow.Window.GetMouseState
@@ -2255,8 +2778,22 @@ references:
   name: GetMouseState
   href: _api/OpenWindow.Window.html#OpenWindow_Window_GetMouseState_
   commentId: Overload:OpenWindow.Window.GetMouseState
+  isSpec: "True"
   fullName: OpenWindow.Window.GetMouseState
   nameWithType: Window.GetMouseState
+- uid: OpenWindow.Window.GetPlatformData
+  name: GetPlatformData()
+  href: _api/OpenWindow.Window.html#OpenWindow_Window_GetPlatformData
+  commentId: M:OpenWindow.Window.GetPlatformData
+  fullName: OpenWindow.Window.GetPlatformData()
+  nameWithType: Window.GetPlatformData()
+- uid: OpenWindow.Window.GetPlatformData*
+  name: GetPlatformData
+  href: _api/OpenWindow.Window.html#OpenWindow_Window_GetPlatformData_
+  commentId: Overload:OpenWindow.Window.GetPlatformData
+  isSpec: "True"
+  fullName: OpenWindow.Window.GetPlatformData
+  nameWithType: Window.GetPlatformData
 - uid: OpenWindow.Window.GlSettings
   name: GlSettings
   href: _api/OpenWindow.Window.html#OpenWindow_Window_GlSettings
@@ -2267,6 +2804,7 @@ references:
   name: GlSettings
   href: _api/OpenWindow.Window.html#OpenWindow_Window_GlSettings_
   commentId: Overload:OpenWindow.Window.GlSettings
+  isSpec: "True"
   fullName: OpenWindow.Window.GlSettings
   nameWithType: Window.GlSettings
 - uid: OpenWindow.Window.Handle
@@ -2279,6 +2817,7 @@ references:
   name: Handle
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Handle_
   commentId: Overload:OpenWindow.Window.Handle
+  isSpec: "True"
   fullName: OpenWindow.Window.Handle
   nameWithType: Window.Handle
 - uid: OpenWindow.Window.Hide
@@ -2291,6 +2830,7 @@ references:
   name: Hide
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Hide_
   commentId: Overload:OpenWindow.Window.Hide
+  isSpec: "True"
   fullName: OpenWindow.Window.Hide
   nameWithType: Window.Hide
 - uid: OpenWindow.Window.InternalMaximize
@@ -2303,6 +2843,7 @@ references:
   name: InternalMaximize
   href: _api/OpenWindow.Window.html#OpenWindow_Window_InternalMaximize_
   commentId: Overload:OpenWindow.Window.InternalMaximize
+  isSpec: "True"
   fullName: OpenWindow.Window.InternalMaximize
   nameWithType: Window.InternalMaximize
 - uid: OpenWindow.Window.InternalMinimize
@@ -2315,6 +2856,7 @@ references:
   name: InternalMinimize
   href: _api/OpenWindow.Window.html#OpenWindow_Window_InternalMinimize_
   commentId: Overload:OpenWindow.Window.InternalMinimize
+  isSpec: "True"
   fullName: OpenWindow.Window.InternalMinimize
   nameWithType: Window.InternalMinimize
 - uid: OpenWindow.Window.InternalRestore
@@ -2327,6 +2869,7 @@ references:
   name: InternalRestore
   href: _api/OpenWindow.Window.html#OpenWindow_Window_InternalRestore_
   commentId: Overload:OpenWindow.Window.InternalRestore
+  isSpec: "True"
   fullName: OpenWindow.Window.InternalRestore
   nameWithType: Window.InternalRestore
 - uid: OpenWindow.Window.InternalSetBorderless(System.Boolean)
@@ -2339,6 +2882,7 @@ references:
   name: InternalSetBorderless
   href: _api/OpenWindow.Window.html#OpenWindow_Window_InternalSetBorderless_
   commentId: Overload:OpenWindow.Window.InternalSetBorderless
+  isSpec: "True"
   fullName: OpenWindow.Window.InternalSetBorderless
   nameWithType: Window.InternalSetBorderless
 - uid: OpenWindow.Window.InternalSetCursorVisible(System.Boolean)
@@ -2351,6 +2895,7 @@ references:
   name: InternalSetCursorVisible
   href: _api/OpenWindow.Window.html#OpenWindow_Window_InternalSetCursorVisible_
   commentId: Overload:OpenWindow.Window.InternalSetCursorVisible
+  isSpec: "True"
   fullName: OpenWindow.Window.InternalSetCursorVisible
   nameWithType: Window.InternalSetCursorVisible
 - uid: OpenWindow.Window.InternalSetResizable(System.Boolean)
@@ -2363,6 +2908,7 @@ references:
   name: InternalSetResizable
   href: _api/OpenWindow.Window.html#OpenWindow_Window_InternalSetResizable_
   commentId: Overload:OpenWindow.Window.InternalSetResizable
+  isSpec: "True"
   fullName: OpenWindow.Window.InternalSetResizable
   nameWithType: Window.InternalSetResizable
 - uid: OpenWindow.Window.InternalSetTitle(System.String)
@@ -2375,6 +2921,7 @@ references:
   name: InternalSetTitle
   href: _api/OpenWindow.Window.html#OpenWindow_Window_InternalSetTitle_
   commentId: Overload:OpenWindow.Window.InternalSetTitle
+  isSpec: "True"
   fullName: OpenWindow.Window.InternalSetTitle
   nameWithType: Window.InternalSetTitle
 - uid: OpenWindow.Window.InternalSetVisible(System.Boolean)
@@ -2387,6 +2934,7 @@ references:
   name: InternalSetVisible
   href: _api/OpenWindow.Window.html#OpenWindow_Window_InternalSetVisible_
   commentId: Overload:OpenWindow.Window.InternalSetVisible
+  isSpec: "True"
   fullName: OpenWindow.Window.InternalSetVisible
   nameWithType: Window.InternalSetVisible
 - uid: OpenWindow.Window.IsCapsLockOn
@@ -2399,6 +2947,7 @@ references:
   name: IsCapsLockOn
   href: _api/OpenWindow.Window.html#OpenWindow_Window_IsCapsLockOn_
   commentId: Overload:OpenWindow.Window.IsCapsLockOn
+  isSpec: "True"
   fullName: OpenWindow.Window.IsCapsLockOn
   nameWithType: Window.IsCapsLockOn
 - uid: OpenWindow.Window.IsDown(OpenWindow.Key)
@@ -2411,6 +2960,7 @@ references:
   name: IsDown
   href: _api/OpenWindow.Window.html#OpenWindow_Window_IsDown_
   commentId: Overload:OpenWindow.Window.IsDown
+  isSpec: "True"
   fullName: OpenWindow.Window.IsDown
   nameWithType: Window.IsDown
 - uid: OpenWindow.Window.IsNumLockOn
@@ -2423,6 +2973,7 @@ references:
   name: IsNumLockOn
   href: _api/OpenWindow.Window.html#OpenWindow_Window_IsNumLockOn_
   commentId: Overload:OpenWindow.Window.IsNumLockOn
+  isSpec: "True"
   fullName: OpenWindow.Window.IsNumLockOn
   nameWithType: Window.IsNumLockOn
 - uid: OpenWindow.Window.IsScrollLockOn
@@ -2435,6 +2986,7 @@ references:
   name: IsScrollLockOn
   href: _api/OpenWindow.Window.html#OpenWindow_Window_IsScrollLockOn_
   commentId: Overload:OpenWindow.Window.IsScrollLockOn
+  isSpec: "True"
   fullName: OpenWindow.Window.IsScrollLockOn
   nameWithType: Window.IsScrollLockOn
 - uid: OpenWindow.Window.KeyDown
@@ -2465,6 +3017,7 @@ references:
   name: Maximize
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Maximize_
   commentId: Overload:OpenWindow.Window.Maximize
+  isSpec: "True"
   fullName: OpenWindow.Window.Maximize
   nameWithType: Window.Maximize
 - uid: OpenWindow.Window.Minimize
@@ -2477,6 +3030,7 @@ references:
   name: Minimize
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Minimize_
   commentId: Overload:OpenWindow.Window.Minimize
+  isSpec: "True"
   fullName: OpenWindow.Window.Minimize
   nameWithType: Window.Minimize
 - uid: OpenWindow.Window.MouseDown
@@ -2513,6 +3067,7 @@ references:
   name: Position
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Position_
   commentId: Overload:OpenWindow.Window.Position
+  isSpec: "True"
   fullName: OpenWindow.Window.Position
   nameWithType: Window.Position
 - uid: OpenWindow.Window.ReleaseUnmanagedResources
@@ -2525,6 +3080,7 @@ references:
   name: ReleaseUnmanagedResources
   href: _api/OpenWindow.Window.html#OpenWindow_Window_ReleaseUnmanagedResources_
   commentId: Overload:OpenWindow.Window.ReleaseUnmanagedResources
+  isSpec: "True"
   fullName: OpenWindow.Window.ReleaseUnmanagedResources
   nameWithType: Window.ReleaseUnmanagedResources
 - uid: OpenWindow.Window.Resizable
@@ -2537,6 +3093,7 @@ references:
   name: Resizable
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Resizable_
   commentId: Overload:OpenWindow.Window.Resizable
+  isSpec: "True"
   fullName: OpenWindow.Window.Resizable
   nameWithType: Window.Resizable
 - uid: OpenWindow.Window.Restore
@@ -2549,6 +3106,7 @@ references:
   name: Restore
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Restore_
   commentId: Overload:OpenWindow.Window.Restore
+  isSpec: "True"
   fullName: OpenWindow.Window.Restore
   nameWithType: Window.Restore
 - uid: OpenWindow.Window.SetCursorPosition(System.Int32,System.Int32)
@@ -2561,6 +3119,7 @@ references:
   name: SetCursorPosition
   href: _api/OpenWindow.Window.html#OpenWindow_Window_SetCursorPosition_
   commentId: Overload:OpenWindow.Window.SetCursorPosition
+  isSpec: "True"
   fullName: OpenWindow.Window.SetCursorPosition
   nameWithType: Window.SetCursorPosition
 - uid: OpenWindow.Window.SetFullscreen
@@ -2573,6 +3132,7 @@ references:
   name: SetFullscreen
   href: _api/OpenWindow.Window.html#OpenWindow_Window_SetFullscreen_
   commentId: Overload:OpenWindow.Window.SetFullscreen
+  isSpec: "True"
   fullName: OpenWindow.Window.SetFullscreen
   nameWithType: Window.SetFullscreen
 - uid: OpenWindow.Window.ShouldClose
@@ -2585,6 +3145,7 @@ references:
   name: ShouldClose
   href: _api/OpenWindow.Window.html#OpenWindow_Window_ShouldClose_
   commentId: Overload:OpenWindow.Window.ShouldClose
+  isSpec: "True"
   fullName: OpenWindow.Window.ShouldClose
   nameWithType: Window.ShouldClose
 - uid: OpenWindow.Window.Show
@@ -2597,6 +3158,7 @@ references:
   name: Show
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Show_
   commentId: Overload:OpenWindow.Window.Show
+  isSpec: "True"
   fullName: OpenWindow.Window.Show
   nameWithType: Window.Show
 - uid: OpenWindow.Window.Size
@@ -2609,6 +3171,7 @@ references:
   name: Size
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Size_
   commentId: Overload:OpenWindow.Window.Size
+  isSpec: "True"
   fullName: OpenWindow.Window.Size
   nameWithType: Window.Size
 - uid: OpenWindow.Window.TextInput
@@ -2627,6 +3190,7 @@ references:
   name: Title
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Title_
   commentId: Overload:OpenWindow.Window.Title
+  isSpec: "True"
   fullName: OpenWindow.Window.Title
   nameWithType: Window.Title
 - uid: OpenWindow.Window.UserManaged
@@ -2639,6 +3203,7 @@ references:
   name: UserManaged
   href: _api/OpenWindow.Window.html#OpenWindow_Window_UserManaged_
   commentId: Overload:OpenWindow.Window.UserManaged
+  isSpec: "True"
   fullName: OpenWindow.Window.UserManaged
   nameWithType: Window.UserManaged
 - uid: OpenWindow.Window.Visible
@@ -2651,8 +3216,84 @@ references:
   name: Visible
   href: _api/OpenWindow.Window.html#OpenWindow_Window_Visible_
   commentId: Overload:OpenWindow.Window.Visible
+  isSpec: "True"
   fullName: OpenWindow.Window.Visible
   nameWithType: Window.Visible
+- uid: OpenWindow.WindowData
+  name: WindowData
+  href: _api/OpenWindow.WindowData.html
+  commentId: T:OpenWindow.WindowData
+  fullName: OpenWindow.WindowData
+  nameWithType: WindowData
+- uid: OpenWindow.WindowData.#ctor(OpenWindow.WindowingService,OpenWindow.Window)
+  name: WindowData(WindowingService, Window)
+  href: _api/OpenWindow.WindowData.html#OpenWindow_WindowData__ctor_OpenWindow_WindowingService_OpenWindow_Window_
+  commentId: M:OpenWindow.WindowData.#ctor(OpenWindow.WindowingService,OpenWindow.Window)
+  fullName: OpenWindow.WindowData.WindowData(OpenWindow.WindowingService, OpenWindow.Window)
+  nameWithType: WindowData.WindowData(WindowingService, Window)
+- uid: OpenWindow.WindowData.#ctor*
+  name: WindowData
+  href: _api/OpenWindow.WindowData.html#OpenWindow_WindowData__ctor_
+  commentId: Overload:OpenWindow.WindowData.#ctor
+  isSpec: "True"
+  fullName: OpenWindow.WindowData.WindowData
+  nameWithType: WindowData.WindowData
+- uid: OpenWindow.WindowData.Window
+  name: Window
+  href: _api/OpenWindow.WindowData.html#OpenWindow_WindowData_Window
+  commentId: P:OpenWindow.WindowData.Window
+  fullName: OpenWindow.WindowData.Window
+  nameWithType: WindowData.Window
+- uid: OpenWindow.WindowData.Window*
+  name: Window
+  href: _api/OpenWindow.WindowData.html#OpenWindow_WindowData_Window_
+  commentId: Overload:OpenWindow.WindowData.Window
+  isSpec: "True"
+  fullName: OpenWindow.WindowData.Window
+  nameWithType: WindowData.Window
+- uid: OpenWindow.WindowData.WindowingService
+  name: WindowingService
+  href: _api/OpenWindow.WindowData.html#OpenWindow_WindowData_WindowingService
+  commentId: P:OpenWindow.WindowData.WindowingService
+  fullName: OpenWindow.WindowData.WindowingService
+  nameWithType: WindowData.WindowingService
+- uid: OpenWindow.WindowData.WindowingService*
+  name: WindowingService
+  href: _api/OpenWindow.WindowData.html#OpenWindow_WindowData_WindowingService_
+  commentId: Overload:OpenWindow.WindowData.WindowingService
+  isSpec: "True"
+  fullName: OpenWindow.WindowData.WindowingService
+  nameWithType: WindowData.WindowingService
+- uid: OpenWindow.WindowingBackend
+  name: WindowingBackend
+  href: _api/OpenWindow.WindowingBackend.html
+  commentId: T:OpenWindow.WindowingBackend
+  fullName: OpenWindow.WindowingBackend
+  nameWithType: WindowingBackend
+- uid: OpenWindow.WindowingBackend.Quartz
+  name: Quartz
+  href: _api/OpenWindow.WindowingBackend.html#OpenWindow_WindowingBackend_Quartz
+  commentId: F:OpenWindow.WindowingBackend.Quartz
+  fullName: OpenWindow.WindowingBackend.Quartz
+  nameWithType: WindowingBackend.Quartz
+- uid: OpenWindow.WindowingBackend.Wayland
+  name: Wayland
+  href: _api/OpenWindow.WindowingBackend.html#OpenWindow_WindowingBackend_Wayland
+  commentId: F:OpenWindow.WindowingBackend.Wayland
+  fullName: OpenWindow.WindowingBackend.Wayland
+  nameWithType: WindowingBackend.Wayland
+- uid: OpenWindow.WindowingBackend.Win32
+  name: Win32
+  href: _api/OpenWindow.WindowingBackend.html#OpenWindow_WindowingBackend_Win32
+  commentId: F:OpenWindow.WindowingBackend.Win32
+  fullName: OpenWindow.WindowingBackend.Win32
+  nameWithType: WindowingBackend.Win32
+- uid: OpenWindow.WindowingBackend.X
+  name: X
+  href: _api/OpenWindow.WindowingBackend.html#OpenWindow_WindowingBackend_X
+  commentId: F:OpenWindow.WindowingBackend.X
+  fullName: OpenWindow.WindowingBackend.X
+  nameWithType: WindowingBackend.X
 - uid: OpenWindow.WindowingService
   name: WindowingService
   href: _api/OpenWindow.WindowingService.html
@@ -2669,8 +3310,22 @@ references:
   name: WindowingService
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService__ctor_
   commentId: Overload:OpenWindow.WindowingService.#ctor
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.WindowingService
   nameWithType: WindowingService.WindowingService
+- uid: OpenWindow.WindowingService.Backend
+  name: Backend
+  href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_Backend
+  commentId: P:OpenWindow.WindowingService.Backend
+  fullName: OpenWindow.WindowingService.Backend
+  nameWithType: WindowingService.Backend
+- uid: OpenWindow.WindowingService.Backend*
+  name: Backend
+  href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_Backend_
+  commentId: Overload:OpenWindow.WindowingService.Backend
+  isSpec: "True"
+  fullName: OpenWindow.WindowingService.Backend
+  nameWithType: WindowingService.Backend
 - uid: OpenWindow.WindowingService.CreateWindow(System.Boolean)
   name: CreateWindow(Boolean)
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_CreateWindow_System_Boolean_
@@ -2681,6 +3336,7 @@ references:
   name: CreateWindow
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_CreateWindow_
   commentId: Overload:OpenWindow.WindowingService.CreateWindow
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.CreateWindow
   nameWithType: WindowingService.CreateWindow
 - uid: OpenWindow.WindowingService.Displays
@@ -2693,6 +3349,7 @@ references:
   name: Displays
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_Displays_
   commentId: Overload:OpenWindow.WindowingService.Displays
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.Displays
   nameWithType: WindowingService.Displays
 - uid: OpenWindow.WindowingService.Dispose
@@ -2711,6 +3368,7 @@ references:
   name: Dispose
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_Dispose_
   commentId: Overload:OpenWindow.WindowingService.Dispose
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.Dispose
   nameWithType: WindowingService.Dispose
 - uid: OpenWindow.WindowingService.Get
@@ -2723,6 +3381,7 @@ references:
   name: Get
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_Get_
   commentId: Overload:OpenWindow.WindowingService.Get
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.Get
   nameWithType: WindowingService.Get
 - uid: OpenWindow.WindowingService.GlSettings
@@ -2735,6 +3394,7 @@ references:
   name: GlSettings
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_GlSettings_
   commentId: Overload:OpenWindow.WindowingService.GlSettings
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.GlSettings
   nameWithType: WindowingService.GlSettings
 - uid: OpenWindow.WindowingService.Initialize
@@ -2747,6 +3407,7 @@ references:
   name: Initialize
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_Initialize_
   commentId: Overload:OpenWindow.WindowingService.Initialize
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.Initialize
   nameWithType: WindowingService.Initialize
 - uid: OpenWindow.WindowingService.LogDebug(System.String)
@@ -2759,6 +3420,7 @@ references:
   name: LogDebug
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_LogDebug_
   commentId: Overload:OpenWindow.WindowingService.LogDebug
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.LogDebug
   nameWithType: WindowingService.LogDebug
 - uid: OpenWindow.WindowingService.LogError(System.String)
@@ -2771,6 +3433,7 @@ references:
   name: LogError
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_LogError_
   commentId: Overload:OpenWindow.WindowingService.LogError
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.LogError
   nameWithType: WindowingService.LogError
 - uid: OpenWindow.WindowingService.Logger
@@ -2783,6 +3446,7 @@ references:
   name: Logger
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_Logger_
   commentId: Overload:OpenWindow.WindowingService.Logger
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.Logger
   nameWithType: WindowingService.Logger
 - uid: OpenWindow.WindowingService.LogInfo(System.String)
@@ -2795,6 +3459,7 @@ references:
   name: LogInfo
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_LogInfo_
   commentId: Overload:OpenWindow.WindowingService.LogInfo
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.LogInfo
   nameWithType: WindowingService.LogInfo
 - uid: OpenWindow.WindowingService.LogWarning(System.String)
@@ -2807,6 +3472,7 @@ references:
   name: LogWarning
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_LogWarning_
   commentId: Overload:OpenWindow.WindowingService.LogWarning
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.LogWarning
   nameWithType: WindowingService.LogWarning
 - uid: OpenWindow.WindowingService.ManagedWindows
@@ -2825,6 +3491,7 @@ references:
   name: PumpEvents
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_PumpEvents_
   commentId: Overload:OpenWindow.WindowingService.PumpEvents
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.PumpEvents
   nameWithType: WindowingService.PumpEvents
 - uid: OpenWindow.WindowingService.TryGetWindow(System.IntPtr,OpenWindow.Window@)
@@ -2840,6 +3507,7 @@ references:
   name: TryGetWindow
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_TryGetWindow_
   commentId: Overload:OpenWindow.WindowingService.TryGetWindow
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.TryGetWindow
   nameWithType: WindowingService.TryGetWindow
 - uid: OpenWindow.WindowingService.WaitEvent
@@ -2852,6 +3520,7 @@ references:
   name: WaitEvent
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_WaitEvent_
   commentId: Overload:OpenWindow.WindowingService.WaitEvent
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.WaitEvent
   nameWithType: WindowingService.WaitEvent
 - uid: OpenWindow.WindowingService.WindowCount
@@ -2864,6 +3533,7 @@ references:
   name: WindowCount
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_WindowCount_
   commentId: Overload:OpenWindow.WindowingService.WindowCount
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.WindowCount
   nameWithType: WindowingService.WindowCount
 - uid: OpenWindow.WindowingService.WindowFromHandle(System.IntPtr)
@@ -2876,35 +3546,6 @@ references:
   name: WindowFromHandle
   href: _api/OpenWindow.WindowingService.html#OpenWindow_WindowingService_WindowFromHandle_
   commentId: Overload:OpenWindow.WindowingService.WindowFromHandle
+  isSpec: "True"
   fullName: OpenWindow.WindowingService.WindowFromHandle
   nameWithType: WindowingService.WindowFromHandle
-- uid: OpenWindow.WindowingServiceType
-  name: WindowingServiceType
-  href: _api/OpenWindow.WindowingServiceType.html
-  commentId: T:OpenWindow.WindowingServiceType
-  fullName: OpenWindow.WindowingServiceType
-  nameWithType: WindowingServiceType
-- uid: OpenWindow.WindowingServiceType.Quartz
-  name: Quartz
-  href: _api/OpenWindow.WindowingServiceType.html#OpenWindow_WindowingServiceType_Quartz
-  commentId: F:OpenWindow.WindowingServiceType.Quartz
-  fullName: OpenWindow.WindowingServiceType.Quartz
-  nameWithType: WindowingServiceType.Quartz
-- uid: OpenWindow.WindowingServiceType.Wayland
-  name: Wayland
-  href: _api/OpenWindow.WindowingServiceType.html#OpenWindow_WindowingServiceType_Wayland
-  commentId: F:OpenWindow.WindowingServiceType.Wayland
-  fullName: OpenWindow.WindowingServiceType.Wayland
-  nameWithType: WindowingServiceType.Wayland
-- uid: OpenWindow.WindowingServiceType.Win32
-  name: Win32
-  href: _api/OpenWindow.WindowingServiceType.html#OpenWindow_WindowingServiceType_Win32
-  commentId: F:OpenWindow.WindowingServiceType.Win32
-  fullName: OpenWindow.WindowingServiceType.Win32
-  nameWithType: WindowingServiceType.Win32
-- uid: OpenWindow.WindowingServiceType.X
-  name: X
-  href: _api/OpenWindow.WindowingServiceType.html#OpenWindow_WindowingServiceType_X
-  commentId: F:OpenWindow.WindowingServiceType.X
-  fullName: OpenWindow.WindowingServiceType.X
-  nameWithType: WindowingServiceType.X

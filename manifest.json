@@ -5,11 +5,35 @@
   "files": [
     {
       "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.Backends.Windows.Win32WindowData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.Backends.Windows.Win32WindowData.html",
+          "hash": "EAJ863AGFLoZJucOsrio6g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.Backends.Windows.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.Backends.Windows.html",
+          "hash": "8CN/wn3a9DWV9nuMKvTKSw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "_api/OpenWindow.Display.yml",
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.Display.html",
-          "hash": "M2aWJY6mAKFkcFv5ugk21A=="
+          "hash": "yF4PfVcNJjnSrg3bJcmPcA=="
         }
       },
       "is_incremental": false,
@@ -21,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.FocusChangedEventArgs.html",
-          "hash": "vzbiB6E98gdAcT9Nj4mNjA=="
+          "hash": "YMjk61DctXHX/eg88h5FEg=="
         }
       },
       "is_incremental": false,
@@ -33,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.Key.html",
-          "hash": "hzG3iEhJSmtMkuyN40dqmA=="
+          "hash": "oYNOQTo4tDBTUOTWukltgQ=="
         }
       },
       "is_incremental": false,
@@ -45,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.KeyDownEventArgs.html",
-          "hash": "Ia/3yXK4Cm+3GOYDokjzng=="
+          "hash": "ruv8SiJXE5hvBq/N5lDlXA=="
         }
       },
       "is_incremental": false,
@@ -57,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.KeyEventArgs.html",
-          "hash": "Qab71k03DkLpaOB04DFh2Q=="
+          "hash": "zYOL+ILJK8CTEGGSn0Nwvg=="
         }
       },
       "is_incremental": false,
@@ -69,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.KeyMod.html",
-          "hash": "MJIWTfMMTom4T0TQFDY99g=="
+          "hash": "7Iktp6rOUppt3SOGRZpSmg=="
         }
       },
       "is_incremental": false,
@@ -81,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.Logger.Level.html",
-          "hash": "7JHYY62cJZvDRQk0Kkd1SA=="
+          "hash": "nFV2BuabfOSXO7ebLt/jrQ=="
         }
       },
       "is_incremental": false,
@@ -93,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.Logger.Message.html",
-          "hash": "GhegTGvZ55gkMZswNOVQ9w=="
+          "hash": "dvHSFoSo935Vjy416cHoFQ=="
         }
       },
       "is_incremental": false,
@@ -105,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.Logger.html",
-          "hash": "PYZaN9YdXQw6Eyw35KPbKA=="
+          "hash": "4CFP8j5JwSVprG+NvfJf2A=="
         }
       },
       "is_incremental": false,
@@ -113,11 +137,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "_api/OpenWindow.MouseButton.yml",
+      "source_relative_path": "_api/OpenWindow.MouseButtons.yml",
       "output": {
         ".html": {
-          "relative_path": "_api/OpenWindow.MouseButton.html",
-          "hash": "3IiMPET3jxclfRYpnQbWBw=="
+          "relative_path": "_api/OpenWindow.MouseButtons.html",
+          "hash": "syInby9spk4CHGhj5v5Upg=="
         }
       },
       "is_incremental": false,
@@ -129,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.MouseEventArgs.html",
-          "hash": "VSlYHIPvykKWJpuhi+7zjQ=="
+          "hash": "CopJlCnYLpqF8GrbCsWq0A=="
         }
       },
       "is_incremental": false,
@@ -141,7 +165,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.MouseMovedEventArgs.html",
-          "hash": "/MZE63eikAx/0VhB2wZ2wQ=="
+          "hash": "7s58UGVNdWuXEUrBHYmXWg=="
         }
       },
       "is_incremental": false,
@@ -153,7 +177,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.MouseState.html",
-          "hash": "M4AZHDMo1Yw92fszPno46Q=="
+          "hash": "SiG8ZPOiTtr5oO3iSA6f8w=="
         }
       },
       "is_incremental": false,
@@ -165,7 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.OpenGlSurfaceSettings.html",
-          "hash": "DSt95FlrhK5Znbo6S6vIPw=="
+          "hash": "UVaCoI0B/Zvf40bbLopFOw=="
         }
       },
       "is_incremental": false,
@@ -177,7 +201,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.OpenWindowException.html",
-          "hash": "fwtmpRoVlBjA3VVxmY0B7g=="
+          "hash": "H8qkP0BbtbpoEAPCIOOKoA=="
         }
       },
       "is_incremental": false,
@@ -189,7 +213,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.Point.html",
-          "hash": "2xFYPdGYxNYhp6Mz7oQlAw=="
+          "hash": "qZ9O1kUWu9pqQAcqRUInog=="
         }
       },
       "is_incremental": false,
@@ -201,7 +225,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.Rectangle.html",
-          "hash": "1SaJdgyobEx9qLMwjq4ntQ=="
+          "hash": "7aQG/Ab8vGaATWq6xezmyw=="
         }
       },
       "is_incremental": false,
@@ -213,7 +237,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.Size.html",
-          "hash": "ENJbPc9MLRbJB6NiGLar+w=="
+          "hash": "Z/G5ZQvhQTGqQyp6d5TR1w=="
         }
       },
       "is_incremental": false,
@@ -225,7 +249,19 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.TextInputEventArgs.html",
-          "hash": "pQAC8TAW3++rfeT0g8wmcg=="
+          "hash": "I8fnq17Xv0OSpjBnZw1jWQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.VirtualWindow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.VirtualWindow.html",
+          "hash": "5Ez8hQMPLijGyEWM0UYXFw=="
         }
       },
       "is_incremental": false,
@@ -237,7 +273,31 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.Window.html",
-          "hash": "/AWKUXn4EyKIQS0sZhj5pA=="
+          "hash": "9TrqWE/8HNbBmNHpUdSUAg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.WindowData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.WindowData.html",
+          "hash": "rX9yFsPHOS2DQBZsZxtn5A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "_api/OpenWindow.WindowingBackend.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_api/OpenWindow.WindowingBackend.html",
+          "hash": "Xoyo1FIS7wH5pQvVsPxvhA=="
         }
       },
       "is_incremental": false,
@@ -249,19 +309,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.WindowingService.html",
-          "hash": "MrUqoR/4LvUElZq8DrwAhw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "_api/OpenWindow.WindowingServiceType.yml",
-      "output": {
-        ".html": {
-          "relative_path": "_api/OpenWindow.WindowingServiceType.html",
-          "hash": "2Pp8iAaR2rsTwunMutClZg=="
+          "hash": "7tjLRYkG08/YPOefItoPsw=="
         }
       },
       "is_incremental": false,
@@ -273,7 +321,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/OpenWindow.html",
-          "hash": "PQXyiI0g/dGKMDZz9QrVzQ=="
+          "hash": "eKGKszAbFms3Ke4maODttg=="
         }
       },
       "is_incremental": false,
@@ -285,7 +333,7 @@
       "output": {
         ".html": {
           "relative_path": "_api/toc.html",
-          "hash": "S1hFHpKhbuEt+Bn31y79Hg=="
+          "hash": "shOKf9TAfooVyMPxTAf39w=="
         }
       },
       "is_incremental": false,
@@ -297,10 +345,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "KIvAgPWhQxJzIZ0YiIHNqw=="
+          "hash": "/gnGWFOojK5RgJsEtDKzXw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -321,10 +369,10 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "OOGgTcxy50Hn7Thjn+q1ww=="
+          "hash": "QOaxhb+rRVkjEUfiaMey0g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -343,30 +391,29 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": false,
-        "details": "Cannot build incrementally because last build info is missing.",
+        "can_incremental": true,
         "incrementalPhase": "build"
       },
       "processors": {
         "TocDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
         "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
           "incrementalPhase": "build"
         }
       }
     },
     {
       "status": {
-        "can_incremental": false,
-        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
         "incrementalPhase": "postProcessing"
       },
       "processors": {}
