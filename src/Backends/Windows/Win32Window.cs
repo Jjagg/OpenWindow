@@ -435,42 +435,50 @@ namespace OpenWindow.Backends.Windows
 
         #region Protected Methods
 
+        /// <inheritdoc />
         protected override void InternalSetVisible(bool value)
         {
             Native.ShowWindow(Handle, value ? ShowWindowCommand.Show: ShowWindowCommand.Hide);
         }
 
+        /// <inheritdoc />
         protected override void InternalMaximize()
         {
             Native.ShowWindow(Handle, ShowWindowCommand.Maximize);
         }
 
+        /// <inheritdoc />
         protected override void InternalMinimize()
         {
             Native.ShowWindow(Handle, ShowWindowCommand.Minimize);
         }
 
+        /// <inheritdoc />
         protected override void InternalRestore()
         {
             Native.ShowWindow(Handle, ShowWindowCommand.Restore);
         }
 
+        /// <inheritdoc />
         protected override void InternalSetTitle(string value)
         {
             if (!Native.SetWindowText(Handle, value))
                 throw GetLastException("Failed to set window title.");
         }
 
+        /// <inheritdoc />
         protected override void InternalSetBorderless(bool value)
         {
             UpdateStyle();
         }
 
+        /// <inheritdoc />
         protected override void InternalSetResizable(bool value)
         {
             UpdateStyle();
         }
 
+        /// <inheritdoc />
         protected override void InternalSetCursorVisible(bool value)
         {
             Native.ShowCursor(value);
@@ -480,6 +488,7 @@ namespace OpenWindow.Backends.Windows
 
         #region IDisposable
 
+        /// <inheritdoc />
         protected override void ReleaseUnmanagedResources()
         {
             if (!UserManaged)

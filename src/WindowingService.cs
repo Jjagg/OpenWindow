@@ -9,10 +9,6 @@ using System.Runtime.InteropServices;
 
 namespace OpenWindow
 {
-    // TODO every member 'protected' in WindowingService or Window should be made
-    // private protected once it's supported. I'm not doing this now to enforce
-    // that I don't use them outside the class hierarchy.
-
     /// <summary>
     /// Singleton object used to create and manage <see cref="Window"/> instances.
     /// </summary>
@@ -20,12 +16,18 @@ namespace OpenWindow
     {
         #region Fields
 
+        /// <summary>
+        /// A map from handles to the windows managed by this service.
+        /// </summary>
         protected readonly Dictionary<IntPtr, Window> ManagedWindows;
 
         #endregion
 
         #region Constructor
 
+        /// <summary>
+        /// Create a <see cref="WindowingService"/>.
+        /// </summary>
         protected WindowingService()
         {
             ManagedWindows = new Dictionary<IntPtr, Window>();
@@ -58,6 +60,9 @@ namespace OpenWindow
             _instance.Initialize();
         }
 
+        /// <summary>
+        /// Initialize this <see cref="WindowingService"/>.
+        /// </summary>
         protected abstract void Initialize();
 
         private static WindowingServiceType GetWindowingServiceType()

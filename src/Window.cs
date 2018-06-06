@@ -171,6 +171,12 @@ namespace OpenWindow
 
         #region Constructor
 
+        /// <summary>
+        /// Create a Window.
+        /// </summary>
+        /// <param name="userManaged">
+        ///   Indicates if this window is created by OpenWindow or if it was created from a handle.
+        /// </param>
         protected Window(bool userManaged)
         {
             UserManaged = userManaged;
@@ -421,19 +427,54 @@ namespace OpenWindow
 
         #region Protected Methods
 
+        /// <summary>
+        /// Make the native window visible or invisible.
+        /// </summary>
         protected abstract void InternalSetVisible(bool value);
+
+        /// <summary>
+        /// Maximize the native window.
+        /// </summary>
         protected abstract void InternalMaximize();
+
+        /// <summary>
+        /// Minimize the native window.
+        /// </summary>
         protected abstract void InternalMinimize();
+
+        /// <summary>
+        /// Restore the native window.
+        /// </summary>
         protected abstract void InternalRestore();
+
+        /// <summary>
+        /// Set the title of the native window.
+        /// </summary>
         protected abstract void InternalSetTitle(string value);
+
+        /// <summary>
+        /// Show or hide the border of the native window.
+        /// </summary>
         protected abstract void InternalSetBorderless(bool value);
+
+        /// <summary>
+        /// Allow or disallow resizing the native window.
+        /// </summary>
         protected abstract void InternalSetResizable(bool value);
+
+        /// <summary>
+        /// Show or hide the mouse cursor when inside the native windows client bounds.
+        /// </summary>
         protected abstract void InternalSetCursorVisible(bool value);
 
         #endregion
 
         #region Disposable pattern
 
+        /// <summary>
+        /// Make sure this window is not disposed.
+        /// </summary>
+        /// <exception cref="ObjectDisposedException">If this window is disposed.</exception>
         protected void CheckDisposed()
         {
             if (_disposed)
@@ -450,6 +491,9 @@ namespace OpenWindow
             _disposed = true;
         }
 
+        /// <summary>
+        /// Destroy any unmanaged resources held by this window.
+        /// </summary>
         protected virtual void ReleaseUnmanagedResources()
         {
         }
