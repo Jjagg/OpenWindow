@@ -7,7 +7,7 @@ namespace OpenWindow
     /// <summary>
     /// Supported Windowing service backends.
     /// </summary>
-    public enum WindowingServiceType
+    public enum WindowingBackend
     {
         /// <summary>
         /// Windows. Uses the Win32 APIs.

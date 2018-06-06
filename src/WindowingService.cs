@@ -54,9 +54,9 @@ namespace OpenWindow
 
         private static void InitializeInstance()
         {
-            var type = GetWindowingServiceType();
-            LogInfo($"Detected windowing backend '{type}'.");
-            _instance = CreateService(type);
+            Backend = GetWindowingBackend();
+            LogInfo($"Detected windowing backend '{Backend}'.");
+            _instance = CreateService(Backend);
             _instance.Initialize();
         }
 
@@ -65,18 +65,18 @@ namespace OpenWindow
         /// </summary>
         protected abstract void Initialize();
 
-        private static WindowingServiceType GetWindowingServiceType()
+        private static WindowingBackend GetWindowingBackend()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return WindowingServiceType.Win32;
+                return WindowingBackend.Win32;
 
             // LINUX
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 if (UnixGetVariable("XDG_SESSION_TYPE").Contains("x11"))
-                    return WindowingServiceType.X;
+                    return WindowingBackend.X;
                 if (!string.IsNullOrEmpty(UnixGetVariable("WAYLAND_DISPLAY")))
-                    return WindowingServiceType.Wayland;
+                    return WindowingBackend.Wayland;
                 // TODO check if above is reliable enough, we can always just try both
                 throw new OpenWindowException("Failed to detect if x11 or Wayland is used." +
                                               "Please open an issue on the OpenWindow repo for this.");
@@ -89,17 +89,17 @@ namespace OpenWindow
             throw new NotSupportedException("OS was not reported to be Windows, Linux or OSX by .NET host.");
         }
 
-        private static WindowingService CreateService(WindowingServiceType type)
+        private static WindowingService CreateService(WindowingBackend type)
         {
             switch (type)
             {
-                case WindowingServiceType.Win32:
+                case WindowingBackend.Win32:
                     return new Backends.Windows.Win32WindowingService();
-                case WindowingServiceType.X:
+                case WindowingBackend.X:
                     return new Backends.X.XWindowingService();
-                case WindowingServiceType.Wayland:
+                case WindowingBackend.Wayland:
                     return new Backends.Wayland.WaylandWindowingService();
-                case WindowingServiceType.Quartz:
+                case WindowingBackend.Quartz:
                     throw new NotImplementedException();
                 default:
                     throw new InvalidOperationException();
@@ -171,6 +171,11 @@ namespace OpenWindow
         #endregion
 
         #region Public API
+
+        /// <summary>
+        /// The <see cref="WindowingBackend"/> that this service uses.
+        /// </summary>
+        public static WindowingBackend Backend { get; private set; }
 
         /// <summary>
         /// Provides logged messages.
