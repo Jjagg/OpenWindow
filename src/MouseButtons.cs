@@ -10,7 +10,7 @@ namespace OpenWindow
     /// Mouse buttons used for reporting mouse/touch pad input.
     /// </summary>
     [Flags]
-    public enum MouseButton
+    public enum MouseButtons
     {
         None = 0,
         /// <summary>

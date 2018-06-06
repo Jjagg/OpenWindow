@@ -12,18 +12,18 @@ namespace OpenWindow
     public class MouseEventArgs : EventArgs
     {
         /// <summary>
-        /// The affected <see cref="MouseButton"/>.
+        /// The affected <see cref="MouseButtons"/>.
         /// </summary>
-        public readonly MouseButton Button;
+        public readonly MouseButtons Button;
 
         /// <summary>
         /// The position of the mouse.
         /// </summary>
         public readonly Point Position;
 
-        internal MouseEventArgs(MouseButton button, Point position)
+        internal MouseEventArgs(MouseButtons buttons, Point position)
         {
-            Button = button;
+            Button = buttons;
             Position = position;
         }
 

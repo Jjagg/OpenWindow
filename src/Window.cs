@@ -402,14 +402,14 @@ namespace OpenWindow
             MouseMoved?.Invoke(this, new MouseMovedEventArgs(position));
         }
 
-        internal void RaiseMouseDown(MouseButton button, Point position)
+        internal void RaiseMouseDown(MouseButtons buttons, Point position)
         {
-            MouseDown?.Invoke(this, new MouseEventArgs(button, position));
+            MouseDown?.Invoke(this, new MouseEventArgs(buttons, position));
         }
 
-        internal void RaiseMouseUp(MouseButton button, Point position)
+        internal void RaiseMouseUp(MouseButtons buttons, Point position)
         {
-            MouseUp?.Invoke(this, new MouseEventArgs(button, position));
+            MouseUp?.Invoke(this, new MouseEventArgs(buttons, position));
         }
 
         internal void RaiseMouseLeave()

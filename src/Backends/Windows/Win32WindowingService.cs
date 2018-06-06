@@ -129,50 +129,50 @@ namespace OpenWindow.Backends.Windows
                     case WindowMessage.LButtonDown:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseDown(MouseButton.Left, p);
+                        window.RaiseMouseDown(MouseButtons.Left, p);
                         break;
                     }
                     case WindowMessage.LButtonUp:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseUp(MouseButton.Left, p);
+                        window.RaiseMouseUp(MouseButtons.Left, p);
                         break;
                     }
                     case WindowMessage.MButtonDown:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseDown(MouseButton.Middle, p);
+                        window.RaiseMouseDown(MouseButtons.Middle, p);
                         break;
                     }
                     case WindowMessage.MButtonUp:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseUp(MouseButton.Middle, p);
+                        window.RaiseMouseUp(MouseButtons.Middle, p);
                         break;
                     }
                     case WindowMessage.RButtonDown:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseDown(MouseButton.Right, p);
+                        window.RaiseMouseDown(MouseButtons.Right, p);
                         break;
                     }
                     case WindowMessage.RButtonUp:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseUp(MouseButton.Right, p);
+                        window.RaiseMouseUp(MouseButtons.Right, p);
                         break;
                     }
                     case WindowMessage.XButtonDown:
                     {
                         var p = MakePoint(lParam);
-                        var btn = ((wParam.ToInt32() >> 16) & 1) > 0 ? MouseButton.X1 : MouseButton.X2;
+                        var btn = ((wParam.ToInt32() >> 16) & 1) > 0 ? MouseButtons.X1 : MouseButtons.X2;
                         window.RaiseMouseDown(btn, p);
                         break;
                     }
                     case WindowMessage.XButtonUp:
                     {
                         var p = MakePoint(lParam);
-                        var btn = ((wParam.ToInt32() >> 16) & 1) > 0 ? MouseButton.X1 : MouseButton.X2;
+                        var btn = ((wParam.ToInt32() >> 16) & 1) > 0 ? MouseButtons.X1 : MouseButtons.X2;
                         window.RaiseMouseUp(btn, p);
                         break;
                     }
