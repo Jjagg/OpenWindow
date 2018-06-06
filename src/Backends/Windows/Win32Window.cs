@@ -334,6 +334,12 @@ namespace OpenWindow.Backends.Windows
                 throw GetLastException("Failed to set cursor position.");
         }
 
+        /// <inheritdoc />
+        public override WindowData GetPlatformData()
+        {
+            return new Win32WindowData(ModuleHinstance, WindowingService.Get(), this);
+        }
+
         #endregion
 
         #region Private Methods

@@ -296,6 +296,14 @@ namespace OpenWindow
         /// <param name="y">Y coordinate.</param>
         public abstract void SetCursorPosition(int x, int y);
 
+        /// <summary>
+        /// Get an object containing platform-specific information on this window.
+        /// </summary>
+        public virtual WindowData GetPlatformData()
+        {
+            return new WindowData(WindowingService.Get(), this);
+        }
+
         #endregion
 
         #region Window API: Events
