@@ -246,9 +246,6 @@ namespace OpenWindow
             RaiseCloseRequested();
         }
 
-        // TODO maintain keyboard state
-        public abstract byte[] GetKeyboardState();
-
         /// <summary>
         /// Check if the specified key is down.
         /// </summary>

@@ -69,11 +69,6 @@ namespace OpenWindow.Backends.Wayland
             throw new NotImplementedException();
         }
 
-        public override byte[] GetKeyboardState()
-        {
-            throw new NotImplementedException();
-        }
-
         public override bool IsDown(Key key)
         {
             throw new NotImplementedException();

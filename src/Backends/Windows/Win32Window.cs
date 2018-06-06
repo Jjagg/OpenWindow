@@ -274,16 +274,6 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
-        public override byte[] GetKeyboardState()
-        {
-            var result = new byte[256];
-            if (!Native.GetKeyboardState(result))
-                throw GetLastException("Getting keyboard state failed.");
-
-            return result;
-        }
-
-        /// <inheritdoc />
         public override bool IsDown(Key key)
         {
             var vk = KeyMap.InvMap[(int) key];
