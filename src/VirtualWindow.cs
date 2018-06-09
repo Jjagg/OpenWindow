@@ -224,6 +224,20 @@ namespace OpenWindow
         {
         }
 
+        protected override void InternalSetMinSize(Size value)
+        {
+            if (value == Size.Empty)
+                return;
+            Size = new Size(Math.Max(value.Width, Size.Width), Math.Max(value.Height, Size.Height));
+        }
+
+        protected override void InternalSetMaxSize(Size value)
+        {
+            if (value == Size.Empty)
+                return;
+            Size = new Size(Math.Min(value.Width, Size.Width), Math.Min(value.Height, Size.Height));
+        }
+
         protected override void InternalSetCursorVisible(bool value)
         {
         }

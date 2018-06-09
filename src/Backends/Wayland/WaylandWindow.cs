@@ -143,6 +143,16 @@ namespace OpenWindow.Backends.Wayland
             throw new NotImplementedException();
         }
 
+        protected override void InternalSetMinSize(Size value)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void InternalSetMaxSize(Size value)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void InternalSetCursorVisible(bool value)
         {
             throw new NotImplementedException();

@@ -15,11 +15,13 @@ namespace OpenWindow.Backends.Windows
     internal enum WindowMessage : uint
     {
         Destroy        = 0x0002,
+        Size           = 0x0005,
         Activate       = 0x0006,
         SetFocus       = 0x0007,
         KillFocus      = 0x0008,
         Close          = 0x0010,
         Quit           = 0x0012,
+        GetMinMaxInfo  = 0x0024,
         KeyDown        = 0x0100,
         KeyUp          = 0x0101,
         Char           = 0x0102,
@@ -35,6 +37,9 @@ namespace OpenWindow.Backends.Windows
         MouseWheel     = 0x020A,
         XButtonDown    = 0x020B,
         XButtonUp      = 0x020C,
+        Sizing         = 0x0214,
+        EnterSizeMove  = 0x0231,
+        ExitSizeMove   = 0x0232,
         MouseLeave     = 0x02A3,
         NcMouseMove    = 0x00A0,
     }

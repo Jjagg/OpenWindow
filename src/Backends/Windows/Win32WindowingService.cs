@@ -4,7 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Windows
 {
@@ -81,7 +83,32 @@ namespace OpenWindow.Backends.Windows
                         window._focused = false;
                         window.RaiseFocusChanged(false);
                         return IntPtr.Zero;
+                    case WindowMessage.Size:
+                    {
+                        var wp = wParam.ToInt32();
+                        if (wp == 2)
+                            window.RaiseMaximized();
+                        else if (wp == 1)
+                            window.RaiseMinimized();
+                        window.RaiseResize();
+                        return IntPtr.Zero;
+                    }
+                    case WindowMessage.GetMinMaxInfo:
+                    {
+                        Debug.WriteLine("GetMinMaxInfo");
+                        if (window.MinSize != Size.Empty)
+                        {
+                            Marshal.WriteInt32(lParam, 24, window.MinSize.Width);
+                            Marshal.WriteInt32(lParam, 28, window.MinSize.Height);
+                        }
+                        if (window.MaxSize != Size.Empty)
+                        {
+                            Marshal.WriteInt32(lParam, 32, window.MaxSize.Width);
+                            Marshal.WriteInt32(lParam, 36, window.MaxSize.Height);
+                        }
 
+                        return IntPtr.Zero;
+                    }
                     case WindowMessage.KeyDown:
                     case WindowMessage.SysKeyDown:
                     {

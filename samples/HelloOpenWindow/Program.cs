@@ -15,6 +15,11 @@ namespace HelloOpenWindow
 
         private static readonly Random Rand = new Random();
 
+        private const int MinWidth = 200;
+        private const int MinHeight = 120;
+        private const int MaxWidth = 800;
+        private const int MaxHeight = 480;
+
         private static void Main()
         {
             Console.WriteLine();
@@ -26,6 +31,9 @@ namespace HelloOpenWindow
             _window.ClientBounds = new Rectangle(100, 100, 400, 400);
             _window.Title = "Hello, OpenWindow!";
             _window.Show();
+
+            _window.MinSize = new Size(MinWidth, MinHeight);
+            _window.MaxSize = new Size(MaxWidth, MaxHeight);
 
             _window.CloseRequested += (s, e) => Console.WriteLine("Received request to close the window!");
             _window.Closing += (s, e) => Console.WriteLine("Closing the window! Bye :)");
@@ -89,8 +97,8 @@ namespace HelloOpenWindow
         {
             var x = Rand.Next(100, 300);
             var y = Rand.Next(100, 300);
-            var width = Rand.Next(100, 800);
-            var height = Rand.Next(100, 500);
+            var width = Rand.Next(MinWidth, MaxWidth);
+            var height = Rand.Next(MinHeight, MaxHeight);
             _window.Bounds = new Rectangle(x, y, width, height);
         }
 

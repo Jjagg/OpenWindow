@@ -485,6 +485,26 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
+        protected override void InternalSetMinSize(Size value)
+        {
+            if (value == Size.Empty)
+                return;
+            var s = Size;
+            if (s.Width < value.Width || s.Height < value.Height)
+                Size = s;
+        }
+
+        /// <inheritdoc />
+        protected override void InternalSetMaxSize(Size value)
+        {
+            if (value == Size.Empty)
+                return;
+            var s = Size;
+            if (s.Width > value.Width || s.Height > value.Height)
+                Size = s;
+        }
+
+        /// <inheritdoc />
         protected override void InternalSetCursorVisible(bool value)
         {
             Native.ShowCursor(value);

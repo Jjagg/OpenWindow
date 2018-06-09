@@ -19,6 +19,8 @@ namespace OpenWindow
         private string _title = string.Empty;
         private bool _decorated = true;
         private bool _resizable;
+        private Size _minSize;
+        private Size _maxSize;
         internal bool _focused;
         private bool _cursorVisible = true;
 
@@ -115,6 +117,42 @@ namespace OpenWindow
                     _resizable = value;
                     InternalSetResizable(value);
                 }
+            }
+        }
+
+        /// <summary>
+        /// The minimum allowed size of the window (including border). Set to (0, 0) to not use a minimum size.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///   If size is negative or larger than <see cref="MaxSize"/>.
+        /// </exception>
+        public Size MinSize
+        {
+            get => _minSize;
+            set
+            {
+                if (value.Width < 0 || value.Height < 0 || (_maxSize.Width != 0 && value.Width > _maxSize.Width) || (_maxSize.Height != 0 && value.Height > _maxSize.Height))
+                    throw new ArgumentOutOfRangeException(nameof(value), "MinSize must be non-negative and smaller than MaxSize!");
+                _minSize = value;
+                InternalSetMinSize(value);
+            }
+        }
+
+        /// <summary>
+        /// The maximum allowed size of the window (including border). Set to (0, 0) to not use a maximum size.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///   If size is negative or smaller than <see cref="MinSize"/>.
+        /// </exception>
+        public Size MaxSize
+        {
+            get => _maxSize;
+            set
+            {
+                if (value.Width < 0 || value.Height < 0 || (value.Width != 0 && value.Width < _minSize.Width) || (value.Height != 0 && value.Height < _minSize.Height))
+                    throw new ArgumentOutOfRangeException(nameof(value), "MaxSize must be non-negative and larger than MaxSize!");
+                _maxSize = value;
+                InternalSetMaxSize(value);
             }
         }
 
@@ -319,6 +357,21 @@ namespace OpenWindow
         public event EventHandler<EventArgs> Closing;
 
         /// <summary>
+        /// Invoked when the window is resized.
+        /// </summary>
+        public event EventHandler<EventArgs> Resize;
+
+        /// <summary>
+        /// Invoked when the window is minimized.
+        /// </summary>
+        public event EventHandler<EventArgs> Minimized;
+
+        /// <summary>
+        /// Invoked when the window is minimized.
+        /// </summary>
+        public event EventHandler<EventArgs> Maximized;
+
+        /// <summary>
         /// Invoked after the window focus changed.
         /// </summary>
         public event EventHandler<FocusChangedEventArgs> FocusChanged;
@@ -384,6 +437,21 @@ namespace OpenWindow
         internal void RaiseClosing()
         {
             Closing?.Invoke(this, EventArgs.Empty);
+        }
+
+        internal void RaiseResize()
+        {
+            Resize?.Invoke(this, EventArgs.Empty);
+        }
+
+        internal void RaiseMinimized()
+        {
+            Minimized?.Invoke(this, EventArgs.Empty);
+        }
+
+        internal void RaiseMaximized()
+        {
+            Maximized?.Invoke(this, EventArgs.Empty);
         }
 
         internal void RaiseFocusChanged(bool newFocus)
@@ -469,6 +537,16 @@ namespace OpenWindow
         /// Allow or disallow resizing the native window.
         /// </summary>
         protected abstract void InternalSetResizable(bool value);
+
+        /// <summary>
+        /// Set the minimum size of the window.
+        /// </summary>
+        protected abstract void InternalSetMinSize(Size value);
+
+        /// <summary>
+        /// Set the maximum size of the window.
+        /// </summary>
+        protected abstract void InternalSetMaxSize(Size value);
 
         /// <summary>
         /// Show or hide the mouse cursor when inside the native windows client bounds.
