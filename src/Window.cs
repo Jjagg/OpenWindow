@@ -172,6 +172,11 @@ namespace OpenWindow
         public abstract Size Size { get; set; }
 
         /// <summary>
+        /// The size of this window (including border).
+        /// </summary>
+        public abstract Size ClientSize { get; set; }
+
+        /// <summary>
         /// The bounds of this window (including border).
         /// </summary>
         public abstract Rectangle Bounds { get; set; }
@@ -362,6 +367,16 @@ namespace OpenWindow
         public event EventHandler<EventArgs> Resize;
 
         /// <summary>
+        /// Invoked when the user starts resizing the window.
+        /// </summary>
+        public event EventHandler<EventArgs> ResizeStart;
+
+        /// <summary>
+        /// Invoked when the user stops resizing the window.
+        /// </summary>
+        public event EventHandler<EventArgs> ResizeEnd;
+
+        /// <summary>
         /// Invoked when the window is minimized.
         /// </summary>
         public event EventHandler<EventArgs> Minimized;
@@ -442,6 +457,16 @@ namespace OpenWindow
         internal void RaiseResize()
         {
             Resize?.Invoke(this, EventArgs.Empty);
+        }
+
+        internal void RaiseResizeStart()
+        {
+            ResizeStart?.Invoke(this, EventArgs.Empty);
+        }
+
+        internal void RaiseResizeEnd()
+        {
+            ResizeEnd?.Invoke(this, EventArgs.Empty);
         }
 
         internal void RaiseMinimized()

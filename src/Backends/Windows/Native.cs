@@ -80,6 +80,9 @@ namespace OpenWindow.Backends.Windows
         public static extern bool AdjustWindowRect(ref Rect lpRect, uint dwStyle, bool bMenu);
 
         [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool ClientToScreen(IntPtr hWnd, ref Point coordinates);
+
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr SetActiveWindow(IntPtr hWnd);
 
         [DllImport("user32.dll", SetLastError = true)]

@@ -64,6 +64,17 @@ namespace OpenWindow.Backends.Windows
         public int Right;
         public int Bottom;
 
+        public Point Position => new Point(Left, Top);
+        public Size Size => new Size(Right - Left, Bottom - Top);
+
+        public Rect(int left, int top, int right, int bottom)
+        {
+            Left = left;
+            Top = top;
+            Right = right;
+            Bottom = bottom;
+        }
+
         public static implicit operator Rectangle(Rect rect)
         {
             return new Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);

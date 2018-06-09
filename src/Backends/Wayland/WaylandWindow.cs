@@ -57,6 +57,7 @@ namespace OpenWindow.Backends.Wayland
         
         public override Point Position { get; set; }
         public override Size Size { get; set; }
+        public override Size ClientSize { get; set; }
         public override Rectangle Bounds { get; set; }
         public override Rectangle ClientBounds { get; set; }
 

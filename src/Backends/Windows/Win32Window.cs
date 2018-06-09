@@ -223,6 +223,25 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
+        public override Size ClientSize
+        {
+            get
+            {
+                if (!Native.GetClientRect(Handle, out var rect))
+                    throw GetLastException("Failed to get window client rectangle.");
+                return rect.Size;
+            }
+            set
+            {
+                var rect = new Rect(0, 0, value.Width, value.Height);
+                var style = GetWindowStyle();
+                if (!Native.AdjustWindowRect(ref rect, style, false))
+                    throw GetLastException("Failed to set client rectangle.");
+                Size = rect.Size;
+            }
+        }
+
+        /// <inheritdoc />
         public override Rectangle Bounds
         {
             get
@@ -247,7 +266,10 @@ namespace OpenWindow.Backends.Windows
             {
                 if (!Native.GetClientRect(Handle, out var rect))
                     throw GetLastException("Failed to get window client rectangle.");
-                return rect;
+                var pt = Point.Zero;
+                if (!Native.ClientToScreen(Handle, ref pt))
+                    throw GetLastException("ClientToScreen failed.");
+                return new Rectangle(pt, rect.Size);
             }
             set
             {

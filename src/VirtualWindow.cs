@@ -56,6 +56,20 @@ namespace OpenWindow
         public override Size Size { get; set; }
 
         /// <inheritdoc />
+        public override Size ClientSize {
+            get => Decorated
+                ? new Size(Size.Width - BorderLeft - BorderRight, Size.Height - BorderTop - BorderBottom)
+                : Size;
+            set
+            {
+                if (!Decorated)
+                    Size = value;
+                else
+                    Size = new Size(Size.Width + BorderLeft + BorderRight, Size.Height + BorderTop + BorderBottom);
+            }
+        }
+
+        /// <inheritdoc />
         public override Rectangle Bounds
         {
             get => new Rectangle(Position, Size);

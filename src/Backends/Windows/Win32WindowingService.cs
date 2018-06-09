@@ -93,6 +93,12 @@ namespace OpenWindow.Backends.Windows
                         window.RaiseResize();
                         return IntPtr.Zero;
                     }
+                    case WindowMessage.EnterSizeMove:
+                        window.RaiseResizeStart();
+                        break;
+                    case WindowMessage.ExitSizeMove:
+                        window.RaiseResizeEnd();
+                        break;
                     case WindowMessage.GetMinMaxInfo:
                     {
                         Debug.WriteLine("GetMinMaxInfo");
