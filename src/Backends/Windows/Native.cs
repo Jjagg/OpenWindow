@@ -11,19 +11,19 @@ namespace OpenWindow.Backends.Windows
     {
         #region Messages
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern int GetMessage(out Msg lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
 
         [DllImport("user32.dll")]
         public static extern bool PeekMessage(out Msg lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool PostMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
         
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool TranslateMessage([In] ref Msg lpMsg);
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern IntPtr DispatchMessage([In] ref Msg lpmsg);
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -33,24 +33,24 @@ namespace OpenWindow.Backends.Windows
 
         #region Window Class
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern ushort RegisterClass([In] ref WndClass lpWndClass);
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool UnregisterClass([In] string className, [In] IntPtr hinstance);
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern IntPtr DefWindowProc(IntPtr hWnd, WindowMessage uMsg, IntPtr wParam, IntPtr lParam);
 
         #endregion
 
         #region Window Operations
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern IntPtr CreateWindowEx(
             WindowStyleEx dwExStyle,
-            [MarshalAs(UnmanagedType.LPStr)] string lpClassName,
-            [MarshalAs(UnmanagedType.LPStr)] string lpWindowName,
+            string lpClassName,
+            string lpWindowName,
             uint dwStyle,
             int x,
             int y,
@@ -85,11 +85,14 @@ namespace OpenWindow.Backends.Windows
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr SetActiveWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool SetWindowText(IntPtr hwnd, string lpString = null);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern uint SetWindowLong([In] IntPtr hWnd, [In] int nIndex, [In] uint dwNewLong);
+        public static extern int GetWindowLong([In] IntPtr hWnd, [In] int nIndex);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint SetWindowLong([In] IntPtr hWnd, [In] int nIndex, [In] int dwNewLong);
 
         #endregion
 

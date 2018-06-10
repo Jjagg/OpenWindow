@@ -18,7 +18,7 @@ namespace OpenWindow.Backends.Windows
         public Point pt;
     }
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     internal struct WndClass
     {
         public uint style;
@@ -30,9 +30,7 @@ namespace OpenWindow.Backends.Windows
         public IntPtr hIcon;
         public IntPtr hCursor;
         public IntPtr hbrBackground;
-        [MarshalAs(UnmanagedType.LPStr)]
         public string lpszMenuName;
-        [MarshalAs(UnmanagedType.LPStr)]
         public string lpszClassName;
     }
 

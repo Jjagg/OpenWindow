@@ -54,7 +54,8 @@ namespace OpenWindow.Backends.Windows
 
             if (handle == IntPtr.Zero)
             {
-                Native.UnregisterClass(_className, IntPtr.Zero);
+                if (!Native.UnregisterClass(_className, IntPtr.Zero))
+                    throw GetLastException("Failed to unregister window class!");
                 throw GetLastException("Failed to create window.");
             }
 
@@ -402,7 +403,7 @@ namespace OpenWindow.Backends.Windows
         {
             var ws = GetWindowStyle();
             const int GWL_STYLE = -16;
-            Native.SetWindowLong(Handle, GWL_STYLE, ws);
+            Native.SetWindowLong(Handle, GWL_STYLE, (int) ws);
             Native.ShowWindow(Handle, ShowWindowCommand.Show);
         }
 
@@ -541,8 +542,9 @@ namespace OpenWindow.Backends.Windows
         {
             if (!UserManaged)
             {
-                Native.UnregisterClass(_className, IntPtr.Zero);
                 Native.DestroyWindow(Handle);
+                if (!Native.UnregisterClass(_className, IntPtr.Zero))
+                    throw GetLastException("Failed to unregister window class!");
             }
         }
 

@@ -3,6 +3,7 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
+using System.Text;
 using System.Threading;
 using OpenWindow;
 
@@ -29,7 +30,7 @@ namespace HelloOpenWindow
 
             _window = _service.CreateWindow(false);
             _window.ClientBounds = new Rectangle(100, 100, 400, 400);
-            _window.Title = "Hello, OpenWindow!";
+            _window.Title = "Hello, OpenWindow! 💩";
             _window.Show();
 
             _window.MinSize = new Size(MinWidth, MinHeight);
