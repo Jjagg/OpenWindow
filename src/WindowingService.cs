@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Collection.ObjectModel;
 
 namespace OpenWindow
 {
@@ -206,7 +206,7 @@ namespace OpenWindow
         /// <summary>
         /// Get the connected displays.
         /// </summary>
-        /// <returns>A <see cref="ReadOnlyCollection" /> containing connected displays.</returns>
+        /// <returns>A <see cref="ReadOnlyCollection{T}" /> containing connected displays.</returns>
         public abstract ReadOnlyCollection<Display> Displays { get; }
 
         /// <summary>

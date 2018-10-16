@@ -156,8 +156,6 @@ namespace OpenWindow.Backends.Wayland
             XdgWmBase.Pong(iface, serial);
         }
 
-        public override Display[] Displays { get; }
-
         public override Window CreateWindow(bool show = true)
         {
             var wlSurface = _wlCompositor.CreateSurface();
