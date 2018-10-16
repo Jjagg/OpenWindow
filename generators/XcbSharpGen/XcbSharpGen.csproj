@@ -4,6 +4,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="generated\*" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ProtocolGeneratorHelper\ProtocolGeneratorHelper.csproj" />
   </ItemGroup>
 </Project>
