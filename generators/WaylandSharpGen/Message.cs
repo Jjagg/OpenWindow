@@ -21,7 +21,9 @@ namespace WaylandSharpGen
         public readonly string RawName;
         public readonly string NiceName;
         public readonly Argument[] Arguments;
-        public readonly string Signature;
+        public string Signature => Arguments.Any()
+                ? Arguments.Select(a => a.Signature).Aggregate(string.Concat)
+                : string.Empty;
         public readonly string[] Types;
 
         public Message(XElement element)
@@ -31,16 +33,8 @@ namespace WaylandSharpGen
             RawName = element.Attribute(NameAttrib).Value;
             NiceName = Util.ToPascalCase(RawName);
             Arguments = element.Elements(ArgElement).Select(e => new Argument(e)).ToArray();
-            Signature = Arguments.Any()
-                ? Arguments.Select(a => a.Signature).Aggregate(string.Concat)
-                : string.Empty;
             var types = new List<string>();
-            foreach (var a in Arguments)
-            {
-                if (a.Interface != null)
-                    types.Add(a.InterfaceCls);
-            }
-            Types = types.ToArray();
+            Types = Arguments.SelectMany(a => a.GetSignatureTypes()).ToArray();
         }
 
         public string EventDelegate()
@@ -66,15 +60,16 @@ namespace WaylandSharpGen
             sb.Append(RawName);
             sb.Append("\", \"");
             sb.Append(Signature);
+            sb.Append("\", ");
             if (Types.Any())
             {
-                sb.Append("\", new [] {");
-                sb.Append(Types.Select(t => $"{t}.Interface").Aggregate((s1, s2) => s1 + ", " + s2));
+                sb.Append("new [] {");
+                sb.Append(Types.Select(t => t == "" ? "IntPtr.Zero" : $"{t}.Interface.Pointer").Aggregate((s1, s2) => s1 + ", " + s2));
                 sb.Append("})");
             }
             else
             {
-                sb.Append("\", new WlInterface [0])");
+                sb.Append("new IntPtr[0])");
             }
             return sb.ToString();
 

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace OpenWindow.Backends.Wayland
 {
-    internal class WlObject
+    internal abstract class WlObject
     {
         public IntPtr Pointer { get; }
         public bool IsNullPtr => Pointer == IntPtr.Zero;

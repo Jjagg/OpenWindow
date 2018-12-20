@@ -3,6 +3,7 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using ProtocolGeneratorHelper;
 
@@ -36,31 +37,47 @@ namespace WaylandSharpGen
             ObjectType = Type == ArgType.New_id || Type == ArgType.Object;
             var allowNull = element.Attribute(AllowNullAttrib);
             AllowNull = allowNull == null ? false : bool.Parse(allowNull.Value);
-            Signature = (AllowNull ? "?" : string.Empty) + ArgToSig(Type);
+            Signature = (AllowNull ? "?" : string.Empty) + ArgToSig(Type, Interface != null);
 
             ParamType = GetParamType();
         }
-        
-        private static char ArgToSig(ArgType type)
+
+        internal IEnumerable<string> GetSignatureTypes()
+        {
+            if (Type == ArgType.New_id && Interface == null)
+            {
+                // n becomes sun so we must return the types for s and u here
+                yield return string.Empty;
+                yield return string.Empty;
+            }
+            yield return Interface != null ? InterfaceCls : string.Empty;
+        }
+
+        private static string ArgToSig(ArgType type, bool hasInterface)
         {
             switch (type)
             {
                 case ArgType.Int:
-                    return 'i';
+                    return "i";
                 case ArgType.Uint:
-                    return 'u';
+                    return "u";
                 case ArgType.Fixed:
-                    return 'f';
+                    return "f";
                 case ArgType.String:
-                    return 's';
+                    return "s";
                 case ArgType.Object:
-                    return 'o';
+                    return "o";
                 case ArgType.New_id:
-                    return 'n';
+                    // From https://lists.freedesktop.org/archives/wayland-devel/2014-September/017074.html
+                    // new_id's without interface specified in the protocol (such as the one in wl_registry::bind) 
+                    // must come with 3 arguments (s: interface name, u: version, n: the actual new_id).
+                    // 
+                    // Bug report to add to spec: https://gitlab.freedesktop.org/wayland/wayland/issues/27
+                    return hasInterface ? "n" : "sun";
                 case ArgType.Array:
-                    return 'a';
+                    return "a";
                 case ArgType.Fd:
-                    return 'h';
+                    return "h";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

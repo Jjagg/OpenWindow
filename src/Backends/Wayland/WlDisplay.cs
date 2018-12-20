@@ -44,7 +44,7 @@ namespace OpenWindow.Backends.Wayland
         private static extern IntPtr Connect(string strConn);
 
         [DllImport("libwayland-client.so", EntryPoint = "wl_display_disconnect")]
-        private static extern void Disconnect(IntPtr dpy);
+        public static extern void Disconnect(IntPtr dpy);
 
         [DllImport("libwayland-client.so", EntryPoint = "wl_display_roundtrip")]
         private static extern int Roundtrip(IntPtr dpy);

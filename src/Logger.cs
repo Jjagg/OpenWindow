@@ -26,6 +26,8 @@ namespace OpenWindow
             }
         }
 
+        public Level OutputLevel { get; set; }
+
         /// <summary>
         /// A list of logged messages.
         /// </summary>
@@ -38,7 +40,8 @@ namespace OpenWindow
         {
             Messages = new List<Message>();
             _format = "[{0:T}] {1}: {2}";
-#if NETSTANDARD1_3
+            OutputLevel = Level.Info;
+#if !NETSTANDARD1_1
             // log to StdOut by default
             _outputWriter = Console.Out;
 #endif

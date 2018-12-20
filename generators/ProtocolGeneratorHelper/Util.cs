@@ -9,14 +9,14 @@ namespace ProtocolGeneratorHelper
 {
     public static class Util
     {
-        public static string ToPascalCase(string text)
+        public static string ToPascalCase(string text, bool upperCaseStart = true)
         {
             if (text == null)
                 return null;
 
             var uppercaseChars = new [] {'_', '.'};
             var skipChars = new[] {'_'};
-            var upperCase = true;
+            var upperCase = upperCaseStart;
             var sb = new StringBuilder();
             for (var i = 0; i < text.Length; i++)
             {

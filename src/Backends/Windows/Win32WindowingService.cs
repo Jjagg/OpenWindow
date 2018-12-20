@@ -36,9 +36,9 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
-        public override Window CreateWindow(bool show = true)
+        public override Window CreateWindow()
         {
-            var window = new Win32Window(GlSettings, show);
+            var window = new Win32Window(GlSettings);
             ManagedWindows.Add(window.Handle, window);
             return window;
         }

@@ -9,32 +9,67 @@ using SMarshal = System.Runtime.InteropServices.Marshal;
 
 namespace OpenWindow.Backends.Wayland
 {
-    internal static partial class WaylandInterfaces
+    internal static partial class WaylandBindings
     {
-        public static void CleanUp()
+        private static bool _initialized;
+
+        public static void Initialize()
         {
-            WlDisplay.CleanUp();
-            WlRegistry.CleanUp();
-            WlCallback.CleanUp();
-            WlCompositor.CleanUp();
-            WlShmPool.CleanUp();
-            WlShm.CleanUp();
-            WlBuffer.CleanUp();
-            WlDataOffer.CleanUp();
-            WlDataSource.CleanUp();
-            WlDataDevice.CleanUp();
-            WlDataDeviceManager.CleanUp();
-            WlShell.CleanUp();
-            WlShellSurface.CleanUp();
-            WlSurface.CleanUp();
-            WlSeat.CleanUp();
-            WlPointer.CleanUp();
-            WlKeyboard.CleanUp();
-            WlTouch.CleanUp();
-            WlOutput.CleanUp();
-            WlRegion.CleanUp();
-            WlSubcompositor.CleanUp();
-            WlSubsurface.CleanUp();
+            if (_initialized)
+                return;
+            _initialized = true;
+
+            WlDisplay.Initialize();
+            WlRegistry.Initialize();
+            WlCallback.Initialize();
+            WlCompositor.Initialize();
+            WlShmPool.Initialize();
+            WlShm.Initialize();
+            WlBuffer.Initialize();
+            WlDataOffer.Initialize();
+            WlDataSource.Initialize();
+            WlDataDevice.Initialize();
+            WlDataDeviceManager.Initialize();
+            WlShell.Initialize();
+            WlShellSurface.Initialize();
+            WlSurface.Initialize();
+            WlSeat.Initialize();
+            WlPointer.Initialize();
+            WlKeyboard.Initialize();
+            WlTouch.Initialize();
+            WlOutput.Initialize();
+            WlRegion.Initialize();
+            WlSubcompositor.Initialize();
+            WlSubsurface.Initialize();
+        }
+        public static void Free()
+        {
+            if (!_initialized)
+                return;
+            _initialized = false;
+
+            WlDisplay.Interface.Dispose();
+            WlRegistry.Interface.Dispose();
+            WlCallback.Interface.Dispose();
+            WlCompositor.Interface.Dispose();
+            WlShmPool.Interface.Dispose();
+            WlShm.Interface.Dispose();
+            WlBuffer.Interface.Dispose();
+            WlDataOffer.Interface.Dispose();
+            WlDataSource.Interface.Dispose();
+            WlDataDevice.Interface.Dispose();
+            WlDataDeviceManager.Interface.Dispose();
+            WlShell.Interface.Dispose();
+            WlShellSurface.Interface.Dispose();
+            WlSurface.Interface.Dispose();
+            WlSeat.Interface.Dispose();
+            WlPointer.Interface.Dispose();
+            WlKeyboard.Interface.Dispose();
+            WlTouch.Interface.Dispose();
+            WlOutput.Interface.Dispose();
+            WlRegion.Interface.Dispose();
+            WlSubcompositor.Interface.Dispose();
+            WlSubsurface.Interface.Dispose();
         }
     }
 
@@ -58,21 +93,21 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_display", 1, 2, 2);
         public const string InterfaceName = "wl_display";
 
-        private static readonly WlMessage SyncMsg = new WlMessage("sync", "n", new [] {WlCallback.Interface});
-        private static readonly WlMessage GetRegistryMsg = new WlMessage("get_registry", "n", new [] {WlRegistry.Interface});
-
-        static WlDisplay()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {SyncMsg, GetRegistryMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("sync", "n", new [] {WlCallback.Interface.Pointer}),
+                new WlMessage("get_registry", "n", new [] {WlRegistry.Interface.Pointer}),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("error", "ous", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("delete_id", "u", new [] {IntPtr.Zero}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            SyncMsg.Dispose();
-            GetRegistryMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -158,7 +193,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlCallback Sync(IntPtr pointer)
         {
-            var ptr = MarshalConstructor(pointer, SyncOp, WlCallback.Interface.Pointer, IntPtr.Zero);
+            var args = new ArgumentStruct[] { 0 };
+            var ptr = MarshalArrayConstructor(pointer, SyncOp, args, WlCallback.Interface.Pointer);
             return new WlCallback(ptr);
         }
 
@@ -167,6 +203,13 @@ namespace OpenWindow.Backends.Wayland
         /// This request creates a registry object that allows the client
         /// to list and bind the global objects available from the
         /// compositor.
+        /// </p>
+        /// <p>
+        /// It should be noted that the server side resources consumed in
+        /// response to a get_registry request can only be released when the
+        /// client disconnects, not when the client side proxy is destroyed.
+        /// Therefore, clients should invoke get_registry as infrequently as
+        /// possible to avoid wasting memory.
         /// </p>
         /// </summary>
         /// <param name="registry">global registry object</param>
@@ -177,7 +220,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlRegistry GetRegistry(IntPtr pointer)
         {
-            var ptr = MarshalConstructor(pointer, GetRegistryOp, WlRegistry.Interface.Pointer, IntPtr.Zero);
+            var args = new ArgumentStruct[] { 0 };
+            var ptr = MarshalArrayConstructor(pointer, GetRegistryOp, args, WlRegistry.Interface.Pointer);
             return new WlRegistry(ptr);
         }
 
@@ -252,19 +296,20 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_registry", 1, 1, 2);
         public const string InterfaceName = "wl_registry";
 
-        private static readonly WlMessage BindMsg = new WlMessage("bind", "un", new WlInterface [0]);
-
-        static WlRegistry()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {BindMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("bind", "usun", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("global", "usu", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("global_remove", "u", new [] {IntPtr.Zero}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            BindMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -339,19 +384,18 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="name">unique numeric name of the object</param>
         /// <param name="id">bounded object</param>
-        public T Bind<T>(uint name, WlInterface iface)
-            where T : WlObject
+        public IntPtr Bind(uint name, WlInterface iface, uint version)
         {
-            return Bind<T>(Pointer, name, iface);
+            return Bind(Pointer, name, iface, version);
         }
 
-        public static T Bind<T>(IntPtr pointer, uint name, WlInterface iface)
-            where T : WlObject
+        public static IntPtr Bind(IntPtr pointer, uint name, WlInterface iface, uint version)
         {
-            var args = new ArgumentList(name);
-            var ptr = MarshalArrayConstructor(pointer, BindOp, args.Pointer, iface.Pointer);
-            args.Dispose();
-            return (T) Activator.CreateInstance(typeof(T), new [] { ptr });
+            var ifaceNameStr = SMarshal.StringToHGlobalAnsi(iface.Name);
+            var args = new ArgumentStruct[] { name, ifaceNameStr, version, 0 };
+            var ptr = MarshalArrayConstructor(pointer, BindOp, args, iface.Pointer);
+            SMarshal.FreeHGlobal(ifaceNameStr);
+            return ptr;
         }
 
         #endregion
@@ -375,17 +419,16 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_callback", 1, 0, 1);
         public const string InterfaceName = "wl_callback";
 
-
-        static WlCallback()
+        internal static void Initialize()
         {
             Interface.SetRequests(new WlMessage[0]);
+            Interface.SetEvents(new []
+            {
+                new WlMessage("done", "u", new [] {IntPtr.Zero}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -442,21 +485,17 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_compositor", 4, 2, 0);
         public const string InterfaceName = "wl_compositor";
 
-        private static readonly WlMessage CreateSurfaceMsg = new WlMessage("create_surface", "n", new [] {WlSurface.Interface});
-        private static readonly WlMessage CreateRegionMsg = new WlMessage("create_region", "n", new [] {WlRegion.Interface});
-
-        static WlCompositor()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {CreateSurfaceMsg, CreateRegionMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("create_surface", "n", new [] {WlSurface.Interface.Pointer}),
+                new WlMessage("create_region", "n", new [] {WlRegion.Interface.Pointer}),
+            });
+            Interface.SetEvents(new WlMessage[0]);
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            CreateSurfaceMsg.Dispose();
-            CreateRegionMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -478,7 +517,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlSurface CreateSurface(IntPtr pointer)
         {
-            var ptr = MarshalConstructor(pointer, CreateSurfaceOp, WlSurface.Interface.Pointer, IntPtr.Zero);
+            var args = new ArgumentStruct[] { 0 };
+            var ptr = MarshalArrayConstructor(pointer, CreateSurfaceOp, args, WlSurface.Interface.Pointer);
             return new WlSurface(ptr);
         }
 
@@ -495,7 +535,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlRegion CreateRegion(IntPtr pointer)
         {
-            var ptr = MarshalConstructor(pointer, CreateRegionOp, WlRegion.Interface.Pointer, IntPtr.Zero);
+            var args = new ArgumentStruct[] { 0 };
+            var ptr = MarshalArrayConstructor(pointer, CreateRegionOp, args, WlRegion.Interface.Pointer);
             return new WlRegion(ptr);
         }
 
@@ -528,23 +569,18 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_shm_pool", 1, 3, 0);
         public const string InterfaceName = "wl_shm_pool";
 
-        private static readonly WlMessage CreateBufferMsg = new WlMessage("create_buffer", "niiiiu", new [] {WlBuffer.Interface});
-        private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
-        private static readonly WlMessage ResizeMsg = new WlMessage("resize", "i", new WlInterface [0]);
-
-        static WlShmPool()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {CreateBufferMsg, DestroyMsg, ResizeMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("create_buffer", "niiiiu", new [] {WlBuffer.Interface.Pointer, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("destroy", "", new IntPtr[0]),
+                new WlMessage("resize", "i", new [] {IntPtr.Zero}),
+            });
+            Interface.SetEvents(new WlMessage[0]);
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            CreateBufferMsg.Dispose();
-            DestroyMsg.Dispose();
-            ResizeMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -583,9 +619,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlBuffer CreateBuffer(IntPtr pointer, int offset, int width, int height, int stride, WlShm.FormatEnum format)
         {
-            var args = new ArgumentList(offset, width, height, stride, format);
-            var ptr = MarshalArrayConstructor(pointer, CreateBufferOp, args.Pointer, WlBuffer.Interface.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { 0, offset, width, height, stride, (int) format };
+            var ptr = MarshalArrayConstructor(pointer, CreateBufferOp, args, WlBuffer.Interface.Pointer);
             return new WlBuffer(ptr);
         }
 
@@ -659,19 +694,19 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_shm", 1, 1, 1);
         public const string InterfaceName = "wl_shm";
 
-        private static readonly WlMessage CreatePoolMsg = new WlMessage("create_pool", "nhi", new [] {WlShmPool.Interface});
-
-        static WlShm()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {CreatePoolMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("create_pool", "nhi", new [] {WlShmPool.Interface.Pointer, IntPtr.Zero, IntPtr.Zero}),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("format", "u", new [] {IntPtr.Zero}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            CreatePoolMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -730,9 +765,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlShmPool CreatePool(IntPtr pointer, int fd, int size)
         {
-            var args = new ArgumentList(fd, size);
-            var ptr = MarshalArrayConstructor(pointer, CreatePoolOp, args.Pointer, WlShmPool.Interface.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { 0, fd, size };
+            var ptr = MarshalArrayConstructor(pointer, CreatePoolOp, args, WlShmPool.Interface.Pointer);
             return new WlShmPool(ptr);
         }
 
@@ -1098,19 +1132,19 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_buffer", 1, 1, 1);
         public const string InterfaceName = "wl_buffer";
 
-        private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
-
-        static WlBuffer()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {DestroyMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("destroy", "", new IntPtr[0]),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("release", "", new IntPtr[0]),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            DestroyMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -1207,27 +1241,25 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_data_offer", 3, 5, 3);
         public const string InterfaceName = "wl_data_offer";
 
-        private static readonly WlMessage AcceptMsg = new WlMessage("accept", "u?s", new WlInterface [0]);
-        private static readonly WlMessage ReceiveMsg = new WlMessage("receive", "sh", new WlInterface [0]);
-        private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
-        private static readonly WlMessage FinishMsg = new WlMessage("finish", "", new WlInterface [0]);
-        private static readonly WlMessage SetActionsMsg = new WlMessage("set_actions", "uu", new WlInterface [0]);
-
-        static WlDataOffer()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {AcceptMsg, ReceiveMsg, DestroyMsg, FinishMsg, SetActionsMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("accept", "u?s", new [] {IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("receive", "sh", new [] {IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("destroy", "", new IntPtr[0]),
+                new WlMessage("finish", "", new IntPtr[0]),
+                new WlMessage("set_actions", "uu", new [] {IntPtr.Zero, IntPtr.Zero}),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("offer", "s", new [] {IntPtr.Zero}),
+                new WlMessage("source_actions", "u", new [] {IntPtr.Zero}),
+                new WlMessage("action", "u", new [] {IntPtr.Zero}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            AcceptMsg.Dispose();
-            ReceiveMsg.Dispose();
-            DestroyMsg.Dispose();
-            FinishMsg.Dispose();
-            SetActionsMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -1360,9 +1392,10 @@ namespace OpenWindow.Backends.Wayland
 
         public static void Accept(IntPtr pointer, uint serial, string mime_type)
         {
-            var args = new ArgumentList(serial, mime_type);
-            MarshalArray(pointer, AcceptOp, args.Pointer);
-            args.Dispose();
+            var mime_typeStr = SMarshal.StringToHGlobalAnsi(mime_type);
+            var args = new ArgumentStruct[] { serial, mime_typeStr };
+            MarshalArray(pointer, AcceptOp, args);
+            SMarshal.FreeHGlobal(mime_typeStr);
         }
 
         /// <summary>
@@ -1395,9 +1428,10 @@ namespace OpenWindow.Backends.Wayland
 
         public static void Receive(IntPtr pointer, string mime_type, int fd)
         {
-            var args = new ArgumentList(mime_type, fd);
-            MarshalArray(pointer, ReceiveOp, args.Pointer);
-            args.Dispose();
+            var mime_typeStr = SMarshal.StringToHGlobalAnsi(mime_type);
+            var args = new ArgumentStruct[] { mime_typeStr, fd };
+            MarshalArray(pointer, ReceiveOp, args);
+            SMarshal.FreeHGlobal(mime_typeStr);
         }
 
         /// <summary>
@@ -1492,9 +1526,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void SetActions(IntPtr pointer, uint dnd_actions, uint preferred_action)
         {
-            var args = new ArgumentList(dnd_actions, preferred_action);
-            MarshalArray(pointer, SetActionsOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { dnd_actions, preferred_action };
+            MarshalArray(pointer, SetActionsOp, args);
         }
 
         #endregion
@@ -1551,23 +1584,26 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_data_source", 3, 3, 6);
         public const string InterfaceName = "wl_data_source";
 
-        private static readonly WlMessage OfferMsg = new WlMessage("offer", "s", new WlInterface [0]);
-        private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
-        private static readonly WlMessage SetActionsMsg = new WlMessage("set_actions", "u", new WlInterface [0]);
-
-        static WlDataSource()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {OfferMsg, DestroyMsg, SetActionsMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("offer", "s", new [] {IntPtr.Zero}),
+                new WlMessage("destroy", "", new IntPtr[0]),
+                new WlMessage("set_actions", "u", new [] {IntPtr.Zero}),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("target", "?s", new [] {IntPtr.Zero}),
+                new WlMessage("send", "sh", new [] {IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("cancelled", "", new IntPtr[0]),
+                new WlMessage("dnd_drop_performed", "", new IntPtr[0]),
+                new WlMessage("dnd_finished", "", new IntPtr[0]),
+                new WlMessage("action", "u", new [] {IntPtr.Zero}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            OfferMsg.Dispose();
-            DestroyMsg.Dispose();
-            SetActionsMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -1750,7 +1786,9 @@ namespace OpenWindow.Backends.Wayland
 
         public static void Offer(IntPtr pointer, string mime_type)
         {
+            var mime_typeStr = SMarshal.StringToHGlobalAnsi(mime_type);
             Marshal(pointer, OfferOp);
+            SMarshal.FreeHGlobal(mime_typeStr);
         }
 
         /// <summary>
@@ -1844,23 +1882,26 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_data_device", 3, 3, 6);
         public const string InterfaceName = "wl_data_device";
 
-        private static readonly WlMessage StartDragMsg = new WlMessage("start_drag", "?oo?ou", new [] {WlDataSource.Interface, WlSurface.Interface, WlSurface.Interface});
-        private static readonly WlMessage SetSelectionMsg = new WlMessage("set_selection", "?ou", new [] {WlDataSource.Interface});
-        private static readonly WlMessage ReleaseMsg = new WlMessage("release", "", new WlInterface [0]);
-
-        static WlDataDevice()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {StartDragMsg, SetSelectionMsg, ReleaseMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("start_drag", "?oo?ou", new [] {WlDataSource.Interface.Pointer, WlSurface.Interface.Pointer, WlSurface.Interface.Pointer, IntPtr.Zero}),
+                new WlMessage("set_selection", "?ou", new [] {WlDataSource.Interface.Pointer, IntPtr.Zero}),
+                new WlMessage("release", "", new IntPtr[0]),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("data_offer", "n", new [] {WlDataOffer.Interface.Pointer}),
+                new WlMessage("enter", "uoff?o", new [] {IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero, WlDataOffer.Interface.Pointer}),
+                new WlMessage("leave", "", new IntPtr[0]),
+                new WlMessage("motion", "uff", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("drop", "", new IntPtr[0]),
+                new WlMessage("selection", "?o", new [] {WlDataOffer.Interface.Pointer}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            StartDragMsg.Dispose();
-            SetSelectionMsg.Dispose();
-            ReleaseMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -2045,9 +2086,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void StartDrag(IntPtr pointer, WlDataSource source, WlSurface origin, WlSurface icon, uint serial)
         {
-            var args = new ArgumentList(source, origin, icon, serial);
-            MarshalArray(pointer, StartDragOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { source, origin, icon, serial };
+            MarshalArray(pointer, StartDragOp, args);
         }
 
         /// <summary>
@@ -2068,9 +2108,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void SetSelection(IntPtr pointer, WlDataSource source, uint serial)
         {
-            var args = new ArgumentList(source, serial);
-            MarshalArray(pointer, SetSelectionOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { source, serial };
+            MarshalArray(pointer, SetSelectionOp, args);
         }
 
         /// <summary>
@@ -2133,21 +2172,17 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_data_device_manager", 3, 2, 0);
         public const string InterfaceName = "wl_data_device_manager";
 
-        private static readonly WlMessage CreateDataSourceMsg = new WlMessage("create_data_source", "n", new [] {WlDataSource.Interface});
-        private static readonly WlMessage GetDataDeviceMsg = new WlMessage("get_data_device", "no", new [] {WlDataDevice.Interface, WlSeat.Interface});
-
-        static WlDataDeviceManager()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {CreateDataSourceMsg, GetDataDeviceMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("create_data_source", "n", new [] {WlDataSource.Interface.Pointer}),
+                new WlMessage("get_data_device", "no", new [] {WlDataDevice.Interface.Pointer, WlSeat.Interface.Pointer}),
+            });
+            Interface.SetEvents(new WlMessage[0]);
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            CreateDataSourceMsg.Dispose();
-            GetDataDeviceMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -2169,7 +2204,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlDataSource CreateDataSource(IntPtr pointer)
         {
-            var ptr = MarshalConstructor(pointer, CreateDataSourceOp, WlDataSource.Interface.Pointer, IntPtr.Zero);
+            var args = new ArgumentStruct[] { 0 };
+            var ptr = MarshalArrayConstructor(pointer, CreateDataSourceOp, args, WlDataSource.Interface.Pointer);
             return new WlDataSource(ptr);
         }
 
@@ -2187,9 +2223,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlDataDevice GetDataDevice(IntPtr pointer, WlSeat seat)
         {
-            var args = new ArgumentList(seat);
-            var ptr = MarshalArrayConstructor(pointer, GetDataDeviceOp, args.Pointer, WlDataDevice.Interface.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { 0, seat };
+            var ptr = MarshalArrayConstructor(pointer, GetDataDeviceOp, args, WlDataDevice.Interface.Pointer);
             return new WlDataDevice(ptr);
         }
 
@@ -2265,6 +2300,10 @@ namespace OpenWindow.Backends.Wayland
     /// It allows clients to associate a wl_shell_surface with
     /// a basic surface.
     /// </p>
+    /// <p>
+    /// Note! This protocol is deprecated and not intended for production use.
+    /// For desktop-style user interfaces, use xdg_shell.
+    /// </p>
     /// </summary>
     internal partial class WlShell : WlProxy
     {
@@ -2279,19 +2318,16 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_shell", 1, 1, 0);
         public const string InterfaceName = "wl_shell";
 
-        private static readonly WlMessage GetShellSurfaceMsg = new WlMessage("get_shell_surface", "no", new [] {WlShellSurface.Interface, WlSurface.Interface});
-
-        static WlShell()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {GetShellSurfaceMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("get_shell_surface", "no", new [] {WlShellSurface.Interface.Pointer, WlSurface.Interface.Pointer}),
+            });
+            Interface.SetEvents(new WlMessage[0]);
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            GetShellSurfaceMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -2319,9 +2355,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlShellSurface GetShellSurface(IntPtr pointer, WlSurface surface)
         {
-            var args = new ArgumentList(surface);
-            var ptr = MarshalArrayConstructor(pointer, GetShellSurfaceOp, args.Pointer, WlShellSurface.Interface.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { 0, surface };
+            var ptr = MarshalArrayConstructor(pointer, GetShellSurfaceOp, args, WlShellSurface.Interface.Pointer);
             return new WlShellSurface(ptr);
         }
 
@@ -2380,37 +2415,30 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_shell_surface", 1, 10, 3);
         public const string InterfaceName = "wl_shell_surface";
 
-        private static readonly WlMessage PongMsg = new WlMessage("pong", "u", new WlInterface [0]);
-        private static readonly WlMessage MoveMsg = new WlMessage("move", "ou", new [] {WlSeat.Interface});
-        private static readonly WlMessage ResizeMsg = new WlMessage("resize", "ouu", new [] {WlSeat.Interface});
-        private static readonly WlMessage SetToplevelMsg = new WlMessage("set_toplevel", "", new WlInterface [0]);
-        private static readonly WlMessage SetTransientMsg = new WlMessage("set_transient", "oiiu", new [] {WlSurface.Interface});
-        private static readonly WlMessage SetFullscreenMsg = new WlMessage("set_fullscreen", "uu?o", new [] {WlOutput.Interface});
-        private static readonly WlMessage SetPopupMsg = new WlMessage("set_popup", "ouoiiu", new [] {WlSeat.Interface, WlSurface.Interface});
-        private static readonly WlMessage SetMaximizedMsg = new WlMessage("set_maximized", "?o", new [] {WlOutput.Interface});
-        private static readonly WlMessage SetTitleMsg = new WlMessage("set_title", "s", new WlInterface [0]);
-        private static readonly WlMessage SetClassMsg = new WlMessage("set_class", "s", new WlInterface [0]);
-
-        static WlShellSurface()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {PongMsg, MoveMsg, ResizeMsg, SetToplevelMsg, SetTransientMsg, SetFullscreenMsg, SetPopupMsg, SetMaximizedMsg, SetTitleMsg, SetClassMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("pong", "u", new [] {IntPtr.Zero}),
+                new WlMessage("move", "ou", new [] {WlSeat.Interface.Pointer, IntPtr.Zero}),
+                new WlMessage("resize", "ouu", new [] {WlSeat.Interface.Pointer, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("set_toplevel", "", new IntPtr[0]),
+                new WlMessage("set_transient", "oiiu", new [] {WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("set_fullscreen", "uu?o", new [] {IntPtr.Zero, IntPtr.Zero, WlOutput.Interface.Pointer}),
+                new WlMessage("set_popup", "ouoiiu", new [] {WlSeat.Interface.Pointer, IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("set_maximized", "?o", new [] {WlOutput.Interface.Pointer}),
+                new WlMessage("set_title", "s", new [] {IntPtr.Zero}),
+                new WlMessage("set_class", "s", new [] {IntPtr.Zero}),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("ping", "u", new [] {IntPtr.Zero}),
+                new WlMessage("configure", "uii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("popup_done", "", new IntPtr[0]),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            PongMsg.Dispose();
-            MoveMsg.Dispose();
-            ResizeMsg.Dispose();
-            SetToplevelMsg.Dispose();
-            SetTransientMsg.Dispose();
-            SetFullscreenMsg.Dispose();
-            SetPopupMsg.Dispose();
-            SetMaximizedMsg.Dispose();
-            SetTitleMsg.Dispose();
-            SetClassMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -2531,9 +2559,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void Move(IntPtr pointer, WlSeat seat, uint serial)
         {
-            var args = new ArgumentList(seat, serial);
-            MarshalArray(pointer, MoveOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { seat, serial };
+            MarshalArray(pointer, MoveOp, args);
         }
 
         /// <summary>
@@ -2556,9 +2583,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void Resize(IntPtr pointer, WlSeat seat, uint serial, ResizeEnum edges)
         {
-            var args = new ArgumentList(seat, serial, edges);
-            MarshalArray(pointer, ResizeOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { seat, serial, (int) edges };
+            MarshalArray(pointer, ResizeOp, args);
         }
 
         /// <summary>
@@ -2603,9 +2629,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void SetTransient(IntPtr pointer, WlSurface parent, int x, int y, TransientEnum flags)
         {
-            var args = new ArgumentList(parent, x, y, flags);
-            MarshalArray(pointer, SetTransientOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { parent, x, y, (int) flags };
+            MarshalArray(pointer, SetTransientOp, args);
         }
 
         /// <summary>
@@ -2661,9 +2686,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void SetFullscreen(IntPtr pointer, FullscreenMethodEnum method, uint framerate, WlOutput output)
         {
-            var args = new ArgumentList(method, framerate, output);
-            MarshalArray(pointer, SetFullscreenOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { (int) method, framerate, output };
+            MarshalArray(pointer, SetFullscreenOp, args);
         }
 
         /// <summary>
@@ -2706,9 +2730,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void SetPopup(IntPtr pointer, WlSeat seat, uint serial, WlSurface parent, int x, int y, TransientEnum flags)
         {
-            var args = new ArgumentList(seat, serial, parent, x, y, flags);
-            MarshalArray(pointer, SetPopupOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { seat, serial, parent, x, y, (int) flags };
+            MarshalArray(pointer, SetPopupOp, args);
         }
 
         /// <summary>
@@ -2769,7 +2792,9 @@ namespace OpenWindow.Backends.Wayland
 
         public static void SetTitle(IntPtr pointer, string title)
         {
+            var titleStr = SMarshal.StringToHGlobalAnsi(title);
             Marshal(pointer, SetTitleOp);
+            SMarshal.FreeHGlobal(titleStr);
         }
 
         /// <summary>
@@ -2791,7 +2816,9 @@ namespace OpenWindow.Backends.Wayland
 
         public static void SetClass(IntPtr pointer, string class_)
         {
+            var class_Str = SMarshal.StringToHGlobalAnsi(class_);
             Marshal(pointer, SetClassOp);
+            SMarshal.FreeHGlobal(class_Str);
         }
 
         #endregion
@@ -2976,37 +3003,29 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_surface", 4, 10, 2);
         public const string InterfaceName = "wl_surface";
 
-        private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
-        private static readonly WlMessage AttachMsg = new WlMessage("attach", "?oii", new [] {WlBuffer.Interface});
-        private static readonly WlMessage DamageMsg = new WlMessage("damage", "iiii", new WlInterface [0]);
-        private static readonly WlMessage FrameMsg = new WlMessage("frame", "n", new [] {WlCallback.Interface});
-        private static readonly WlMessage SetOpaqueRegionMsg = new WlMessage("set_opaque_region", "?o", new [] {WlRegion.Interface});
-        private static readonly WlMessage SetInputRegionMsg = new WlMessage("set_input_region", "?o", new [] {WlRegion.Interface});
-        private static readonly WlMessage CommitMsg = new WlMessage("commit", "", new WlInterface [0]);
-        private static readonly WlMessage SetBufferTransformMsg = new WlMessage("set_buffer_transform", "i", new WlInterface [0]);
-        private static readonly WlMessage SetBufferScaleMsg = new WlMessage("set_buffer_scale", "i", new WlInterface [0]);
-        private static readonly WlMessage DamageBufferMsg = new WlMessage("damage_buffer", "iiii", new WlInterface [0]);
-
-        static WlSurface()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {DestroyMsg, AttachMsg, DamageMsg, FrameMsg, SetOpaqueRegionMsg, SetInputRegionMsg, CommitMsg, SetBufferTransformMsg, SetBufferScaleMsg, DamageBufferMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("destroy", "", new IntPtr[0]),
+                new WlMessage("attach", "?oii", new [] {WlBuffer.Interface.Pointer, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("damage", "iiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("frame", "n", new [] {WlCallback.Interface.Pointer}),
+                new WlMessage("set_opaque_region", "?o", new [] {WlRegion.Interface.Pointer}),
+                new WlMessage("set_input_region", "?o", new [] {WlRegion.Interface.Pointer}),
+                new WlMessage("commit", "", new IntPtr[0]),
+                new WlMessage("set_buffer_transform", "i", new [] {IntPtr.Zero}),
+                new WlMessage("set_buffer_scale", "i", new [] {IntPtr.Zero}),
+                new WlMessage("damage_buffer", "iiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("enter", "o", new [] {WlOutput.Interface.Pointer}),
+                new WlMessage("leave", "o", new [] {WlOutput.Interface.Pointer}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            DestroyMsg.Dispose();
-            AttachMsg.Dispose();
-            DamageMsg.Dispose();
-            FrameMsg.Dispose();
-            SetOpaqueRegionMsg.Dispose();
-            SetInputRegionMsg.Dispose();
-            CommitMsg.Dispose();
-            SetBufferTransformMsg.Dispose();
-            SetBufferScaleMsg.Dispose();
-            DamageBufferMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -3137,9 +3156,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void Attach(IntPtr pointer, WlBuffer buffer, int x, int y)
         {
-            var args = new ArgumentList(buffer, x, y);
-            MarshalArray(pointer, AttachOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { buffer, x, y };
+            MarshalArray(pointer, AttachOp, args);
         }
 
         /// <summary>
@@ -3183,9 +3201,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void Damage(IntPtr pointer, int x, int y, int width, int height)
         {
-            var args = new ArgumentList(x, y, width, height);
-            MarshalArray(pointer, DamageOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { x, y, width, height };
+            MarshalArray(pointer, DamageOp, args);
         }
 
         /// <summary>
@@ -3238,7 +3255,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlCallback Frame(IntPtr pointer)
         {
-            var ptr = MarshalConstructor(pointer, FrameOp, WlCallback.Interface.Pointer, IntPtr.Zero);
+            var args = new ArgumentStruct[] { 0 };
+            var ptr = MarshalArrayConstructor(pointer, FrameOp, args, WlCallback.Interface.Pointer);
             return new WlCallback(ptr);
         }
 
@@ -3510,9 +3528,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void DamageBuffer(IntPtr pointer, int x, int y, int width, int height)
         {
-            var args = new ArgumentList(x, y, width, height);
-            MarshalArray(pointer, DamageBufferOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { x, y, width, height };
+            MarshalArray(pointer, DamageBufferOp, args);
         }
 
         #endregion
@@ -3565,25 +3582,23 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_seat", 6, 4, 2);
         public const string InterfaceName = "wl_seat";
 
-        private static readonly WlMessage GetPointerMsg = new WlMessage("get_pointer", "n", new [] {WlPointer.Interface});
-        private static readonly WlMessage GetKeyboardMsg = new WlMessage("get_keyboard", "n", new [] {WlKeyboard.Interface});
-        private static readonly WlMessage GetTouchMsg = new WlMessage("get_touch", "n", new [] {WlTouch.Interface});
-        private static readonly WlMessage ReleaseMsg = new WlMessage("release", "", new WlInterface [0]);
-
-        static WlSeat()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {GetPointerMsg, GetKeyboardMsg, GetTouchMsg, ReleaseMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("get_pointer", "n", new [] {WlPointer.Interface.Pointer}),
+                new WlMessage("get_keyboard", "n", new [] {WlKeyboard.Interface.Pointer}),
+                new WlMessage("get_touch", "n", new [] {WlTouch.Interface.Pointer}),
+                new WlMessage("release", "", new IntPtr[0]),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("capabilities", "u", new [] {IntPtr.Zero}),
+                new WlMessage("name", "s", new [] {IntPtr.Zero}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            GetPointerMsg.Dispose();
-            GetKeyboardMsg.Dispose();
-            GetTouchMsg.Dispose();
-            ReleaseMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -3681,7 +3696,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlPointer GetPointer(IntPtr pointer)
         {
-            var ptr = MarshalConstructor(pointer, GetPointerOp, WlPointer.Interface.Pointer, IntPtr.Zero);
+            var args = new ArgumentStruct[] { 0 };
+            var ptr = MarshalArrayConstructor(pointer, GetPointerOp, args, WlPointer.Interface.Pointer);
             return new WlPointer(ptr);
         }
 
@@ -3705,7 +3721,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlKeyboard GetKeyboard(IntPtr pointer)
         {
-            var ptr = MarshalConstructor(pointer, GetKeyboardOp, WlKeyboard.Interface.Pointer, IntPtr.Zero);
+            var args = new ArgumentStruct[] { 0 };
+            var ptr = MarshalArrayConstructor(pointer, GetKeyboardOp, args, WlKeyboard.Interface.Pointer);
             return new WlKeyboard(ptr);
         }
 
@@ -3729,7 +3746,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlTouch GetTouch(IntPtr pointer)
         {
-            var ptr = MarshalConstructor(pointer, GetTouchOp, WlTouch.Interface.Pointer, IntPtr.Zero);
+            var args = new ArgumentStruct[] { 0 };
+            var ptr = MarshalArrayConstructor(pointer, GetTouchOp, args, WlTouch.Interface.Pointer);
             return new WlTouch(ptr);
         }
 
@@ -3809,21 +3827,28 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_pointer", 6, 2, 9);
         public const string InterfaceName = "wl_pointer";
 
-        private static readonly WlMessage SetCursorMsg = new WlMessage("set_cursor", "u?oii", new [] {WlSurface.Interface});
-        private static readonly WlMessage ReleaseMsg = new WlMessage("release", "", new WlInterface [0]);
-
-        static WlPointer()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {SetCursorMsg, ReleaseMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("set_cursor", "u?oii", new [] {IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("release", "", new IntPtr[0]),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("enter", "uoff", new [] {IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("leave", "uo", new [] {IntPtr.Zero, WlSurface.Interface.Pointer}),
+                new WlMessage("motion", "uff", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("button", "uuuu", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("axis", "uuf", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("frame", "", new IntPtr[0]),
+                new WlMessage("axis_source", "u", new [] {IntPtr.Zero}),
+                new WlMessage("axis_stop", "uu", new [] {IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("axis_discrete", "ui", new [] {IntPtr.Zero, IntPtr.Zero}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            SetCursorMsg.Dispose();
-            ReleaseMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -4180,9 +4205,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void SetCursor(IntPtr pointer, uint serial, WlSurface surface, int hotspot_x, int hotspot_y)
         {
-            var args = new ArgumentList(serial, surface, hotspot_x, hotspot_y);
-            MarshalArray(pointer, SetCursorOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { serial, surface, hotspot_x, hotspot_y };
+            MarshalArray(pointer, SetCursorOp, args);
         }
 
         /// <summary>
@@ -4325,19 +4349,24 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_keyboard", 6, 1, 6);
         public const string InterfaceName = "wl_keyboard";
 
-        private static readonly WlMessage ReleaseMsg = new WlMessage("release", "", new WlInterface [0]);
-
-        static WlKeyboard()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {ReleaseMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("release", "", new IntPtr[0]),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("keymap", "uhu", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("enter", "uoa", new [] {IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero}),
+                new WlMessage("leave", "uo", new [] {IntPtr.Zero, WlSurface.Interface.Pointer}),
+                new WlMessage("key", "uuuu", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("modifiers", "uuuuu", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("repeat_info", "ii", new [] {IntPtr.Zero, IntPtr.Zero}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            ReleaseMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -4556,19 +4585,25 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_touch", 6, 1, 7);
         public const string InterfaceName = "wl_touch";
 
-        private static readonly WlMessage ReleaseMsg = new WlMessage("release", "", new WlInterface [0]);
-
-        static WlTouch()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {ReleaseMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("release", "", new IntPtr[0]),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("down", "uuoiff", new [] {IntPtr.Zero, IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("up", "uui", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("motion", "uiff", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("frame", "", new IntPtr[0]),
+                new WlMessage("cancel", "", new IntPtr[0]),
+                new WlMessage("shape", "iff", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("orientation", "if", new [] {IntPtr.Zero, IntPtr.Zero}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            ReleaseMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -4799,19 +4834,22 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_output", 3, 1, 4);
         public const string InterfaceName = "wl_output";
 
-        private static readonly WlMessage ReleaseMsg = new WlMessage("release", "", new WlInterface [0]);
-
-        static WlOutput()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {ReleaseMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("release", "", new IntPtr[0]),
+            });
+            Interface.SetEvents(new []
+            {
+                new WlMessage("geometry", "iiiiissi", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("mode", "uiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("done", "", new IntPtr[0]),
+                new WlMessage("scale", "i", new [] {IntPtr.Zero}),
+            });
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            ReleaseMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -4849,6 +4887,10 @@ namespace OpenWindow.Backends.Wayland
         /// The geometry event describes geometric properties of the output.
         /// The event is sent when binding to the output object and whenever
         /// any of the properties change.
+        /// </p>
+        /// <p>
+        /// The physical size can be set to zero if it doesn't make sense for this
+        /// output (e.g. for projectors or virtual outputs).
         /// </p>
         /// </summary>
         public GeometryHandler Geometry;
@@ -5101,23 +5143,18 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_region", 1, 3, 0);
         public const string InterfaceName = "wl_region";
 
-        private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
-        private static readonly WlMessage AddMsg = new WlMessage("add", "iiii", new WlInterface [0]);
-        private static readonly WlMessage SubtractMsg = new WlMessage("subtract", "iiii", new WlInterface [0]);
-
-        static WlRegion()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {DestroyMsg, AddMsg, SubtractMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("destroy", "", new IntPtr[0]),
+                new WlMessage("add", "iiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("subtract", "iiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
+            });
+            Interface.SetEvents(new WlMessage[0]);
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            DestroyMsg.Dispose();
-            AddMsg.Dispose();
-            SubtractMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -5157,9 +5194,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void Add(IntPtr pointer, int x, int y, int width, int height)
         {
-            var args = new ArgumentList(x, y, width, height);
-            MarshalArray(pointer, AddOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { x, y, width, height };
+            MarshalArray(pointer, AddOp, args);
         }
 
         /// <summary>
@@ -5178,9 +5214,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void Subtract(IntPtr pointer, int x, int y, int width, int height)
         {
-            var args = new ArgumentList(x, y, width, height);
-            MarshalArray(pointer, SubtractOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { x, y, width, height };
+            MarshalArray(pointer, SubtractOp, args);
         }
 
         #endregion
@@ -5226,21 +5261,17 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_subcompositor", 1, 2, 0);
         public const string InterfaceName = "wl_subcompositor";
 
-        private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
-        private static readonly WlMessage GetSubsurfaceMsg = new WlMessage("get_subsurface", "noo", new [] {WlSubsurface.Interface, WlSurface.Interface, WlSurface.Interface});
-
-        static WlSubcompositor()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {DestroyMsg, GetSubsurfaceMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("destroy", "", new IntPtr[0]),
+                new WlMessage("get_subsurface", "noo", new [] {WlSubsurface.Interface.Pointer, WlSurface.Interface.Pointer, WlSurface.Interface.Pointer}),
+            });
+            Interface.SetEvents(new WlMessage[0]);
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            DestroyMsg.Dispose();
-            GetSubsurfaceMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -5277,6 +5308,16 @@ namespace OpenWindow.Backends.Wayland
         /// must not have an existing wl_subsurface object. Otherwise a protocol
         /// error is raised.
         /// </p>
+        /// <p>
+        /// Adding sub-surfaces to a parent is a double-buffered operation on the
+        /// parent (see wl_surface.commit). The effect of adding a sub-surface
+        /// becomes visible on the next time the state of the parent surface is
+        /// applied.
+        /// </p>
+        /// <p>
+        /// This request modifies the behaviour of wl_surface.commit request on
+        /// the sub-surface, see the documentation on wl_subsurface interface.
+        /// </p>
         /// </summary>
         /// <param name="id">the new sub-surface object ID</param>
         /// <param name="surface">the surface to be turned into a sub-surface</param>
@@ -5288,9 +5329,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static WlSubsurface GetSubsurface(IntPtr pointer, WlSurface surface, WlSurface parent)
         {
-            var args = new ArgumentList(surface, parent);
-            var ptr = MarshalArrayConstructor(pointer, GetSubsurfaceOp, args.Pointer, WlSubsurface.Interface.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { 0, surface, parent };
+            var ptr = MarshalArrayConstructor(pointer, GetSubsurfaceOp, args, WlSubsurface.Interface.Pointer);
             return new WlSubsurface(ptr);
         }
 
@@ -5388,29 +5428,21 @@ namespace OpenWindow.Backends.Wayland
         public static WlInterface Interface = new WlInterface("wl_subsurface", 1, 6, 0);
         public const string InterfaceName = "wl_subsurface";
 
-        private static readonly WlMessage DestroyMsg = new WlMessage("destroy", "", new WlInterface [0]);
-        private static readonly WlMessage SetPositionMsg = new WlMessage("set_position", "ii", new WlInterface [0]);
-        private static readonly WlMessage PlaceAboveMsg = new WlMessage("place_above", "o", new [] {WlSurface.Interface});
-        private static readonly WlMessage PlaceBelowMsg = new WlMessage("place_below", "o", new [] {WlSurface.Interface});
-        private static readonly WlMessage SetSyncMsg = new WlMessage("set_sync", "", new WlInterface [0]);
-        private static readonly WlMessage SetDesyncMsg = new WlMessage("set_desync", "", new WlInterface [0]);
-
-        static WlSubsurface()
+        internal static void Initialize()
         {
-            Interface.SetRequests(new [] {DestroyMsg, SetPositionMsg, PlaceAboveMsg, PlaceBelowMsg, SetSyncMsg, SetDesyncMsg});
+            Interface.SetRequests(new []
+            {
+                new WlMessage("destroy", "", new IntPtr[0]),
+                new WlMessage("set_position", "ii", new [] {IntPtr.Zero, IntPtr.Zero}),
+                new WlMessage("place_above", "o", new [] {WlSurface.Interface.Pointer}),
+                new WlMessage("place_below", "o", new [] {WlSurface.Interface.Pointer}),
+                new WlMessage("set_sync", "", new IntPtr[0]),
+                new WlMessage("set_desync", "", new IntPtr[0]),
+            });
+            Interface.SetEvents(new WlMessage[0]);
             Interface.Finish();
         }
 
-        public static void CleanUp()
-        {
-            DestroyMsg.Dispose();
-            SetPositionMsg.Dispose();
-            PlaceAboveMsg.Dispose();
-            PlaceBelowMsg.Dispose();
-            SetSyncMsg.Dispose();
-            SetDesyncMsg.Dispose();
-            Interface.Dispose();
-        }
 
         #endregion
 
@@ -5425,7 +5457,7 @@ namespace OpenWindow.Backends.Wayland
         /// that was turned into a sub-surface with a
         /// wl_subcompositor.get_subsurface request. The wl_surface's association
         /// to the parent is deleted, and the wl_surface loses its role as
-        /// a sub-surface. The wl_surface is unmapped.
+        /// a sub-surface. The wl_surface is unmapped immediately.
         /// </p>
         /// </summary>
         public void Destroy()
@@ -5470,9 +5502,8 @@ namespace OpenWindow.Backends.Wayland
 
         public static void SetPosition(IntPtr pointer, int x, int y)
         {
-            var args = new ArgumentList(x, y);
-            MarshalArray(pointer, SetPositionOp, args.Pointer);
-            args.Dispose();
+            var args = new ArgumentStruct[] { x, y };
+            MarshalArray(pointer, SetPositionOp, args);
         }
 
         /// <summary>

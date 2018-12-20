@@ -21,7 +21,7 @@ namespace OpenWindow.Backends.X
                 throw new OpenWindowException("Failed to connect to the X server.");
         }
 
-        public override Window CreateWindow(bool show = true)
+        public override Window CreateWindow()
         {
             throw new NotImplementedException();
         }

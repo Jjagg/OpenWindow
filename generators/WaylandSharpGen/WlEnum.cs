@@ -42,7 +42,7 @@ namespace WaylandSharpGen
             {
                 Name = element.Attribute(NameAttrib).Value;
                 Value = element.Attribute(ValueAttrib).Value;
-                Summary = element.Attribute(SummaryAttrib).Value;
+                Summary = element.Attribute(SummaryAttrib)?.Value;
             }
         }
     }

@@ -34,7 +34,7 @@ namespace OpenWindow.Backends.Windows
             // TODO init properties
         }
 
-        public Win32Window(OpenGlSurfaceSettings glSettings, bool show)
+        public Win32Window(OpenGlSurfaceSettings glSettings)
             : base(false)
         {
             RegisterNewWindowClass();
@@ -90,8 +90,7 @@ namespace OpenWindow.Backends.Windows
             else
                 GlSettings = new OpenGlSurfaceSettings();
 
-            if (show)
-                Native.ShowWindow(Handle, ShowWindowCommand.Normal);
+            Native.ShowWindow(Handle, ShowWindowCommand.Normal);
         }
 
         private void InitOpenGl(OpenGlSurfaceSettings s)

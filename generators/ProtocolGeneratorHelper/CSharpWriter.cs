@@ -33,6 +33,13 @@ namespace ProtocolGeneratorHelper
         {
             AppendLine(text);
         }
+
+        public void LineIndented(string text)
+        {
+            Indent();
+            Line(text);
+            Dedent();
+        }
         
         public void LineComment(string l)
         {
@@ -103,8 +110,11 @@ namespace ProtocolGeneratorHelper
         public void DocSummary(string summary)
         {
             AppendLine("/// <summary>");
-            foreach (var line in summary.Split('\n'))
-                DocComment(line);
+            if (!string.IsNullOrEmpty(summary))
+            {
+                foreach (var line in summary.Split('\n'))
+                    DocComment(line);
+            }
             AppendLine("/// </summary>");
         }
 
@@ -167,12 +177,12 @@ namespace ProtocolGeneratorHelper
             return string.Empty.PadLeft(_indentation * 4, ' ') + text;
         }
         
-        private void Indent()
+        public void Indent()
         {
             _indentation++;
         }
 
-        private void Dedent()
+        public void Dedent()
         {
             _indentation--;
             if (_indentation < 0)

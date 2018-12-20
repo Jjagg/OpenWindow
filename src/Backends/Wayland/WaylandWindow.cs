@@ -13,21 +13,33 @@ namespace OpenWindow.Backends.Wayland
         private readonly WlSurface _wlSurface;
         private readonly XdgSurface _xdgSurface;
         private readonly XdgToplevel _xdgTopLevel;
+        private readonly IntPtr _eglWindow;
 
         #endregion
 
         #region Constructor
 
-        public WaylandWindow(WlSurface wlSurface, XdgSurface xdgSurface, OpenGlSurfaceSettings glSettings, bool show)
+        public WaylandWindow(WlSurface wlSurface, XdgSurface xdgSurface, OpenGlSurfaceSettings glSettings)
             : base(false)
         {
             _wlSurface = wlSurface;
             _xdgSurface = xdgSurface;
             _xdgTopLevel = _xdgSurface.GetToplevel();
+            _xdgTopLevel.Configure = Configure;
 
             _wlSurface.Enter = SurfaceEnter;
             _wlSurface.Leave = SurfaceLeave;
+            _wlSurface.SetListener();
+
+            Native.EglWindowCreate(_wlSurface.Pointer, )
+
+            _wlSurface.Attach(_wlBuffer, 0, 0);
             _wlSurface.Commit();
+        }
+
+        private void Configure(IntPtr data, IntPtr iface, int width, int height, WlArray states)
+        {
+
         }
 
         private void SurfaceEnter(IntPtr data, IntPtr iface, IntPtr output)
@@ -131,7 +143,7 @@ namespace OpenWindow.Backends.Wayland
         /// <inheritdoc />
         protected override void InternalSetTitle(string value)
         {
-            throw new NotImplementedException();
+            _xdgTopLevel.SetTitle(value);
         }
 
         /// <inheritdoc />

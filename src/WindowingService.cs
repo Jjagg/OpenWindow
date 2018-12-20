@@ -228,12 +228,8 @@ namespace OpenWindow
         /// <summary>
         /// Create a new <see cref="Window"/>.
         /// </summary>
-        /// <param name="show">
-        /// If <code>true</code>, makes the window visible, else keeps it hidden.
-        /// The window can be made visible by calling <see cref="Window.Show"/>.
-        /// </param>
         /// <returns>A new <see cref="Window"/>.</returns>
-        public abstract Window CreateWindow(bool show = true);
+        public abstract Window CreateWindow();
 
         /// <summary>
         /// Create a <see cref="Window"/> given a handle to an existing native window.

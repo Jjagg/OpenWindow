@@ -51,7 +51,9 @@ namespace WaylandSharpGen
             ParseProtocol(doc, w);
 
             var fp = args.Length > 1 ? args[1] : DefaultOutputPath;
-            Directory.CreateDirectory(Path.GetDirectoryName(fp));
+            var dirName = Path.GetDirectoryName(fp);
+            if (!string.IsNullOrWhiteSpace(dirName))
+                Directory.CreateDirectory(dirName);
             File.WriteAllText(fp, w.ToString());
             Console.WriteLine($"Wrote output to '{fp}'.");
             return 0;
@@ -90,12 +92,30 @@ namespace WaylandSharpGen
             var interfaceElements = protocolElement.Elements(InterfaceElement);
             var ifaces = interfaceElements.Select(e => new Interface(e)).ToArray();
 
-            w.BeginClass($"{Util.ToPascalCase(protocolName)}Interfaces", AccessModifier.Internal, true, true);
+            w.BeginClass($"{Util.ToPascalCase(protocolName)}Bindings", AccessModifier.Internal, true, true);
 
-            w.BeginMethod("CleanUp", null, null, true, AccessModifier.Public);
+            w.Line("private static bool _initialized;");
+            w.NewLine();
+
+            w.BeginMethod("Initialize", sttic: true, am: AccessModifier.Public);
+            w.Line("if (_initialized)");
+            w.LineIndented("return;");
+            w.Line("_initialized = true;");
+            w.NewLine();
+
+            foreach (Interface iface in ifaces)
+                w.Line($"{iface.ClsName}.Initialize();");
+
+            w.CloseBlock();
+
+            w.BeginMethod("Free", sttic: true, am: AccessModifier.Public);
+            w.Line("if (!_initialized)");
+            w.LineIndented("return;");
+            w.Line("_initialized = false;");
+            w.NewLine();
 
             foreach (var iface in ifaces)
-                w.Line($"{iface.ClsName}.CleanUp();");
+                w.Line($"{iface.ClsName}.Interface.Dispose();");
 
             w.CloseBlock();
 
@@ -145,41 +165,43 @@ namespace WaylandSharpGen
 
             var requestCount = iface.Requests.Length;
             var evCount = iface.Events.Length;
-            w.Field("WlInterface", "Interface", true, AccessModifier.Public,
+            w.Field("WlInterface", "Interface", sttic: true, AccessModifier.Public,
                 $"new WlInterface(\"{iface.RawName}\", {iface.Version}, {requestCount}, {evCount})");
             w.Line($"public const string InterfaceName = \"{iface.RawName}\";");
 
             w.NewLine();
 
-            foreach (var r in iface.Requests)
-                w.Field("readonly WlMessage", r.NiceName + MessageCodeSuffix, true, AccessModifier.Private,
-                    r.Initializer());
+            w.BeginMethod("Initialize", sttic: true, am: AccessModifier.Internal);
 
-            w.NewLine();
+            if (iface.Requests.Any())
+            {
+                w.Line("Interface.SetRequests(new []");
+                w.OpenBlock();
+                foreach (var req in iface.Requests)
+                    w.Line($"{req.Initializer()},");
+                w.Dedent();
+                w.Line("});");
+            } else {
+                w.Line("Interface.SetRequests(new WlMessage[0]);");
+            }
 
-            w.Line($"static {iface.ClsName}()");
-            w.OpenBlock();
+            if (iface.Events.Any())
+            {
+                w.Line("Interface.SetEvents(new []");
+                w.OpenBlock();
+                foreach (var ev in iface.Events)
+                    w.Line($"{ev.Initializer()},");
+                w.Dedent();
+                w.Line("});");
+            } else {
+                w.Line("Interface.SetEvents(new WlMessage[0]);");
+            }
 
-            var requestsStr = iface.Requests.Any()
-                ? "new [] {" + iface.Requests.Select(r => r.NiceName + MessageCodeSuffix)
-                      .Aggregate((s1, s2) => s1 + ", " + s2) + "}"
-                : "new WlMessage[0]";
-            w.Line($"Interface.SetRequests({requestsStr});");
             w.Line("Interface.Finish();");
 
             w.CloseBlock();
 
             w.NewLine();
-            w.BeginMethod("CleanUp", null, null, true, AccessModifier.Public);
-
-            foreach (var request in iface.Requests)
-                w.Line($"{request.NiceName + MessageCodeSuffix}.Dispose();");
-            //foreach (var ev in iface.Events)
-            //w.Line($"{ev.NiceName}.Dispose();");
-
-            w.Line("Interface.Dispose();");
-
-            w.CloseBlock();
 
             if (GenerateRegion)
             {
@@ -306,6 +328,9 @@ namespace WaylandSharpGen
             var argsString = $"{r.NiceName + OpCodeSuffix}";
             var args = new List<string>();
 
+            var before = new List<string>();
+            var after = new List<string>();
+
             var ifaceArg = string.Empty;
 
             var ret = "void";
@@ -319,21 +344,45 @@ namespace WaylandSharpGen
                     if (arg.Interface == null)
                     {
                         parameters.Add("WlInterface iface");
+                        parameters.Add("uint version");
                         ifaceArg = ", iface.Pointer";
                         ret = "T";
                         generic = true;
                         internalArgs.Add("iface");
+                        internalArgs.Add("version");
+
+                        before.Add("var ifaceNameStr = SMarshal.StringToHGlobalAnsi(iface.Name);");
+                        after.Add("SMarshal.FreeHGlobal(ifaceNameStr);");
+
+                        args.Add("ifaceNameStr");
+                        args.Add("version");
                     }
                     else
                     {
                         ifaceArg = $", {arg.InterfaceCls}.Interface.Pointer";
                         ret = arg.InterfaceCls;
                     }
+
+                    // we just pass 0 because we don't care about the id
+                    // I didn't find this in the documentation, but the example
+                    // in the wayland client lib passes 0 so that's fine I guess?
+                    args.Add("0");
+                }
+                else if (arg.Type == ArgType.String)
+                {
+                    before.Add($"var {arg.Name}Str = SMarshal.StringToHGlobalAnsi({arg.Name});");
+                    after.Add($"SMarshal.FreeHGlobal({arg.Name}Str);");
+                    parameters.Add(arg.ParamType + " " + arg.Name);
+                    args.Add(arg.Name + "Str");
+                    internalArgs.Add(arg.Name);
                 }
                 else
                 {
                     parameters.Add(arg.ParamType + " " + arg.Name);
-                    args.Add(arg.Name);
+                    if (arg.EnumType != null)
+                        args.Add("(int) " + arg.Name);
+                    else
+                        args.Add(arg.Name);
                     internalArgs.Add(arg.Name);
                 }
             }
@@ -343,17 +392,15 @@ namespace WaylandSharpGen
             string createReturn;
             if (generic)
             {
-                w.Line($"public T {r.NiceName}<T>({paramsString})");
-                w.Line("    where T : WlObject");
+                w.Line($"public IntPtr {r.NiceName}({paramsString})");
                 w.OpenBlock();
-                w.Line($"return {r.NiceName}<T>(Pointer{internalArgsString});");
+                w.Line($"return {r.NiceName}(Pointer{internalArgsString});");
                 w.CloseBlock();
 
                 w.NewLine();
-                w.Line($"public static T {r.NiceName}<T>(IntPtr pointer, {paramsString})");
-                w.Line("    where T : WlObject");
+                w.Line($"public static IntPtr {r.NiceName}(IntPtr pointer, {paramsString})");
                 w.OpenBlock();
-                createReturn = "return (T) Activator.CreateInstance(typeof(T), new [] { ptr });";
+                createReturn = "return ptr;";
             }
             else
             {
@@ -367,6 +414,9 @@ namespace WaylandSharpGen
                 createReturn = $"return new {ret}(ptr);";
             }
 
+            foreach (var line in before)
+                w.Line(line);
+
             var methodName = "Marshal";
 
             var array = args.Count > 0 && (args.Count != 1 || newId);
@@ -374,8 +424,8 @@ namespace WaylandSharpGen
             {
                 methodName += "Array";
                 var varArgs = args.Aggregate((s1, s2) => s1 + ", " + s2);
-                w.Line($"var args = new ArgumentList({varArgs});");
-                argsString += ", args.Pointer" + ifaceArg;
+                w.Line($"var args = new ArgumentStruct[] {{ {varArgs} }};");
+                argsString += ", args" + ifaceArg;
             }
             else
             {
@@ -389,8 +439,10 @@ namespace WaylandSharpGen
 
             var newPtr = ret != "void" ? "var ptr = " : string.Empty;
             w.Line($"{newPtr}{methodName}(pointer, {argsString});");
-            if (array)
-                w.Line("args.Dispose();");
+
+            foreach (var line in after)
+                w.Line(line);
+
             if (ret != "void")
                 w.Line(createReturn);
 

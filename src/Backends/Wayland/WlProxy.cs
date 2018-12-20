@@ -57,7 +57,7 @@ namespace OpenWindow.Backends.Wayland
         protected static extern void Marshal(IntPtr proxy, int opcode);
         
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_marshal_array")]
-        protected static extern void MarshalArray(IntPtr proxy, int opcode, IntPtr data);
+        protected static extern void MarshalArray(IntPtr proxy, int opcode, ArgumentStruct[] data);
         
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_marshal_constructor")]
         public static extern IntPtr MarshalConstructor(IntPtr proxy, int opcode, IntPtr iface, IntPtr data);
@@ -66,12 +66,10 @@ namespace OpenWindow.Backends.Wayland
         //    uint version, uint name, uint ifaceName, uint ifaceVersion, IntPtr data);
         
         [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_marshal_array_constructor")]
-        public static extern IntPtr MarshalArrayConstructor(IntPtr proxy, int opcode, IntPtr args, IntPtr iface);
-        // TODO use this version when we have something to test arguments
-        //public static extern IntPtr MarshalArrayConstructor(IntPtr proxy, int opcode, ArgumentList.ArgumentStruct[] args, IntPtr iface);
-        //[DllImport("libwayland-client.so", EntryPoint = "wl_proxy_marshal_array_constructor_versioned")]
-        //public static extern IntPtr MarshalArrayConstructorVersioned(IntPtr proxy, int opcode, IntPtr iface,
-        //    uint version, uint name, uint ifaceName, uint ifaceVersion, IntPtr data);
+        public static extern IntPtr MarshalArrayConstructor(IntPtr proxy, int opcode, ArgumentStruct[] args, IntPtr iface);
+        [DllImport("libwayland-client.so", EntryPoint = "wl_proxy_marshal_array_constructor_versioned")]
+        //public static extern IntPtr MarshalArrayConstructorVersioned(IntPtr proxy, int opcode, IntPtr args, IntPtr iface, uint version);
+        public static extern IntPtr MarshalArrayConstructorVersioned(IntPtr proxy, int opcode, ArgumentStruct[] args, IntPtr iface, uint version);
         
         //[DllImport("libwayland-client.so", EntryPoint = "wl_proxy_set_queue")]
         //public static extern void SetQueue(IntPtr proxy);
