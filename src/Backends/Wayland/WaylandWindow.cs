@@ -14,6 +14,7 @@ namespace OpenWindow.Backends.Wayland
         private readonly XdgSurface _xdgSurface;
         private readonly XdgToplevel _xdgTopLevel;
         private readonly IntPtr _eglWindow;
+        private readonly IntPtr _eglSurface;
 
         #endregion
 
@@ -26,15 +27,25 @@ namespace OpenWindow.Backends.Wayland
             _xdgSurface = xdgSurface;
             _xdgTopLevel = _xdgSurface.GetToplevel();
             _xdgTopLevel.Configure = Configure;
+            _xdgTopLevel.SetListener();
 
             _wlSurface.Enter = SurfaceEnter;
             _wlSurface.Leave = SurfaceLeave;
             _wlSurface.SetListener();
 
-            Native.EglWindowCreate(_wlSurface.Pointer, )
+            _eglWindow = Native.EglWindowCreate(_wlSurface.Pointer, 100, 100);
+            if (_eglWindow == IntPtr.Zero)
+                throw new OpenWindowException("Failed to create EGL window.");
 
-            _wlSurface.Attach(_wlBuffer, 0, 0);
-            _wlSurface.Commit();
+            _eglSurface = CreateEglSurface(glSettings);
+
+            //_wlSurface.Attach(_wlBuffer, 0, 0);
+            //_wlSurface.Commit();
+        }
+
+        private IntPtr CreateEglSurface(OpenGlSurfaceSettings glSettings)
+        {
+            return IntPtr.Zero;
         }
 
         private void Configure(IntPtr data, IntPtr iface, int width, int height, WlArray states)

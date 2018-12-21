@@ -18,6 +18,7 @@ namespace OpenWindow.Backends.Windows
                 throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
 
             // niceify the display name
+            // TODO document how this name is assigned
             var sb = new StringBuilder();
             var shouldCapitalize = true;
             var lastNotDigit = false;

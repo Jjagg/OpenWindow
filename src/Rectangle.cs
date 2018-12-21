@@ -162,6 +162,44 @@ namespace OpenWindow
         }
 
         /// <summary>
+        /// Create a rectangle with the same size as the current rectangle, but with a different position.
+        /// </summary>
+        /// <param name="pos">The new coordinates of the top left point of the rectangle.</param>
+        public Rectangle WithPosition(Point pos)
+        {
+            return new Rectangle(pos.X, pos.Y, Width, Height);
+        }
+
+        /// <summary>
+        /// Create a rectangle with the same size as the current rectangle, but with a different position.
+        /// </summary>
+        /// <param name="x">The new x coordinate of the top left point of the rectangle.</param>
+        /// <param name="y">The new y coordinate of the top left point of the rectangle.</param>
+        public Rectangle WithPosition(int x, int y)
+        {
+            return new Rectangle(x, y, Width, Height);
+        }
+
+        /// <summary>
+        /// Create a rectangle with the same position as the current rectangle, but with a different size.
+        /// </summary>
+        /// <param name="size">The new size of the rectangle.</param>
+        public Rectangle WithSize(Size size)
+        {
+            return new Rectangle(X, Y, size.Width, size.Height);
+        }
+
+        /// <summary>
+        /// Create a rectangle with the same position as the current rectangle, but with a different size.
+        /// </summary>
+        /// <param name="width">The new width of the rectangle.</param>
+        /// <param name="height">The new height of the rectangle.</param>
+        public Rectangle WithSize(int width, int height)
+        {
+            return new Rectangle(X, Y, width, height);
+        }
+
+        /// <summary>
         /// Create a rectangle.
         /// </summary>
         /// <param name="tl">Top left of the rectangle.</param>

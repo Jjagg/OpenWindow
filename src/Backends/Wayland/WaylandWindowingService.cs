@@ -16,8 +16,6 @@ namespace OpenWindow.Backends.Wayland
         public override ReadOnlyCollection<Display> Displays { get; }
         public override Display PrimaryDisplay { get; }
 
-        private readonly Dictionary<IntPtr, Display> _pendingDisplays;
-
         private bool _wlShellAvailable;
         private WlDisplay _wlDisplay;
         private WlRegistry _wlRegistry;
@@ -29,7 +27,6 @@ namespace OpenWindow.Backends.Wayland
         internal WaylandWindowingService()
         {
             _displays = new List<Display>();
-            _pendingDisplays = new Dictionary<IntPtr, Display>();
             _formats = new List<WlShm.FormatEnum>();
         }
 
@@ -135,49 +132,65 @@ namespace OpenWindow.Backends.Wayland
             output.Scale = OutputScaleHandler;
             output.Done = OutputDoneHandler;
             output.SetListener();
-            _pendingDisplays.Add(output.Pointer, new Display(output.Pointer));
+            _displays.Add(new Display(output.Pointer));
         }
+
+        private Display GetDisplay(IntPtr handle)
+        {
+            Display display = null;
+            for (var i = 0; i < _displays.Count; i++)
+            {
+                if (_displays[i].Handle == handle)
+                {
+                    display = _displays[i];
+                    break;
+                }
+            }
+
+            return display;
+        }
+
 
         private void OutputGeometryHandler(IntPtr data, IntPtr iface, int x, int y, int physicalWidth,
             int physicalHeight, WlOutput.SubpixelEnum subpixelEnum, string make, string model, WlOutput.TransformEnum transformEnum)
         {
-            if (_pendingDisplays.TryGetValue(iface, out var display))
-            {
-                display.Bounds = new Rectangle(x, y, physicalHeight, physicalHeight);
-                display.Name = make + " - " + model;
-            }
-            else
-            {
+            var display = GetDisplay(iface);
+
+            if (display == null)
                 throw new OpenWindowException("Got an Output Geometry event for unknown output.");
-            }
+
+            // TODO check this is in the right coordinate space (unscaled or scaled)
+            display.Bounds = display.Bounds.WithPosition(x, y);
+            // TODO document how this name is assigned
+            display.Name = make + " - " + model;
         }
 
         private void OutputModeHandler(IntPtr data, IntPtr iface, WlOutput.ModeEnum modeEnum, int width, int height, int refresh)
         {
-            // TODO
+            var display = GetDisplay(iface);
+
+            if (display == null)
+                throw new OpenWindowException("Got an Output Geometry event for unknown output.");
+
+            if (modeEnum.HasFlag(WlOutput.ModeEnum.Current))
+                display.Bounds = display.Bounds.WithSize(width, height);
+            // TODO expose refresh rate of the output? Probably quite nice to have, but should check other platforms for support.
+            // TODO supported display modes of the output - should this exist in a pure windowing lib? Seems like this is graphics territory.
         }
 
         private void OutputScaleHandler(IntPtr data, IntPtr iface, int factor)
         {
-            // TODO
+            // TODO high dpi stuff
         }
 
         private void OutputDoneHandler(IntPtr data, IntPtr iface)
         {
-            if (_pendingDisplays.TryGetValue(iface, out var display))
-            {
-                _displays.Add(display);
-                _pendingDisplays.Remove(iface);
-            }
-            else
-            {
-                throw new OpenWindowException("Got an Output Done event for unknown output.");
-            }
+            // we don't really need to handle this explicitly
         }
 
         private void ShmFormatHandler(IntPtr data, IntPtr iface, WlShm.FormatEnum format)
         {
-            LogDebug($"Got surface format " + format.ToString());
+            LogDebug($"Supported buffer surface format " + format.ToString());
             _formats.Add(format);
         }
 
