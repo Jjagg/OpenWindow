@@ -1,8 +1,4 @@
-﻿// MIT License - Copyright (C) Jesse "Jjagg" Gielen
-// This file is subject to the terms and conditions defined in
-// file 'LICENSE.txt', which is part of this source code package.
-
-using System.Linq;
+﻿using System.Linq;
 using System.Xml.Linq;
 using ProtocolGeneratorHelper;
 

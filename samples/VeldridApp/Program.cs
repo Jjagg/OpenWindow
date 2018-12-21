@@ -1,8 +1,4 @@
-﻿// MIT License - Copyright (C) Jesse "Jjagg" Gielen
-// This file is subject to the terms and conditions defined in
-// file 'LICENSE.txt', which is part of this source code package.
-
-// This sample was adapted from the Veldrid Getting Started sample:
+﻿// This sample was adapted from the Veldrid Getting Started sample:
 // https://github.com/mellinoe/veldrid-samples/blob/master/src/GettingStarted/Program.cs
 
 using System;

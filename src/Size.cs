@@ -1,8 +1,4 @@
-﻿// MIT License - Copyright (C) Jesse "Jjagg" Gielen
-// This file is subject to the terms and conditions defined in
-// file 'LICENSE.txt', which is part of this source code package.
-
-namespace OpenWindow
+﻿namespace OpenWindow
 {
     /// <summary>
     /// An immutable value type representing a point with an integer x and y coordinate.
