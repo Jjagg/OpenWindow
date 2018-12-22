@@ -35,7 +35,7 @@ namespace OpenWindow.Backends.Windows
         public override Window CreateWindow()
         {
             var window = new Win32Window(GlSettings);
-            ManagedWindows.Add(window.Handle, window);
+            ManagedWindows.Add(window.Hwnd, window);
             return window;
         }
 
@@ -70,45 +70,46 @@ namespace OpenWindow.Backends.Windows
         {
             if (TryGetWindow(hWnd, out var window))
             {
+                var wwindow = (Win32Window) window;
                 switch (msg)
                 {
                     case WindowMessage.SetFocus:
-                        window._focused = true;
-                        window.RaiseFocusChanged(true);
+                        wwindow._focused = true;
+                        wwindow.RaiseFocusChanged(true);
                         return IntPtr.Zero;
 
                     case WindowMessage.KillFocus:
-                        window._focused = false;
-                        window.RaiseFocusChanged(false);
+                        wwindow._focused = false;
+                        wwindow.RaiseFocusChanged(false);
                         return IntPtr.Zero;
                     case WindowMessage.Size:
                     {
                         var wp = wParam.ToInt32();
                         if (wp == 2)
-                            window.RaiseMaximized();
+                            wwindow.RaiseMaximized();
                         else if (wp == 1)
-                            window.RaiseMinimized();
-                        window.RaiseResize();
+                            wwindow.RaiseMinimized();
+                        wwindow.RaiseResize();
                         return IntPtr.Zero;
                     }
                     case WindowMessage.EnterSizeMove:
-                        window.RaiseResizeStart();
+                        wwindow.RaiseResizeStart();
                         break;
                     case WindowMessage.ExitSizeMove:
-                        window.RaiseResizeEnd();
+                        wwindow.RaiseResizeEnd();
                         break;
                     case WindowMessage.GetMinMaxInfo:
                     {
                         Debug.WriteLine("GetMinMaxInfo");
-                        if (window.MinSize != Size.Empty)
+                        if (wwindow.MinSize != Size.Empty)
                         {
-                            Marshal.WriteInt32(lParam, 24, window.MinSize.Width);
-                            Marshal.WriteInt32(lParam, 28, window.MinSize.Height);
+                            Marshal.WriteInt32(lParam, 24, wwindow.MinSize.Width);
+                            Marshal.WriteInt32(lParam, 28, wwindow.MinSize.Height);
                         }
-                        if (window.MaxSize != Size.Empty)
+                        if (wwindow.MaxSize != Size.Empty)
                         {
-                            Marshal.WriteInt32(lParam, 32, window.MaxSize.Width);
-                            Marshal.WriteInt32(lParam, 36, window.MaxSize.Height);
+                            Marshal.WriteInt32(lParam, 32, wwindow.MaxSize.Width);
+                            Marshal.WriteInt32(lParam, 36, wwindow.MaxSize.Height);
                         }
 
                         return IntPtr.Zero;
@@ -123,9 +124,9 @@ namespace OpenWindow.Backends.Windows
                         var c = (char) Native.MapVirtualKey((uint) vk, KeyMapType.VkToChar);
                         var repeats = (int) (lp & 0xFFFF);
                         var repeated = ((lp >> 30) & 1) > 0;
-                        window.RaiseKeyDown(key, repeats, repeated, (int) scanCode, c);
+                        wwindow.RaiseKeyDown(key, repeats, repeated, (int) scanCode, c);
                         if (!repeated)
-                            window.RaiseKeyPressed(key, (int) scanCode, c);
+                            wwindow.RaiseKeyPressed(key, (int) scanCode, c);
                         break;
                     }
                     case WindowMessage.KeyUp:
@@ -136,7 +137,7 @@ namespace OpenWindow.Backends.Windows
                         var vk = Native.MapVirtualKey(scanCode, KeyMapType.ScToVkEx);
                         var key = KeyMap.Map[(int) vk];
                         var c = (char) Native.MapVirtualKey((uint) vk, KeyMapType.VkToChar);
-                        window.RaiseKeyUp(key, (int) scanCode, c);
+                        wwindow.RaiseKeyUp(key, (int) scanCode, c);
                         break;
                     }
                     case WindowMessage.Char:
@@ -145,7 +146,7 @@ namespace OpenWindow.Backends.Windows
                         var scanCode = (uint) ((lp >> 16) & 0xFF);
                         var vk = Native.MapVirtualKey(scanCode, KeyMapType.ScToVkEx);
                         if (vk != VirtualKey.Escape && vk != VirtualKey.Tab && vk != VirtualKey.Back)
-                            window.RaiseTextInput((char) wParam);
+                            wwindow.RaiseTextInput((char) wParam);
 
                         return IntPtr.Zero;
                     }
@@ -154,57 +155,57 @@ namespace OpenWindow.Backends.Windows
                     case WindowMessage.MouseMove:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseMoved(p);
+                        wwindow.RaiseMouseMoved(p);
                         break;
                     }
                     case WindowMessage.LButtonDown:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseDown(MouseButtons.Left, p);
+                        wwindow.RaiseMouseDown(MouseButtons.Left, p);
                         break;
                     }
                     case WindowMessage.LButtonUp:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseUp(MouseButtons.Left, p);
+                        wwindow.RaiseMouseUp(MouseButtons.Left, p);
                         break;
                     }
                     case WindowMessage.MButtonDown:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseDown(MouseButtons.Middle, p);
+                        wwindow.RaiseMouseDown(MouseButtons.Middle, p);
                         break;
                     }
                     case WindowMessage.MButtonUp:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseUp(MouseButtons.Middle, p);
+                        wwindow.RaiseMouseUp(MouseButtons.Middle, p);
                         break;
                     }
                     case WindowMessage.RButtonDown:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseDown(MouseButtons.Right, p);
+                        wwindow.RaiseMouseDown(MouseButtons.Right, p);
                         break;
                     }
                     case WindowMessage.RButtonUp:
                     {
                         var p = MakePoint(lParam);
-                        window.RaiseMouseUp(MouseButtons.Right, p);
+                        wwindow.RaiseMouseUp(MouseButtons.Right, p);
                         break;
                     }
                     case WindowMessage.XButtonDown:
                     {
                         var p = MakePoint(lParam);
                         var btn = ((wParam.ToInt32() >> 16) & 1) > 0 ? MouseButtons.X1 : MouseButtons.X2;
-                        window.RaiseMouseDown(btn, p);
+                        wwindow.RaiseMouseDown(btn, p);
                         break;
                     }
                     case WindowMessage.XButtonUp:
                     {
                         var p = MakePoint(lParam);
                         var btn = ((wParam.ToInt32() >> 16) & 1) > 0 ? MouseButtons.X1 : MouseButtons.X2;
-                        window.RaiseMouseUp(btn, p);
+                        wwindow.RaiseMouseUp(btn, p);
                         break;
                     }
                     case WindowMessage.MouseLeave:
@@ -215,12 +216,12 @@ namespace OpenWindow.Backends.Windows
                         break;
 
                     case WindowMessage.Close:
-                        window.Close();
+                        wwindow.Close();
                         return IntPtr.Zero;
 
                     case WindowMessage.Destroy:
-                        ManagedWindows.Remove(window.Handle);
-                        window.RaiseClosing();
+                        ManagedWindows.Remove(wwindow.Hwnd);
+                        wwindow.RaiseClosing();
                         return IntPtr.Zero;
                 }
             }

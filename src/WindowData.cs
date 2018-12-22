@@ -1,31 +1,23 @@
 ﻿namespace OpenWindow
 {
     /// <summary>
-    /// Base class for classes containing platform-specific data on windows.
+    /// This is a marker interface for classes containing platform-specific data on windows.
     /// Returned by <see cref="OpenWindow.Window.GetPlatformData"/>.
     /// </summary>
-    public class WindowData
+    public abstract class WindowData
     {
         /// <summary>
-        /// The <see cref="WindowingService"/> that manages the window or <code>null</code> for a
-        /// <see cref="VirtualWindow"/>.
+        /// The windowing backend that this instance contains information about.
+        /// This property can be checked before casting to the platform specific implementation.
         /// </summary>
-        public WindowingService WindowingService { get; }
+        public WindowingBackend Backend { get; }
 
         /// <summary>
-        /// The window that this object contains data on.
+        /// Create a new <see cref="WindowData"/> instance.
         /// </summary>
-        public Window Window { get; }
-
-        /// <summary>
-        /// Create a <see cref="WindowData"/> instance.
-        /// </summary>
-        /// <param name="windowingService">The <see cref="WindowingService"/> that manages the window.</param>
-        /// <param name="window">The window that this object contains data on.</param>
-        public WindowData(WindowingService windowingService, Window window)
+        protected WindowData(WindowingBackend backend)
         {
-            WindowingService = windowingService;
-            Window = window;
+            Backend = backend;
         }
     }
 }

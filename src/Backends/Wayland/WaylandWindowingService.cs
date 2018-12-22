@@ -20,11 +20,18 @@ namespace OpenWindow.Backends.Wayland
         private WlShm _wlShm;
         private readonly List<WlShm.FormatEnum> _formats;
 
+        internal List<WaylandWindowData.GlobalObject> Globals;
+
         internal WaylandWindowingService()
         {
             _displays = new List<Display>();
             _formats = new List<WlShm.FormatEnum>();
+            Globals = new List<WaylandWindowData.GlobalObject>();
         }
+
+        internal IntPtr GetDisplayProxy() => _wlDisplay.Pointer;
+        internal IntPtr GetRegistryProxy() => _wlRegistry.Pointer;
+        internal WaylandWindowData.GlobalObject[] GetGlobals() => Globals.ToArray();
 
         protected override void Initialize()
         {
@@ -80,6 +87,10 @@ namespace OpenWindow.Backends.Wayland
         private void RegistryGlobal(IntPtr data, IntPtr registry, uint name, string iface, uint version)
         {
             LogDebug($"Registry global announce for type '{iface}' v{version}.");
+
+            var global = new WaylandWindowData.GlobalObject(iface, name, version);
+            Globals.Add(global);
+
             switch (iface)
             {
                 case WlShell.InterfaceName:
@@ -205,7 +216,7 @@ namespace OpenWindow.Backends.Wayland
             LogDebug("Getting xdg surface");
             var xdgSurface = _xdgWmBase.GetXdgSurface(wlSurface);
             LogDebug("Window ctor");
-            var window = new WaylandWindow(wlSurface, xdgSurface, GlSettings);
+            var window = new WaylandWindow(_wlCompositor, wlSurface, xdgSurface, GlSettings);
             return window;
         }
 

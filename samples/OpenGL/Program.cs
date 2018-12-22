@@ -63,11 +63,18 @@ namespace OpenGL
             var service = WindowingService.Get();
 
             _window = CreateWindow(service);
+            _window.Show();
 
-            _hdc = GetDC(_window.Handle);
+            var wdata = _window.GetPlatformData();
+            if (wdata.Backend != WindowingBackend.Win32)
+                throw new PlatformNotSupportedException("Only Win32 is implemented for the OpenGL sample.");
+
+            var hwnd = ((Win32WindowData) wdata).Hwnd;
+
+            _hdc = GetDC(hwnd);
             _hrc = WglCreateContext(_hdc);
             WglMakeCurrent(_hdc, _hrc);
-            ReleaseDC(_window.Handle, _hdc);
+            ReleaseDC(hwnd, _hdc);
 
             glClearColor(0, 0, 0, 1);
             // enable multisampling
@@ -79,12 +86,12 @@ namespace OpenGL
             {
                 DrawTriangle();
 
-                _hdc = GetDC(_window.Handle);
+                _hdc = GetDC(hwnd);
 
                 // because we enabled double buffering we need to swap buffers here.
                 SwapBuffers(_hdc);
 
-                ReleaseDC(_window.Handle, _hdc);
+                ReleaseDC(hwnd, _hdc);
 
                 Thread.Sleep(10);
 

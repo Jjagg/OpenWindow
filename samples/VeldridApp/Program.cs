@@ -32,41 +32,19 @@ namespace VeldridApp
             if (Backend == GraphicsBackend.OpenGL)
                 ws.GlSettings.EnableOpenGl = true;
 
-            var w = ws.CreateWindow(false);
+            var w = ws.CreateWindow();
             w.Bounds = new Rectangle(100, 100, 960, 540);
             w.Title = "Veldrid Tutorial";
             w.Show();
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            var windowData = w.GetPlatformData();
+            switch (windowData.Backend)
             {
-                var wd = (Win32WindowData) w.GetPlatformData();
-                switch (Backend)
-                {
-                    case GraphicsBackend.Direct3D11:
-                        _graphicsDevice = GraphicsDevice.CreateD3D11(gdo, w.Handle, (uint) w.Bounds.Width, (uint) w.Bounds.Height);
-                        break;
-                    case GraphicsBackend.Vulkan:
-                        _graphicsDevice = GraphicsDevice.CreateVulkan(gdo,
-                            VkSurfaceSource.CreateWin32(wd.HInstance, w.Handle), (uint) w.Bounds.Width,
-                            (uint) w.Bounds.Height);
-                        break;
-                    case GraphicsBackend.OpenGL:
-                        throw new NotImplementedException();
-                    case GraphicsBackend.Metal:
-                        throw new NotSupportedException();
-                    case GraphicsBackend.OpenGLES:
-                        var scs = SwapchainSource.CreateWin32(w.Handle, wd.HInstance);
-                        var scd = new SwapchainDescription(scs, (uint) w.Bounds.Width, (uint) w.Bounds.Height, null,
-                            true);
-                        GraphicsDevice.CreateOpenGLES(gdo, scd);
-                        throw new NotSupportedException();
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-            else
-            {
-                throw new NotImplementedException();
+                case WindowingBackend.Win32:
+                    InitWindows(w, (Win32WindowData) windowData, gdo);
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
 
             CreateResources();
@@ -83,6 +61,33 @@ namespace VeldridApp
 
             w.Dispose();
             ws.Dispose();
+        }
+
+        private static void InitWindows(Window w, Win32WindowData wd, in GraphicsDeviceOptions gdo)
+        {
+            switch (Backend)
+            {
+                case GraphicsBackend.Direct3D11:
+                    _graphicsDevice = GraphicsDevice.CreateD3D11(gdo, wd.Hwnd, (uint) w.Bounds.Width, (uint) w.Bounds.Height);
+                    break;
+                case GraphicsBackend.Vulkan:
+                    _graphicsDevice = GraphicsDevice.CreateVulkan(gdo,
+                        VkSurfaceSource.CreateWin32(wd.HInstance, wd.Hwnd), (uint) w.Bounds.Width,
+                        (uint) w.Bounds.Height);
+                    break;
+                case GraphicsBackend.OpenGL:
+                    throw new NotImplementedException();
+                case GraphicsBackend.Metal:
+                    throw new NotSupportedException();
+                case GraphicsBackend.OpenGLES:
+                    var scs = SwapchainSource.CreateWin32(wd.Hwnd, wd.HInstance);
+                    var scd = new SwapchainDescription(scs, (uint) w.Bounds.Width, (uint) w.Bounds.Height, null,
+                        true);
+                    GraphicsDevice.CreateOpenGLES(gdo, scd);
+                    throw new NotSupportedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private static void CreateResources()

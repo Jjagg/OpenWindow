@@ -206,34 +206,48 @@ namespace OpenWindow
             _cursorPosition = new Point(x, y);
         }
 
+        /// <inheritdoc />
+        public override WindowData GetPlatformData()
+        {
+            return null;
+        }
+
+        /// <inheritdoc />
         protected override void InternalSetVisible(bool value)
         {
         }
 
+        /// <inheritdoc />
         protected override void InternalMaximize()
         {
         }
 
+        /// <inheritdoc />
         protected override void InternalMinimize()
         {
         }
 
+        /// <inheritdoc />
         protected override void InternalRestore()
         {
         }
 
+        /// <inheritdoc />
         protected override void InternalSetTitle(string value)
         {
         }
 
+        /// <inheritdoc />
         protected override void InternalSetBorderless(bool value)
         {
         }
 
+        /// <inheritdoc />
         protected override void InternalSetResizable(bool value)
         {
         }
 
+        /// <inheritdoc />
         protected override void InternalSetMinSize(Size value)
         {
             if (value == Size.Empty)
@@ -241,6 +255,7 @@ namespace OpenWindow
             Size = new Size(Math.Max(value.Width, Size.Width), Math.Max(value.Height, Size.Height));
         }
 
+        /// <inheritdoc />
         protected override void InternalSetMaxSize(Size value)
         {
             if (value == Size.Empty)
@@ -248,6 +263,7 @@ namespace OpenWindow
             Size = new Size(Math.Min(value.Width, Size.Width), Math.Min(value.Height, Size.Height));
         }
 
+        /// <inheritdoc />
         protected override void InternalSetCursorVisible(bool value)
         {
         }

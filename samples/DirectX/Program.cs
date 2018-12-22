@@ -33,6 +33,7 @@ namespace SharpDX
             _window = owService.CreateWindow();
             _window.ClientBounds = new Rectangle(100, 100, 600, 600);
             _window.Title = "I'm rendering with DirectX11!";
+            _window.Show();
 
             Initialize();
             BuildTriangle();
@@ -58,6 +59,12 @@ namespace SharpDX
 
         public static void Initialize()
         {
+            var wpd = _window.GetPlatformData();
+            if (wpd.Backend != WindowingBackend.Win32)
+                throw new PlatformNotSupportedException($"The DirectX sample only runs on Win32, but the current backend is {wpd.Backend}.");
+
+            var wd = (Win32WindowData) wpd;
+
             ModeDescription backBufferDesc = new ModeDescription(600, 600, new Rational(60, 1), Format.R8G8B8A8_UNorm);
             SwapChainDescription swapChainDesc = new SwapChainDescription()
             {
@@ -65,7 +72,7 @@ namespace SharpDX
                 SampleDescription = new SampleDescription(1, 0),
                 Usage = Usage.RenderTargetOutput,
                 BufferCount = 1,
-                OutputHandle = _window.Handle,
+                OutputHandle = wd.Hwnd,
                 IsWindowed = true
             };
 

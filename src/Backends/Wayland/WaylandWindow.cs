@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Wayland
 {
@@ -6,6 +7,7 @@ namespace OpenWindow.Backends.Wayland
     {
         #region Private Fields
 
+        private readonly WlCompositor _wlCompositor;
         private readonly WlSurface _wlSurface;
         private readonly XdgSurface _xdgSurface;
         private readonly XdgToplevel _xdgTopLevel;
@@ -16,9 +18,10 @@ namespace OpenWindow.Backends.Wayland
 
         #region Constructor
 
-        public WaylandWindow(WlSurface wlSurface, XdgSurface xdgSurface, OpenGlSurfaceSettings glSettings)
+        public WaylandWindow(WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, OpenGlSurfaceSettings glSettings)
             : base(false)
         {
+            _wlCompositor = wlCompositor;
             _wlSurface = wlSurface;
             _xdgSurface = xdgSurface;
             _xdgTopLevel = _xdgSurface.GetToplevel();
@@ -29,11 +32,11 @@ namespace OpenWindow.Backends.Wayland
             _wlSurface.Leave = SurfaceLeave;
             _wlSurface.SetListener();
 
-            _eglWindow = Native.EglWindowCreate(_wlSurface.Pointer, 100, 100);
+            /*_eglWindow = WlEgl.WindowCreate(_wlSurface.Pointer, 100, 100);
             if (_eglWindow == IntPtr.Zero)
-                throw new OpenWindowException("Failed to create EGL window.");
+                throw new OpenWindowException("Failed to create EGL window.");*/
 
-            _eglSurface = CreateEglSurface(glSettings);
+            //_eglSurface = CreateEglSurface(glSettings);
 
             //_wlSurface.Attach(_wlBuffer, 0, 0);
             //_wlSurface.Commit();
@@ -41,6 +44,19 @@ namespace OpenWindow.Backends.Wayland
 
         private IntPtr CreateEglSurface(OpenGlSurfaceSettings glSettings)
         {
+            var eglDisplay = Egl.GetDisplay(0);
+            if (eglDisplay == IntPtr.Zero)
+                throw new OpenWindowException("Failed to get EGL display.");
+
+            if (!Egl.Initialize(eglDisplay, out var major, out var minor))
+                throw new OpenWindowException("Failed to initialize EGL.");
+
+            WindowingService.LogDebug($"EGL intialized with version {major}.{minor}");
+            Egl.GetConfigs(eglDisplay, IntPtr.Zero, 0, out var numConfig);
+
+            var configs = new IntPtr[numConfig];
+            Egl.GetConfigs(eglDisplay, ref configs[0], numConfig, out numConfig);
+
             return IntPtr.Zero;
         }
 
@@ -61,7 +77,9 @@ namespace OpenWindow.Backends.Wayland
 
         #region Window Properties
 
-        public override Point Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        // setting global position is not supported in Wayland
+        // TODO need to expose popup interface to position window relative to parent
+        public override Point Position { get => Point.Zero; set { } }
         public override Size Size { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override Size ClientSize { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override Rectangle Bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -119,6 +137,13 @@ namespace OpenWindow.Backends.Wayland
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
+        public override WindowData GetPlatformData()
+        {
+            var ws = (WaylandWindowingService) WindowingService.Get();
+            return new WaylandWindowData(ws.GetDisplayProxy(), ws.GetRegistryProxy(), _wlSurface.Pointer, ws.GetGlobals());
+        }
+
         #endregion
 
         #region Protected Methods
@@ -126,7 +151,11 @@ namespace OpenWindow.Backends.Wayland
         /// <inheritdoc />
         protected override void InternalSetVisible(bool value)
         {
-            throw new NotImplementedException();
+            if (!value)
+                WaylandWindowingService.LogWarning(
+                    "Showing/hiding the window is not supported on Wayland. " +
+                    "Wayland windows are hidden when they don't have a mapped surface. " +
+                    "We do not destroy the surface because it requires users to recreate the EGL or vk surface.");
         }
 
         /// <inheritdoc />

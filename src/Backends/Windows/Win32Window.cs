@@ -15,8 +15,9 @@ namespace OpenWindow.Backends.Windows
 
         #endregion
 
-        #region Private Fields
+        #region Fields
 
+        internal IntPtr Hwnd;
         private string _className;
 
         #endregion
@@ -26,7 +27,7 @@ namespace OpenWindow.Backends.Windows
         public Win32Window(IntPtr handle)
             : base(true)
         {
-            Handle = handle;
+            Hwnd = handle;
             // TODO init properties
         }
 
@@ -56,7 +57,7 @@ namespace OpenWindow.Backends.Windows
                 throw GetLastException("Failed to create window.");
             }
 
-            Handle = handle;
+            Hwnd = handle;
 
             if (glSettings.EnableOpenGl)
             {
@@ -66,8 +67,8 @@ namespace OpenWindow.Backends.Windows
                 if (glSettings.MultiSampleCount > 1)
                 {
                     // we need to recreate the window to have a multisample window
-                    Native.DestroyWindow(Handle);
-                    Handle = Native.CreateWindowEx(
+                    Native.DestroyWindow(Hwnd);
+                    Hwnd = Native.CreateWindowEx(
                         WindowStyleEx.None,
                         _className,
                         string.Empty,
@@ -85,8 +86,6 @@ namespace OpenWindow.Backends.Windows
             }
             else
                 GlSettings = new OpenGlSurfaceSettings();
-
-            Native.ShowWindow(Handle, ShowWindowCommand.Normal);
         }
 
         private void InitOpenGl(OpenGlSurfaceSettings s)
@@ -114,7 +113,7 @@ namespace OpenWindow.Backends.Windows
                 pfd.cDepthBits = (byte) s.DepthSize;
                 pfd.cStencilBits = (byte) s.StencilSize;
 
-                hdc = Native.GetDC(Handle);
+                hdc = Native.GetDC(Hwnd);
                 if (hdc == IntPtr.Zero)
                 {
                     WindowingService.LogWarning(
@@ -189,7 +188,7 @@ namespace OpenWindow.Backends.Windows
             finally
             {
                 if (hglrc != IntPtr.Zero) Native.wglDeleteContext(hglrc);
-                if (hdc != IntPtr.Zero) Native.ReleaseDC(Handle, hdc);
+                if (hdc != IntPtr.Zero) Native.ReleaseDC(Hwnd, hdc);
             }
         }
 
@@ -203,7 +202,7 @@ namespace OpenWindow.Backends.Windows
             get => Bounds.Position;
             set
             {
-                if (!Native.SetWindowPos(Handle, IntPtr.Zero, value.X, value.Y, 0, 0, Constants.SWP_NOSIZE | Constants.SWP_NOZORDER))
+                if (!Native.SetWindowPos(Hwnd, IntPtr.Zero, value.X, value.Y, 0, 0, Constants.SWP_NOSIZE | Constants.SWP_NOZORDER))
                     throw GetLastException("Setting window position failed.");
             }
         }
@@ -214,7 +213,7 @@ namespace OpenWindow.Backends.Windows
             get => Bounds.Size;
             set
             {
-                if (!Native.SetWindowPos(Handle, IntPtr.Zero, 0, 0, value.Width, value.Height, Constants.SWP_NOMOVE | Constants.SWP_NOZORDER))
+                if (!Native.SetWindowPos(Hwnd, IntPtr.Zero, 0, 0, value.Width, value.Height, Constants.SWP_NOMOVE | Constants.SWP_NOZORDER))
                     throw GetLastException("Setting window position failed.");
             }
         }
@@ -224,7 +223,7 @@ namespace OpenWindow.Backends.Windows
         {
             get
             {
-                if (!Native.GetClientRect(Handle, out var rect))
+                if (!Native.GetClientRect(Hwnd, out var rect))
                     throw GetLastException("Failed to get window client rectangle.");
                 return rect.Size;
             }
@@ -243,7 +242,7 @@ namespace OpenWindow.Backends.Windows
         {
             get
             {
-                if (!Native.GetWindowRect(Handle, out var rect))
+                if (!Native.GetWindowRect(Hwnd, out var rect))
                     throw GetLastException("Failed to get window bounds.");
                 return rect;
             }
@@ -251,7 +250,7 @@ namespace OpenWindow.Backends.Windows
             {
                 if (Bounds == value)
                     return;
-                if (!Native.SetWindowPos(Handle, IntPtr.Zero, value.X, value.Y, value.Width, value.Height, Constants.SWP_NOZORDER))
+                if (!Native.SetWindowPos(Hwnd, IntPtr.Zero, value.X, value.Y, value.Width, value.Height, Constants.SWP_NOZORDER))
                     throw GetLastException("Failed to set window bounds.");
             }
         }
@@ -261,10 +260,10 @@ namespace OpenWindow.Backends.Windows
         {
             get
             {
-                if (!Native.GetClientRect(Handle, out var rect))
+                if (!Native.GetClientRect(Hwnd, out var rect))
                     throw GetLastException("Failed to get window client rectangle.");
                 var pt = Point.Zero;
-                if (!Native.ClientToScreen(Handle, ref pt))
+                if (!Native.ClientToScreen(Hwnd, ref pt))
                     throw GetLastException("ClientToScreen failed.");
                 return new Rectangle(pt, rect.Size);
             }
@@ -285,7 +284,7 @@ namespace OpenWindow.Backends.Windows
         /// <inheritdoc />
         public override Display GetContainingDisplay()
         {
-            var displayHandle = Native.MonitorFromWindow(Handle, Constants.MonitorDefaultToNearest);
+            var displayHandle = Native.MonitorFromWindow(Hwnd, Constants.MonitorDefaultToNearest);
             var service = (Win32WindowingService) WindowingService.Get();
             var display = service.Displays.FirstOrDefault(d => d.Handle == displayHandle);
             if (display == null)
@@ -357,7 +356,7 @@ namespace OpenWindow.Backends.Windows
         /// <inheritdoc />
         public override WindowData GetPlatformData()
         {
-            return new Win32WindowData(ModuleHinstance, WindowingService.Get(), this);
+            return new Win32WindowData(ModuleHinstance, Hwnd);
         }
 
         #endregion
@@ -400,8 +399,8 @@ namespace OpenWindow.Backends.Windows
         {
             var ws = GetWindowStyle();
             const int GWL_STYLE = -16;
-            Native.SetWindowLong(Handle, GWL_STYLE, (int) ws);
-            Native.ShowWindow(Handle, ShowWindowCommand.Show);
+            Native.SetWindowLong(Hwnd, GWL_STYLE, (int) ws);
+            Native.ShowWindow(Hwnd, ShowWindowCommand.Show);
         }
 
         private static Exception GetLastException(string message)
@@ -417,7 +416,7 @@ namespace OpenWindow.Backends.Windows
 
         public void TrackMouseLeave()
         {
-            var tme = TrackMouseEvent.CreateLeave(Handle);
+            var tme = TrackMouseEvent.CreateLeave(Hwnd);
             if (!Native.TrackMouseEvent(ref tme))
                 throw GetLastException("TrackMouseEvent failed.");
         }
@@ -464,31 +463,31 @@ namespace OpenWindow.Backends.Windows
         /// <inheritdoc />
         protected override void InternalSetVisible(bool value)
         {
-            Native.ShowWindow(Handle, value ? ShowWindowCommand.Show: ShowWindowCommand.Hide);
+            Native.ShowWindow(Hwnd, value ? ShowWindowCommand.Show: ShowWindowCommand.Hide);
         }
 
         /// <inheritdoc />
         protected override void InternalMaximize()
         {
-            Native.ShowWindow(Handle, ShowWindowCommand.Maximize);
+            Native.ShowWindow(Hwnd, ShowWindowCommand.Maximize);
         }
 
         /// <inheritdoc />
         protected override void InternalMinimize()
         {
-            Native.ShowWindow(Handle, ShowWindowCommand.Minimize);
+            Native.ShowWindow(Hwnd, ShowWindowCommand.Minimize);
         }
 
         /// <inheritdoc />
         protected override void InternalRestore()
         {
-            Native.ShowWindow(Handle, ShowWindowCommand.Restore);
+            Native.ShowWindow(Hwnd, ShowWindowCommand.Restore);
         }
 
         /// <inheritdoc />
         protected override void InternalSetTitle(string value)
         {
-            if (!Native.SetWindowText(Handle, value))
+            if (!Native.SetWindowText(Hwnd, value))
                 throw GetLastException("Failed to set window title.");
         }
 
@@ -539,7 +538,7 @@ namespace OpenWindow.Backends.Windows
         {
             if (!UserManaged)
             {
-                Native.DestroyWindow(Handle);
+                Native.DestroyWindow(Hwnd);
                 if (!Native.UnregisterClass(_className, IntPtr.Zero))
                     throw GetLastException("Failed to unregister window class!");
             }

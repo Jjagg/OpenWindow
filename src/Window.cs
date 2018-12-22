@@ -27,11 +27,6 @@ namespace OpenWindow
         #region Window API: Properties
 
         /// <summary>
-        /// Get the native window handle.
-        /// </summary>
-        public IntPtr Handle { get; protected set; }
- 
-        /// <summary>
         /// Get or set arbitrary data associated with this window.
         /// OpenWindow does not touch this property. You can safely use it
         /// to attach any data you want.
@@ -345,10 +340,7 @@ namespace OpenWindow
         /// <summary>
         /// Get an object containing platform-specific information on this window.
         /// </summary>
-        public virtual WindowData GetPlatformData()
-        {
-            return new WindowData(WindowingService.Get(), this);
-        }
+        public abstract WindowData GetPlatformData();
 
         #endregion
 
