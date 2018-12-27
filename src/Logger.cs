@@ -41,10 +41,8 @@ namespace OpenWindow
             Messages = new List<Message>();
             _format = "[{0:T}] {1}: {2}";
             OutputLevel = Level.Info;
-#if !NETSTANDARD1_1
             // log to StdOut by default
             _outputWriter = Console.Out;
-#endif
         }
 
         /// <summary>

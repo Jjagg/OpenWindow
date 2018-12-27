@@ -6,11 +6,7 @@ namespace OpenWindow
     {
         public static int SizeOf<T>()
         {
-#if NETSTANDARD1_1
-            return Marshal.SizeOf(typeof(T));
-#else
             return Marshal.SizeOf<T>();
-#endif
         }
     }
 }
