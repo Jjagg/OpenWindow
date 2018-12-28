@@ -1,0 +1,6 @@
+[submodule "generators/WaylandSharpGen/protocols/wayland-protocols"]
+	path = generators/WaylandSharpGen/protocols/wayland-protocols
+	url = https://anongit.freedesktop.org/git/wayland/wayland-protocols.git
+[submodule "generators/WaylandSharpGen/protocols/wayland"]
+	path = generators/WaylandSharpGen/protocols/wayland
+	url = https://gitlab.freedesktop.org/wayland/wayland.git
