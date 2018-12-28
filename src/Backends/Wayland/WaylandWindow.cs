@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using OpenWindow.Backends.Wayland.Managed;
 
 namespace OpenWindow.Backends.Wayland
 {
-    internal class WaylandWindow : Window
+    internal unsafe class WaylandWindow : Window
     {
         #region Private Fields
 
@@ -25,12 +26,9 @@ namespace OpenWindow.Backends.Wayland
             _wlSurface = wlSurface;
             _xdgSurface = xdgSurface;
             _xdgTopLevel = _xdgSurface.GetToplevel();
-            _xdgTopLevel.Configure = Configure;
-            _xdgTopLevel.SetListener();
+            _xdgTopLevel.SetListener(Configure, null);
 
-            _wlSurface.Enter = SurfaceEnter;
-            _wlSurface.Leave = SurfaceLeave;
-            _wlSurface.SetListener();
+            _wlSurface.SetListener(SurfaceEnter, SurfaceLeave);
 
             /*_eglWindow = WlEgl.WindowCreate(_wlSurface.Pointer, 100, 100);
             if (_eglWindow == IntPtr.Zero)
@@ -60,16 +58,15 @@ namespace OpenWindow.Backends.Wayland
             return IntPtr.Zero;
         }
 
-        private void Configure(IntPtr data, IntPtr iface, int width, int height, WlArray states)
-        {
-
-        }
-
-        private void SurfaceEnter(IntPtr data, IntPtr iface, IntPtr output)
+        private void Configure(void* data,  xdg_toplevel* toplevel, int width, int height, wl_array* states)
         {
         }
 
-        private void SurfaceLeave(IntPtr data, IntPtr iface, IntPtr output)
+        private void SurfaceEnter(void* data, wl_surface* surface, wl_output* output)
+        {
+        }
+
+        private void SurfaceLeave(void* data, wl_surface* surface, wl_output* output)
         {
         }
 
@@ -141,7 +138,7 @@ namespace OpenWindow.Backends.Wayland
         public override WindowData GetPlatformData()
         {
             var ws = (WaylandWindowingService) WindowingService.Get();
-            return new WaylandWindowData(ws.GetDisplayProxy(), ws.GetRegistryProxy(), _wlSurface.Pointer, ws.GetGlobals());
+            return new WaylandWindowData(ws.GetDisplayProxy(), ws.GetRegistryProxy(), (IntPtr) _wlSurface.Pointer, ws.GetGlobals());
         }
 
         #endregion

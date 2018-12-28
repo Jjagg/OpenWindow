@@ -4,60 +4,58 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using OpenWindow.Backends.Wayland.Managed;
+
 namespace OpenWindow.Backends.Wayland
 {
-    internal class WaylandWindowingService : WindowingService
+    internal unsafe class WaylandWindowingService : WindowingService
     {
         private List<Display> _displays;
         public override ReadOnlyCollection<Display> Displays { get; }
         public override Display PrimaryDisplay { get; }
 
         private bool _wlShellAvailable;
-        private WlDisplay _wlDisplay;
-        private WlRegistry _wlRegistry;
+        public WlDisplay _wlDisplay;
+        public WlRegistry _wlRegistry;
         private XdgWmBase _xdgWmBase;
         private WlCompositor _wlCompositor;
         private WlShm _wlShm;
-        private readonly List<WlShm.FormatEnum> _formats;
+        private readonly List<wl_shm_format> _formats;
 
         internal List<WaylandWindowData.GlobalObject> Globals;
 
         internal WaylandWindowingService()
         {
             _displays = new List<Display>();
-            _formats = new List<WlShm.FormatEnum>();
+            _formats = new List<wl_shm_format>();
             Globals = new List<WaylandWindowData.GlobalObject>();
         }
 
-        internal IntPtr GetDisplayProxy() => _wlDisplay.Pointer;
-        internal IntPtr GetRegistryProxy() => _wlRegistry.Pointer;
         internal WaylandWindowData.GlobalObject[] GetGlobals() => Globals.ToArray();
+        internal IntPtr GetDisplayProxy() => (IntPtr) _wlDisplay.Pointer;
+        internal IntPtr GetRegistryProxy() => (IntPtr) _wlRegistry.Pointer;
 
         protected override void Initialize()
         {
-            WaylandBindings.Initialize();
-            XdgShellBindings.Initialize();
+            WaylandBindings.Load();
+            XdgShellBindings.Load();
 
             LogDebug("Connecting to display...");
             _wlDisplay = WlDisplay.Connect();
-            if (_wlDisplay.IsNullPtr)
+            if (_wlDisplay.IsNull)
                 throw new OpenWindowException("Failed to connect to Wayland display.");
-            _wlDisplay.Error = DisplayErrorHandler;
-            _wlDisplay.SetListener();
+            _wlDisplay.SetListener(DisplayErrorHandler, null);
 
             LogDebug("Connected to display.");
 
             _wlRegistry = _wlDisplay.GetRegistry();
 
-            if (_wlRegistry.IsNullPtr)
+            if (_wlRegistry.IsNull)
                 throw new OpenWindowException("Failed to connect to get Wayland registry.");
 
             LogDebug("Got registry.");
             
-            _wlRegistry.Global = RegistryGlobal;
-            _wlRegistry.GlobalRemove = RegistryGlobalRemove;
-
-            _wlRegistry.SetListener();
+            _wlRegistry.SetListener(RegistryGlobal, RegistryGlobalRemove);
 
             LogDebug("Initiating first display roundtrip.");
             _wlDisplay.Roundtrip();
@@ -65,11 +63,9 @@ namespace OpenWindow.Backends.Wayland
             LogDebug("Initiating second display roundtrip.");
             _wlDisplay.Roundtrip();
 
-            LogDebug("Skipping Sync.");
-
-            if (_wlCompositor == null)
+            if (_wlCompositor.IsNull)
                 throw new OpenWindowException("Server did not advertise a compositor.");
-            if (_xdgWmBase == null)
+            if (_xdgWmBase.IsNull)
             {
                 if (_wlShellAvailable)
                     LogError("Server did not advertise xdg_wm_base, but it advertised a wl_shell. wl_shell is deprecated and not supported by OpenWindow.");
@@ -77,15 +73,18 @@ namespace OpenWindow.Backends.Wayland
             }
         }
 
-        private void DisplayErrorHandler(IntPtr data, IntPtr iface, IntPtr objectId, uint code, string message)
+        private void DisplayErrorHandler(void* data, wl_display* display, uint objectId, uint code, byte* messagePtr)
         {
+            var message = Util.Utf8ToString(messagePtr);
             LogError($"Irrecoverable error reported by Wayland server: ({message})");
             // todo get error from enum in iface type
             throw new OpenWindowException($"Irrecoverable error reported by Wayland server: {message}");
         }
 
-        private void RegistryGlobal(IntPtr data, IntPtr registry, uint name, string iface, uint version)
+        private void RegistryGlobal(void* data, wl_registry* registry, uint name, byte* ifaceUtf8, uint version)
         {
+            // TODO we should expose interface names in Utf8 format so we can do a direct compare without marshalling
+            var iface = Util.Utf8ToString(ifaceUtf8);
             LogDebug($"Registry global announce for type '{iface}' v{version}.");
 
             var global = new WaylandWindowData.GlobalObject(iface, name, version);
@@ -93,61 +92,56 @@ namespace OpenWindow.Backends.Wayland
 
             switch (iface)
             {
-                case WlShell.InterfaceName:
+                case WaylandBindings.wl_shell_name:
                     _wlShellAvailable = true;
                     break;
-                case WlOutput.InterfaceName:
+                case WaylandBindings.wl_output_name:
                     LogDebug($"Binding WlOutput.");
-                    var output = new WlOutput(_wlRegistry.Bind(name, WlOutput.Interface, version));
+                    var output = _wlRegistry.Bind<wl_output>(name, WlOutput.Interface, version);
                     AddDisplay(output);
                     LogInfo($"Display connected with id {name}.");
                     break;
-                case WlCompositor.InterfaceName:
+                case WaylandBindings.wl_compositor_name:
                     LogDebug($"Binding WlCompositor.");
-                    _wlCompositor = new WlCompositor(_wlRegistry.Bind(name, WlCompositor.Interface, version));
+                    _wlCompositor = _wlRegistry.Bind<wl_compositor>(name, WlCompositor.Interface, version);
                     break;
-                case WlShm.InterfaceName:
+                case WaylandBindings.wl_shm_name:
                     LogDebug($"Binding WlShm.");
-                    _wlShm = new WlShm(_wlRegistry.Bind(name, WlShm.Interface, version));
-                    _wlShm.Format = ShmFormatHandler;
-                    _wlShm.SetListener();
+                    _wlShm = _wlRegistry.Bind<wl_shm>(name, WlShm.Interface, version);
+                    _wlShm.SetListener(ShmFormatHandler);
                     break;
-                case WlSeat.InterfaceName:
+                case WaylandBindings.wl_seat_name:
                     // TODO input
                     break;
-                case XdgWmBase.InterfaceName:
+                case XdgShellBindings.xdg_wm_base_name:
                     LogDebug($"Binding XdgWmBase.");
-                    _xdgWmBase = new XdgWmBase(_wlRegistry.Bind(name, XdgWmBase.Interface, version));
-                    _xdgWmBase.Ping = XdgWmBasePingHandler;
-                    _xdgWmBase.SetListener();
+                    _xdgWmBase = _wlRegistry.Bind<xdg_wm_base>(name, XdgWmBase.Interface, version);
+                    _xdgWmBase.SetListener(XdgWmBasePingHandler);
                     break;
             }
         }
 
-        private void RegistryGlobalRemove(IntPtr data, IntPtr iface, uint name)
+        private void RegistryGlobalRemove(void* data, wl_registry* registry, uint name)
         {
-            var ifaceStruct = new WlInterface.InterfaceStruct();
-            Marshal.PtrToStructure(data, ifaceStruct);
-            LogDebug($"Registry global remove for {name} of type '{ifaceStruct.Name}'.");
         }
 
         private void AddDisplay(WlOutput output)
         {
             // keep track of the output and listen for configuration events
-            output.Geometry = OutputGeometryHandler;
-            output.Mode = OutputModeHandler;
-            output.Scale = OutputScaleHandler;
-            output.Done = OutputDoneHandler;
-            output.SetListener();
-            _displays.Add(new Display(output.Pointer));
+            output.SetListener(
+                OutputGeometryHandler,
+                OutputModeHandler,
+                OutputDoneHandler,
+                OutputScaleHandler);
+            _displays.Add(new Display((IntPtr) output.Pointer));
         }
 
-        private Display GetDisplay(IntPtr handle)
+        private Display GetDisplay(wl_output* handle)
         {
             Display display = null;
             for (var i = 0; i < _displays.Count; i++)
             {
-                if (_displays[i].Handle == handle)
+                if (_displays[i].Handle == (IntPtr) handle)
                 {
                     display = _displays[i];
                     break;
@@ -158,10 +152,10 @@ namespace OpenWindow.Backends.Wayland
         }
 
 
-        private void OutputGeometryHandler(IntPtr data, IntPtr iface, int x, int y, int physicalWidth,
-            int physicalHeight, WlOutput.SubpixelEnum subpixelEnum, string make, string model, WlOutput.TransformEnum transformEnum)
+        private void OutputGeometryHandler(void* data, wl_output* output, int x, int y, int physicalWidth,
+            int physicalHeight, wl_output_subpixel subpixelEnum, byte* make, byte* model, wl_output_transform transformEnum)
         {
-            var display = GetDisplay(iface);
+            var display = GetDisplay(output);
 
             if (display == null)
                 throw new OpenWindowException("Got an Output Geometry event for unknown output.");
@@ -169,48 +163,48 @@ namespace OpenWindow.Backends.Wayland
             // TODO check this is in the right coordinate space (unscaled or scaled)
             display.Bounds = display.Bounds.WithPosition(x, y);
             // TODO document how this name is assigned
-            display.Name = make + " - " + model;
+            display.Name = Util.Utf8ToString(make) + " - " + Util.Utf8ToString(model);
         }
 
-        private void OutputModeHandler(IntPtr data, IntPtr iface, WlOutput.ModeEnum modeEnum, int width, int height, int refresh)
+        private void OutputModeHandler(void* data, wl_output* output, wl_output_mode modeEnum, int width, int height, int refresh)
         {
-            var display = GetDisplay(iface);
+            var display = GetDisplay(output);
 
             if (display == null)
                 throw new OpenWindowException("Got an Output Geometry event for unknown output.");
 
-            if (modeEnum.HasFlag(WlOutput.ModeEnum.Current))
+            if (modeEnum.HasFlag(wl_output_mode.Current))
                 display.Bounds = display.Bounds.WithSize(width, height);
             // TODO expose refresh rate of the output? Probably quite nice to have, but should check other platforms for support.
             // TODO supported display modes of the output - should this exist in a pure windowing lib? Seems like this is graphics territory.
         }
 
-        private void OutputScaleHandler(IntPtr data, IntPtr iface, int factor)
+        private void OutputScaleHandler(void* data, wl_output* output, int factor)
         {
             // TODO high dpi stuff
         }
 
-        private void OutputDoneHandler(IntPtr data, IntPtr iface)
+        private void OutputDoneHandler(void* data, wl_output* output)
         {
             // we don't really need to handle this explicitly
         }
 
-        private void ShmFormatHandler(IntPtr data, IntPtr iface, WlShm.FormatEnum format)
+        private void ShmFormatHandler(void* data, wl_shm* shm, wl_shm_format format)
         {
             LogDebug($"Supported buffer surface format " + format.ToString());
             _formats.Add(format);
         }
 
-        private static void XdgWmBasePingHandler(IntPtr data, IntPtr iface, uint serial)
+        private static void XdgWmBasePingHandler(void* data, xdg_wm_base* wmBase, uint serial)
         {
-            XdgWmBase.Pong(iface, serial);
+            XdgShellBindings.xdg_wm_base_pong(wmBase, serial);
         }
 
         public override Window CreateWindow()
         {
             LogDebug("Creating wl surface");
             var wlSurface = _wlCompositor.CreateSurface();
-            if (wlSurface.IsNullPtr)
+            if (wlSurface.IsNull)
                 throw new OpenWindowException("Failed to create compositor surface.");
 
             LogDebug("Getting xdg surface");
@@ -227,22 +221,24 @@ namespace OpenWindow.Backends.Wayland
 
         public override void PumpEvents()
         {
+            _wlDisplay.DispatchPending();
         }
 
         public override void WaitEvent()
         {
-            throw new System.NotImplementedException();
+            _wlDisplay.Dispatch();
         }
 
         protected override void Dispose(bool disposing)
         {
             // TODO check what actually needs explicit disposing
-            _wlShm?.Destroy();
-            _wlCompositor?.Destroy();
-            _wlRegistry?.Destroy();
-            _wlDisplay.Dispose();
-            WaylandBindings.Free();
-            XdgShellBindings.Free();
+            _wlShm.Destroy();
+            _wlCompositor.Destroy();
+            _wlRegistry.Destroy();
+            _wlDisplay.Disconnect();
+            _wlDisplay.Destroy();
+            WaylandBindings.Unload();
+            XdgShellBindings.Unload();
         }
     }
 }

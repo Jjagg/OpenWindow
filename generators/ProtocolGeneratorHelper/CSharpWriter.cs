@@ -110,7 +110,7 @@ namespace ProtocolGeneratorHelper
 
         private string Indent(string text)
         {
-            return string.Empty.PadLeft(_indentation * 4, ' ') + text;
+            return string.IsNullOrWhiteSpace(text) ? text : string.Empty.PadLeft(_indentation * 4, ' ') + text;
         }
         
         public void Indent()

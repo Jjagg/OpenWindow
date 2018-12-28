@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd $(dirname $0)
+
 cat protocols/protocols.txt | while read line
 do
   if [ -z ${line// } ]; then

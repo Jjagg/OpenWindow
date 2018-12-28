@@ -19,7 +19,6 @@ namespace WaylandSharpGen
         public readonly string Signature;
         public readonly string ParamType;
         public readonly string Interface;
-        public readonly bool ObjectType;
         public readonly bool AllowNull;
 
         public bool IsEnumType => EnumType != null;
@@ -30,7 +29,6 @@ namespace WaylandSharpGen
             Enum.TryParse(element.Attribute(TypeAttrib).Value, true, out Type);
             EnumType = element.Attribute(EnumAttrib)?.Value;
             Interface = element.Attribute(InterfaceAttrib)?.Value;
-            ObjectType = Type == ArgType.New_id || Type == ArgType.Object;
             var allowNull = element.Attribute(AllowNullAttrib);
             AllowNull = allowNull == null ? false : bool.Parse(allowNull.Value);
             Signature = (AllowNull ? "?" : string.Empty) + ArgToSig(Type, Interface != null);
@@ -82,9 +80,7 @@ namespace WaylandSharpGen
         private string GetParamType()
         {
             if (IsEnumType)
-                return Util.ToPascalCase(EnumType) + "Enum";
-            if (Type == ArgType.Object)
-                return (Interface ?? "wl_object") + '*';
+                return null;
 
             switch (Type)
             {
@@ -96,10 +92,12 @@ namespace WaylandSharpGen
                     return "int";
                 case ArgType.String:
                     return "string";
+                case ArgType.Object:
+                    return Interface == null ? "uint" : Interface + '*';
                 case ArgType.New_id:
-                    return "wl_object*";
+                    return "uint";
                 case ArgType.Array:
-                    return "wl_array";
+                    return "wl_array*";
                 case ArgType.Fd:
                     return "int";
                 default:

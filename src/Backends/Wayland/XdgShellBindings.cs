@@ -1,132 +1,135 @@
 // This file was generated from an xml Wayland protocol specification
 // by WaylandSharpGen. https://github.com/Jjagg/OpenWindow/tree/master/generators/WaylandSharpGen
 
+#pragma warning disable CS0649
+
 // Protocol: xdg_shell
 
 using System;
 using System.Runtime.InteropServices;
-using SMarshal = System.Runtime.InteropServices.Marshal;
 
 namespace OpenWindow.Backends.Wayland
 {
-    internal static partial class XdgShellBindings
+    internal static unsafe partial class XdgShellBindings
     {
-        private static bool _initialized;
+        private static bool _loaded;
 
-        public static void Initialize()
+        public static wl_interface* Interfaces;
+        private static wl_message* _messages;
+        private static wl_interface** _signatureTypes;
+
+        private static readonly int InterfaceCount = 5;
+        private static readonly int MessageCount = 38;
+
+        public const string xdg_wm_base_name = "xdg_wm_base";
+        public const string xdg_positioner_name = "xdg_positioner";
+        public const string xdg_surface_name = "xdg_surface";
+        public const string xdg_toplevel_name = "xdg_toplevel";
+        public const string xdg_popup_name = "xdg_popup";
+
+        public static void Load()
         {
-            if (_initialized)
+            if (_loaded)
                 return;
-            _initialized = true;
+            _loaded = true;
 
-            XdgWmBase.Initialize();
-            XdgPositioner.Initialize();
-            XdgSurface.Initialize();
-            XdgToplevel.Initialize();
-            XdgPopup.Initialize();
+            Interfaces = (wl_interface*) Marshal.AllocHGlobal(sizeof(wl_interface) * InterfaceCount);
+            _messages = (wl_message*) Marshal.AllocHGlobal(sizeof(wl_message) * MessageCount);
+
+
+            Util.CreateInterface(&Interfaces[0], "xdg_wm_base", 2, 4, 1);
+            Util.CreateInterface(&Interfaces[1], "xdg_positioner", 2, 7, 0);
+            Util.CreateInterface(&Interfaces[2], "xdg_surface", 2, 5, 1);
+            Util.CreateInterface(&Interfaces[3], "xdg_toplevel", 2, 14, 2);
+            Util.CreateInterface(&Interfaces[4], "xdg_popup", 2, 2, 2);
+
+            _signatureTypes = (wl_interface**) Marshal.AllocHGlobal(sizeof(void*) * 15);
+            _signatureTypes[0] = null;
+            _signatureTypes[1] = null;
+            _signatureTypes[2] = null;
+            _signatureTypes[3] = null;
+            _signatureTypes[4] = wl_seat.Interface;
+            _signatureTypes[5] = null;
+            _signatureTypes[6] = null;
+            _signatureTypes[7] = null;
+            _signatureTypes[8] = xdg_popup.Interface;
+            _signatureTypes[9] = xdg_surface.Interface;
+            _signatureTypes[10] = xdg_positioner.Interface;
+            _signatureTypes[11] = xdg_surface.Interface;
+            _signatureTypes[12] = wl_surface.Interface;
+            _signatureTypes[13] = xdg_toplevel.Interface;
+            _signatureTypes[14] = wl_output.Interface;
+
+            Util.CreateMessage(&_messages[0], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[1], "create_positioner", "n", &_signatureTypes[10]);
+            Util.CreateMessage(&_messages[2], "get_xdg_surface", "no", &_signatureTypes[11]);
+            Util.CreateMessage(&_messages[3], "pong", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[4], "ping", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[5], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[6], "set_size", "ii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[7], "set_anchor_rect", "iiii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[8], "set_anchor", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[9], "set_gravity", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[10], "set_constraint_adjustment", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[11], "set_offset", "ii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[12], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[13], "get_toplevel", "n", &_signatureTypes[13]);
+            Util.CreateMessage(&_messages[14], "get_popup", "n?oo", &_signatureTypes[8]);
+            Util.CreateMessage(&_messages[15], "set_window_geometry", "iiii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[16], "ack_configure", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[17], "configure", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[18], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[19], "set_parent", "?o", &_signatureTypes[13]);
+            Util.CreateMessage(&_messages[20], "set_title", "s", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[21], "set_app_id", "s", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[22], "show_window_menu", "ouii", &_signatureTypes[4]);
+            Util.CreateMessage(&_messages[23], "move", "ou", &_signatureTypes[4]);
+            Util.CreateMessage(&_messages[24], "resize", "ouu", &_signatureTypes[4]);
+            Util.CreateMessage(&_messages[25], "set_max_size", "ii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[26], "set_min_size", "ii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[27], "set_maximized", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[28], "unset_maximized", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[29], "set_fullscreen", "?o", &_signatureTypes[14]);
+            Util.CreateMessage(&_messages[30], "unset_fullscreen", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[31], "set_minimized", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[32], "configure", "iia", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[33], "close", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[34], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[35], "grab", "ou", &_signatureTypes[4]);
+            Util.CreateMessage(&_messages[36], "configure", "iiii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[37], "popup_done", "", &_signatureTypes[0]);
+
+            Interfaces[0].Requests = &_messages[0];
+            Interfaces[0].Events = &_messages[4];
+            Interfaces[1].Requests = &_messages[5];
+            Interfaces[1].Events = null;
+            Interfaces[2].Requests = &_messages[12];
+            Interfaces[2].Events = &_messages[17];
+            Interfaces[3].Requests = &_messages[18];
+            Interfaces[3].Events = &_messages[32];
+            Interfaces[4].Requests = &_messages[34];
+            Interfaces[4].Events = &_messages[36];
         }
-        public static void Free()
+
+        public static void Unload()
         {
-            if (!_initialized)
+            if (!_loaded)
                 return;
-            _initialized = false;
+            _loaded = false;
 
-            XdgWmBase.Interface.Dispose();
-            XdgPositioner.Interface.Dispose();
-            XdgSurface.Interface.Dispose();
-            XdgToplevel.Interface.Dispose();
-            XdgPopup.Interface.Dispose();
-        }
-    }
+            for (var i = 0; i < InterfaceCount; i++)
+                Marshal.FreeHGlobal((IntPtr) Interfaces[i].Name);
 
-    /// <summary>
-    /// <p>
-    /// The xdg_wm_base interface is exposed as a global object enabling clients
-    /// to turn their wl_surfaces into windows in a desktop environment. It
-    /// defines the basic functionality needed for clients and the compositor to
-    /// create windows that can be dragged, resized, maximized, etc, as well as
-    /// creating transient windows such as popup menus.
-    /// </p>
-    /// </summary>
-    internal partial class XdgWmBase : WlProxy
-    {
-        #region Opcodes
-
-        private const int DestroyOp = 0;
-        private const int CreatePositionerOp = 1;
-        private const int GetXdgSurfaceOp = 2;
-        private const int PongOp = 3;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("xdg_wm_base", 2, 4, 1);
-        public const string InterfaceName = "xdg_wm_base";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
+            for (var i = 0; i < MessageCount; i++)
             {
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("create_positioner", "n", new [] {XdgPositioner.Interface.Pointer}),
-                new WlMessage("get_xdg_surface", "no", new [] {XdgSurface.Interface.Pointer, WlSurface.Interface.Pointer}),
-                new WlMessage("pong", "u", new [] {IntPtr.Zero}),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("ping", "u", new [] {IntPtr.Zero}),
-            });
-            Interface.Finish();
+                Marshal.FreeHGlobal((IntPtr) _messages[i].Name);
+                Marshal.FreeHGlobal((IntPtr) _messages[i].Signature);
+            }
+
+            Marshal.FreeHGlobal((IntPtr) _messages);
+            Marshal.FreeHGlobal((IntPtr) _signatureTypes);
+            Marshal.FreeHGlobal((IntPtr) Interfaces);
         }
-
-
-        #endregion
-
-        public XdgWmBase(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="serial">pass this to the pong request</param>
-        public delegate void PingHandler(IntPtr data, IntPtr iface, uint serial);
-
-        private IntPtr _listener;
-        private bool _setListener;
-
-        /// <summary>
-        /// <p>
-        /// The ping event asks the client if it's still alive. Pass the
-        /// serial specified in the event back to the compositor by sending
-        /// a "pong" request back with the specified serial. See xdg_wm_base.ping.
-        /// </p>
-        /// <p>
-        /// Compositors can use this to determine if the client is still
-        /// alive. It's unspecified what will happen if the client doesn't
-        /// respond to the ping request, or in what timeframe. Clients should
-        /// try to respond in a reasonable amount of time.
-        /// </p>
-        /// <p>
-        /// A compositor is free to ping in any way it wants, but a client must
-        /// always respond to any xdg_wm_base object it created.
-        /// </p>
-        /// </summary>
-        public PingHandler Ping;
-
-        public void SetListener()
-        {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 1);
-            if (Ping != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Ping));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
-        }
-
-        #endregion
-
-        #region Requests
 
         /// <summary>
         /// <p>
@@ -138,14 +141,9 @@ namespace OpenWindow.Backends.Wayland
         /// and will result in a protocol error.
         /// </p>
         /// </summary>
-        public void Destroy()
+        public static void xdg_wm_base_destroy(xdg_wm_base* pointer)
         {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
 
         /// <summary>
@@ -155,16 +153,12 @@ namespace OpenWindow.Backends.Wayland
         /// and xdg_surface.get_popup for details.
         /// </p>
         /// </summary>
-        public XdgPositioner CreatePositioner()
+        public static xdg_positioner* xdg_wm_base_create_positioner(xdg_wm_base* pointer)
         {
-            return CreatePositioner(Pointer);
-        }
-
-        public static XdgPositioner CreatePositioner(IntPtr pointer)
-        {
-            var args = new ArgumentStruct[] { 0 };
-            var ptr = MarshalArrayConstructor(pointer, CreatePositionerOp, args, XdgPositioner.Interface.Pointer);
-            return new XdgPositioner(ptr);
+            var args = stackalloc wl_argument[1];
+            args[0] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, xdg_positioner.Interface);
+            return (xdg_positioner*) ptr;
         }
 
         /// <summary>
@@ -184,16 +178,13 @@ namespace OpenWindow.Backends.Wayland
         /// xdg_surface is and how it is used.
         /// </p>
         /// </summary>
-        public XdgSurface GetXdgSurface(WlSurface surface)
+        public static xdg_surface* xdg_wm_base_get_xdg_surface(xdg_wm_base* pointer, wl_surface* surface)
         {
-            return GetXdgSurface(Pointer, surface);
-        }
-
-        public static XdgSurface GetXdgSurface(IntPtr pointer, WlSurface surface)
-        {
-            var args = new ArgumentStruct[] { 0, surface };
-            var ptr = MarshalArrayConstructor(pointer, GetXdgSurfaceOp, args, XdgSurface.Interface.Pointer);
-            return new XdgSurface(ptr);
+            var args = stackalloc wl_argument[2];
+            args[0] = 0;
+            args[1] = surface;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 2, args, xdg_surface.Interface);
+            return (xdg_surface*) ptr;
         }
 
         /// <summary>
@@ -203,139 +194,66 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="serial">serial of the ping event</param>
-        public void Pong(uint serial)
+        public static void xdg_wm_base_pong(xdg_wm_base* pointer, uint serial)
         {
-            Pong(Pointer, serial);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 3);
         }
 
-        public static void Pong(IntPtr pointer, uint serial)
+        /// <summary>
+        /// <p>
+        /// The ping event asks the client if it's still alive. Pass the
+        /// serial specified in the event back to the compositor by sending
+        /// a "pong" request back with the specified serial. See xdg_wm_base.ping.
+        /// </p>
+        /// <p>
+        /// Compositors can use this to determine if the client is still
+        /// alive. It's unspecified what will happen if the client doesn't
+        /// respond to the ping request, or in what timeframe. Clients should
+        /// try to respond in a reasonable amount of time.
+        /// </p>
+        /// <p>
+        /// A compositor is free to ping in any way it wants, but a client must
+        /// always respond to any xdg_wm_base object it created.
+        /// </p>
+        /// </summary>
+        public delegate void xdg_wm_base_ping_delegate(void* data, xdg_wm_base* proxy, uint serial);
+
+        internal struct xdg_wm_base_listener
         {
-            Marshal(pointer, PongOp);
-        }
+            public IntPtr ping;
 
-        #endregion
-
-        #region Enums
-
-        public enum ErrorEnum
-        {
-            /// <summary>
-            /// given wl_surface has another role
-            /// </summary>
-            Role = 0,
-
-            /// <summary>
-            /// xdg_wm_base was destroyed before children
-            /// </summary>
-            DefunctSurfaces = 1,
-
-            /// <summary>
-            /// the client tried to map or destroy a non-topmost popup
-            /// </summary>
-            NotTheTopmostPopup = 2,
-
-            /// <summary>
-            /// the client specified an invalid popup parent surface
-            /// </summary>
-            InvalidPopupParent = 3,
-
-            /// <summary>
-            /// the client provided an invalid surface state
-            /// </summary>
-            InvalidSurfaceState = 4,
-
-            /// <summary>
-            /// the client provided an invalid positioner
-            /// </summary>
-            InvalidPositioner = 5,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// The xdg_positioner provides a collection of rules for the placement of a
-    /// child surface relative to a parent surface. Rules can be defined to ensure
-    /// the child surface remains within the visible area's borders, and to
-    /// specify how the child surface changes its position, such as sliding along
-    /// an axis, or flipping around a rectangle. These positioner-created rules are
-    /// constrained by the requirement that a child surface must intersect with or
-    /// be at least partially adjacent to its parent surface.
-    /// </p>
-    /// <p>
-    /// See the various requests for details about possible rules.
-    /// </p>
-    /// <p>
-    /// At the time of the request, the compositor makes a copy of the rules
-    /// specified by the xdg_positioner. Thus, after the request is complete the
-    /// xdg_positioner object can be destroyed or reused; further changes to the
-    /// object will have no effect on previous usages.
-    /// </p>
-    /// <p>
-    /// For an xdg_positioner object to be considered complete, it must have a
-    /// non-zero size set by set_size, and a non-zero anchor rectangle set by
-    /// set_anchor_rect. Passing an incomplete xdg_positioner object when
-    /// positioning a surface raises an error.
-    /// </p>
-    /// </summary>
-    internal partial class XdgPositioner : WlProxy
-    {
-        #region Opcodes
-
-        private const int DestroyOp = 0;
-        private const int SetSizeOp = 1;
-        private const int SetAnchorRectOp = 2;
-        private const int SetAnchorOp = 3;
-        private const int SetGravityOp = 4;
-        private const int SetConstraintAdjustmentOp = 5;
-        private const int SetOffsetOp = 6;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("xdg_positioner", 2, 7, 0);
-        public const string InterfaceName = "xdg_positioner";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
+            public static xdg_wm_base_listener* Alloc(
+                xdg_wm_base_ping_delegate ping)
             {
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("set_size", "ii", new [] {IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("set_anchor_rect", "iiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("set_anchor", "u", new [] {IntPtr.Zero}),
-                new WlMessage("set_gravity", "u", new [] {IntPtr.Zero}),
-                new WlMessage("set_constraint_adjustment", "u", new [] {IntPtr.Zero}),
-                new WlMessage("set_offset", "ii", new [] {IntPtr.Zero, IntPtr.Zero}),
-            });
-            Interface.SetEvents(new WlMessage[0]);
-            Interface.Finish();
+                var ret = (xdg_wm_base_listener*) Marshal.AllocHGlobal(sizeof(xdg_wm_base_listener));
+                Set(ret, ping);
+                return ret;
+            }
+
+            public static void Set(xdg_wm_base_listener* listener
+            ,
+                xdg_wm_base_ping_delegate ping)
+            {
+                if (ping != null) listener->ping = Marshal.GetFunctionPointerForDelegate<xdg_wm_base_ping_delegate>(ping);
+            }
         }
 
-
-        #endregion
-
-        public XdgPositioner(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Requests
-
+        /// <summary>
+        /// Set the callbacks for the given <see cref="xdg_wm_base"/>.
+        /// </summary>
+        /// <param name="serial">pass this to the pong request</param>
+        public static int xdg_wm_base_add_listener(xdg_wm_base* iface, xdg_wm_base_listener* listener)
+        {
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
+        }
         /// <summary>
         /// <p>
         /// Notify the compositor that the xdg_positioner will no longer be used.
         /// </p>
         /// </summary>
-        public void Destroy()
+        public static void xdg_positioner_destroy(xdg_positioner* pointer)
         {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
 
         /// <summary>
@@ -350,15 +268,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="width">width of positioned rectangle</param>
         /// <param name="height">height of positioned rectangle</param>
-        public void SetSize(int width, int height)
+        public static void xdg_positioner_set_size(xdg_positioner* pointer, int width, int height)
         {
-            SetSize(Pointer, width, height);
-        }
-
-        public static void SetSize(IntPtr pointer, int width, int height)
-        {
-            var args = new ArgumentStruct[] { width, height };
-            MarshalArray(pointer, SetSizeOp, args);
+            var args = stackalloc wl_argument[2];
+            args[0] = width;
+            args[1] = height;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 1, args);
         }
 
         /// <summary>
@@ -381,15 +296,14 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="y">y position of anchor rectangle</param>
         /// <param name="width">width of anchor rectangle</param>
         /// <param name="height">height of anchor rectangle</param>
-        public void SetAnchorRect(int x, int y, int width, int height)
+        public static void xdg_positioner_set_anchor_rect(xdg_positioner* pointer, int x, int y, int width, int height)
         {
-            SetAnchorRect(Pointer, x, y, width, height);
-        }
-
-        public static void SetAnchorRect(IntPtr pointer, int x, int y, int width, int height)
-        {
-            var args = new ArgumentStruct[] { x, y, width, height };
-            MarshalArray(pointer, SetAnchorRectOp, args);
+            var args = stackalloc wl_argument[4];
+            args[0] = x;
+            args[1] = y;
+            args[2] = width;
+            args[3] = height;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 2, args);
         }
 
         /// <summary>
@@ -403,14 +317,9 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="anchor">anchor</param>
-        public void SetAnchor(AnchorEnum anchor)
+        public static void xdg_positioner_set_anchor(xdg_positioner* pointer, xdg_positioner_anchor anchor)
         {
-            SetAnchor(Pointer, anchor);
-        }
-
-        public static void SetAnchor(IntPtr pointer, AnchorEnum anchor)
-        {
-            Marshal(pointer, SetAnchorOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 3);
         }
 
         /// <summary>
@@ -424,14 +333,9 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="gravity">gravity direction</param>
-        public void SetGravity(GravityEnum gravity)
+        public static void xdg_positioner_set_gravity(xdg_positioner* pointer, xdg_positioner_gravity gravity)
         {
-            SetGravity(Pointer, gravity);
-        }
-
-        public static void SetGravity(IntPtr pointer, GravityEnum gravity)
-        {
-            Marshal(pointer, SetGravityOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 4);
         }
 
         /// <summary>
@@ -455,14 +359,9 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="constraint_adjustment">bit mask of constraint adjustments</param>
-        public void SetConstraintAdjustment(uint constraint_adjustment)
+        public static void xdg_positioner_set_constraint_adjustment(xdg_positioner* pointer, uint constraint_adjustment)
         {
-            SetConstraintAdjustment(Pointer, constraint_adjustment);
-        }
-
-        public static void SetConstraintAdjustment(IntPtr pointer, uint constraint_adjustment)
-        {
-            Marshal(pointer, SetConstraintAdjustmentOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 5);
         }
 
         /// <summary>
@@ -483,301 +382,13 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="x">surface position x offset</param>
         /// <param name="y">surface position y offset</param>
-        public void SetOffset(int x, int y)
+        public static void xdg_positioner_set_offset(xdg_positioner* pointer, int x, int y)
         {
-            SetOffset(Pointer, x, y);
+            var args = stackalloc wl_argument[2];
+            args[0] = x;
+            args[1] = y;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 6, args);
         }
-
-        public static void SetOffset(IntPtr pointer, int x, int y)
-        {
-            var args = new ArgumentStruct[] { x, y };
-            MarshalArray(pointer, SetOffsetOp, args);
-        }
-
-        #endregion
-
-        #region Enums
-
-        public enum ErrorEnum
-        {
-            /// <summary>
-            /// invalid input provided
-            /// </summary>
-            InvalidInput = 0,
-
-        }
-
-        public enum AnchorEnum
-        {
-            /// <summary>
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// </summary>
-            Top = 1,
-
-            /// <summary>
-            /// </summary>
-            Bottom = 2,
-
-            /// <summary>
-            /// </summary>
-            Left = 3,
-
-            /// <summary>
-            /// </summary>
-            Right = 4,
-
-            /// <summary>
-            /// </summary>
-            TopLeft = 5,
-
-            /// <summary>
-            /// </summary>
-            BottomLeft = 6,
-
-            /// <summary>
-            /// </summary>
-            TopRight = 7,
-
-            /// <summary>
-            /// </summary>
-            BottomRight = 8,
-
-        }
-
-        public enum GravityEnum
-        {
-            /// <summary>
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// </summary>
-            Top = 1,
-
-            /// <summary>
-            /// </summary>
-            Bottom = 2,
-
-            /// <summary>
-            /// </summary>
-            Left = 3,
-
-            /// <summary>
-            /// </summary>
-            Right = 4,
-
-            /// <summary>
-            /// </summary>
-            TopLeft = 5,
-
-            /// <summary>
-            /// </summary>
-            BottomLeft = 6,
-
-            /// <summary>
-            /// </summary>
-            TopRight = 7,
-
-            /// <summary>
-            /// </summary>
-            BottomRight = 8,
-
-        }
-
-        /// <summary>
-        /// <p>
-        /// The constraint adjustment value define ways the compositor will adjust
-        /// the position of the surface, if the unadjusted position would result
-        /// in the surface being partly constrained.
-        /// </p>
-        /// <p>
-        /// Whether a surface is considered 'constrained' is left to the compositor
-        /// to determine. For example, the surface may be partly outside the
-        /// compositor's defined 'work area', thus necessitating the child surface's
-        /// position be adjusted until it is entirely inside the work area.
-        /// </p>
-        /// <p>
-        /// The adjustments can be combined, according to a defined precedence: 1)
-        /// Flip, 2) Slide, 3) Resize.
-        /// </p>
-        /// </summary>
-        [Flags]
-        public enum ConstraintAdjustmentEnum
-        {
-            /// <summary>
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// </summary>
-            SlideX = 1,
-
-            /// <summary>
-            /// </summary>
-            SlideY = 2,
-
-            /// <summary>
-            /// </summary>
-            FlipX = 4,
-
-            /// <summary>
-            /// </summary>
-            FlipY = 8,
-
-            /// <summary>
-            /// </summary>
-            ResizeX = 16,
-
-            /// <summary>
-            /// </summary>
-            ResizeY = 32,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// An interface that may be implemented by a wl_surface, for
-    /// implementations that provide a desktop-style user interface.
-    /// </p>
-    /// <p>
-    /// It provides a base set of functionality required to construct user
-    /// interface elements requiring management by the compositor, such as
-    /// toplevel windows, menus, etc. The types of functionality are split into
-    /// xdg_surface roles.
-    /// </p>
-    /// <p>
-    /// Creating an xdg_surface does not set the role for a wl_surface. In order
-    /// to map an xdg_surface, the client must create a role-specific object
-    /// using, e.g., get_toplevel, get_popup. The wl_surface for any given
-    /// xdg_surface can have at most one role, and may not be assigned any role
-    /// not based on xdg_surface.
-    /// </p>
-    /// <p>
-    /// A role must be assigned before any other requests are made to the
-    /// xdg_surface object.
-    /// </p>
-    /// <p>
-    /// The client must call wl_surface.commit on the corresponding wl_surface
-    /// for the xdg_surface state to take effect.
-    /// </p>
-    /// <p>
-    /// Creating an xdg_surface from a wl_surface which has a buffer attached or
-    /// committed is a client error, and any attempts by a client to attach or
-    /// manipulate a buffer prior to the first xdg_surface.configure call must
-    /// also be treated as errors.
-    /// </p>
-    /// <p>
-    /// Mapping an xdg_surface-based role surface is defined as making it
-    /// possible for the surface to be shown by the compositor. Note that
-    /// a mapped surface is not guaranteed to be visible once it is mapped.
-    /// </p>
-    /// <p>
-    /// For an xdg_surface to be mapped by the compositor, the following
-    /// conditions must be met:
-    /// (1) the client has assigned an xdg_surface-based role to the surface
-    /// (2) the client has set and committed the xdg_surface state and the
-    /// role-dependent state to the surface
-    /// (3) the client has committed a buffer to the surface
-    /// </p>
-    /// <p>
-    /// A newly-unmapped surface is considered to have met condition (1) out
-    /// of the 3 required conditions for mapping a surface if its role surface
-    /// has not been destroyed.
-    /// </p>
-    /// </summary>
-    internal partial class XdgSurface : WlProxy
-    {
-        #region Opcodes
-
-        private const int DestroyOp = 0;
-        private const int GetToplevelOp = 1;
-        private const int GetPopupOp = 2;
-        private const int SetWindowGeometryOp = 3;
-        private const int AckConfigureOp = 4;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("xdg_surface", 2, 5, 1);
-        public const string InterfaceName = "xdg_surface";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("get_toplevel", "n", new [] {XdgToplevel.Interface.Pointer}),
-                new WlMessage("get_popup", "n?oo", new [] {XdgPopup.Interface.Pointer, XdgSurface.Interface.Pointer, XdgPositioner.Interface.Pointer}),
-                new WlMessage("set_window_geometry", "iiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("ack_configure", "u", new [] {IntPtr.Zero}),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("configure", "u", new [] {IntPtr.Zero}),
-            });
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public XdgSurface(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="serial">serial of the configure event</param>
-        public delegate void ConfigureHandler(IntPtr data, IntPtr iface, uint serial);
-
-        private IntPtr _listener;
-        private bool _setListener;
-
-        /// <summary>
-        /// <p>
-        /// The configure event marks the end of a configure sequence. A configure
-        /// sequence is a set of one or more events configuring the state of the
-        /// xdg_surface, including the final xdg_surface.configure event.
-        /// </p>
-        /// <p>
-        /// Where applicable, xdg_surface surface roles will during a configure
-        /// sequence extend this event as a latched state sent as events before the
-        /// xdg_surface.configure event. Such events should be considered to make up
-        /// a set of atomically applied configuration states, where the
-        /// xdg_surface.configure commits the accumulated state.
-        /// </p>
-        /// <p>
-        /// Clients should arrange their surface for the new states, and then send
-        /// an ack_configure request with the serial sent in this configure event at
-        /// some point before committing the new surface.
-        /// </p>
-        /// <p>
-        /// If the client receives multiple configure events before it can respond
-        /// to one, it is free to discard all but the last event it received.
-        /// </p>
-        /// </summary>
-        public ConfigureHandler Configure;
-
-        public void SetListener()
-        {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 1);
-            if (Configure != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Configure));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
-        }
-
-        #endregion
-
-        #region Requests
 
         /// <summary>
         /// <p>
@@ -785,14 +396,9 @@ namespace OpenWindow.Backends.Wayland
         /// after its role object has been destroyed.
         /// </p>
         /// </summary>
-        public void Destroy()
+        public static void xdg_surface_destroy(xdg_surface* pointer)
         {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
 
         /// <summary>
@@ -805,16 +411,12 @@ namespace OpenWindow.Backends.Wayland
         /// xdg_toplevel is and how it is used.
         /// </p>
         /// </summary>
-        public XdgToplevel GetToplevel()
+        public static xdg_toplevel* xdg_surface_get_toplevel(xdg_surface* pointer)
         {
-            return GetToplevel(Pointer);
-        }
-
-        public static XdgToplevel GetToplevel(IntPtr pointer)
-        {
-            var args = new ArgumentStruct[] { 0 };
-            var ptr = MarshalArrayConstructor(pointer, GetToplevelOp, args, XdgToplevel.Interface.Pointer);
-            return new XdgToplevel(ptr);
+            var args = stackalloc wl_argument[1];
+            args[0] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, xdg_toplevel.Interface);
+            return (xdg_toplevel*) ptr;
         }
 
         /// <summary>
@@ -831,16 +433,14 @@ namespace OpenWindow.Backends.Wayland
         /// xdg_popup is and how it is used.
         /// </p>
         /// </summary>
-        public XdgPopup GetPopup(XdgSurface parent, XdgPositioner positioner)
+        public static xdg_popup* xdg_surface_get_popup(xdg_surface* pointer, xdg_surface* parent, xdg_positioner* positioner)
         {
-            return GetPopup(Pointer, parent, positioner);
-        }
-
-        public static XdgPopup GetPopup(IntPtr pointer, XdgSurface parent, XdgPositioner positioner)
-        {
-            var args = new ArgumentStruct[] { 0, parent, positioner };
-            var ptr = MarshalArrayConstructor(pointer, GetPopupOp, args, XdgPopup.Interface.Pointer);
-            return new XdgPopup(ptr);
+            var args = stackalloc wl_argument[3];
+            args[0] = 0;
+            args[1] = parent;
+            args[2] = positioner;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 2, args, xdg_popup.Interface);
+            return (xdg_popup*) ptr;
         }
 
         /// <summary>
@@ -882,15 +482,14 @@ namespace OpenWindow.Backends.Wayland
         /// subsurfaces.
         /// </p>
         /// </summary>
-        public void SetWindowGeometry(int x, int y, int width, int height)
+        public static void xdg_surface_set_window_geometry(xdg_surface* pointer, int x, int y, int width, int height)
         {
-            SetWindowGeometry(Pointer, x, y, width, height);
-        }
-
-        public static void SetWindowGeometry(IntPtr pointer, int x, int y, int width, int height)
-        {
-            var args = new ArgumentStruct[] { x, y, width, height };
-            MarshalArray(pointer, SetWindowGeometryOp, args);
+            var args = stackalloc wl_argument[4];
+            args[0] = x;
+            args[1] = y;
+            args[2] = width;
+            args[3] = height;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 3, args);
         }
 
         /// <summary>
@@ -921,201 +520,73 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="serial">the serial from the configure event</param>
-        public void AckConfigure(uint serial)
+        public static void xdg_surface_ack_configure(xdg_surface* pointer, uint serial)
         {
-            AckConfigure(Pointer, serial);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 4);
         }
-
-        public static void AckConfigure(IntPtr pointer, uint serial)
-        {
-            Marshal(pointer, AckConfigureOp);
-        }
-
-        #endregion
-
-        #region Enums
-
-        public enum ErrorEnum
-        {
-            /// <summary>
-            /// </summary>
-            NotConstructed = 1,
-
-            /// <summary>
-            /// </summary>
-            AlreadyConstructed = 2,
-
-            /// <summary>
-            /// </summary>
-            UnconfiguredBuffer = 3,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// This interface defines an xdg_surface role which allows a surface to,
-    /// among other things, set window-like properties such as maximize,
-    /// fullscreen, and minimize, set application-specific metadata like title and
-    /// id, and well as trigger user interactive operations such as interactive
-    /// resize and move.
-    /// </p>
-    /// <p>
-    /// Unmapping an xdg_toplevel means that the surface cannot be shown
-    /// by the compositor until it is explicitly mapped again.
-    /// All active operations (e.g., move, resize) are canceled and all
-    /// attributes (e.g. title, state, stacking, ...) are discarded for
-    /// an xdg_toplevel surface when it is unmapped.
-    /// </p>
-    /// <p>
-    /// Attaching a null buffer to a toplevel unmaps the surface.
-    /// </p>
-    /// </summary>
-    internal partial class XdgToplevel : WlProxy
-    {
-        #region Opcodes
-
-        private const int DestroyOp = 0;
-        private const int SetParentOp = 1;
-        private const int SetTitleOp = 2;
-        private const int SetAppIdOp = 3;
-        private const int ShowWindowMenuOp = 4;
-        private const int MoveOp = 5;
-        private const int ResizeOp = 6;
-        private const int SetMaxSizeOp = 7;
-        private const int SetMinSizeOp = 8;
-        private const int SetMaximizedOp = 9;
-        private const int UnsetMaximizedOp = 10;
-        private const int SetFullscreenOp = 11;
-        private const int UnsetFullscreenOp = 12;
-        private const int SetMinimizedOp = 13;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("xdg_toplevel", 2, 14, 2);
-        public const string InterfaceName = "xdg_toplevel";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("set_parent", "?o", new [] {XdgToplevel.Interface.Pointer}),
-                new WlMessage("set_title", "s", new [] {IntPtr.Zero}),
-                new WlMessage("set_app_id", "s", new [] {IntPtr.Zero}),
-                new WlMessage("show_window_menu", "ouii", new [] {WlSeat.Interface.Pointer, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("move", "ou", new [] {WlSeat.Interface.Pointer, IntPtr.Zero}),
-                new WlMessage("resize", "ouu", new [] {WlSeat.Interface.Pointer, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("set_max_size", "ii", new [] {IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("set_min_size", "ii", new [] {IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("set_maximized", "", new IntPtr[0]),
-                new WlMessage("unset_maximized", "", new IntPtr[0]),
-                new WlMessage("set_fullscreen", "?o", new [] {WlOutput.Interface.Pointer}),
-                new WlMessage("unset_fullscreen", "", new IntPtr[0]),
-                new WlMessage("set_minimized", "", new IntPtr[0]),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("configure", "iia", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("close", "", new IntPtr[0]),
-            });
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public XdgToplevel(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        public delegate void ConfigureHandler(IntPtr data, IntPtr iface, int width, int height, WlArray states);
-
-        public delegate void CloseHandler(IntPtr data, IntPtr iface);
-
-        private IntPtr _listener;
-        private bool _setListener;
 
         /// <summary>
         /// <p>
-        /// This configure event asks the client to resize its toplevel surface or
-        /// to change its state. The configured state should not be applied
-        /// immediately. See xdg_surface.configure for details.
+        /// The configure event marks the end of a configure sequence. A configure
+        /// sequence is a set of one or more events configuring the state of the
+        /// xdg_surface, including the final xdg_surface.configure event.
         /// </p>
         /// <p>
-        /// The width and height arguments specify a hint to the window
-        /// about how its surface should be resized in window geometry
-        /// coordinates. See set_window_geometry.
+        /// Where applicable, xdg_surface surface roles will during a configure
+        /// sequence extend this event as a latched state sent as events before the
+        /// xdg_surface.configure event. Such events should be considered to make up
+        /// a set of atomically applied configuration states, where the
+        /// xdg_surface.configure commits the accumulated state.
         /// </p>
         /// <p>
-        /// If the width or height arguments are zero, it means the client
-        /// should decide its own window dimension. This may happen when the
-        /// compositor needs to configure the state of the surface but doesn't
-        /// have any information about any previous or expected dimension.
+        /// Clients should arrange their surface for the new states, and then send
+        /// an ack_configure request with the serial sent in this configure event at
+        /// some point before committing the new surface.
         /// </p>
         /// <p>
-        /// The states listed in the event specify how the width/height
-        /// arguments should be interpreted, and possibly how it should be
-        /// drawn.
-        /// </p>
-        /// <p>
-        /// Clients must send an ack_configure in response to this event. See
-        /// xdg_surface.configure and xdg_surface.ack_configure for details.
+        /// If the client receives multiple configure events before it can respond
+        /// to one, it is free to discard all but the last event it received.
         /// </p>
         /// </summary>
-        public ConfigureHandler Configure;
+        public delegate void xdg_surface_configure_delegate(void* data, xdg_surface* proxy, uint serial);
 
-        /// <summary>
-        /// <p>
-        /// The close event is sent by the compositor when the user
-        /// wants the surface to be closed. This should be equivalent to
-        /// the user clicking the close button in client-side decorations,
-        /// if your application has any.
-        /// </p>
-        /// <p>
-        /// This is only a request that the user intends to close the
-        /// window. The client may choose to ignore this request, or show
-        /// a dialog to ask the user to save their data, etc.
-        /// </p>
-        /// </summary>
-        public CloseHandler Close;
-
-        public void SetListener()
+        internal struct xdg_surface_listener
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 2);
-            if (Configure != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Configure));
-            if (Close != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Close));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
+            public IntPtr configure;
+
+            public static xdg_surface_listener* Alloc(
+                xdg_surface_configure_delegate configure)
+            {
+                var ret = (xdg_surface_listener*) Marshal.AllocHGlobal(sizeof(xdg_surface_listener));
+                Set(ret, configure);
+                return ret;
+            }
+
+            public static void Set(xdg_surface_listener* listener
+            ,
+                xdg_surface_configure_delegate configure)
+            {
+                if (configure != null) listener->configure = Marshal.GetFunctionPointerForDelegate<xdg_surface_configure_delegate>(configure);
+            }
         }
 
-        #endregion
-
-        #region Requests
-
+        /// <summary>
+        /// Set the callbacks for the given <see cref="xdg_surface"/>.
+        /// </summary>
+        /// <param name="serial">serial of the configure event</param>
+        public static int xdg_surface_add_listener(xdg_surface* iface, xdg_surface_listener* listener)
+        {
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
+        }
         /// <summary>
         /// <p>
         /// This request destroys the role surface and unmaps the surface;
         /// see "Unmapping" behavior in interface section for details.
         /// </p>
         /// </summary>
-        public void Destroy()
+        public static void xdg_toplevel_destroy(xdg_toplevel* pointer)
         {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
 
         /// <summary>
@@ -1141,14 +612,9 @@ namespace OpenWindow.Backends.Wayland
         /// parent surface.
         /// </p>
         /// </summary>
-        public void SetParent(XdgToplevel parent)
+        public static void xdg_toplevel_set_parent(xdg_toplevel* pointer, xdg_toplevel* parent)
         {
-            SetParent(Pointer, parent);
-        }
-
-        public static void SetParent(IntPtr pointer, XdgToplevel parent)
-        {
-            Marshal(pointer, SetParentOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 1);
         }
 
         /// <summary>
@@ -1164,16 +630,12 @@ namespace OpenWindow.Backends.Wayland
         /// The string must be encoded in UTF-8.
         /// </p>
         /// </summary>
-        public void SetTitle(string title)
+        public static void xdg_toplevel_set_title(xdg_toplevel* pointer, string title)
         {
-            SetTitle(Pointer, title);
-        }
-
-        public static void SetTitle(IntPtr pointer, string title)
-        {
-            var titleStr = SMarshal.StringToHGlobalAnsi(title);
-            Marshal(pointer, SetTitleOp);
-            SMarshal.FreeHGlobal(titleStr);
+            var titleByteCount = System.Text.Encoding.UTF8.GetByteCount(title);
+            var titleBytes = stackalloc byte[titleByteCount];
+            Util.StringToUtf8(title, titleBytes, titleByteCount);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 2);
         }
 
         /// <summary>
@@ -1205,16 +667,12 @@ namespace OpenWindow.Backends.Wayland
         /// [0] http://standards.freedesktop.org/desktop-entry-spec/
         /// </p>
         /// </summary>
-        public void SetAppId(string app_id)
+        public static void xdg_toplevel_set_app_id(xdg_toplevel* pointer, string app_id)
         {
-            SetAppId(Pointer, app_id);
-        }
-
-        public static void SetAppId(IntPtr pointer, string app_id)
-        {
-            var app_idStr = SMarshal.StringToHGlobalAnsi(app_id);
-            Marshal(pointer, SetAppIdOp);
-            SMarshal.FreeHGlobal(app_idStr);
+            var app_idByteCount = System.Text.Encoding.UTF8.GetByteCount(app_id);
+            var app_idBytes = stackalloc byte[app_idByteCount];
+            Util.StringToUtf8(app_id, app_idBytes, app_idByteCount);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 3);
         }
 
         /// <summary>
@@ -1238,15 +696,14 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="serial">the serial of the user event</param>
         /// <param name="x">the x position to pop up the window menu at</param>
         /// <param name="y">the y position to pop up the window menu at</param>
-        public void ShowWindowMenu(WlSeat seat, uint serial, int x, int y)
+        public static void xdg_toplevel_show_window_menu(xdg_toplevel* pointer, wl_seat* seat, uint serial, int x, int y)
         {
-            ShowWindowMenu(Pointer, seat, serial, x, y);
-        }
-
-        public static void ShowWindowMenu(IntPtr pointer, WlSeat seat, uint serial, int x, int y)
-        {
-            var args = new ArgumentStruct[] { seat, serial, x, y };
-            MarshalArray(pointer, ShowWindowMenuOp, args);
+            var args = stackalloc wl_argument[4];
+            args[0] = seat;
+            args[1] = serial;
+            args[2] = x;
+            args[3] = y;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 4, args);
         }
 
         /// <summary>
@@ -1274,15 +731,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="seat">the wl_seat of the user event</param>
         /// <param name="serial">the serial of the user event</param>
-        public void Move(WlSeat seat, uint serial)
+        public static void xdg_toplevel_move(xdg_toplevel* pointer, wl_seat* seat, uint serial)
         {
-            Move(Pointer, seat, serial);
-        }
-
-        public static void Move(IntPtr pointer, WlSeat seat, uint serial)
-        {
-            var args = new ArgumentStruct[] { seat, serial };
-            MarshalArray(pointer, MoveOp, args);
+            var args = stackalloc wl_argument[2];
+            args[0] = seat;
+            args[1] = serial;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 5, args);
         }
 
         /// <summary>
@@ -1327,15 +781,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="seat">the wl_seat of the user event</param>
         /// <param name="serial">the serial of the user event</param>
         /// <param name="edges">which edge or corner is being dragged</param>
-        public void Resize(WlSeat seat, uint serial, uint edges)
+        public static void xdg_toplevel_resize(xdg_toplevel* pointer, wl_seat* seat, uint serial, uint edges)
         {
-            Resize(Pointer, seat, serial, edges);
-        }
-
-        public static void Resize(IntPtr pointer, WlSeat seat, uint serial, uint edges)
-        {
-            var args = new ArgumentStruct[] { seat, serial, edges };
-            MarshalArray(pointer, ResizeOp, args);
+            var args = stackalloc wl_argument[3];
+            args[0] = seat;
+            args[1] = serial;
+            args[2] = edges;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 6, args);
         }
 
         /// <summary>
@@ -1385,15 +837,12 @@ namespace OpenWindow.Backends.Wayland
         /// protocol error.
         /// </p>
         /// </summary>
-        public void SetMaxSize(int width, int height)
+        public static void xdg_toplevel_set_max_size(xdg_toplevel* pointer, int width, int height)
         {
-            SetMaxSize(Pointer, width, height);
-        }
-
-        public static void SetMaxSize(IntPtr pointer, int width, int height)
-        {
-            var args = new ArgumentStruct[] { width, height };
-            MarshalArray(pointer, SetMaxSizeOp, args);
+            var args = stackalloc wl_argument[2];
+            args[0] = width;
+            args[1] = height;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 7, args);
         }
 
         /// <summary>
@@ -1443,15 +892,12 @@ namespace OpenWindow.Backends.Wayland
         /// protocol error.
         /// </p>
         /// </summary>
-        public void SetMinSize(int width, int height)
+        public static void xdg_toplevel_set_min_size(xdg_toplevel* pointer, int width, int height)
         {
-            SetMinSize(Pointer, width, height);
-        }
-
-        public static void SetMinSize(IntPtr pointer, int width, int height)
-        {
-            var args = new ArgumentStruct[] { width, height };
-            MarshalArray(pointer, SetMinSizeOp, args);
+            var args = stackalloc wl_argument[2];
+            args[0] = width;
+            args[1] = height;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 8, args);
         }
 
         /// <summary>
@@ -1481,14 +927,9 @@ namespace OpenWindow.Backends.Wayland
         /// unmaximized unless overridden by the compositor.
         /// </p>
         /// </summary>
-        public void SetMaximized()
+        public static void xdg_toplevel_set_maximized(xdg_toplevel* pointer)
         {
-            SetMaximized(Pointer);
-        }
-
-        public static void SetMaximized(IntPtr pointer)
-        {
-            Marshal(pointer, SetMaximizedOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 9);
         }
 
         /// <summary>
@@ -1520,14 +961,9 @@ namespace OpenWindow.Backends.Wayland
         /// unmaximized unless overridden by the compositor.
         /// </p>
         /// </summary>
-        public void UnsetMaximized()
+        public static void xdg_toplevel_unset_maximized(xdg_toplevel* pointer)
         {
-            UnsetMaximized(Pointer);
-        }
-
-        public static void UnsetMaximized(IntPtr pointer)
-        {
-            Marshal(pointer, UnsetMaximizedOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 10);
         }
 
         /// <summary>
@@ -1561,14 +997,9 @@ namespace OpenWindow.Backends.Wayland
         /// visible below the fullscreened surface.
         /// </p>
         /// </summary>
-        public void SetFullscreen(WlOutput output)
+        public static void xdg_toplevel_set_fullscreen(xdg_toplevel* pointer, wl_output* output)
         {
-            SetFullscreen(Pointer, output);
-        }
-
-        public static void SetFullscreen(IntPtr pointer, WlOutput output)
-        {
-            Marshal(pointer, SetFullscreenOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 11);
         }
 
         /// <summary>
@@ -1596,14 +1027,9 @@ namespace OpenWindow.Backends.Wayland
         /// content (see ack_configure).
         /// </p>
         /// </summary>
-        public void UnsetFullscreen()
+        public static void xdg_toplevel_unset_fullscreen(xdg_toplevel* pointer)
         {
-            UnsetFullscreen(Pointer);
-        }
-
-        public static void UnsetFullscreen(IntPtr pointer)
-        {
-            Marshal(pointer, UnsetFullscreenOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 12);
         }
 
         /// <summary>
@@ -1619,250 +1045,86 @@ namespace OpenWindow.Backends.Wayland
         /// similar compositor features.
         /// </p>
         /// </summary>
-        public void SetMinimized()
+        public static void xdg_toplevel_set_minimized(xdg_toplevel* pointer)
         {
-            SetMinimized(Pointer);
-        }
-
-        public static void SetMinimized(IntPtr pointer)
-        {
-            Marshal(pointer, SetMinimizedOp);
-        }
-
-        #endregion
-
-        #region Enums
-
-        /// <summary>
-        /// <p>
-        /// These values are used to indicate which edge of a surface
-        /// is being dragged in a resize operation.
-        /// </p>
-        /// </summary>
-        public enum ResizeEdgeEnum
-        {
-            /// <summary>
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// </summary>
-            Top = 1,
-
-            /// <summary>
-            /// </summary>
-            Bottom = 2,
-
-            /// <summary>
-            /// </summary>
-            Left = 4,
-
-            /// <summary>
-            /// </summary>
-            TopLeft = 5,
-
-            /// <summary>
-            /// </summary>
-            BottomLeft = 6,
-
-            /// <summary>
-            /// </summary>
-            Right = 8,
-
-            /// <summary>
-            /// </summary>
-            TopRight = 9,
-
-            /// <summary>
-            /// </summary>
-            BottomRight = 10,
-
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 13);
         }
 
         /// <summary>
         /// <p>
-        /// The different state values used on the surface. This is designed for
-        /// state values like maximized, fullscreen. It is paired with the
-        /// configure event to ensure that both the client and the compositor
-        /// setting the state can be synchronized.
+        /// This configure event asks the client to resize its toplevel surface or
+        /// to change its state. The configured state should not be applied
+        /// immediately. See xdg_surface.configure for details.
         /// </p>
         /// <p>
-        /// States set in this way are double-buffered. They will get applied on
-        /// the next commit.
+        /// The width and height arguments specify a hint to the window
+        /// about how its surface should be resized in window geometry
+        /// coordinates. See set_window_geometry.
+        /// </p>
+        /// <p>
+        /// If the width or height arguments are zero, it means the client
+        /// should decide its own window dimension. This may happen when the
+        /// compositor needs to configure the state of the surface but doesn't
+        /// have any information about any previous or expected dimension.
+        /// </p>
+        /// <p>
+        /// The states listed in the event specify how the width/height
+        /// arguments should be interpreted, and possibly how it should be
+        /// drawn.
+        /// </p>
+        /// <p>
+        /// Clients must send an ack_configure in response to this event. See
+        /// xdg_surface.configure and xdg_surface.ack_configure for details.
         /// </p>
         /// </summary>
-        public enum StateEnum
+        public delegate void xdg_toplevel_configure_delegate(void* data, xdg_toplevel* proxy, int width, int height, wl_array* states);
+
+        /// <summary>
+        /// <p>
+        /// The close event is sent by the compositor when the user
+        /// wants the surface to be closed. This should be equivalent to
+        /// the user clicking the close button in client-side decorations,
+        /// if your application has any.
+        /// </p>
+        /// <p>
+        /// This is only a request that the user intends to close the
+        /// window. The client may choose to ignore this request, or show
+        /// a dialog to ask the user to save their data, etc.
+        /// </p>
+        /// </summary>
+        public delegate void xdg_toplevel_close_delegate(void* data, xdg_toplevel* proxy);
+
+        internal struct xdg_toplevel_listener
         {
-            /// <summary>
-            /// the surface is maximized
-            /// </summary>
-            Maximized = 1,
+            public IntPtr configure;
+            public IntPtr close;
 
-            /// <summary>
-            /// the surface is fullscreen
-            /// </summary>
-            Fullscreen = 2,
-
-            /// <summary>
-            /// the surface is being resized
-            /// </summary>
-            Resizing = 3,
-
-            /// <summary>
-            /// the surface is now activated
-            /// </summary>
-            Activated = 4,
-
-            /// <summary>
-            /// </summary>
-            TiledLeft = 5,
-
-            /// <summary>
-            /// </summary>
-            TiledRight = 6,
-
-            /// <summary>
-            /// </summary>
-            TiledTop = 7,
-
-            /// <summary>
-            /// </summary>
-            TiledBottom = 8,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// A popup surface is a short-lived, temporary surface. It can be used to
-    /// implement for example menus, popovers, tooltips and other similar user
-    /// interface concepts.
-    /// </p>
-    /// <p>
-    /// A popup can be made to take an explicit grab. See xdg_popup.grab for
-    /// details.
-    /// </p>
-    /// <p>
-    /// When the popup is dismissed, a popup_done event will be sent out, and at
-    /// the same time the surface will be unmapped. See the xdg_popup.popup_done
-    /// event for details.
-    /// </p>
-    /// <p>
-    /// Explicitly destroying the xdg_popup object will also dismiss the popup and
-    /// unmap the surface. Clients that want to dismiss the popup when another
-    /// surface of their own is clicked should dismiss the popup using the destroy
-    /// request.
-    /// </p>
-    /// <p>
-    /// A newly created xdg_popup will be stacked on top of all previously created
-    /// xdg_popup surfaces associated with the same xdg_toplevel.
-    /// </p>
-    /// <p>
-    /// The parent of an xdg_popup must be mapped (see the xdg_surface
-    /// description) before the xdg_popup itself.
-    /// </p>
-    /// <p>
-    /// The x and y arguments passed when creating the popup object specify
-    /// where the top left of the popup should be placed, relative to the
-    /// local surface coordinates of the parent surface. See
-    /// xdg_surface.get_popup. An xdg_popup must intersect with or be at least
-    /// partially adjacent to its parent surface.
-    /// </p>
-    /// <p>
-    /// The client must call wl_surface.commit on the corresponding wl_surface
-    /// for the xdg_popup state to take effect.
-    /// </p>
-    /// </summary>
-    internal partial class XdgPopup : WlProxy
-    {
-        #region Opcodes
-
-        private const int DestroyOp = 0;
-        private const int GrabOp = 1;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("xdg_popup", 2, 2, 2);
-        public const string InterfaceName = "xdg_popup";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
+            public static xdg_toplevel_listener* Alloc(
+                xdg_toplevel_configure_delegate configure,
+                xdg_toplevel_close_delegate close)
             {
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("grab", "ou", new [] {WlSeat.Interface.Pointer, IntPtr.Zero}),
-            });
-            Interface.SetEvents(new []
+                var ret = (xdg_toplevel_listener*) Marshal.AllocHGlobal(sizeof(xdg_toplevel_listener));
+                Set(ret, configure,close);
+                return ret;
+            }
+
+            public static void Set(xdg_toplevel_listener* listener
+            ,
+                xdg_toplevel_configure_delegate configure,
+                xdg_toplevel_close_delegate close)
             {
-                new WlMessage("configure", "iiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("popup_done", "", new IntPtr[0]),
-            });
-            Interface.Finish();
+                if (configure != null) listener->configure = Marshal.GetFunctionPointerForDelegate<xdg_toplevel_configure_delegate>(configure);
+                if (close != null) listener->close = Marshal.GetFunctionPointerForDelegate<xdg_toplevel_close_delegate>(close);
+            }
         }
 
-
-        #endregion
-
-        public XdgPopup(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="x">x position relative to parent surface window geometry</param>
-        /// <param name="y">y position relative to parent surface window geometry</param>
-        /// <param name="width">window geometry width</param>
-        /// <param name="height">window geometry height</param>
-        public delegate void ConfigureHandler(IntPtr data, IntPtr iface, int x, int y, int width, int height);
-
-        public delegate void PopupDoneHandler(IntPtr data, IntPtr iface);
-
-        private IntPtr _listener;
-        private bool _setListener;
-
         /// <summary>
-        /// <p>
-        /// This event asks the popup surface to configure itself given the
-        /// configuration. The configured state should not be applied immediately.
-        /// See xdg_surface.configure for details.
-        /// </p>
-        /// <p>
-        /// The x and y arguments represent the position the popup was placed at
-        /// given the xdg_positioner rule, relative to the upper left corner of the
-        /// window geometry of the parent surface.
-        /// </p>
+        /// Set the callbacks for the given <see cref="xdg_toplevel"/>.
         /// </summary>
-        public ConfigureHandler Configure;
-
-        /// <summary>
-        /// <p>
-        /// The popup_done event is sent out when a popup is dismissed by the
-        /// compositor. The client should destroy the xdg_popup object at this
-        /// point.
-        /// </p>
-        /// </summary>
-        public PopupDoneHandler PopupDone;
-
-        public void SetListener()
+        public static int xdg_toplevel_add_listener(xdg_toplevel* iface, xdg_toplevel_listener* listener)
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 2);
-            if (Configure != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Configure));
-            if (PopupDone != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(PopupDone));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
         }
-
-        #endregion
-
-        #region Requests
-
         /// <summary>
         /// <p>
         /// This destroys the popup. Explicitly destroying the xdg_popup
@@ -1873,14 +1135,9 @@ namespace OpenWindow.Backends.Wayland
         /// will be sent.
         /// </p>
         /// </summary>
-        public void Destroy()
+        public static void xdg_popup_destroy(xdg_popup* pointer)
         {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
 
         /// <summary>
@@ -1939,30 +1196,647 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="seat">the wl_seat of the user event</param>
         /// <param name="serial">the serial of the user event</param>
-        public void Grab(WlSeat seat, uint serial)
+        public static void xdg_popup_grab(xdg_popup* pointer, wl_seat* seat, uint serial)
         {
-            Grab(Pointer, seat, serial);
+            var args = stackalloc wl_argument[2];
+            args[0] = seat;
+            args[1] = serial;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 1, args);
         }
 
-        public static void Grab(IntPtr pointer, WlSeat seat, uint serial)
+        /// <summary>
+        /// <p>
+        /// This event asks the popup surface to configure itself given the
+        /// configuration. The configured state should not be applied immediately.
+        /// See xdg_surface.configure for details.
+        /// </p>
+        /// <p>
+        /// The x and y arguments represent the position the popup was placed at
+        /// given the xdg_positioner rule, relative to the upper left corner of the
+        /// window geometry of the parent surface.
+        /// </p>
+        /// </summary>
+        public delegate void xdg_popup_configure_delegate(void* data, xdg_popup* proxy, int x, int y, int width, int height);
+
+        /// <summary>
+        /// <p>
+        /// The popup_done event is sent out when a popup is dismissed by the
+        /// compositor. The client should destroy the xdg_popup object at this
+        /// point.
+        /// </p>
+        /// </summary>
+        public delegate void xdg_popup_popup_done_delegate(void* data, xdg_popup* proxy);
+
+        internal struct xdg_popup_listener
         {
-            var args = new ArgumentStruct[] { seat, serial };
-            MarshalArray(pointer, GrabOp, args);
+            public IntPtr configure;
+            public IntPtr popup_done;
+
+            public static xdg_popup_listener* Alloc(
+                xdg_popup_configure_delegate configure,
+                xdg_popup_popup_done_delegate popup_done)
+            {
+                var ret = (xdg_popup_listener*) Marshal.AllocHGlobal(sizeof(xdg_popup_listener));
+                Set(ret, configure,popup_done);
+                return ret;
+            }
+
+            public static void Set(xdg_popup_listener* listener
+            ,
+                xdg_popup_configure_delegate configure,
+                xdg_popup_popup_done_delegate popup_done)
+            {
+                if (configure != null) listener->configure = Marshal.GetFunctionPointerForDelegate<xdg_popup_configure_delegate>(configure);
+                if (popup_done != null) listener->popup_done = Marshal.GetFunctionPointerForDelegate<xdg_popup_popup_done_delegate>(popup_done);
+            }
         }
 
-        #endregion
-
-        #region Enums
-
-        public enum ErrorEnum
+        /// <summary>
+        /// Set the callbacks for the given <see cref="xdg_popup"/>.
+        /// </summary>
+        /// <param name="x">x position relative to parent surface window geometry</param>
+        /// <param name="y">y position relative to parent surface window geometry</param>
+        /// <param name="width">window geometry width</param>
+        /// <param name="height">window geometry height</param>
+        public static int xdg_popup_add_listener(xdg_popup* iface, xdg_popup_listener* listener)
         {
-            /// <summary>
-            /// tried to grab after being mapped
-            /// </summary>
-            InvalidGrab = 0,
-
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
         }
+    }
 
-        #endregion
+    /// <summary>
+    /// <p>
+    /// The xdg_wm_base interface is exposed as a global object enabling clients
+    /// to turn their wl_surfaces into windows in a desktop environment. It
+    /// defines the basic functionality needed for clients and the compositor to
+    /// create windows that can be dragged, resized, maximized, etc, as well as
+    /// creating transient windows such as popup menus.
+    /// </p>
+    /// </summary>
+    internal struct xdg_wm_base { public static unsafe wl_interface* Interface => &XdgShellBindings.Interfaces[0]; }
+    /// <summary>
+    /// <p>
+    /// The xdg_positioner provides a collection of rules for the placement of a
+    /// child surface relative to a parent surface. Rules can be defined to ensure
+    /// the child surface remains within the visible area's borders, and to
+    /// specify how the child surface changes its position, such as sliding along
+    /// an axis, or flipping around a rectangle. These positioner-created rules are
+    /// constrained by the requirement that a child surface must intersect with or
+    /// be at least partially adjacent to its parent surface.
+    /// </p>
+    /// <p>
+    /// See the various requests for details about possible rules.
+    /// </p>
+    /// <p>
+    /// At the time of the request, the compositor makes a copy of the rules
+    /// specified by the xdg_positioner. Thus, after the request is complete the
+    /// xdg_positioner object can be destroyed or reused; further changes to the
+    /// object will have no effect on previous usages.
+    /// </p>
+    /// <p>
+    /// For an xdg_positioner object to be considered complete, it must have a
+    /// non-zero size set by set_size, and a non-zero anchor rectangle set by
+    /// set_anchor_rect. Passing an incomplete xdg_positioner object when
+    /// positioning a surface raises an error.
+    /// </p>
+    /// </summary>
+    internal struct xdg_positioner { public static unsafe wl_interface* Interface => &XdgShellBindings.Interfaces[1]; }
+    /// <summary>
+    /// <p>
+    /// An interface that may be implemented by a wl_surface, for
+    /// implementations that provide a desktop-style user interface.
+    /// </p>
+    /// <p>
+    /// It provides a base set of functionality required to construct user
+    /// interface elements requiring management by the compositor, such as
+    /// toplevel windows, menus, etc. The types of functionality are split into
+    /// xdg_surface roles.
+    /// </p>
+    /// <p>
+    /// Creating an xdg_surface does not set the role for a wl_surface. In order
+    /// to map an xdg_surface, the client must create a role-specific object
+    /// using, e.g., get_toplevel, get_popup. The wl_surface for any given
+    /// xdg_surface can have at most one role, and may not be assigned any role
+    /// not based on xdg_surface.
+    /// </p>
+    /// <p>
+    /// A role must be assigned before any other requests are made to the
+    /// xdg_surface object.
+    /// </p>
+    /// <p>
+    /// The client must call wl_surface.commit on the corresponding wl_surface
+    /// for the xdg_surface state to take effect.
+    /// </p>
+    /// <p>
+    /// Creating an xdg_surface from a wl_surface which has a buffer attached or
+    /// committed is a client error, and any attempts by a client to attach or
+    /// manipulate a buffer prior to the first xdg_surface.configure call must
+    /// also be treated as errors.
+    /// </p>
+    /// <p>
+    /// Mapping an xdg_surface-based role surface is defined as making it
+    /// possible for the surface to be shown by the compositor. Note that
+    /// a mapped surface is not guaranteed to be visible once it is mapped.
+    /// </p>
+    /// <p>
+    /// For an xdg_surface to be mapped by the compositor, the following
+    /// conditions must be met:
+    /// (1) the client has assigned an xdg_surface-based role to the surface
+    /// (2) the client has set and committed the xdg_surface state and the
+    /// role-dependent state to the surface
+    /// (3) the client has committed a buffer to the surface
+    /// </p>
+    /// <p>
+    /// A newly-unmapped surface is considered to have met condition (1) out
+    /// of the 3 required conditions for mapping a surface if its role surface
+    /// has not been destroyed.
+    /// </p>
+    /// </summary>
+    internal struct xdg_surface { public static unsafe wl_interface* Interface => &XdgShellBindings.Interfaces[2]; }
+    /// <summary>
+    /// <p>
+    /// This interface defines an xdg_surface role which allows a surface to,
+    /// among other things, set window-like properties such as maximize,
+    /// fullscreen, and minimize, set application-specific metadata like title and
+    /// id, and well as trigger user interactive operations such as interactive
+    /// resize and move.
+    /// </p>
+    /// <p>
+    /// Unmapping an xdg_toplevel means that the surface cannot be shown
+    /// by the compositor until it is explicitly mapped again.
+    /// All active operations (e.g., move, resize) are canceled and all
+    /// attributes (e.g. title, state, stacking, ...) are discarded for
+    /// an xdg_toplevel surface when it is unmapped.
+    /// </p>
+    /// <p>
+    /// Attaching a null buffer to a toplevel unmaps the surface.
+    /// </p>
+    /// </summary>
+    internal struct xdg_toplevel { public static unsafe wl_interface* Interface => &XdgShellBindings.Interfaces[3]; }
+    /// <summary>
+    /// <p>
+    /// A popup surface is a short-lived, temporary surface. It can be used to
+    /// implement for example menus, popovers, tooltips and other similar user
+    /// interface concepts.
+    /// </p>
+    /// <p>
+    /// A popup can be made to take an explicit grab. See xdg_popup.grab for
+    /// details.
+    /// </p>
+    /// <p>
+    /// When the popup is dismissed, a popup_done event will be sent out, and at
+    /// the same time the surface will be unmapped. See the xdg_popup.popup_done
+    /// event for details.
+    /// </p>
+    /// <p>
+    /// Explicitly destroying the xdg_popup object will also dismiss the popup and
+    /// unmap the surface. Clients that want to dismiss the popup when another
+    /// surface of their own is clicked should dismiss the popup using the destroy
+    /// request.
+    /// </p>
+    /// <p>
+    /// A newly created xdg_popup will be stacked on top of all previously created
+    /// xdg_popup surfaces associated with the same xdg_toplevel.
+    /// </p>
+    /// <p>
+    /// The parent of an xdg_popup must be mapped (see the xdg_surface
+    /// description) before the xdg_popup itself.
+    /// </p>
+    /// <p>
+    /// The x and y arguments passed when creating the popup object specify
+    /// where the top left of the popup should be placed, relative to the
+    /// local surface coordinates of the parent surface. See
+    /// xdg_surface.get_popup. An xdg_popup must intersect with or be at least
+    /// partially adjacent to its parent surface.
+    /// </p>
+    /// <p>
+    /// The client must call wl_surface.commit on the corresponding wl_surface
+    /// for the xdg_popup state to take effect.
+    /// </p>
+    /// </summary>
+    internal struct xdg_popup { public static unsafe wl_interface* Interface => &XdgShellBindings.Interfaces[4]; }
+
+
+    internal enum xdg_wm_base_error
+    {
+        /// <summary>
+        /// given wl_surface has another role
+        /// </summary>
+        Role = 0,
+
+        /// <summary>
+        /// xdg_wm_base was destroyed before children
+        /// </summary>
+        DefunctSurfaces = 1,
+
+        /// <summary>
+        /// the client tried to map or destroy a non-topmost popup
+        /// </summary>
+        NotTheTopmostPopup = 2,
+
+        /// <summary>
+        /// the client specified an invalid popup parent surface
+        /// </summary>
+        InvalidPopupParent = 3,
+
+        /// <summary>
+        /// the client provided an invalid surface state
+        /// </summary>
+        InvalidSurfaceState = 4,
+
+        /// <summary>
+        /// the client provided an invalid positioner
+        /// </summary>
+        InvalidPositioner = 5,
+
+    }
+
+    internal enum xdg_positioner_error
+    {
+        /// <summary>
+        /// invalid input provided
+        /// </summary>
+        InvalidInput = 0,
+
+    }
+
+    internal enum xdg_positioner_anchor
+    {
+        /// <summary>
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// </summary>
+        Top = 1,
+
+        /// <summary>
+        /// </summary>
+        Bottom = 2,
+
+        /// <summary>
+        /// </summary>
+        Left = 3,
+
+        /// <summary>
+        /// </summary>
+        Right = 4,
+
+        /// <summary>
+        /// </summary>
+        TopLeft = 5,
+
+        /// <summary>
+        /// </summary>
+        BottomLeft = 6,
+
+        /// <summary>
+        /// </summary>
+        TopRight = 7,
+
+        /// <summary>
+        /// </summary>
+        BottomRight = 8,
+
+    }
+
+    internal enum xdg_positioner_gravity
+    {
+        /// <summary>
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// </summary>
+        Top = 1,
+
+        /// <summary>
+        /// </summary>
+        Bottom = 2,
+
+        /// <summary>
+        /// </summary>
+        Left = 3,
+
+        /// <summary>
+        /// </summary>
+        Right = 4,
+
+        /// <summary>
+        /// </summary>
+        TopLeft = 5,
+
+        /// <summary>
+        /// </summary>
+        BottomLeft = 6,
+
+        /// <summary>
+        /// </summary>
+        TopRight = 7,
+
+        /// <summary>
+        /// </summary>
+        BottomRight = 8,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// The constraint adjustment value define ways the compositor will adjust
+    /// the position of the surface, if the unadjusted position would result
+    /// in the surface being partly constrained.
+    /// </p>
+    /// <p>
+    /// Whether a surface is considered 'constrained' is left to the compositor
+    /// to determine. For example, the surface may be partly outside the
+    /// compositor's defined 'work area', thus necessitating the child surface's
+    /// position be adjusted until it is entirely inside the work area.
+    /// </p>
+    /// <p>
+    /// The adjustments can be combined, according to a defined precedence: 1)
+    /// Flip, 2) Slide, 3) Resize.
+    /// </p>
+    /// </summary>
+    [Flags]
+    internal enum xdg_positioner_constraint_adjustment
+    {
+        /// <summary>
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// </summary>
+        SlideX = 1,
+
+        /// <summary>
+        /// </summary>
+        SlideY = 2,
+
+        /// <summary>
+        /// </summary>
+        FlipX = 4,
+
+        /// <summary>
+        /// </summary>
+        FlipY = 8,
+
+        /// <summary>
+        /// </summary>
+        ResizeX = 16,
+
+        /// <summary>
+        /// </summary>
+        ResizeY = 32,
+
+    }
+
+    internal enum xdg_surface_error
+    {
+        /// <summary>
+        /// </summary>
+        NotConstructed = 1,
+
+        /// <summary>
+        /// </summary>
+        AlreadyConstructed = 2,
+
+        /// <summary>
+        /// </summary>
+        UnconfiguredBuffer = 3,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// These values are used to indicate which edge of a surface
+    /// is being dragged in a resize operation.
+    /// </p>
+    /// </summary>
+    internal enum xdg_toplevel_resize_edge
+    {
+        /// <summary>
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// </summary>
+        Top = 1,
+
+        /// <summary>
+        /// </summary>
+        Bottom = 2,
+
+        /// <summary>
+        /// </summary>
+        Left = 4,
+
+        /// <summary>
+        /// </summary>
+        TopLeft = 5,
+
+        /// <summary>
+        /// </summary>
+        BottomLeft = 6,
+
+        /// <summary>
+        /// </summary>
+        Right = 8,
+
+        /// <summary>
+        /// </summary>
+        TopRight = 9,
+
+        /// <summary>
+        /// </summary>
+        BottomRight = 10,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// The different state values used on the surface. This is designed for
+    /// state values like maximized, fullscreen. It is paired with the
+    /// configure event to ensure that both the client and the compositor
+    /// setting the state can be synchronized.
+    /// </p>
+    /// <p>
+    /// States set in this way are double-buffered. They will get applied on
+    /// the next commit.
+    /// </p>
+    /// </summary>
+    internal enum xdg_toplevel_state
+    {
+        /// <summary>
+        /// the surface is maximized
+        /// </summary>
+        Maximized = 1,
+
+        /// <summary>
+        /// the surface is fullscreen
+        /// </summary>
+        Fullscreen = 2,
+
+        /// <summary>
+        /// the surface is being resized
+        /// </summary>
+        Resizing = 3,
+
+        /// <summary>
+        /// the surface is now activated
+        /// </summary>
+        Activated = 4,
+
+        /// <summary>
+        /// </summary>
+        TiledLeft = 5,
+
+        /// <summary>
+        /// </summary>
+        TiledRight = 6,
+
+        /// <summary>
+        /// </summary>
+        TiledTop = 7,
+
+        /// <summary>
+        /// </summary>
+        TiledBottom = 8,
+
+    }
+
+    internal enum xdg_popup_error
+    {
+        /// <summary>
+        /// tried to grab after being mapped
+        /// </summary>
+        InvalidGrab = 0,
+
+    }
+}
+
+namespace OpenWindow.Backends.Wayland.Managed
+{
+    internal unsafe partial struct XdgWmBase
+    {
+        public static IntPtr Interface => (IntPtr) xdg_wm_base.Interface;
+        public readonly xdg_wm_base* Pointer;
+        public bool IsNull => Pointer == null;
+        private XdgShellBindings.xdg_wm_base_ping_delegate _ping;
+        private XdgShellBindings.xdg_wm_base_listener* _listener;
+        public XdgWmBase(xdg_wm_base* ptr) { Pointer = ptr; _listener = null; _ping = null; }
+        public static implicit operator XdgWmBase(xdg_wm_base* ptr) => new XdgWmBase(ptr);
+        public static explicit operator XdgWmBase(wl_proxy* ptr) => new XdgWmBase((xdg_wm_base*) ptr);
+        public void Destroy() => XdgShellBindings.xdg_wm_base_destroy(Pointer);
+        public XdgPositioner CreatePositioner() => XdgShellBindings.xdg_wm_base_create_positioner(Pointer);
+        public XdgSurface GetXdgSurface(in WlSurface surface) => XdgShellBindings.xdg_wm_base_get_xdg_surface(Pointer, surface.Pointer);
+        public void Pong(uint serial) => XdgShellBindings.xdg_wm_base_pong(Pointer, serial);
+        public void SetListener(
+            XdgShellBindings.xdg_wm_base_ping_delegate ping)
+        {
+            _ping = ping;
+            _listener = XdgShellBindings.xdg_wm_base_listener.Alloc(ping);
+            XdgShellBindings.xdg_wm_base_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+    }
+    internal unsafe partial struct XdgPositioner
+    {
+        public static IntPtr Interface => (IntPtr) xdg_positioner.Interface;
+        public readonly xdg_positioner* Pointer;
+        public bool IsNull => Pointer == null;
+        public XdgPositioner(xdg_positioner* ptr) { Pointer = ptr; }
+        public static implicit operator XdgPositioner(xdg_positioner* ptr) => new XdgPositioner(ptr);
+        public static explicit operator XdgPositioner(wl_proxy* ptr) => new XdgPositioner((xdg_positioner*) ptr);
+        public void Destroy() => XdgShellBindings.xdg_positioner_destroy(Pointer);
+        public void SetSize(int width, int height) => XdgShellBindings.xdg_positioner_set_size(Pointer, width, height);
+        public void SetAnchorRect(int x, int y, int width, int height) => XdgShellBindings.xdg_positioner_set_anchor_rect(Pointer, x, y, width, height);
+        public void SetAnchor(xdg_positioner_anchor anchor) => XdgShellBindings.xdg_positioner_set_anchor(Pointer, anchor);
+        public void SetGravity(xdg_positioner_gravity gravity) => XdgShellBindings.xdg_positioner_set_gravity(Pointer, gravity);
+        public void SetConstraintAdjustment(uint constraint_adjustment) => XdgShellBindings.xdg_positioner_set_constraint_adjustment(Pointer, constraint_adjustment);
+        public void SetOffset(int x, int y) => XdgShellBindings.xdg_positioner_set_offset(Pointer, x, y);
+    }
+    internal unsafe partial struct XdgSurface
+    {
+        public static IntPtr Interface => (IntPtr) xdg_surface.Interface;
+        public readonly xdg_surface* Pointer;
+        public bool IsNull => Pointer == null;
+        private XdgShellBindings.xdg_surface_configure_delegate _configure;
+        private XdgShellBindings.xdg_surface_listener* _listener;
+        public XdgSurface(xdg_surface* ptr) { Pointer = ptr; _listener = null; _configure = null; }
+        public static implicit operator XdgSurface(xdg_surface* ptr) => new XdgSurface(ptr);
+        public static explicit operator XdgSurface(wl_proxy* ptr) => new XdgSurface((xdg_surface*) ptr);
+        public void Destroy() => XdgShellBindings.xdg_surface_destroy(Pointer);
+        public XdgToplevel GetToplevel() => XdgShellBindings.xdg_surface_get_toplevel(Pointer);
+        public XdgPopup GetPopup(in XdgSurface parent, in XdgPositioner positioner) => XdgShellBindings.xdg_surface_get_popup(Pointer, parent.Pointer, positioner.Pointer);
+        public void SetWindowGeometry(int x, int y, int width, int height) => XdgShellBindings.xdg_surface_set_window_geometry(Pointer, x, y, width, height);
+        public void AckConfigure(uint serial) => XdgShellBindings.xdg_surface_ack_configure(Pointer, serial);
+        public void SetListener(
+            XdgShellBindings.xdg_surface_configure_delegate configure)
+        {
+            _configure = configure;
+            _listener = XdgShellBindings.xdg_surface_listener.Alloc(configure);
+            XdgShellBindings.xdg_surface_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+    }
+    internal unsafe partial struct XdgToplevel
+    {
+        public static IntPtr Interface => (IntPtr) xdg_toplevel.Interface;
+        public readonly xdg_toplevel* Pointer;
+        public bool IsNull => Pointer == null;
+        private XdgShellBindings.xdg_toplevel_configure_delegate _configure;
+        private XdgShellBindings.xdg_toplevel_close_delegate _close;
+        private XdgShellBindings.xdg_toplevel_listener* _listener;
+        public XdgToplevel(xdg_toplevel* ptr) { Pointer = ptr; _listener = null; _configure = null; _close = null; }
+        public static implicit operator XdgToplevel(xdg_toplevel* ptr) => new XdgToplevel(ptr);
+        public static explicit operator XdgToplevel(wl_proxy* ptr) => new XdgToplevel((xdg_toplevel*) ptr);
+        public void Destroy() => XdgShellBindings.xdg_toplevel_destroy(Pointer);
+        public void SetParent(in XdgToplevel parent) => XdgShellBindings.xdg_toplevel_set_parent(Pointer, parent.Pointer);
+        public void SetTitle(string title) => XdgShellBindings.xdg_toplevel_set_title(Pointer, title);
+        public void SetAppId(string app_id) => XdgShellBindings.xdg_toplevel_set_app_id(Pointer, app_id);
+        public void ShowWindowMenu(in WlSeat seat, uint serial, int x, int y) => XdgShellBindings.xdg_toplevel_show_window_menu(Pointer, seat.Pointer, serial, x, y);
+        public void Move(in WlSeat seat, uint serial) => XdgShellBindings.xdg_toplevel_move(Pointer, seat.Pointer, serial);
+        public void Resize(in WlSeat seat, uint serial, uint edges) => XdgShellBindings.xdg_toplevel_resize(Pointer, seat.Pointer, serial, edges);
+        public void SetMaxSize(int width, int height) => XdgShellBindings.xdg_toplevel_set_max_size(Pointer, width, height);
+        public void SetMinSize(int width, int height) => XdgShellBindings.xdg_toplevel_set_min_size(Pointer, width, height);
+        public void SetMaximized() => XdgShellBindings.xdg_toplevel_set_maximized(Pointer);
+        public void UnsetMaximized() => XdgShellBindings.xdg_toplevel_unset_maximized(Pointer);
+        public void SetFullscreen(in WlOutput output) => XdgShellBindings.xdg_toplevel_set_fullscreen(Pointer, output.Pointer);
+        public void UnsetFullscreen() => XdgShellBindings.xdg_toplevel_unset_fullscreen(Pointer);
+        public void SetMinimized() => XdgShellBindings.xdg_toplevel_set_minimized(Pointer);
+        public void SetListener(
+            XdgShellBindings.xdg_toplevel_configure_delegate configure,
+            XdgShellBindings.xdg_toplevel_close_delegate close)
+        {
+            _configure = configure;
+            _close = close;
+            _listener = XdgShellBindings.xdg_toplevel_listener.Alloc(configure, close);
+            XdgShellBindings.xdg_toplevel_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+    }
+    internal unsafe partial struct XdgPopup
+    {
+        public static IntPtr Interface => (IntPtr) xdg_popup.Interface;
+        public readonly xdg_popup* Pointer;
+        public bool IsNull => Pointer == null;
+        private XdgShellBindings.xdg_popup_configure_delegate _configure;
+        private XdgShellBindings.xdg_popup_popup_done_delegate _popup_done;
+        private XdgShellBindings.xdg_popup_listener* _listener;
+        public XdgPopup(xdg_popup* ptr) { Pointer = ptr; _listener = null; _configure = null; _popup_done = null; }
+        public static implicit operator XdgPopup(xdg_popup* ptr) => new XdgPopup(ptr);
+        public static explicit operator XdgPopup(wl_proxy* ptr) => new XdgPopup((xdg_popup*) ptr);
+        public void Destroy() => XdgShellBindings.xdg_popup_destroy(Pointer);
+        public void Grab(in WlSeat seat, uint serial) => XdgShellBindings.xdg_popup_grab(Pointer, seat.Pointer, serial);
+        public void SetListener(
+            XdgShellBindings.xdg_popup_configure_delegate configure,
+            XdgShellBindings.xdg_popup_popup_done_delegate popup_done)
+        {
+            _configure = configure;
+            _popup_done = popup_done;
+            _listener = XdgShellBindings.xdg_popup_listener.Alloc(configure, popup_done);
+            XdgShellBindings.xdg_popup_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
     }
 }

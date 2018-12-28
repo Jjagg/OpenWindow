@@ -1,172 +1,328 @@
 // This file was generated from an xml Wayland protocol specification
 // by WaylandSharpGen. https://github.com/Jjagg/OpenWindow/tree/master/generators/WaylandSharpGen
 
+#pragma warning disable CS0649
+
 // Protocol: wayland
 
 using System;
 using System.Runtime.InteropServices;
-using SMarshal = System.Runtime.InteropServices.Marshal;
 
 namespace OpenWindow.Backends.Wayland
 {
-    internal static partial class WaylandBindings
+    internal static unsafe partial class WaylandBindings
     {
-        private static bool _initialized;
+        private static bool _loaded;
 
-        public static void Initialize()
+        public static wl_interface* Interfaces;
+        private static wl_message* _messages;
+        private static wl_interface** _signatureTypes;
+
+        private static readonly int InterfaceCount = 22;
+        private static readonly int MessageCount = 119;
+
+        public const string wl_display_name = "wl_display";
+        public const string wl_registry_name = "wl_registry";
+        public const string wl_callback_name = "wl_callback";
+        public const string wl_compositor_name = "wl_compositor";
+        public const string wl_shm_pool_name = "wl_shm_pool";
+        public const string wl_shm_name = "wl_shm";
+        public const string wl_buffer_name = "wl_buffer";
+        public const string wl_data_offer_name = "wl_data_offer";
+        public const string wl_data_source_name = "wl_data_source";
+        public const string wl_data_device_name = "wl_data_device";
+        public const string wl_data_device_manager_name = "wl_data_device_manager";
+        public const string wl_shell_name = "wl_shell";
+        public const string wl_shell_surface_name = "wl_shell_surface";
+        public const string wl_surface_name = "wl_surface";
+        public const string wl_seat_name = "wl_seat";
+        public const string wl_pointer_name = "wl_pointer";
+        public const string wl_keyboard_name = "wl_keyboard";
+        public const string wl_touch_name = "wl_touch";
+        public const string wl_output_name = "wl_output";
+        public const string wl_region_name = "wl_region";
+        public const string wl_subcompositor_name = "wl_subcompositor";
+        public const string wl_subsurface_name = "wl_subsurface";
+
+        public static void Load()
         {
-            if (_initialized)
+            if (_loaded)
                 return;
-            _initialized = true;
+            _loaded = true;
 
-            WlDisplay.Initialize();
-            WlRegistry.Initialize();
-            WlCallback.Initialize();
-            WlCompositor.Initialize();
-            WlShmPool.Initialize();
-            WlShm.Initialize();
-            WlBuffer.Initialize();
-            WlDataOffer.Initialize();
-            WlDataSource.Initialize();
-            WlDataDevice.Initialize();
-            WlDataDeviceManager.Initialize();
-            WlShell.Initialize();
-            WlShellSurface.Initialize();
-            WlSurface.Initialize();
-            WlSeat.Initialize();
-            WlPointer.Initialize();
-            WlKeyboard.Initialize();
-            WlTouch.Initialize();
-            WlOutput.Initialize();
-            WlRegion.Initialize();
-            WlSubcompositor.Initialize();
-            WlSubsurface.Initialize();
+            Interfaces = (wl_interface*) Marshal.AllocHGlobal(sizeof(wl_interface) * InterfaceCount);
+            _messages = (wl_message*) Marshal.AllocHGlobal(sizeof(wl_message) * MessageCount);
+
+
+            Util.CreateInterface(&Interfaces[0], "wl_display", 1, 2, 2);
+            Util.CreateInterface(&Interfaces[1], "wl_registry", 1, 1, 2);
+            Util.CreateInterface(&Interfaces[2], "wl_callback", 1, 0, 1);
+            Util.CreateInterface(&Interfaces[3], "wl_compositor", 4, 2, 0);
+            Util.CreateInterface(&Interfaces[4], "wl_shm_pool", 1, 3, 0);
+            Util.CreateInterface(&Interfaces[5], "wl_shm", 1, 1, 1);
+            Util.CreateInterface(&Interfaces[6], "wl_buffer", 1, 1, 1);
+            Util.CreateInterface(&Interfaces[7], "wl_data_offer", 3, 5, 3);
+            Util.CreateInterface(&Interfaces[8], "wl_data_source", 3, 3, 6);
+            Util.CreateInterface(&Interfaces[9], "wl_data_device", 3, 3, 6);
+            Util.CreateInterface(&Interfaces[10], "wl_data_device_manager", 3, 2, 0);
+            Util.CreateInterface(&Interfaces[11], "wl_shell", 1, 1, 0);
+            Util.CreateInterface(&Interfaces[12], "wl_shell_surface", 1, 10, 3);
+            Util.CreateInterface(&Interfaces[13], "wl_surface", 4, 10, 2);
+            Util.CreateInterface(&Interfaces[14], "wl_seat", 7, 4, 2);
+            Util.CreateInterface(&Interfaces[15], "wl_pointer", 7, 2, 9);
+            Util.CreateInterface(&Interfaces[16], "wl_keyboard", 7, 1, 6);
+            Util.CreateInterface(&Interfaces[17], "wl_touch", 7, 1, 7);
+            Util.CreateInterface(&Interfaces[18], "wl_output", 3, 1, 4);
+            Util.CreateInterface(&Interfaces[19], "wl_region", 1, 3, 0);
+            Util.CreateInterface(&Interfaces[20], "wl_subcompositor", 1, 2, 0);
+            Util.CreateInterface(&Interfaces[21], "wl_subsurface", 1, 6, 0);
+
+            _signatureTypes = (wl_interface**) Marshal.AllocHGlobal(sizeof(void*) * 59);
+            _signatureTypes[0] = null;
+            _signatureTypes[1] = null;
+            _signatureTypes[2] = null;
+            _signatureTypes[3] = null;
+            _signatureTypes[4] = null;
+            _signatureTypes[5] = null;
+            _signatureTypes[6] = null;
+            _signatureTypes[7] = null;
+            _signatureTypes[8] = wl_buffer.Interface;
+            _signatureTypes[9] = null;
+            _signatureTypes[10] = null;
+            _signatureTypes[11] = null;
+            _signatureTypes[12] = null;
+            _signatureTypes[13] = null;
+            _signatureTypes[14] = wl_seat.Interface;
+            _signatureTypes[15] = null;
+            _signatureTypes[16] = wl_surface.Interface;
+            _signatureTypes[17] = null;
+            _signatureTypes[18] = null;
+            _signatureTypes[19] = null;
+            _signatureTypes[20] = null;
+            _signatureTypes[21] = null;
+            _signatureTypes[22] = wl_surface.Interface;
+            _signatureTypes[23] = null;
+            _signatureTypes[24] = null;
+            _signatureTypes[25] = null;
+            _signatureTypes[26] = null;
+            _signatureTypes[27] = wl_surface.Interface;
+            _signatureTypes[28] = null;
+            _signatureTypes[29] = null;
+            _signatureTypes[30] = wl_data_offer.Interface;
+            _signatureTypes[31] = wl_data_source.Interface;
+            _signatureTypes[32] = wl_surface.Interface;
+            _signatureTypes[33] = wl_surface.Interface;
+            _signatureTypes[34] = null;
+            _signatureTypes[35] = wl_shm_pool.Interface;
+            _signatureTypes[36] = null;
+            _signatureTypes[37] = null;
+            _signatureTypes[38] = wl_seat.Interface;
+            _signatureTypes[39] = null;
+            _signatureTypes[40] = null;
+            _signatureTypes[41] = null;
+            _signatureTypes[42] = null;
+            _signatureTypes[43] = wl_output.Interface;
+            _signatureTypes[44] = wl_subsurface.Interface;
+            _signatureTypes[45] = wl_surface.Interface;
+            _signatureTypes[46] = wl_surface.Interface;
+            _signatureTypes[47] = wl_data_source.Interface;
+            _signatureTypes[48] = null;
+            _signatureTypes[49] = wl_data_device.Interface;
+            _signatureTypes[50] = wl_seat.Interface;
+            _signatureTypes[51] = wl_shell_surface.Interface;
+            _signatureTypes[52] = wl_surface.Interface;
+            _signatureTypes[53] = wl_callback.Interface;
+            _signatureTypes[54] = wl_registry.Interface;
+            _signatureTypes[55] = wl_region.Interface;
+            _signatureTypes[56] = wl_pointer.Interface;
+            _signatureTypes[57] = wl_keyboard.Interface;
+            _signatureTypes[58] = wl_touch.Interface;
+
+            Util.CreateMessage(&_messages[0], "sync", "n", &_signatureTypes[53]);
+            Util.CreateMessage(&_messages[1], "get_registry", "n", &_signatureTypes[54]);
+            Util.CreateMessage(&_messages[2], "error", "ous", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[3], "delete_id", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[4], "bind", "usun", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[5], "global", "usu", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[6], "global_remove", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[7], "done", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[8], "create_surface", "n", &_signatureTypes[16]);
+            Util.CreateMessage(&_messages[9], "create_region", "n", &_signatureTypes[55]);
+            Util.CreateMessage(&_messages[10], "create_buffer", "niiiiu", &_signatureTypes[8]);
+            Util.CreateMessage(&_messages[11], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[12], "resize", "i", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[13], "create_pool", "nhi", &_signatureTypes[35]);
+            Util.CreateMessage(&_messages[14], "format", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[15], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[16], "release", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[17], "accept", "u?s", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[18], "receive", "sh", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[19], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[20], "finish", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[21], "set_actions", "uu", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[22], "offer", "s", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[23], "source_actions", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[24], "action", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[25], "offer", "s", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[26], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[27], "set_actions", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[28], "target", "?s", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[29], "send", "sh", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[30], "cancelled", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[31], "dnd_drop_performed", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[32], "dnd_finished", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[33], "action", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[34], "start_drag", "?oo?ou", &_signatureTypes[31]);
+            Util.CreateMessage(&_messages[35], "set_selection", "?ou", &_signatureTypes[47]);
+            Util.CreateMessage(&_messages[36], "release", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[37], "data_offer", "n", &_signatureTypes[30]);
+            Util.CreateMessage(&_messages[38], "enter", "uoff?o", &_signatureTypes[26]);
+            Util.CreateMessage(&_messages[39], "leave", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[40], "motion", "uff", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[41], "drop", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[42], "selection", "?o", &_signatureTypes[30]);
+            Util.CreateMessage(&_messages[43], "create_data_source", "n", &_signatureTypes[31]);
+            Util.CreateMessage(&_messages[44], "get_data_device", "no", &_signatureTypes[49]);
+            Util.CreateMessage(&_messages[45], "get_shell_surface", "no", &_signatureTypes[51]);
+            Util.CreateMessage(&_messages[46], "pong", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[47], "move", "ou", &_signatureTypes[14]);
+            Util.CreateMessage(&_messages[48], "resize", "ouu", &_signatureTypes[38]);
+            Util.CreateMessage(&_messages[49], "set_toplevel", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[50], "set_transient", "oiiu", &_signatureTypes[16]);
+            Util.CreateMessage(&_messages[51], "set_fullscreen", "uu?o", &_signatureTypes[41]);
+            Util.CreateMessage(&_messages[52], "set_popup", "ouoiiu", &_signatureTypes[14]);
+            Util.CreateMessage(&_messages[53], "set_maximized", "?o", &_signatureTypes[43]);
+            Util.CreateMessage(&_messages[54], "set_title", "s", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[55], "set_class", "s", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[56], "ping", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[57], "configure", "uii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[58], "popup_done", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[59], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[60], "attach", "?oii", &_signatureTypes[8]);
+            Util.CreateMessage(&_messages[61], "damage", "iiii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[62], "frame", "n", &_signatureTypes[53]);
+            Util.CreateMessage(&_messages[63], "set_opaque_region", "?o", &_signatureTypes[55]);
+            Util.CreateMessage(&_messages[64], "set_input_region", "?o", &_signatureTypes[55]);
+            Util.CreateMessage(&_messages[65], "commit", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[66], "set_buffer_transform", "i", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[67], "set_buffer_scale", "i", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[68], "damage_buffer", "iiii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[69], "enter", "o", &_signatureTypes[43]);
+            Util.CreateMessage(&_messages[70], "leave", "o", &_signatureTypes[43]);
+            Util.CreateMessage(&_messages[71], "get_pointer", "n", &_signatureTypes[56]);
+            Util.CreateMessage(&_messages[72], "get_keyboard", "n", &_signatureTypes[57]);
+            Util.CreateMessage(&_messages[73], "get_touch", "n", &_signatureTypes[58]);
+            Util.CreateMessage(&_messages[74], "release", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[75], "capabilities", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[76], "name", "s", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[77], "set_cursor", "u?oii", &_signatureTypes[15]);
+            Util.CreateMessage(&_messages[78], "release", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[79], "enter", "uoff", &_signatureTypes[15]);
+            Util.CreateMessage(&_messages[80], "leave", "uo", &_signatureTypes[15]);
+            Util.CreateMessage(&_messages[81], "motion", "uff", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[82], "button", "uuuu", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[83], "axis", "uuf", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[84], "frame", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[85], "axis_source", "u", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[86], "axis_stop", "uu", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[87], "axis_discrete", "ui", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[88], "release", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[89], "keymap", "uhu", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[90], "enter", "uoa", &_signatureTypes[15]);
+            Util.CreateMessage(&_messages[91], "leave", "uo", &_signatureTypes[15]);
+            Util.CreateMessage(&_messages[92], "key", "uuuu", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[93], "modifiers", "uuuuu", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[94], "repeat_info", "ii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[95], "release", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[96], "down", "uuoiff", &_signatureTypes[20]);
+            Util.CreateMessage(&_messages[97], "up", "uui", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[98], "motion", "uiff", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[99], "frame", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[100], "cancel", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[101], "shape", "iff", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[102], "orientation", "if", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[103], "release", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[104], "geometry", "iiiiissi", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[105], "mode", "uiii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[106], "done", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[107], "scale", "i", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[108], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[109], "add", "iiii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[110], "subtract", "iiii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[111], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[112], "get_subsurface", "noo", &_signatureTypes[44]);
+            Util.CreateMessage(&_messages[113], "destroy", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[114], "set_position", "ii", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[115], "place_above", "o", &_signatureTypes[16]);
+            Util.CreateMessage(&_messages[116], "place_below", "o", &_signatureTypes[16]);
+            Util.CreateMessage(&_messages[117], "set_sync", "", &_signatureTypes[0]);
+            Util.CreateMessage(&_messages[118], "set_desync", "", &_signatureTypes[0]);
+
+            Interfaces[0].Requests = &_messages[0];
+            Interfaces[0].Events = &_messages[2];
+            Interfaces[1].Requests = &_messages[4];
+            Interfaces[1].Events = &_messages[5];
+            Interfaces[2].Requests = null;
+            Interfaces[2].Events = &_messages[7];
+            Interfaces[3].Requests = &_messages[8];
+            Interfaces[3].Events = null;
+            Interfaces[4].Requests = &_messages[10];
+            Interfaces[4].Events = null;
+            Interfaces[5].Requests = &_messages[13];
+            Interfaces[5].Events = &_messages[14];
+            Interfaces[6].Requests = &_messages[15];
+            Interfaces[6].Events = &_messages[16];
+            Interfaces[7].Requests = &_messages[17];
+            Interfaces[7].Events = &_messages[22];
+            Interfaces[8].Requests = &_messages[25];
+            Interfaces[8].Events = &_messages[28];
+            Interfaces[9].Requests = &_messages[34];
+            Interfaces[9].Events = &_messages[37];
+            Interfaces[10].Requests = &_messages[43];
+            Interfaces[10].Events = null;
+            Interfaces[11].Requests = &_messages[45];
+            Interfaces[11].Events = null;
+            Interfaces[12].Requests = &_messages[46];
+            Interfaces[12].Events = &_messages[56];
+            Interfaces[13].Requests = &_messages[59];
+            Interfaces[13].Events = &_messages[69];
+            Interfaces[14].Requests = &_messages[71];
+            Interfaces[14].Events = &_messages[75];
+            Interfaces[15].Requests = &_messages[77];
+            Interfaces[15].Events = &_messages[79];
+            Interfaces[16].Requests = &_messages[88];
+            Interfaces[16].Events = &_messages[89];
+            Interfaces[17].Requests = &_messages[95];
+            Interfaces[17].Events = &_messages[96];
+            Interfaces[18].Requests = &_messages[103];
+            Interfaces[18].Events = &_messages[104];
+            Interfaces[19].Requests = &_messages[108];
+            Interfaces[19].Events = null;
+            Interfaces[20].Requests = &_messages[111];
+            Interfaces[20].Events = null;
+            Interfaces[21].Requests = &_messages[113];
+            Interfaces[21].Events = null;
         }
-        public static void Free()
+
+        public static void Unload()
         {
-            if (!_initialized)
+            if (!_loaded)
                 return;
-            _initialized = false;
+            _loaded = false;
 
-            WlDisplay.Interface.Dispose();
-            WlRegistry.Interface.Dispose();
-            WlCallback.Interface.Dispose();
-            WlCompositor.Interface.Dispose();
-            WlShmPool.Interface.Dispose();
-            WlShm.Interface.Dispose();
-            WlBuffer.Interface.Dispose();
-            WlDataOffer.Interface.Dispose();
-            WlDataSource.Interface.Dispose();
-            WlDataDevice.Interface.Dispose();
-            WlDataDeviceManager.Interface.Dispose();
-            WlShell.Interface.Dispose();
-            WlShellSurface.Interface.Dispose();
-            WlSurface.Interface.Dispose();
-            WlSeat.Interface.Dispose();
-            WlPointer.Interface.Dispose();
-            WlKeyboard.Interface.Dispose();
-            WlTouch.Interface.Dispose();
-            WlOutput.Interface.Dispose();
-            WlRegion.Interface.Dispose();
-            WlSubcompositor.Interface.Dispose();
-            WlSubsurface.Interface.Dispose();
-        }
-    }
+            for (var i = 0; i < InterfaceCount; i++)
+                Marshal.FreeHGlobal((IntPtr) Interfaces[i].Name);
 
-    /// <summary>
-    /// <p>
-    /// The core global object.  This is a special singleton object.  It
-    /// is used for internal Wayland protocol features.
-    /// </p>
-    /// </summary>
-    internal partial class WlDisplay : WlProxy
-    {
-        #region Opcodes
-
-        private const int SyncOp = 0;
-        private const int GetRegistryOp = 1;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_display", 1, 2, 2);
-        public const string InterfaceName = "wl_display";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
+            for (var i = 0; i < MessageCount; i++)
             {
-                new WlMessage("sync", "n", new [] {WlCallback.Interface.Pointer}),
-                new WlMessage("get_registry", "n", new [] {WlRegistry.Interface.Pointer}),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("error", "ous", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("delete_id", "u", new [] {IntPtr.Zero}),
-            });
-            Interface.Finish();
+                Marshal.FreeHGlobal((IntPtr) _messages[i].Name);
+                Marshal.FreeHGlobal((IntPtr) _messages[i].Signature);
+            }
+
+            Marshal.FreeHGlobal((IntPtr) _messages);
+            Marshal.FreeHGlobal((IntPtr) _signatureTypes);
+            Marshal.FreeHGlobal((IntPtr) Interfaces);
         }
-
-
-        #endregion
-
-        public WlDisplay(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="object_id">object where the error occurred</param>
-        /// <param name="code">error code</param>
-        /// <param name="message">error description</param>
-        public delegate void ErrorHandler(IntPtr data, IntPtr iface, IntPtr object_id, uint code, string message);
-
-        /// <param name="id">deleted object ID</param>
-        public delegate void DeleteIdHandler(IntPtr data, IntPtr iface, uint id);
-
-        private IntPtr _listener;
-        private bool _setListener;
-
-        /// <summary>
-        /// <p>
-        /// The error event is sent out when a fatal (non-recoverable)
-        /// error has occurred.  The object_id argument is the object
-        /// where the error occurred, most often in response to a request
-        /// to that object.  The code identifies the error and is defined
-        /// by the object interface.  As such, each interface defines its
-        /// own set of error codes.  The message is a brief description
-        /// of the error, for (debugging) convenience.
-        /// </p>
-        /// </summary>
-        public ErrorHandler Error;
-
-        /// <summary>
-        /// <p>
-        /// This event is used internally by the object ID management
-        /// logic.  When a client deletes an object, the server will send
-        /// this event to acknowledge that it has seen the delete request.
-        /// When the client receives this event, it will know that it can
-        /// safely reuse the object ID.
-        /// </p>
-        /// </summary>
-        public DeleteIdHandler DeleteId;
-
-        public void SetListener()
-        {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 2);
-            if (Error != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Error));
-            if (DeleteId != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(DeleteId));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
-        }
-
-        #endregion
-
-        #region Requests
 
         /// <summary>
         /// <p>
@@ -186,16 +342,12 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="callback">callback object for the sync request</param>
-        public WlCallback Sync()
+        public static wl_callback* wl_display_sync(wl_display* pointer)
         {
-            return Sync(Pointer);
-        }
-
-        public static WlCallback Sync(IntPtr pointer)
-        {
-            var args = new ArgumentStruct[] { 0 };
-            var ptr = MarshalArrayConstructor(pointer, SyncOp, args, WlCallback.Interface.Pointer);
-            return new WlCallback(ptr);
+            var args = stackalloc wl_argument[1];
+            args[0] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, wl_callback.Interface);
+            return (wl_callback*) ptr;
         }
 
         /// <summary>
@@ -213,121 +365,91 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="registry">global registry object</param>
-        public WlRegistry GetRegistry()
+        public static wl_registry* wl_display_get_registry(wl_display* pointer)
         {
-            return GetRegistry(Pointer);
+            var args = stackalloc wl_argument[1];
+            args[0] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, wl_registry.Interface);
+            return (wl_registry*) ptr;
         }
-
-        public static WlRegistry GetRegistry(IntPtr pointer)
-        {
-            var args = new ArgumentStruct[] { 0 };
-            var ptr = MarshalArrayConstructor(pointer, GetRegistryOp, args, WlRegistry.Interface.Pointer);
-            return new WlRegistry(ptr);
-        }
-
-        #endregion
-
-        #region Enums
 
         /// <summary>
         /// <p>
-        /// These errors are global and can be emitted in response to any
-        /// server request.
+        /// The error event is sent out when a fatal (non-recoverable)
+        /// error has occurred.  The object_id argument is the object
+        /// where the error occurred, most often in response to a request
+        /// to that object.  The code identifies the error and is defined
+        /// by the object interface.  As such, each interface defines its
+        /// own set of error codes.  The message is a brief description
+        /// of the error, for (debugging) convenience.
         /// </p>
         /// </summary>
-        public enum ErrorEnum
+        public delegate void wl_display_error_delegate(void* data, wl_display* proxy, uint object_id, uint code, byte* message);
+
+        /// <summary>
+        /// <p>
+        /// This event is used internally by the object ID management
+        /// logic.  When a client deletes an object, the server will send
+        /// this event to acknowledge that it has seen the delete request.
+        /// When the client receives this event, it will know that it can
+        /// safely reuse the object ID.
+        /// </p>
+        /// </summary>
+        public delegate void wl_display_delete_id_delegate(void* data, wl_display* proxy, uint id);
+
+        internal struct wl_display_listener
         {
-            /// <summary>
-            /// server couldn't find object
-            /// </summary>
-            InvalidObject = 0,
+            public IntPtr error;
+            public IntPtr delete_id;
 
-            /// <summary>
-            /// method doesn't exist on the specified interface
-            /// </summary>
-            InvalidMethod = 1,
+            public static wl_display_listener* Alloc(
+                wl_display_error_delegate error,
+                wl_display_delete_id_delegate delete_id)
+            {
+                var ret = (wl_display_listener*) Marshal.AllocHGlobal(sizeof(wl_display_listener));
+                Set(ret, error,delete_id);
+                return ret;
+            }
 
-            /// <summary>
-            /// server is out of memory
-            /// </summary>
-            NoMemory = 2,
-
+            public static void Set(wl_display_listener* listener
+            ,
+                wl_display_error_delegate error,
+                wl_display_delete_id_delegate delete_id)
+            {
+                if (error != null) listener->error = Marshal.GetFunctionPointerForDelegate<wl_display_error_delegate>(error);
+                if (delete_id != null) listener->delete_id = Marshal.GetFunctionPointerForDelegate<wl_display_delete_id_delegate>(delete_id);
+            }
         }
 
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// The singleton global registry object.  The server has a number of
-    /// global objects that are available to all clients.  These objects
-    /// typically represent an actual object in the server (for example,
-    /// an input device) or they are singleton objects that provide
-    /// extension functionality.
-    /// </p>
-    /// <p>
-    /// When a client creates a registry object, the registry object
-    /// will emit a global event for each global currently in the
-    /// registry.  Globals come and go as a result of device or
-    /// monitor hotplugs, reconfiguration or other events, and the
-    /// registry will send out global and global_remove events to
-    /// keep the client up to date with the changes.  To mark the end
-    /// of the initial burst of events, the client can use the
-    /// wl_display.sync request immediately after calling
-    /// wl_display.get_registry.
-    /// </p>
-    /// <p>
-    /// A client can bind to a global object by using the bind
-    /// request.  This creates a client-side handle that lets the object
-    /// emit events to the client and lets the client invoke requests on
-    /// the object.
-    /// </p>
-    /// </summary>
-    internal partial class WlRegistry : WlProxy
-    {
-        #region Opcodes
-
-        private const int BindOp = 0;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_registry", 1, 1, 2);
-        public const string InterfaceName = "wl_registry";
-
-        internal static void Initialize()
+        /// <summary>
+        /// Set the callbacks for the given <see cref="wl_display"/>.
+        /// </summary>
+        /// <param name="object_id">object where the error occurred</param>
+        /// <param name="code">error code</param>
+        /// <param name="message">error description</param>
+        /// <param name="id">deleted object ID</param>
+        public static int wl_display_add_listener(wl_display* iface, wl_display_listener* listener)
         {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("bind", "usun", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("global", "usu", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("global_remove", "u", new [] {IntPtr.Zero}),
-            });
-            Interface.Finish();
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
         }
-
-
-        #endregion
-
-        public WlRegistry(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="name">numeric name of the global object</param>
-        /// <param name="interface">interface implemented by the object</param>
-        /// <param name="version">interface version</param>
-        public delegate void GlobalHandler(IntPtr data, IntPtr iface, uint name, string @interface, uint version);
-
-        /// <param name="name">numeric name of the global object</param>
-        public delegate void GlobalRemoveHandler(IntPtr data, IntPtr iface, uint name);
-
-        private IntPtr _listener;
-        private bool _setListener;
+        /// <summary>
+        /// <p>
+        /// Binds a new, client-created object to the server using the
+        /// specified name as the identifier.
+        /// </p>
+        /// </summary>
+        /// <param name="name">unique numeric name of the object</param>
+        /// <param name="id">bounded object</param>
+        public static wl_proxy* wl_registry_bind(wl_registry* pointer, uint name, wl_interface* iface, uint version)
+        {
+            var args = stackalloc wl_argument[4];
+            args[0] = name;
+            args[1] = iface->Name;
+            args[2] = version;
+            args[3] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, iface);
+            return (wl_proxy*) ptr;
+        }
 
         /// <summary>
         /// <p>
@@ -339,7 +461,7 @@ namespace OpenWindow.Backends.Wayland
         /// given version of the given interface.
         /// </p>
         /// </summary>
-        public GlobalHandler Global;
+        public delegate void wl_registry_global_delegate(void* data, wl_registry* proxy, uint name, byte* @interface, uint version);
 
         /// <summary>
         /// <p>
@@ -357,169 +479,90 @@ namespace OpenWindow.Backends.Wayland
         /// the global going away and a client sending a request to it.
         /// </p>
         /// </summary>
-        public GlobalRemoveHandler GlobalRemove;
+        public delegate void wl_registry_global_remove_delegate(void* data, wl_registry* proxy, uint name);
 
-        public void SetListener()
+        internal struct wl_registry_listener
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 2);
-            if (Global != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Global));
-            if (GlobalRemove != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(GlobalRemove));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
+            public IntPtr global;
+            public IntPtr global_remove;
+
+            public static wl_registry_listener* Alloc(
+                wl_registry_global_delegate global,
+                wl_registry_global_remove_delegate global_remove)
+            {
+                var ret = (wl_registry_listener*) Marshal.AllocHGlobal(sizeof(wl_registry_listener));
+                Set(ret, global,global_remove);
+                return ret;
+            }
+
+            public static void Set(wl_registry_listener* listener
+            ,
+                wl_registry_global_delegate global,
+                wl_registry_global_remove_delegate global_remove)
+            {
+                if (global != null) listener->global = Marshal.GetFunctionPointerForDelegate<wl_registry_global_delegate>(global);
+                if (global_remove != null) listener->global_remove = Marshal.GetFunctionPointerForDelegate<wl_registry_global_remove_delegate>(global_remove);
+            }
         }
-
-        #endregion
-
-        #region Requests
 
         /// <summary>
-        /// <p>
-        /// Binds a new, client-created object to the server using the
-        /// specified name as the identifier.
-        /// </p>
+        /// Set the callbacks for the given <see cref="wl_registry"/>.
         /// </summary>
-        /// <param name="name">unique numeric name of the object</param>
-        /// <param name="id">bounded object</param>
-        public IntPtr Bind(uint name, WlInterface iface, uint version)
+        /// <param name="name">numeric name of the global object</param>
+        /// <param name="interface">interface implemented by the object</param>
+        /// <param name="version">interface version</param>
+        /// <param name="name">numeric name of the global object</param>
+        public static int wl_registry_add_listener(wl_registry* iface, wl_registry_listener* listener)
         {
-            return Bind(Pointer, name, iface, version);
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
         }
-
-        public static IntPtr Bind(IntPtr pointer, uint name, WlInterface iface, uint version)
-        {
-            var ifaceNameStr = SMarshal.StringToHGlobalAnsi(iface.Name);
-            var args = new ArgumentStruct[] { name, ifaceNameStr, version, 0 };
-            var ptr = MarshalArrayConstructor(pointer, BindOp, args, iface.Pointer);
-            SMarshal.FreeHGlobal(ifaceNameStr);
-            return ptr;
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// Clients can handle the 'done' event to get notified when
-    /// the related request is done.
-    /// </p>
-    /// </summary>
-    internal partial class WlCallback : WlProxy
-    {
-        #region Opcodes
-
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_callback", 1, 0, 1);
-        public const string InterfaceName = "wl_callback";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new WlMessage[0]);
-            Interface.SetEvents(new []
-            {
-                new WlMessage("done", "u", new [] {IntPtr.Zero}),
-            });
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public WlCallback(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="callback_data">request-specific data for the callback</param>
-        public delegate void DoneHandler(IntPtr data, IntPtr iface, uint callback_data);
-
-        private IntPtr _listener;
-        private bool _setListener;
-
         /// <summary>
         /// <p>
         /// Notify the client when the related request is done.
         /// </p>
         /// </summary>
-        public DoneHandler Done;
+        public delegate void wl_callback_done_delegate(void* data, wl_callback* proxy, uint callback_data);
 
-        public void SetListener()
+        internal struct wl_callback_listener
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 1);
-            if (Done != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Done));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
-        }
+            public IntPtr done;
 
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// A compositor.  This object is a singleton global.  The
-    /// compositor is in charge of combining the contents of multiple
-    /// surfaces into one displayable output.
-    /// </p>
-    /// </summary>
-    internal partial class WlCompositor : WlProxy
-    {
-        #region Opcodes
-
-        private const int CreateSurfaceOp = 0;
-        private const int CreateRegionOp = 1;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_compositor", 4, 2, 0);
-        public const string InterfaceName = "wl_compositor";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
+            public static wl_callback_listener* Alloc(
+                wl_callback_done_delegate done)
             {
-                new WlMessage("create_surface", "n", new [] {WlSurface.Interface.Pointer}),
-                new WlMessage("create_region", "n", new [] {WlRegion.Interface.Pointer}),
-            });
-            Interface.SetEvents(new WlMessage[0]);
-            Interface.Finish();
+                var ret = (wl_callback_listener*) Marshal.AllocHGlobal(sizeof(wl_callback_listener));
+                Set(ret, done);
+                return ret;
+            }
+
+            public static void Set(wl_callback_listener* listener
+            ,
+                wl_callback_done_delegate done)
+            {
+                if (done != null) listener->done = Marshal.GetFunctionPointerForDelegate<wl_callback_done_delegate>(done);
+            }
         }
 
-
-        #endregion
-
-        public WlCompositor(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Requests
-
+        /// <summary>
+        /// Set the callbacks for the given <see cref="wl_callback"/>.
+        /// </summary>
+        /// <param name="callback_data">request-specific data for the callback</param>
+        public static int wl_callback_add_listener(wl_callback* iface, wl_callback_listener* listener)
+        {
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
+        }
         /// <summary>
         /// <p>
         /// Ask the compositor to create a new surface.
         /// </p>
         /// </summary>
         /// <param name="id">the new surface</param>
-        public WlSurface CreateSurface()
+        public static wl_surface* wl_compositor_create_surface(wl_compositor* pointer)
         {
-            return CreateSurface(Pointer);
-        }
-
-        public static WlSurface CreateSurface(IntPtr pointer)
-        {
-            var args = new ArgumentStruct[] { 0 };
-            var ptr = MarshalArrayConstructor(pointer, CreateSurfaceOp, args, WlSurface.Interface.Pointer);
-            return new WlSurface(ptr);
+            var args = stackalloc wl_argument[1];
+            args[0] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, wl_surface.Interface);
+            return (wl_surface*) ptr;
         }
 
         /// <summary>
@@ -528,66 +571,13 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="id">the new region</param>
-        public WlRegion CreateRegion()
+        public static wl_region* wl_compositor_create_region(wl_compositor* pointer)
         {
-            return CreateRegion(Pointer);
+            var args = stackalloc wl_argument[1];
+            args[0] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, wl_region.Interface);
+            return (wl_region*) ptr;
         }
-
-        public static WlRegion CreateRegion(IntPtr pointer)
-        {
-            var args = new ArgumentStruct[] { 0 };
-            var ptr = MarshalArrayConstructor(pointer, CreateRegionOp, args, WlRegion.Interface.Pointer);
-            return new WlRegion(ptr);
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// The wl_shm_pool object encapsulates a piece of memory shared
-    /// between the compositor and client.  Through the wl_shm_pool
-    /// object, the client can allocate shared memory wl_buffer objects.
-    /// All objects created through the same pool share the same
-    /// underlying mapped memory. Reusing the mapped memory avoids the
-    /// setup/teardown overhead and is useful when interactively resizing
-    /// a surface or for many small buffers.
-    /// </p>
-    /// </summary>
-    internal partial class WlShmPool : WlProxy
-    {
-        #region Opcodes
-
-        private const int CreateBufferOp = 0;
-        private const int DestroyOp = 1;
-        private const int ResizeOp = 2;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_shm_pool", 1, 3, 0);
-        public const string InterfaceName = "wl_shm_pool";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("create_buffer", "niiiiu", new [] {WlBuffer.Interface.Pointer, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("resize", "i", new [] {IntPtr.Zero}),
-            });
-            Interface.SetEvents(new WlMessage[0]);
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public WlShmPool(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Requests
 
         /// <summary>
         /// <p>
@@ -612,16 +602,17 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="height">buffer height, in pixels</param>
         /// <param name="stride">number of bytes from the beginning of one row to the beginning of the next row</param>
         /// <param name="format">buffer pixel format</param>
-        public WlBuffer CreateBuffer(int offset, int width, int height, int stride, WlShm.FormatEnum format)
+        public static wl_buffer* wl_shm_pool_create_buffer(wl_shm_pool* pointer, int offset, int width, int height, int stride, wl_shm_format format)
         {
-            return CreateBuffer(Pointer, offset, width, height, stride, format);
-        }
-
-        public static WlBuffer CreateBuffer(IntPtr pointer, int offset, int width, int height, int stride, WlShm.FormatEnum format)
-        {
-            var args = new ArgumentStruct[] { 0, offset, width, height, stride, (int) format };
-            var ptr = MarshalArrayConstructor(pointer, CreateBufferOp, args, WlBuffer.Interface.Pointer);
-            return new WlBuffer(ptr);
+            var args = stackalloc wl_argument[6];
+            args[0] = 0;
+            args[1] = offset;
+            args[2] = width;
+            args[3] = height;
+            args[4] = stride;
+            args[5] = (int) format;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, wl_buffer.Interface);
+            return (wl_buffer*) ptr;
         }
 
         /// <summary>
@@ -634,14 +625,9 @@ namespace OpenWindow.Backends.Wayland
         /// are gone.
         /// </p>
         /// </summary>
-        public void Destroy()
+        public static void wl_shm_pool_destroy(wl_shm_pool* pointer)
         {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 1);
         }
 
         /// <summary>
@@ -653,97 +639,10 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="size">new size of the pool, in bytes</param>
-        public void Resize(int size)
+        public static void wl_shm_pool_resize(wl_shm_pool* pointer, int size)
         {
-            Resize(Pointer, size);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 2);
         }
-
-        public static void Resize(IntPtr pointer, int size)
-        {
-            Marshal(pointer, ResizeOp);
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// A singleton global object that provides support for shared
-    /// memory.
-    /// </p>
-    /// <p>
-    /// Clients can create wl_shm_pool objects using the create_pool
-    /// request.
-    /// </p>
-    /// <p>
-    /// At connection setup time, the wl_shm object emits one or more
-    /// format events to inform clients about the valid pixel formats
-    /// that can be used for buffers.
-    /// </p>
-    /// </summary>
-    internal partial class WlShm : WlProxy
-    {
-        #region Opcodes
-
-        private const int CreatePoolOp = 0;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_shm", 1, 1, 1);
-        public const string InterfaceName = "wl_shm";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("create_pool", "nhi", new [] {WlShmPool.Interface.Pointer, IntPtr.Zero, IntPtr.Zero}),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("format", "u", new [] {IntPtr.Zero}),
-            });
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public WlShm(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="format">buffer pixel format</param>
-        public delegate void FormatHandler(IntPtr data, IntPtr iface, FormatEnum format);
-
-        private IntPtr _listener;
-        private bool _setListener;
-
-        /// <summary>
-        /// <p>
-        /// Informs the client about a valid pixel format that
-        /// can be used for buffers. Known formats include
-        /// argb8888 and xrgb8888.
-        /// </p>
-        /// </summary>
-        public FormatHandler Format;
-
-        public void SetListener()
-        {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 1);
-            if (Format != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Format));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
-        }
-
-        #endregion
-
-        #region Requests
 
         /// <summary>
         /// <p>
@@ -758,405 +657,66 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">pool to create</param>
         /// <param name="fd">file descriptor for the pool</param>
         /// <param name="size">pool size, in bytes</param>
-        public WlShmPool CreatePool(int fd, int size)
+        public static wl_shm_pool* wl_shm_create_pool(wl_shm* pointer, int fd, int size)
         {
-            return CreatePool(Pointer, fd, size);
-        }
-
-        public static WlShmPool CreatePool(IntPtr pointer, int fd, int size)
-        {
-            var args = new ArgumentStruct[] { 0, fd, size };
-            var ptr = MarshalArrayConstructor(pointer, CreatePoolOp, args, WlShmPool.Interface.Pointer);
-            return new WlShmPool(ptr);
-        }
-
-        #endregion
-
-        #region Enums
-
-        /// <summary>
-        /// <p>
-        /// These errors can be emitted in response to wl_shm requests.
-        /// </p>
-        /// </summary>
-        public enum ErrorEnum
-        {
-            /// <summary>
-            /// buffer format is not known
-            /// </summary>
-            InvalidFormat = 0,
-
-            /// <summary>
-            /// invalid size or stride during pool or buffer creation
-            /// </summary>
-            InvalidStride = 1,
-
-            /// <summary>
-            /// mmapping the file descriptor failed
-            /// </summary>
-            InvalidFd = 2,
-
+            var args = stackalloc wl_argument[3];
+            args[0] = 0;
+            args[1] = fd;
+            args[2] = size;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, wl_shm_pool.Interface);
+            return (wl_shm_pool*) ptr;
         }
 
         /// <summary>
         /// <p>
-        /// This describes the memory layout of an individual pixel.
-        /// </p>
-        /// <p>
-        /// All renderers should support argb8888 and xrgb8888 but any other
-        /// formats are optional and may not be supported by the particular
-        /// renderer in use.
-        /// </p>
-        /// <p>
-        /// The drm format codes match the macros defined in drm_fourcc.h.
-        /// The formats actually supported by the compositor will be
-        /// reported by the format event.
+        /// Informs the client about a valid pixel format that
+        /// can be used for buffers. Known formats include
+        /// argb8888 and xrgb8888.
         /// </p>
         /// </summary>
-        public enum FormatEnum
+        public delegate void wl_shm_format_delegate(void* data, wl_shm* proxy, wl_shm_format format);
+
+        internal struct wl_shm_listener
         {
-            /// <summary>
-            /// 32-bit ARGB format, [31:0] A:R:G:B 8:8:8:8 little endian
-            /// </summary>
-            Argb8888 = 0,
+            public IntPtr format;
 
-            /// <summary>
-            /// 32-bit RGB format, [31:0] x:R:G:B 8:8:8:8 little endian
-            /// </summary>
-            Xrgb8888 = 1,
+            public static wl_shm_listener* Alloc(
+                wl_shm_format_delegate format)
+            {
+                var ret = (wl_shm_listener*) Marshal.AllocHGlobal(sizeof(wl_shm_listener));
+                Set(ret, format);
+                return ret;
+            }
 
-            /// <summary>
-            /// 8-bit color index format, [7:0] C
-            /// </summary>
-            C8 = 0x20203843,
-
-            /// <summary>
-            /// 8-bit RGB format, [7:0] R:G:B 3:3:2
-            /// </summary>
-            Rgb332 = 0x38424752,
-
-            /// <summary>
-            /// 8-bit BGR format, [7:0] B:G:R 2:3:3
-            /// </summary>
-            Bgr233 = 0x38524742,
-
-            /// <summary>
-            /// 16-bit xRGB format, [15:0] x:R:G:B 4:4:4:4 little endian
-            /// </summary>
-            Xrgb4444 = 0x32315258,
-
-            /// <summary>
-            /// 16-bit xBGR format, [15:0] x:B:G:R 4:4:4:4 little endian
-            /// </summary>
-            Xbgr4444 = 0x32314258,
-
-            /// <summary>
-            /// 16-bit RGBx format, [15:0] R:G:B:x 4:4:4:4 little endian
-            /// </summary>
-            Rgbx4444 = 0x32315852,
-
-            /// <summary>
-            /// 16-bit BGRx format, [15:0] B:G:R:x 4:4:4:4 little endian
-            /// </summary>
-            Bgrx4444 = 0x32315842,
-
-            /// <summary>
-            /// 16-bit ARGB format, [15:0] A:R:G:B 4:4:4:4 little endian
-            /// </summary>
-            Argb4444 = 0x32315241,
-
-            /// <summary>
-            /// 16-bit ABGR format, [15:0] A:B:G:R 4:4:4:4 little endian
-            /// </summary>
-            Abgr4444 = 0x32314241,
-
-            /// <summary>
-            /// 16-bit RBGA format, [15:0] R:G:B:A 4:4:4:4 little endian
-            /// </summary>
-            Rgba4444 = 0x32314152,
-
-            /// <summary>
-            /// 16-bit BGRA format, [15:0] B:G:R:A 4:4:4:4 little endian
-            /// </summary>
-            Bgra4444 = 0x32314142,
-
-            /// <summary>
-            /// 16-bit xRGB format, [15:0] x:R:G:B 1:5:5:5 little endian
-            /// </summary>
-            Xrgb1555 = 0x35315258,
-
-            /// <summary>
-            /// 16-bit xBGR 1555 format, [15:0] x:B:G:R 1:5:5:5 little endian
-            /// </summary>
-            Xbgr1555 = 0x35314258,
-
-            /// <summary>
-            /// 16-bit RGBx 5551 format, [15:0] R:G:B:x 5:5:5:1 little endian
-            /// </summary>
-            Rgbx5551 = 0x35315852,
-
-            /// <summary>
-            /// 16-bit BGRx 5551 format, [15:0] B:G:R:x 5:5:5:1 little endian
-            /// </summary>
-            Bgrx5551 = 0x35315842,
-
-            /// <summary>
-            /// 16-bit ARGB 1555 format, [15:0] A:R:G:B 1:5:5:5 little endian
-            /// </summary>
-            Argb1555 = 0x35315241,
-
-            /// <summary>
-            /// 16-bit ABGR 1555 format, [15:0] A:B:G:R 1:5:5:5 little endian
-            /// </summary>
-            Abgr1555 = 0x35314241,
-
-            /// <summary>
-            /// 16-bit RGBA 5551 format, [15:0] R:G:B:A 5:5:5:1 little endian
-            /// </summary>
-            Rgba5551 = 0x35314152,
-
-            /// <summary>
-            /// 16-bit BGRA 5551 format, [15:0] B:G:R:A 5:5:5:1 little endian
-            /// </summary>
-            Bgra5551 = 0x35314142,
-
-            /// <summary>
-            /// 16-bit RGB 565 format, [15:0] R:G:B 5:6:5 little endian
-            /// </summary>
-            Rgb565 = 0x36314752,
-
-            /// <summary>
-            /// 16-bit BGR 565 format, [15:0] B:G:R 5:6:5 little endian
-            /// </summary>
-            Bgr565 = 0x36314742,
-
-            /// <summary>
-            /// 24-bit RGB format, [23:0] R:G:B little endian
-            /// </summary>
-            Rgb888 = 0x34324752,
-
-            /// <summary>
-            /// 24-bit BGR format, [23:0] B:G:R little endian
-            /// </summary>
-            Bgr888 = 0x34324742,
-
-            /// <summary>
-            /// 32-bit xBGR format, [31:0] x:B:G:R 8:8:8:8 little endian
-            /// </summary>
-            Xbgr8888 = 0x34324258,
-
-            /// <summary>
-            /// 32-bit RGBx format, [31:0] R:G:B:x 8:8:8:8 little endian
-            /// </summary>
-            Rgbx8888 = 0x34325852,
-
-            /// <summary>
-            /// 32-bit BGRx format, [31:0] B:G:R:x 8:8:8:8 little endian
-            /// </summary>
-            Bgrx8888 = 0x34325842,
-
-            /// <summary>
-            /// 32-bit ABGR format, [31:0] A:B:G:R 8:8:8:8 little endian
-            /// </summary>
-            Abgr8888 = 0x34324241,
-
-            /// <summary>
-            /// 32-bit RGBA format, [31:0] R:G:B:A 8:8:8:8 little endian
-            /// </summary>
-            Rgba8888 = 0x34324152,
-
-            /// <summary>
-            /// 32-bit BGRA format, [31:0] B:G:R:A 8:8:8:8 little endian
-            /// </summary>
-            Bgra8888 = 0x34324142,
-
-            /// <summary>
-            /// 32-bit xRGB format, [31:0] x:R:G:B 2:10:10:10 little endian
-            /// </summary>
-            Xrgb2101010 = 0x30335258,
-
-            /// <summary>
-            /// 32-bit xBGR format, [31:0] x:B:G:R 2:10:10:10 little endian
-            /// </summary>
-            Xbgr2101010 = 0x30334258,
-
-            /// <summary>
-            /// 32-bit RGBx format, [31:0] R:G:B:x 10:10:10:2 little endian
-            /// </summary>
-            Rgbx1010102 = 0x30335852,
-
-            /// <summary>
-            /// 32-bit BGRx format, [31:0] B:G:R:x 10:10:10:2 little endian
-            /// </summary>
-            Bgrx1010102 = 0x30335842,
-
-            /// <summary>
-            /// 32-bit ARGB format, [31:0] A:R:G:B 2:10:10:10 little endian
-            /// </summary>
-            Argb2101010 = 0x30335241,
-
-            /// <summary>
-            /// 32-bit ABGR format, [31:0] A:B:G:R 2:10:10:10 little endian
-            /// </summary>
-            Abgr2101010 = 0x30334241,
-
-            /// <summary>
-            /// 32-bit RGBA format, [31:0] R:G:B:A 10:10:10:2 little endian
-            /// </summary>
-            Rgba1010102 = 0x30334152,
-
-            /// <summary>
-            /// 32-bit BGRA format, [31:0] B:G:R:A 10:10:10:2 little endian
-            /// </summary>
-            Bgra1010102 = 0x30334142,
-
-            /// <summary>
-            /// packed YCbCr format, [31:0] Cr0:Y1:Cb0:Y0 8:8:8:8 little endian
-            /// </summary>
-            Yuyv = 0x56595559,
-
-            /// <summary>
-            /// packed YCbCr format, [31:0] Cb0:Y1:Cr0:Y0 8:8:8:8 little endian
-            /// </summary>
-            Yvyu = 0x55595659,
-
-            /// <summary>
-            /// packed YCbCr format, [31:0] Y1:Cr0:Y0:Cb0 8:8:8:8 little endian
-            /// </summary>
-            Uyvy = 0x59565955,
-
-            /// <summary>
-            /// packed YCbCr format, [31:0] Y1:Cb0:Y0:Cr0 8:8:8:8 little endian
-            /// </summary>
-            Vyuy = 0x59555956,
-
-            /// <summary>
-            /// packed AYCbCr format, [31:0] A:Y:Cb:Cr 8:8:8:8 little endian
-            /// </summary>
-            Ayuv = 0x56555941,
-
-            /// <summary>
-            /// 2 plane YCbCr Cr:Cb format, 2x2 subsampled Cr:Cb plane
-            /// </summary>
-            Nv12 = 0x3231564e,
-
-            /// <summary>
-            /// 2 plane YCbCr Cb:Cr format, 2x2 subsampled Cb:Cr plane
-            /// </summary>
-            Nv21 = 0x3132564e,
-
-            /// <summary>
-            /// 2 plane YCbCr Cr:Cb format, 2x1 subsampled Cr:Cb plane
-            /// </summary>
-            Nv16 = 0x3631564e,
-
-            /// <summary>
-            /// 2 plane YCbCr Cb:Cr format, 2x1 subsampled Cb:Cr plane
-            /// </summary>
-            Nv61 = 0x3136564e,
-
-            /// <summary>
-            /// 3 plane YCbCr format, 4x4 subsampled Cb (1) and Cr (2) planes
-            /// </summary>
-            Yuv410 = 0x39565559,
-
-            /// <summary>
-            /// 3 plane YCbCr format, 4x4 subsampled Cr (1) and Cb (2) planes
-            /// </summary>
-            Yvu410 = 0x39555659,
-
-            /// <summary>
-            /// 3 plane YCbCr format, 4x1 subsampled Cb (1) and Cr (2) planes
-            /// </summary>
-            Yuv411 = 0x31315559,
-
-            /// <summary>
-            /// 3 plane YCbCr format, 4x1 subsampled Cr (1) and Cb (2) planes
-            /// </summary>
-            Yvu411 = 0x31315659,
-
-            /// <summary>
-            /// 3 plane YCbCr format, 2x2 subsampled Cb (1) and Cr (2) planes
-            /// </summary>
-            Yuv420 = 0x32315559,
-
-            /// <summary>
-            /// 3 plane YCbCr format, 2x2 subsampled Cr (1) and Cb (2) planes
-            /// </summary>
-            Yvu420 = 0x32315659,
-
-            /// <summary>
-            /// 3 plane YCbCr format, 2x1 subsampled Cb (1) and Cr (2) planes
-            /// </summary>
-            Yuv422 = 0x36315559,
-
-            /// <summary>
-            /// 3 plane YCbCr format, 2x1 subsampled Cr (1) and Cb (2) planes
-            /// </summary>
-            Yvu422 = 0x36315659,
-
-            /// <summary>
-            /// 3 plane YCbCr format, non-subsampled Cb (1) and Cr (2) planes
-            /// </summary>
-            Yuv444 = 0x34325559,
-
-            /// <summary>
-            /// 3 plane YCbCr format, non-subsampled Cr (1) and Cb (2) planes
-            /// </summary>
-            Yvu444 = 0x34325659,
-
+            public static void Set(wl_shm_listener* listener
+            ,
+                wl_shm_format_delegate format)
+            {
+                if (format != null) listener->format = Marshal.GetFunctionPointerForDelegate<wl_shm_format_delegate>(format);
+            }
         }
 
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// A buffer provides the content for a wl_surface. Buffers are
-    /// created through factory interfaces such as wl_drm, wl_shm or
-    /// similar. It has a width and a height and can be attached to a
-    /// wl_surface, but the mechanism by which a client provides and
-    /// updates the contents is defined by the buffer factory interface.
-    /// </p>
-    /// </summary>
-    internal partial class WlBuffer : WlProxy
-    {
-        #region Opcodes
-
-        private const int DestroyOp = 0;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_buffer", 1, 1, 1);
-        public const string InterfaceName = "wl_buffer";
-
-        internal static void Initialize()
+        /// <summary>
+        /// Set the callbacks for the given <see cref="wl_shm"/>.
+        /// </summary>
+        /// <param name="format">buffer pixel format</param>
+        public static int wl_shm_add_listener(wl_shm* iface, wl_shm_listener* listener)
         {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("destroy", "", new IntPtr[0]),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("release", "", new IntPtr[0]),
-            });
-            Interface.Finish();
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
         }
-
-
-        #endregion
-
-        public WlBuffer(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        public delegate void ReleaseHandler(IntPtr data, IntPtr iface);
-
-        private IntPtr _listener;
-        private bool _setListener;
+        /// <summary>
+        /// <p>
+        /// Destroy a buffer. If and how you need to release the backing
+        /// storage is defined by the buffer factory interface.
+        /// </p>
+        /// <p>
+        /// For possible side-effects to a surface, see wl_surface.attach.
+        /// </p>
+        /// </summary>
+        public static void wl_buffer_destroy(wl_buffer* pointer)
+        {
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
+        }
 
         /// <summary>
         /// <p>
@@ -1175,110 +735,184 @@ namespace OpenWindow.Backends.Wayland
         /// optimization for GL(ES) compositors with wl_shm clients.
         /// </p>
         /// </summary>
-        public ReleaseHandler Release;
+        public delegate void wl_buffer_release_delegate(void* data, wl_buffer* proxy);
 
-        public void SetListener()
+        internal struct wl_buffer_listener
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 1);
-            if (Release != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Release));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
+            public IntPtr release;
+
+            public static wl_buffer_listener* Alloc(
+                wl_buffer_release_delegate release)
+            {
+                var ret = (wl_buffer_listener*) Marshal.AllocHGlobal(sizeof(wl_buffer_listener));
+                Set(ret, release);
+                return ret;
+            }
+
+            public static void Set(wl_buffer_listener* listener
+            ,
+                wl_buffer_release_delegate release)
+            {
+                if (release != null) listener->release = Marshal.GetFunctionPointerForDelegate<wl_buffer_release_delegate>(release);
+            }
         }
 
-        #endregion
-
-        #region Requests
+        /// <summary>
+        /// Set the callbacks for the given <see cref="wl_buffer"/>.
+        /// </summary>
+        public static int wl_buffer_add_listener(wl_buffer* iface, wl_buffer_listener* listener)
+        {
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
+        }
+        /// <summary>
+        /// <p>
+        /// Indicate that the client can accept the given mime type, or
+        /// NULL for not accepted.
+        /// </p>
+        /// <p>
+        /// For objects of version 2 or older, this request is used by the
+        /// client to give feedback whether the client can receive the given
+        /// mime type, or NULL if none is accepted; the feedback does not
+        /// determine whether the drag-and-drop operation succeeds or not.
+        /// </p>
+        /// <p>
+        /// For objects of version 3 or newer, this request determines the
+        /// final result of the drag-and-drop operation. If the end result
+        /// is that no mime types were accepted, the drag-and-drop operation
+        /// will be cancelled and the corresponding drag source will receive
+        /// wl_data_source.cancelled. Clients may still use this event in
+        /// conjunction with wl_data_source.action for feedback.
+        /// </p>
+        /// </summary>
+        /// <param name="serial">serial number of the accept request</param>
+        /// <param name="mime_type">mime type accepted by the client</param>
+        public static void wl_data_offer_accept(wl_data_offer* pointer, uint serial, string mime_type)
+        {
+            var mime_typeByteCount = System.Text.Encoding.UTF8.GetByteCount(mime_type);
+            var mime_typeBytes = stackalloc byte[mime_typeByteCount];
+            Util.StringToUtf8(mime_type, mime_typeBytes, mime_typeByteCount);
+            var args = stackalloc wl_argument[2];
+            args[0] = serial;
+            args[1] = mime_typeBytes;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 0, args);
+        }
 
         /// <summary>
         /// <p>
-        /// Destroy a buffer. If and how you need to release the backing
-        /// storage is defined by the buffer factory interface.
+        /// To transfer the offered data, the client issues this request
+        /// and indicates the mime type it wants to receive.  The transfer
+        /// happens through the passed file descriptor (typically created
+        /// with the pipe system call).  The source client writes the data
+        /// in the mime type representation requested and then closes the
+        /// file descriptor.
         /// </p>
         /// <p>
-        /// For possible side-effects to a surface, see wl_surface.attach.
+        /// The receiving client reads from the read end of the pipe until
+        /// EOF and then closes its end, at which point the transfer is
+        /// complete.
+        /// </p>
+        /// <p>
+        /// This request may happen multiple times for different mime types,
+        /// both before and after wl_data_device.drop. Drag-and-drop destination
+        /// clients may preemptively fetch data or examine it more closely to
+        /// determine acceptance.
         /// </p>
         /// </summary>
-        public void Destroy()
+        /// <param name="mime_type">mime type desired by receiver</param>
+        /// <param name="fd">file descriptor for data transfer</param>
+        public static void wl_data_offer_receive(wl_data_offer* pointer, string mime_type, int fd)
         {
-            Destroy(Pointer);
+            var mime_typeByteCount = System.Text.Encoding.UTF8.GetByteCount(mime_type);
+            var mime_typeBytes = stackalloc byte[mime_typeByteCount];
+            Util.StringToUtf8(mime_type, mime_typeBytes, mime_typeByteCount);
+            var args = stackalloc wl_argument[2];
+            args[0] = mime_typeBytes;
+            args[1] = fd;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 1, args);
         }
 
-        public static void Destroy(IntPtr pointer)
+        /// <summary>
+        /// <p>
+        /// Destroy the data offer.
+        /// </p>
+        /// </summary>
+        public static void wl_data_offer_destroy(wl_data_offer* pointer)
         {
-            Marshal(pointer, DestroyOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 2);
         }
 
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// A wl_data_offer represents a piece of data offered for transfer
-    /// by another client (the source client).  It is used by the
-    /// copy-and-paste and drag-and-drop mechanisms.  The offer
-    /// describes the different mime types that the data can be
-    /// converted to and provides the mechanism for transferring the
-    /// data directly from the source client.
-    /// </p>
-    /// </summary>
-    internal partial class WlDataOffer : WlProxy
-    {
-        #region Opcodes
-
-        private const int AcceptOp = 0;
-        private const int ReceiveOp = 1;
-        private const int DestroyOp = 2;
-        private const int FinishOp = 3;
-        private const int SetActionsOp = 4;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_data_offer", 3, 5, 3);
-        public const string InterfaceName = "wl_data_offer";
-
-        internal static void Initialize()
+        /// <summary>
+        /// <p>
+        /// Notifies the compositor that the drag destination successfully
+        /// finished the drag-and-drop operation.
+        /// </p>
+        /// <p>
+        /// Upon receiving this request, the compositor will emit
+        /// wl_data_source.dnd_finished on the drag source client.
+        /// </p>
+        /// <p>
+        /// It is a client error to perform other requests than
+        /// wl_data_offer.destroy after this one. It is also an error to perform
+        /// this request after a NULL mime type has been set in
+        /// wl_data_offer.accept or no action was received through
+        /// wl_data_offer.action.
+        /// </p>
+        /// </summary>
+        public static void wl_data_offer_finish(wl_data_offer* pointer)
         {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("accept", "u?s", new [] {IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("receive", "sh", new [] {IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("finish", "", new IntPtr[0]),
-                new WlMessage("set_actions", "uu", new [] {IntPtr.Zero, IntPtr.Zero}),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("offer", "s", new [] {IntPtr.Zero}),
-                new WlMessage("source_actions", "u", new [] {IntPtr.Zero}),
-                new WlMessage("action", "u", new [] {IntPtr.Zero}),
-            });
-            Interface.Finish();
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 3);
         }
 
-
-        #endregion
-
-        public WlDataOffer(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="mime_type">offered mime type</param>
-        public delegate void OfferHandler(IntPtr data, IntPtr iface, string mime_type);
-
-        /// <param name="source_actions">actions offered by the data source</param>
-        public delegate void SourceActionsHandler(IntPtr data, IntPtr iface, uint source_actions);
-
-        /// <param name="dnd_action">action selected by the compositor</param>
-        public delegate void ActionHandler(IntPtr data, IntPtr iface, uint dnd_action);
-
-        private IntPtr _listener;
-        private bool _setListener;
+        /// <summary>
+        /// <p>
+        /// Sets the actions that the destination side client supports for
+        /// this operation. This request may trigger the emission of
+        /// wl_data_source.action and wl_data_offer.action events if the compositor
+        /// needs to change the selected action.
+        /// </p>
+        /// <p>
+        /// This request can be called multiple times throughout the
+        /// drag-and-drop operation, typically in response to wl_data_device.enter
+        /// or wl_data_device.motion events.
+        /// </p>
+        /// <p>
+        /// This request determines the final result of the drag-and-drop
+        /// operation. If the end result is that no action is accepted,
+        /// the drag source will receive wl_drag_source.cancelled.
+        /// </p>
+        /// <p>
+        /// The dnd_actions argument must contain only values expressed in the
+        /// wl_data_device_manager.dnd_actions enum, and the preferred_action
+        /// argument must only contain one of those values set, otherwise it
+        /// will result in a protocol error.
+        /// </p>
+        /// <p>
+        /// While managing an "ask" action, the destination drag-and-drop client
+        /// may perform further wl_data_offer.receive requests, and is expected
+        /// to perform one last wl_data_offer.set_actions request with a preferred
+        /// action other than "ask" (and optionally wl_data_offer.accept) before
+        /// requesting wl_data_offer.finish, in order to convey the action selected
+        /// by the user. If the preferred action is not in the
+        /// wl_data_offer.source_actions mask, an error will be raised.
+        /// </p>
+        /// <p>
+        /// If the "ask" action is dismissed (e.g. user cancellation), the client
+        /// is expected to perform wl_data_offer.destroy right away.
+        /// </p>
+        /// <p>
+        /// This request can only be made on drag-and-drop offers, a protocol error
+        /// will be raised otherwise.
+        /// </p>
+        /// </summary>
+        /// <param name="dnd_actions">actions supported by the destination client</param>
+        /// <param name="preferred_action">action preferred by the destination client</param>
+        public static void wl_data_offer_set_actions(wl_data_offer* pointer, uint dnd_actions, uint preferred_action)
+        {
+            var args = stackalloc wl_argument[2];
+            args[0] = dnd_actions;
+            args[1] = preferred_action;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 4, args);
+        }
 
         /// <summary>
         /// <p>
@@ -1286,7 +920,7 @@ namespace OpenWindow.Backends.Wayland
         /// event per offered mime type.
         /// </p>
         /// </summary>
-        public OfferHandler Offer;
+        public delegate void wl_data_offer_offer_delegate(void* data, wl_data_offer* proxy, byte* mime_type);
 
         /// <summary>
         /// <p>
@@ -1295,7 +929,7 @@ namespace OpenWindow.Backends.Wayland
         /// side changes its offered actions through wl_data_source.set_actions.
         /// </p>
         /// </summary>
-        public SourceActionsHandler SourceActions;
+        public delegate void wl_data_offer_source_actions_delegate(void* data, wl_data_offer* proxy, uint source_actions);
 
         /// <summary>
         /// <p>
@@ -1342,294 +976,96 @@ namespace OpenWindow.Backends.Wayland
         /// must happen before the call to wl_data_offer.finish.
         /// </p>
         /// </summary>
-        public ActionHandler Action;
+        public delegate void wl_data_offer_action_delegate(void* data, wl_data_offer* proxy, uint dnd_action);
 
-        public void SetListener()
+        internal struct wl_data_offer_listener
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 3);
-            if (Offer != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Offer));
-            if (SourceActions != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(SourceActions));
-            if (Action != null)
-                SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Action));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
+            public IntPtr offer;
+            public IntPtr source_actions;
+            public IntPtr action;
+
+            public static wl_data_offer_listener* Alloc(
+                wl_data_offer_offer_delegate offer,
+                wl_data_offer_source_actions_delegate source_actions,
+                wl_data_offer_action_delegate action)
+            {
+                var ret = (wl_data_offer_listener*) Marshal.AllocHGlobal(sizeof(wl_data_offer_listener));
+                Set(ret, offer,source_actions,action);
+                return ret;
+            }
+
+            public static void Set(wl_data_offer_listener* listener
+            ,
+                wl_data_offer_offer_delegate offer,
+                wl_data_offer_source_actions_delegate source_actions,
+                wl_data_offer_action_delegate action)
+            {
+                if (offer != null) listener->offer = Marshal.GetFunctionPointerForDelegate<wl_data_offer_offer_delegate>(offer);
+                if (source_actions != null) listener->source_actions = Marshal.GetFunctionPointerForDelegate<wl_data_offer_source_actions_delegate>(source_actions);
+                if (action != null) listener->action = Marshal.GetFunctionPointerForDelegate<wl_data_offer_action_delegate>(action);
+            }
         }
 
-        #endregion
-
-        #region Requests
-
+        /// <summary>
+        /// Set the callbacks for the given <see cref="wl_data_offer"/>.
+        /// </summary>
+        /// <param name="mime_type">offered mime type</param>
+        /// <param name="source_actions">actions offered by the data source</param>
+        /// <param name="dnd_action">action selected by the compositor</param>
+        public static int wl_data_offer_add_listener(wl_data_offer* iface, wl_data_offer_listener* listener)
+        {
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
+        }
         /// <summary>
         /// <p>
-        /// Indicate that the client can accept the given mime type, or
-        /// NULL for not accepted.
-        /// </p>
-        /// <p>
-        /// For objects of version 2 or older, this request is used by the
-        /// client to give feedback whether the client can receive the given
-        /// mime type, or NULL if none is accepted; the feedback does not
-        /// determine whether the drag-and-drop operation succeeds or not.
-        /// </p>
-        /// <p>
-        /// For objects of version 3 or newer, this request determines the
-        /// final result of the drag-and-drop operation. If the end result
-        /// is that no mime types were accepted, the drag-and-drop operation
-        /// will be cancelled and the corresponding drag source will receive
-        /// wl_data_source.cancelled. Clients may still use this event in
-        /// conjunction with wl_data_source.action for feedback.
+        /// This request adds a mime type to the set of mime types
+        /// advertised to targets.  Can be called several times to offer
+        /// multiple types.
         /// </p>
         /// </summary>
-        /// <param name="serial">serial number of the accept request</param>
-        /// <param name="mime_type">mime type accepted by the client</param>
-        public void Accept(uint serial, string mime_type)
+        /// <param name="mime_type">mime type offered by the data source</param>
+        public static void wl_data_source_offer(wl_data_source* pointer, string mime_type)
         {
-            Accept(Pointer, serial, mime_type);
-        }
-
-        public static void Accept(IntPtr pointer, uint serial, string mime_type)
-        {
-            var mime_typeStr = SMarshal.StringToHGlobalAnsi(mime_type);
-            var args = new ArgumentStruct[] { serial, mime_typeStr };
-            MarshalArray(pointer, AcceptOp, args);
-            SMarshal.FreeHGlobal(mime_typeStr);
+            var mime_typeByteCount = System.Text.Encoding.UTF8.GetByteCount(mime_type);
+            var mime_typeBytes = stackalloc byte[mime_typeByteCount];
+            Util.StringToUtf8(mime_type, mime_typeBytes, mime_typeByteCount);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
 
         /// <summary>
         /// <p>
-        /// To transfer the offered data, the client issues this request
-        /// and indicates the mime type it wants to receive.  The transfer
-        /// happens through the passed file descriptor (typically created
-        /// with the pipe system call).  The source client writes the data
-        /// in the mime type representation requested and then closes the
-        /// file descriptor.
-        /// </p>
-        /// <p>
-        /// The receiving client reads from the read end of the pipe until
-        /// EOF and then closes its end, at which point the transfer is
-        /// complete.
-        /// </p>
-        /// <p>
-        /// This request may happen multiple times for different mime types,
-        /// both before and after wl_data_device.drop. Drag-and-drop destination
-        /// clients may preemptively fetch data or examine it more closely to
-        /// determine acceptance.
+        /// Destroy the data source.
         /// </p>
         /// </summary>
-        /// <param name="mime_type">mime type desired by receiver</param>
-        /// <param name="fd">file descriptor for data transfer</param>
-        public void Receive(string mime_type, int fd)
+        public static void wl_data_source_destroy(wl_data_source* pointer)
         {
-            Receive(Pointer, mime_type, fd);
-        }
-
-        public static void Receive(IntPtr pointer, string mime_type, int fd)
-        {
-            var mime_typeStr = SMarshal.StringToHGlobalAnsi(mime_type);
-            var args = new ArgumentStruct[] { mime_typeStr, fd };
-            MarshalArray(pointer, ReceiveOp, args);
-            SMarshal.FreeHGlobal(mime_typeStr);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 1);
         }
 
         /// <summary>
         /// <p>
-        /// Destroy the data offer.
-        /// </p>
-        /// </summary>
-        public void Destroy()
-        {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
-        }
-
-        /// <summary>
-        /// <p>
-        /// Notifies the compositor that the drag destination successfully
-        /// finished the drag-and-drop operation.
-        /// </p>
-        /// <p>
-        /// Upon receiving this request, the compositor will emit
-        /// wl_data_source.dnd_finished on the drag source client.
-        /// </p>
-        /// <p>
-        /// It is a client error to perform other requests than
-        /// wl_data_offer.destroy after this one. It is also an error to perform
-        /// this request after a NULL mime type has been set in
-        /// wl_data_offer.accept or no action was received through
-        /// wl_data_offer.action.
-        /// </p>
-        /// </summary>
-        public void Finish()
-        {
-            Finish(Pointer);
-        }
-
-        public static void Finish(IntPtr pointer)
-        {
-            Marshal(pointer, FinishOp);
-        }
-
-        /// <summary>
-        /// <p>
-        /// Sets the actions that the destination side client supports for
-        /// this operation. This request may trigger the emission of
-        /// wl_data_source.action and wl_data_offer.action events if the compositor
-        /// needs to change the selected action.
-        /// </p>
-        /// <p>
-        /// This request can be called multiple times throughout the
-        /// drag-and-drop operation, typically in response to wl_data_device.enter
-        /// or wl_data_device.motion events.
-        /// </p>
-        /// <p>
-        /// This request determines the final result of the drag-and-drop
-        /// operation. If the end result is that no action is accepted,
-        /// the drag source will receive wl_drag_source.cancelled.
+        /// Sets the actions that the source side client supports for this
+        /// operation. This request may trigger wl_data_source.action and
+        /// wl_data_offer.action events if the compositor needs to change the
+        /// selected action.
         /// </p>
         /// <p>
         /// The dnd_actions argument must contain only values expressed in the
-        /// wl_data_device_manager.dnd_actions enum, and the preferred_action
-        /// argument must only contain one of those values set, otherwise it
-        /// will result in a protocol error.
+        /// wl_data_device_manager.dnd_actions enum, otherwise it will result
+        /// in a protocol error.
         /// </p>
         /// <p>
-        /// While managing an "ask" action, the destination drag-and-drop client
-        /// may perform further wl_data_offer.receive requests, and is expected
-        /// to perform one last wl_data_offer.set_actions request with a preferred
-        /// action other than "ask" (and optionally wl_data_offer.accept) before
-        /// requesting wl_data_offer.finish, in order to convey the action selected
-        /// by the user. If the preferred action is not in the
-        /// wl_data_offer.source_actions mask, an error will be raised.
-        /// </p>
-        /// <p>
-        /// If the "ask" action is dismissed (e.g. user cancellation), the client
-        /// is expected to perform wl_data_offer.destroy right away.
-        /// </p>
-        /// <p>
-        /// This request can only be made on drag-and-drop offers, a protocol error
-        /// will be raised otherwise.
+        /// This request must be made once only, and can only be made on sources
+        /// used in drag-and-drop, so it must be performed before
+        /// wl_data_device.start_drag. Attempting to use the source other than
+        /// for drag-and-drop will raise a protocol error.
         /// </p>
         /// </summary>
-        /// <param name="dnd_actions">actions supported by the destination client</param>
-        /// <param name="preferred_action">action preferred by the destination client</param>
-        public void SetActions(uint dnd_actions, uint preferred_action)
+        /// <param name="dnd_actions">actions supported by the data source</param>
+        public static void wl_data_source_set_actions(wl_data_source* pointer, uint dnd_actions)
         {
-            SetActions(Pointer, dnd_actions, preferred_action);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 2);
         }
-
-        public static void SetActions(IntPtr pointer, uint dnd_actions, uint preferred_action)
-        {
-            var args = new ArgumentStruct[] { dnd_actions, preferred_action };
-            MarshalArray(pointer, SetActionsOp, args);
-        }
-
-        #endregion
-
-        #region Enums
-
-        public enum ErrorEnum
-        {
-            /// <summary>
-            /// finish request was called untimely
-            /// </summary>
-            InvalidFinish = 0,
-
-            /// <summary>
-            /// action mask contains invalid values
-            /// </summary>
-            InvalidActionMask = 1,
-
-            /// <summary>
-            /// action argument has an invalid value
-            /// </summary>
-            InvalidAction = 2,
-
-            /// <summary>
-            /// offer doesn't accept this request
-            /// </summary>
-            InvalidOffer = 3,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// The wl_data_source object is the source side of a wl_data_offer.
-    /// It is created by the source client in a data transfer and
-    /// provides a way to describe the offered data and a way to respond
-    /// to requests to transfer the data.
-    /// </p>
-    /// </summary>
-    internal partial class WlDataSource : WlProxy
-    {
-        #region Opcodes
-
-        private const int OfferOp = 0;
-        private const int DestroyOp = 1;
-        private const int SetActionsOp = 2;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_data_source", 3, 3, 6);
-        public const string InterfaceName = "wl_data_source";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("offer", "s", new [] {IntPtr.Zero}),
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("set_actions", "u", new [] {IntPtr.Zero}),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("target", "?s", new [] {IntPtr.Zero}),
-                new WlMessage("send", "sh", new [] {IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("cancelled", "", new IntPtr[0]),
-                new WlMessage("dnd_drop_performed", "", new IntPtr[0]),
-                new WlMessage("dnd_finished", "", new IntPtr[0]),
-                new WlMessage("action", "u", new [] {IntPtr.Zero}),
-            });
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public WlDataSource(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="mime_type">mime type accepted by the target</param>
-        public delegate void TargetHandler(IntPtr data, IntPtr iface, string mime_type);
-
-        /// <param name="mime_type">mime type for the data</param>
-        /// <param name="fd">file descriptor for the data</param>
-        public delegate void SendHandler(IntPtr data, IntPtr iface, string mime_type, int fd);
-
-        public delegate void CancelledHandler(IntPtr data, IntPtr iface);
-
-        public delegate void DndDropPerformedHandler(IntPtr data, IntPtr iface);
-
-        public delegate void DndFinishedHandler(IntPtr data, IntPtr iface);
-
-        /// <param name="dnd_action">action selected by the compositor</param>
-        public delegate void ActionHandler(IntPtr data, IntPtr iface, uint dnd_action);
-
-        private IntPtr _listener;
-        private bool _setListener;
 
         /// <summary>
         /// <p>
@@ -1640,7 +1076,7 @@ namespace OpenWindow.Backends.Wayland
         /// Used for feedback during drag-and-drop.
         /// </p>
         /// </summary>
-        public TargetHandler Target;
+        public delegate void wl_data_source_target_delegate(void* data, wl_data_source* proxy, byte* mime_type);
 
         /// <summary>
         /// <p>
@@ -1649,7 +1085,7 @@ namespace OpenWindow.Backends.Wayland
         /// close it.
         /// </p>
         /// </summary>
-        public SendHandler Send;
+        public delegate void wl_data_source_send_delegate(void* data, wl_data_source* proxy, byte* mime_type, int fd);
 
         /// <summary>
         /// <p>
@@ -1678,7 +1114,7 @@ namespace OpenWindow.Backends.Wayland
         /// source.
         /// </p>
         /// </summary>
-        public CancelledHandler Cancelled;
+        public delegate void wl_data_source_cancelled_delegate(void* data, wl_data_source* proxy);
 
         /// <summary>
         /// <p>
@@ -1695,7 +1131,7 @@ namespace OpenWindow.Backends.Wayland
         /// not be destroyed here.
         /// </p>
         /// </summary>
-        public DndDropPerformedHandler DndDropPerformed;
+        public delegate void wl_data_source_dnd_drop_performed_delegate(void* data, wl_data_source* proxy);
 
         /// <summary>
         /// <p>
@@ -1708,7 +1144,7 @@ namespace OpenWindow.Backends.Wayland
         /// source can now delete the transferred data.
         /// </p>
         /// </summary>
-        public DndFinishedHandler DndFinished;
+        public delegate void wl_data_source_dnd_finished_delegate(void* data, wl_data_source* proxy);
 
         /// <summary>
         /// <p>
@@ -1744,302 +1180,59 @@ namespace OpenWindow.Backends.Wayland
         /// they reflect the current action.
         /// </p>
         /// </summary>
-        public ActionHandler Action;
+        public delegate void wl_data_source_action_delegate(void* data, wl_data_source* proxy, uint dnd_action);
 
-        public void SetListener()
+        internal struct wl_data_source_listener
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 6);
-            if (Target != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Target));
-            if (Send != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Send));
-            if (Cancelled != null)
-                SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Cancelled));
-            if (DndDropPerformed != null)
-                SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(DndDropPerformed));
-            if (DndFinished != null)
-                SMarshal.WriteIntPtr(_listener, 4 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(DndFinished));
-            if (Action != null)
-                SMarshal.WriteIntPtr(_listener, 5 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Action));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
-        }
+            public IntPtr target;
+            public IntPtr send;
+            public IntPtr cancelled;
+            public IntPtr dnd_drop_performed;
+            public IntPtr dnd_finished;
+            public IntPtr action;
 
-        #endregion
-
-        #region Requests
-
-        /// <summary>
-        /// <p>
-        /// This request adds a mime type to the set of mime types
-        /// advertised to targets.  Can be called several times to offer
-        /// multiple types.
-        /// </p>
-        /// </summary>
-        /// <param name="mime_type">mime type offered by the data source</param>
-        public void Offer(string mime_type)
-        {
-            Offer(Pointer, mime_type);
-        }
-
-        public static void Offer(IntPtr pointer, string mime_type)
-        {
-            var mime_typeStr = SMarshal.StringToHGlobalAnsi(mime_type);
-            Marshal(pointer, OfferOp);
-            SMarshal.FreeHGlobal(mime_typeStr);
-        }
-
-        /// <summary>
-        /// <p>
-        /// Destroy the data source.
-        /// </p>
-        /// </summary>
-        public void Destroy()
-        {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
-        }
-
-        /// <summary>
-        /// <p>
-        /// Sets the actions that the source side client supports for this
-        /// operation. This request may trigger wl_data_source.action and
-        /// wl_data_offer.action events if the compositor needs to change the
-        /// selected action.
-        /// </p>
-        /// <p>
-        /// The dnd_actions argument must contain only values expressed in the
-        /// wl_data_device_manager.dnd_actions enum, otherwise it will result
-        /// in a protocol error.
-        /// </p>
-        /// <p>
-        /// This request must be made once only, and can only be made on sources
-        /// used in drag-and-drop, so it must be performed before
-        /// wl_data_device.start_drag. Attempting to use the source other than
-        /// for drag-and-drop will raise a protocol error.
-        /// </p>
-        /// </summary>
-        /// <param name="dnd_actions">actions supported by the data source</param>
-        public void SetActions(uint dnd_actions)
-        {
-            SetActions(Pointer, dnd_actions);
-        }
-
-        public static void SetActions(IntPtr pointer, uint dnd_actions)
-        {
-            Marshal(pointer, SetActionsOp);
-        }
-
-        #endregion
-
-        #region Enums
-
-        public enum ErrorEnum
-        {
-            /// <summary>
-            /// action mask contains invalid values
-            /// </summary>
-            InvalidActionMask = 0,
-
-            /// <summary>
-            /// source doesn't accept this request
-            /// </summary>
-            InvalidSource = 1,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// There is one wl_data_device per seat which can be obtained
-    /// from the global wl_data_device_manager singleton.
-    /// </p>
-    /// <p>
-    /// A wl_data_device provides access to inter-client data transfer
-    /// mechanisms such as copy-and-paste and drag-and-drop.
-    /// </p>
-    /// </summary>
-    internal partial class WlDataDevice : WlProxy
-    {
-        #region Opcodes
-
-        private const int StartDragOp = 0;
-        private const int SetSelectionOp = 1;
-        private const int ReleaseOp = 2;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_data_device", 3, 3, 6);
-        public const string InterfaceName = "wl_data_device";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
+            public static wl_data_source_listener* Alloc(
+                wl_data_source_target_delegate target,
+                wl_data_source_send_delegate send,
+                wl_data_source_cancelled_delegate cancelled,
+                wl_data_source_dnd_drop_performed_delegate dnd_drop_performed,
+                wl_data_source_dnd_finished_delegate dnd_finished,
+                wl_data_source_action_delegate action)
             {
-                new WlMessage("start_drag", "?oo?ou", new [] {WlDataSource.Interface.Pointer, WlSurface.Interface.Pointer, WlSurface.Interface.Pointer, IntPtr.Zero}),
-                new WlMessage("set_selection", "?ou", new [] {WlDataSource.Interface.Pointer, IntPtr.Zero}),
-                new WlMessage("release", "", new IntPtr[0]),
-            });
-            Interface.SetEvents(new []
+                var ret = (wl_data_source_listener*) Marshal.AllocHGlobal(sizeof(wl_data_source_listener));
+                Set(ret, target,send,cancelled,dnd_drop_performed,dnd_finished,action);
+                return ret;
+            }
+
+            public static void Set(wl_data_source_listener* listener
+            ,
+                wl_data_source_target_delegate target,
+                wl_data_source_send_delegate send,
+                wl_data_source_cancelled_delegate cancelled,
+                wl_data_source_dnd_drop_performed_delegate dnd_drop_performed,
+                wl_data_source_dnd_finished_delegate dnd_finished,
+                wl_data_source_action_delegate action)
             {
-                new WlMessage("data_offer", "n", new [] {WlDataOffer.Interface.Pointer}),
-                new WlMessage("enter", "uoff?o", new [] {IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero, WlDataOffer.Interface.Pointer}),
-                new WlMessage("leave", "", new IntPtr[0]),
-                new WlMessage("motion", "uff", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("drop", "", new IntPtr[0]),
-                new WlMessage("selection", "?o", new [] {WlDataOffer.Interface.Pointer}),
-            });
-            Interface.Finish();
+                if (target != null) listener->target = Marshal.GetFunctionPointerForDelegate<wl_data_source_target_delegate>(target);
+                if (send != null) listener->send = Marshal.GetFunctionPointerForDelegate<wl_data_source_send_delegate>(send);
+                if (cancelled != null) listener->cancelled = Marshal.GetFunctionPointerForDelegate<wl_data_source_cancelled_delegate>(cancelled);
+                if (dnd_drop_performed != null) listener->dnd_drop_performed = Marshal.GetFunctionPointerForDelegate<wl_data_source_dnd_drop_performed_delegate>(dnd_drop_performed);
+                if (dnd_finished != null) listener->dnd_finished = Marshal.GetFunctionPointerForDelegate<wl_data_source_dnd_finished_delegate>(dnd_finished);
+                if (action != null) listener->action = Marshal.GetFunctionPointerForDelegate<wl_data_source_action_delegate>(action);
+            }
         }
 
-
-        #endregion
-
-        public WlDataDevice(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="id">the new data_offer object</param>
-        public delegate void DataOfferHandler(IntPtr data, IntPtr iface, WlObject id);
-
-        /// <param name="serial">serial number of the enter event</param>
-        /// <param name="surface">client surface entered</param>
-        /// <param name="x">surface-local x coordinate</param>
-        /// <param name="y">surface-local y coordinate</param>
-        /// <param name="id">source data_offer object</param>
-        public delegate void EnterHandler(IntPtr data, IntPtr iface, uint serial, IntPtr surface, int x, int y, IntPtr id);
-
-        public delegate void LeaveHandler(IntPtr data, IntPtr iface);
-
-        /// <param name="time">timestamp with millisecond granularity</param>
-        /// <param name="x">surface-local x coordinate</param>
-        /// <param name="y">surface-local y coordinate</param>
-        public delegate void MotionHandler(IntPtr data, IntPtr iface, uint time, int x, int y);
-
-        public delegate void DropHandler(IntPtr data, IntPtr iface);
-
-        /// <param name="id">selection data_offer object</param>
-        public delegate void SelectionHandler(IntPtr data, IntPtr iface, IntPtr id);
-
-        private IntPtr _listener;
-        private bool _setListener;
-
         /// <summary>
-        /// <p>
-        /// The data_offer event introduces a new wl_data_offer object,
-        /// which will subsequently be used in either the
-        /// data_device.enter event (for drag-and-drop) or the
-        /// data_device.selection event (for selections).  Immediately
-        /// following the data_device_data_offer event, the new data_offer
-        /// object will send out data_offer.offer events to describe the
-        /// mime types it offers.
-        /// </p>
+        /// Set the callbacks for the given <see cref="wl_data_source"/>.
         /// </summary>
-        public DataOfferHandler DataOffer;
-
-        /// <summary>
-        /// <p>
-        /// This event is sent when an active drag-and-drop pointer enters
-        /// a surface owned by the client.  The position of the pointer at
-        /// enter time is provided by the x and y arguments, in surface-local
-        /// coordinates.
-        /// </p>
-        /// </summary>
-        public EnterHandler Enter;
-
-        /// <summary>
-        /// <p>
-        /// This event is sent when the drag-and-drop pointer leaves the
-        /// surface and the session ends.  The client must destroy the
-        /// wl_data_offer introduced at enter time at this point.
-        /// </p>
-        /// </summary>
-        public LeaveHandler Leave;
-
-        /// <summary>
-        /// <p>
-        /// This event is sent when the drag-and-drop pointer moves within
-        /// the currently focused surface. The new position of the pointer
-        /// is provided by the x and y arguments, in surface-local
-        /// coordinates.
-        /// </p>
-        /// </summary>
-        public MotionHandler Motion;
-
-        /// <summary>
-        /// <p>
-        /// The event is sent when a drag-and-drop operation is ended
-        /// because the implicit grab is removed.
-        /// </p>
-        /// <p>
-        /// The drag-and-drop destination is expected to honor the last action
-        /// received through wl_data_offer.action, if the resulting action is
-        /// "copy" or "move", the destination can still perform
-        /// wl_data_offer.receive requests, and is expected to end all
-        /// transfers with a wl_data_offer.finish request.
-        /// </p>
-        /// <p>
-        /// If the resulting action is "ask", the action will not be considered
-        /// final. The drag-and-drop destination is expected to perform one last
-        /// wl_data_offer.set_actions request, or wl_data_offer.destroy in order
-        /// to cancel the operation.
-        /// </p>
-        /// </summary>
-        public DropHandler Drop;
-
-        /// <summary>
-        /// <p>
-        /// The selection event is sent out to notify the client of a new
-        /// wl_data_offer for the selection for this device.  The
-        /// data_device.data_offer and the data_offer.offer events are
-        /// sent out immediately before this event to introduce the data
-        /// offer object.  The selection event is sent to a client
-        /// immediately before receiving keyboard focus and when a new
-        /// selection is set while the client has keyboard focus.  The
-        /// data_offer is valid until a new data_offer or NULL is received
-        /// or until the client loses keyboard focus.  The client must
-        /// destroy the previous selection data_offer, if any, upon receiving
-        /// this event.
-        /// </p>
-        /// </summary>
-        public SelectionHandler Selection;
-
-        public void SetListener()
+        /// <param name="mime_type">mime type accepted by the target</param>
+        /// <param name="mime_type">mime type for the data</param>
+        /// <param name="fd">file descriptor for the data</param>
+        /// <param name="dnd_action">action selected by the compositor</param>
+        public static int wl_data_source_add_listener(wl_data_source* iface, wl_data_source_listener* listener)
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 6);
-            if (DataOffer != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(DataOffer));
-            if (Enter != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Enter));
-            if (Leave != null)
-                SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Leave));
-            if (Motion != null)
-                SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Motion));
-            if (Drop != null)
-                SMarshal.WriteIntPtr(_listener, 4 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Drop));
-            if (Selection != null)
-                SMarshal.WriteIntPtr(_listener, 5 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Selection));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
         }
-
-        #endregion
-
-        #region Requests
-
         /// <summary>
         /// <p>
         /// This request asks the compositor to start a drag-and-drop
@@ -2079,15 +1272,14 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="origin">surface where the drag originates</param>
         /// <param name="icon">drag-and-drop icon surface</param>
         /// <param name="serial">serial number of the implicit grab on the origin</param>
-        public void StartDrag(WlDataSource source, WlSurface origin, WlSurface icon, uint serial)
+        public static void wl_data_device_start_drag(wl_data_device* pointer, wl_data_source* source, wl_surface* origin, wl_surface* icon, uint serial)
         {
-            StartDrag(Pointer, source, origin, icon, serial);
-        }
-
-        public static void StartDrag(IntPtr pointer, WlDataSource source, WlSurface origin, WlSurface icon, uint serial)
-        {
-            var args = new ArgumentStruct[] { source, origin, icon, serial };
-            MarshalArray(pointer, StartDragOp, args);
+            var args = stackalloc wl_argument[4];
+            args[0] = source;
+            args[1] = origin;
+            args[2] = icon;
+            args[3] = serial;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 0, args);
         }
 
         /// <summary>
@@ -2101,15 +1293,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="source">data source for the selection</param>
         /// <param name="serial">serial number of the event that triggered this request</param>
-        public void SetSelection(WlDataSource source, uint serial)
+        public static void wl_data_device_set_selection(wl_data_device* pointer, wl_data_source* source, uint serial)
         {
-            SetSelection(Pointer, source, serial);
-        }
-
-        public static void SetSelection(IntPtr pointer, WlDataSource source, uint serial)
-        {
-            var args = new ArgumentStruct[] { source, serial };
-            MarshalArray(pointer, SetSelectionOp, args);
+            var args = stackalloc wl_argument[2];
+            args[0] = source;
+            args[1] = serial;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 1, args);
         }
 
         /// <summary>
@@ -2117,96 +1306,160 @@ namespace OpenWindow.Backends.Wayland
         /// This request destroys the data device.
         /// </p>
         /// </summary>
-        public void Release()
+        public static void wl_data_device_release(wl_data_device* pointer)
         {
-            Release(Pointer);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 2);
         }
 
-        public static void Release(IntPtr pointer)
+        /// <summary>
+        /// <p>
+        /// The data_offer event introduces a new wl_data_offer object,
+        /// which will subsequently be used in either the
+        /// data_device.enter event (for drag-and-drop) or the
+        /// data_device.selection event (for selections).  Immediately
+        /// following the data_device_data_offer event, the new data_offer
+        /// object will send out data_offer.offer events to describe the
+        /// mime types it offers.
+        /// </p>
+        /// </summary>
+        public delegate void wl_data_device_data_offer_delegate(void* data, wl_data_device* proxy, uint id);
+
+        /// <summary>
+        /// <p>
+        /// This event is sent when an active drag-and-drop pointer enters
+        /// a surface owned by the client.  The position of the pointer at
+        /// enter time is provided by the x and y arguments, in surface-local
+        /// coordinates.
+        /// </p>
+        /// </summary>
+        public delegate void wl_data_device_enter_delegate(void* data, wl_data_device* proxy, uint serial, wl_surface* surface, int x, int y, wl_data_offer* id);
+
+        /// <summary>
+        /// <p>
+        /// This event is sent when the drag-and-drop pointer leaves the
+        /// surface and the session ends.  The client must destroy the
+        /// wl_data_offer introduced at enter time at this point.
+        /// </p>
+        /// </summary>
+        public delegate void wl_data_device_leave_delegate(void* data, wl_data_device* proxy);
+
+        /// <summary>
+        /// <p>
+        /// This event is sent when the drag-and-drop pointer moves within
+        /// the currently focused surface. The new position of the pointer
+        /// is provided by the x and y arguments, in surface-local
+        /// coordinates.
+        /// </p>
+        /// </summary>
+        public delegate void wl_data_device_motion_delegate(void* data, wl_data_device* proxy, uint time, int x, int y);
+
+        /// <summary>
+        /// <p>
+        /// The event is sent when a drag-and-drop operation is ended
+        /// because the implicit grab is removed.
+        /// </p>
+        /// <p>
+        /// The drag-and-drop destination is expected to honor the last action
+        /// received through wl_data_offer.action, if the resulting action is
+        /// "copy" or "move", the destination can still perform
+        /// wl_data_offer.receive requests, and is expected to end all
+        /// transfers with a wl_data_offer.finish request.
+        /// </p>
+        /// <p>
+        /// If the resulting action is "ask", the action will not be considered
+        /// final. The drag-and-drop destination is expected to perform one last
+        /// wl_data_offer.set_actions request, or wl_data_offer.destroy in order
+        /// to cancel the operation.
+        /// </p>
+        /// </summary>
+        public delegate void wl_data_device_drop_delegate(void* data, wl_data_device* proxy);
+
+        /// <summary>
+        /// <p>
+        /// The selection event is sent out to notify the client of a new
+        /// wl_data_offer for the selection for this device.  The
+        /// data_device.data_offer and the data_offer.offer events are
+        /// sent out immediately before this event to introduce the data
+        /// offer object.  The selection event is sent to a client
+        /// immediately before receiving keyboard focus and when a new
+        /// selection is set while the client has keyboard focus.  The
+        /// data_offer is valid until a new data_offer or NULL is received
+        /// or until the client loses keyboard focus.  The client must
+        /// destroy the previous selection data_offer, if any, upon receiving
+        /// this event.
+        /// </p>
+        /// </summary>
+        public delegate void wl_data_device_selection_delegate(void* data, wl_data_device* proxy, wl_data_offer* id);
+
+        internal struct wl_data_device_listener
         {
-            Marshal(pointer, ReleaseOp);
-        }
+            public IntPtr data_offer;
+            public IntPtr enter;
+            public IntPtr leave;
+            public IntPtr motion;
+            public IntPtr drop;
+            public IntPtr selection;
 
-        #endregion
-
-        #region Enums
-
-        public enum ErrorEnum
-        {
-            /// <summary>
-            /// given wl_surface has another role
-            /// </summary>
-            Role = 0,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// The wl_data_device_manager is a singleton global object that
-    /// provides access to inter-client data transfer mechanisms such as
-    /// copy-and-paste and drag-and-drop.  These mechanisms are tied to
-    /// a wl_seat and this interface lets a client get a wl_data_device
-    /// corresponding to a wl_seat.
-    /// </p>
-    /// <p>
-    /// Depending on the version bound, the objects created from the bound
-    /// wl_data_device_manager object will have different requirements for
-    /// functioning properly. See wl_data_source.set_actions,
-    /// wl_data_offer.accept and wl_data_offer.finish for details.
-    /// </p>
-    /// </summary>
-    internal partial class WlDataDeviceManager : WlProxy
-    {
-        #region Opcodes
-
-        private const int CreateDataSourceOp = 0;
-        private const int GetDataDeviceOp = 1;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_data_device_manager", 3, 2, 0);
-        public const string InterfaceName = "wl_data_device_manager";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
+            public static wl_data_device_listener* Alloc(
+                wl_data_device_data_offer_delegate data_offer,
+                wl_data_device_enter_delegate enter,
+                wl_data_device_leave_delegate leave,
+                wl_data_device_motion_delegate motion,
+                wl_data_device_drop_delegate drop,
+                wl_data_device_selection_delegate selection)
             {
-                new WlMessage("create_data_source", "n", new [] {WlDataSource.Interface.Pointer}),
-                new WlMessage("get_data_device", "no", new [] {WlDataDevice.Interface.Pointer, WlSeat.Interface.Pointer}),
-            });
-            Interface.SetEvents(new WlMessage[0]);
-            Interface.Finish();
+                var ret = (wl_data_device_listener*) Marshal.AllocHGlobal(sizeof(wl_data_device_listener));
+                Set(ret, data_offer,enter,leave,motion,drop,selection);
+                return ret;
+            }
+
+            public static void Set(wl_data_device_listener* listener
+            ,
+                wl_data_device_data_offer_delegate data_offer,
+                wl_data_device_enter_delegate enter,
+                wl_data_device_leave_delegate leave,
+                wl_data_device_motion_delegate motion,
+                wl_data_device_drop_delegate drop,
+                wl_data_device_selection_delegate selection)
+            {
+                if (data_offer != null) listener->data_offer = Marshal.GetFunctionPointerForDelegate<wl_data_device_data_offer_delegate>(data_offer);
+                if (enter != null) listener->enter = Marshal.GetFunctionPointerForDelegate<wl_data_device_enter_delegate>(enter);
+                if (leave != null) listener->leave = Marshal.GetFunctionPointerForDelegate<wl_data_device_leave_delegate>(leave);
+                if (motion != null) listener->motion = Marshal.GetFunctionPointerForDelegate<wl_data_device_motion_delegate>(motion);
+                if (drop != null) listener->drop = Marshal.GetFunctionPointerForDelegate<wl_data_device_drop_delegate>(drop);
+                if (selection != null) listener->selection = Marshal.GetFunctionPointerForDelegate<wl_data_device_selection_delegate>(selection);
+            }
         }
 
-
-        #endregion
-
-        public WlDataDeviceManager(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Requests
-
+        /// <summary>
+        /// Set the callbacks for the given <see cref="wl_data_device"/>.
+        /// </summary>
+        /// <param name="id">the new data_offer object</param>
+        /// <param name="serial">serial number of the enter event</param>
+        /// <param name="surface">client surface entered</param>
+        /// <param name="x">surface-local x coordinate</param>
+        /// <param name="y">surface-local y coordinate</param>
+        /// <param name="id">source data_offer object</param>
+        /// <param name="time">timestamp with millisecond granularity</param>
+        /// <param name="x">surface-local x coordinate</param>
+        /// <param name="y">surface-local y coordinate</param>
+        /// <param name="id">selection data_offer object</param>
+        public static int wl_data_device_add_listener(wl_data_device* iface, wl_data_device_listener* listener)
+        {
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
+        }
         /// <summary>
         /// <p>
         /// Create a new data source.
         /// </p>
         /// </summary>
         /// <param name="id">data source to create</param>
-        public WlDataSource CreateDataSource()
+        public static wl_data_source* wl_data_device_manager_create_data_source(wl_data_device_manager* pointer)
         {
-            return CreateDataSource(Pointer);
-        }
-
-        public static WlDataSource CreateDataSource(IntPtr pointer)
-        {
-            var args = new ArgumentStruct[] { 0 };
-            var ptr = MarshalArrayConstructor(pointer, CreateDataSourceOp, args, WlDataSource.Interface.Pointer);
-            return new WlDataSource(ptr);
+            var args = stackalloc wl_argument[1];
+            args[0] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, wl_data_source.Interface);
+            return (wl_data_source*) ptr;
         }
 
         /// <summary>
@@ -2216,125 +1469,14 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="id">data device to create</param>
         /// <param name="seat">seat associated with the data device</param>
-        public WlDataDevice GetDataDevice(WlSeat seat)
+        public static wl_data_device* wl_data_device_manager_get_data_device(wl_data_device_manager* pointer, wl_seat* seat)
         {
-            return GetDataDevice(Pointer, seat);
+            var args = stackalloc wl_argument[2];
+            args[0] = 0;
+            args[1] = seat;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, wl_data_device.Interface);
+            return (wl_data_device*) ptr;
         }
-
-        public static WlDataDevice GetDataDevice(IntPtr pointer, WlSeat seat)
-        {
-            var args = new ArgumentStruct[] { 0, seat };
-            var ptr = MarshalArrayConstructor(pointer, GetDataDeviceOp, args, WlDataDevice.Interface.Pointer);
-            return new WlDataDevice(ptr);
-        }
-
-        #endregion
-
-        #region Enums
-
-        /// <summary>
-        /// <p>
-        /// This is a bitmask of the available/preferred actions in a
-        /// drag-and-drop operation.
-        /// </p>
-        /// <p>
-        /// In the compositor, the selected action is a result of matching the
-        /// actions offered by the source and destination sides.  "action" events
-        /// with a "none" action will be sent to both source and destination if
-        /// there is no match. All further checks will effectively happen on
-        /// (source actions ∩ destination actions).
-        /// </p>
-        /// <p>
-        /// In addition, compositors may also pick different actions in
-        /// reaction to key modifiers being pressed. One common design that
-        /// is used in major toolkits (and the behavior recommended for
-        /// compositors) is:
-        /// </p>
-        /// <p>
-        /// - If no modifiers are pressed, the first match (in bit order)
-        /// will be used.
-        /// - Pressing Shift selects "move", if enabled in the mask.
-        /// - Pressing Control selects "copy", if enabled in the mask.
-        /// </p>
-        /// <p>
-        /// Behavior beyond that is considered implementation-dependent.
-        /// Compositors may for example bind other modifiers (like Alt/Meta)
-        /// or drags initiated with other buttons than BTN_LEFT to specific
-        /// actions (e.g. "ask").
-        /// </p>
-        /// </summary>
-        [Flags]
-        public enum DndActionEnum
-        {
-            /// <summary>
-            /// no action
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// copy action
-            /// </summary>
-            Copy = 1,
-
-            /// <summary>
-            /// move action
-            /// </summary>
-            Move = 2,
-
-            /// <summary>
-            /// ask action
-            /// </summary>
-            Ask = 4,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// This interface is implemented by servers that provide
-    /// desktop-style user interfaces.
-    /// </p>
-    /// <p>
-    /// It allows clients to associate a wl_shell_surface with
-    /// a basic surface.
-    /// </p>
-    /// <p>
-    /// Note! This protocol is deprecated and not intended for production use.
-    /// For desktop-style user interfaces, use xdg_shell.
-    /// </p>
-    /// </summary>
-    internal partial class WlShell : WlProxy
-    {
-        #region Opcodes
-
-        private const int GetShellSurfaceOp = 0;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_shell", 1, 1, 0);
-        public const string InterfaceName = "wl_shell";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("get_shell_surface", "no", new [] {WlShellSurface.Interface.Pointer, WlSurface.Interface.Pointer}),
-            });
-            Interface.SetEvents(new WlMessage[0]);
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public WlShell(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Requests
 
         /// <summary>
         /// <p>
@@ -2348,180 +1490,14 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="id">shell surface to create</param>
         /// <param name="surface">surface to be given the shell surface role</param>
-        public WlShellSurface GetShellSurface(WlSurface surface)
+        public static wl_shell_surface* wl_shell_get_shell_surface(wl_shell* pointer, wl_surface* surface)
         {
-            return GetShellSurface(Pointer, surface);
+            var args = stackalloc wl_argument[2];
+            args[0] = 0;
+            args[1] = surface;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, wl_shell_surface.Interface);
+            return (wl_shell_surface*) ptr;
         }
-
-        public static WlShellSurface GetShellSurface(IntPtr pointer, WlSurface surface)
-        {
-            var args = new ArgumentStruct[] { 0, surface };
-            var ptr = MarshalArrayConstructor(pointer, GetShellSurfaceOp, args, WlShellSurface.Interface.Pointer);
-            return new WlShellSurface(ptr);
-        }
-
-        #endregion
-
-        #region Enums
-
-        public enum ErrorEnum
-        {
-            /// <summary>
-            /// given wl_surface has another role
-            /// </summary>
-            Role = 0,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// An interface that may be implemented by a wl_surface, for
-    /// implementations that provide a desktop-style user interface.
-    /// </p>
-    /// <p>
-    /// It provides requests to treat surfaces like toplevel, fullscreen
-    /// or popup windows, move, resize or maximize them, associate
-    /// metadata like title and class, etc.
-    /// </p>
-    /// <p>
-    /// On the server side the object is automatically destroyed when
-    /// the related wl_surface is destroyed. On the client side,
-    /// wl_shell_surface_destroy() must be called before destroying
-    /// the wl_surface object.
-    /// </p>
-    /// </summary>
-    internal partial class WlShellSurface : WlProxy
-    {
-        #region Opcodes
-
-        private const int PongOp = 0;
-        private const int MoveOp = 1;
-        private const int ResizeOp = 2;
-        private const int SetToplevelOp = 3;
-        private const int SetTransientOp = 4;
-        private const int SetFullscreenOp = 5;
-        private const int SetPopupOp = 6;
-        private const int SetMaximizedOp = 7;
-        private const int SetTitleOp = 8;
-        private const int SetClassOp = 9;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_shell_surface", 1, 10, 3);
-        public const string InterfaceName = "wl_shell_surface";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("pong", "u", new [] {IntPtr.Zero}),
-                new WlMessage("move", "ou", new [] {WlSeat.Interface.Pointer, IntPtr.Zero}),
-                new WlMessage("resize", "ouu", new [] {WlSeat.Interface.Pointer, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("set_toplevel", "", new IntPtr[0]),
-                new WlMessage("set_transient", "oiiu", new [] {WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("set_fullscreen", "uu?o", new [] {IntPtr.Zero, IntPtr.Zero, WlOutput.Interface.Pointer}),
-                new WlMessage("set_popup", "ouoiiu", new [] {WlSeat.Interface.Pointer, IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("set_maximized", "?o", new [] {WlOutput.Interface.Pointer}),
-                new WlMessage("set_title", "s", new [] {IntPtr.Zero}),
-                new WlMessage("set_class", "s", new [] {IntPtr.Zero}),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("ping", "u", new [] {IntPtr.Zero}),
-                new WlMessage("configure", "uii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("popup_done", "", new IntPtr[0]),
-            });
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public WlShellSurface(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="serial">serial number of the ping</param>
-        public delegate void PingHandler(IntPtr data, IntPtr iface, uint serial);
-
-        /// <param name="edges">how the surface was resized</param>
-        /// <param name="width">new width of the surface</param>
-        /// <param name="height">new height of the surface</param>
-        public delegate void ConfigureHandler(IntPtr data, IntPtr iface, ResizeEnum edges, int width, int height);
-
-        public delegate void PopupDoneHandler(IntPtr data, IntPtr iface);
-
-        private IntPtr _listener;
-        private bool _setListener;
-
-        /// <summary>
-        /// <p>
-        /// Ping a client to check if it is receiving events and sending
-        /// requests. A client is expected to reply with a pong request.
-        /// </p>
-        /// </summary>
-        public PingHandler Ping;
-
-        /// <summary>
-        /// <p>
-        /// The configure event asks the client to resize its surface.
-        /// </p>
-        /// <p>
-        /// The size is a hint, in the sense that the client is free to
-        /// ignore it if it doesn't resize, pick a smaller size (to
-        /// satisfy aspect ratio or resize in steps of NxM pixels).
-        /// </p>
-        /// <p>
-        /// The edges parameter provides a hint about how the surface
-        /// was resized. The client may use this information to decide
-        /// how to adjust its content to the new size (e.g. a scrolling
-        /// area might adjust its content position to leave the viewable
-        /// content unmoved).
-        /// </p>
-        /// <p>
-        /// The client is free to dismiss all but the last configure
-        /// event it received.
-        /// </p>
-        /// <p>
-        /// The width and height arguments specify the size of the window
-        /// in surface-local coordinates.
-        /// </p>
-        /// </summary>
-        public ConfigureHandler Configure;
-
-        /// <summary>
-        /// <p>
-        /// The popup_done event is sent out when a popup grab is broken,
-        /// that is, when the user clicks a surface that doesn't belong
-        /// to the client owning the popup surface.
-        /// </p>
-        /// </summary>
-        public PopupDoneHandler PopupDone;
-
-        public void SetListener()
-        {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 3);
-            if (Ping != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Ping));
-            if (Configure != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Configure));
-            if (PopupDone != null)
-                SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(PopupDone));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
-        }
-
-        #endregion
-
-        #region Requests
 
         /// <summary>
         /// <p>
@@ -2530,14 +1506,9 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="serial">serial number of the ping event</param>
-        public void Pong(uint serial)
+        public static void wl_shell_surface_pong(wl_shell_surface* pointer, uint serial)
         {
-            Pong(Pointer, serial);
-        }
-
-        public static void Pong(IntPtr pointer, uint serial)
-        {
-            Marshal(pointer, PongOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
 
         /// <summary>
@@ -2552,15 +1523,12 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         /// <param name="seat">seat whose pointer is used</param>
         /// <param name="serial">serial number of the implicit grab on the pointer</param>
-        public void Move(WlSeat seat, uint serial)
+        public static void wl_shell_surface_move(wl_shell_surface* pointer, wl_seat* seat, uint serial)
         {
-            Move(Pointer, seat, serial);
-        }
-
-        public static void Move(IntPtr pointer, WlSeat seat, uint serial)
-        {
-            var args = new ArgumentStruct[] { seat, serial };
-            MarshalArray(pointer, MoveOp, args);
+            var args = stackalloc wl_argument[2];
+            args[0] = seat;
+            args[1] = serial;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 1, args);
         }
 
         /// <summary>
@@ -2576,15 +1544,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="seat">seat whose pointer is used</param>
         /// <param name="serial">serial number of the implicit grab on the pointer</param>
         /// <param name="edges">which edge or corner is being dragged</param>
-        public void Resize(WlSeat seat, uint serial, ResizeEnum edges)
+        public static void wl_shell_surface_resize(wl_shell_surface* pointer, wl_seat* seat, uint serial, wl_shell_surface_resize edges)
         {
-            Resize(Pointer, seat, serial, edges);
-        }
-
-        public static void Resize(IntPtr pointer, WlSeat seat, uint serial, ResizeEnum edges)
-        {
-            var args = new ArgumentStruct[] { seat, serial, (int) edges };
-            MarshalArray(pointer, ResizeOp, args);
+            var args = stackalloc wl_argument[3];
+            args[0] = seat;
+            args[1] = serial;
+            args[2] = (int) edges;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 2, args);
         }
 
         /// <summary>
@@ -2595,14 +1561,9 @@ namespace OpenWindow.Backends.Wayland
         /// A toplevel surface is not fullscreen, maximized or transient.
         /// </p>
         /// </summary>
-        public void SetToplevel()
+        public static void wl_shell_surface_set_toplevel(wl_shell_surface* pointer)
         {
-            SetToplevel(Pointer);
-        }
-
-        public static void SetToplevel(IntPtr pointer)
-        {
-            Marshal(pointer, SetToplevelOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 3);
         }
 
         /// <summary>
@@ -2622,15 +1583,14 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="x">surface-local x coordinate</param>
         /// <param name="y">surface-local y coordinate</param>
         /// <param name="flags">transient surface behavior</param>
-        public void SetTransient(WlSurface parent, int x, int y, TransientEnum flags)
+        public static void wl_shell_surface_set_transient(wl_shell_surface* pointer, wl_surface* parent, int x, int y, wl_shell_surface_transient flags)
         {
-            SetTransient(Pointer, parent, x, y, flags);
-        }
-
-        public static void SetTransient(IntPtr pointer, WlSurface parent, int x, int y, TransientEnum flags)
-        {
-            var args = new ArgumentStruct[] { parent, x, y, (int) flags };
-            MarshalArray(pointer, SetTransientOp, args);
+            var args = stackalloc wl_argument[4];
+            args[0] = parent;
+            args[1] = x;
+            args[2] = y;
+            args[3] = (int) flags;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 4, args);
         }
 
         /// <summary>
@@ -2679,15 +1639,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="method">method for resolving size conflict</param>
         /// <param name="framerate">framerate in mHz</param>
         /// <param name="output">output on which the surface is to be fullscreen</param>
-        public void SetFullscreen(FullscreenMethodEnum method, uint framerate, WlOutput output)
+        public static void wl_shell_surface_set_fullscreen(wl_shell_surface* pointer, wl_shell_surface_fullscreen_method method, uint framerate, wl_output* output)
         {
-            SetFullscreen(Pointer, method, framerate, output);
-        }
-
-        public static void SetFullscreen(IntPtr pointer, FullscreenMethodEnum method, uint framerate, WlOutput output)
-        {
-            var args = new ArgumentStruct[] { (int) method, framerate, output };
-            MarshalArray(pointer, SetFullscreenOp, args);
+            var args = stackalloc wl_argument[3];
+            args[0] = (int) method;
+            args[1] = framerate;
+            args[2] = output;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 5, args);
         }
 
         /// <summary>
@@ -2723,15 +1681,16 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="x">surface-local x coordinate</param>
         /// <param name="y">surface-local y coordinate</param>
         /// <param name="flags">transient surface behavior</param>
-        public void SetPopup(WlSeat seat, uint serial, WlSurface parent, int x, int y, TransientEnum flags)
+        public static void wl_shell_surface_set_popup(wl_shell_surface* pointer, wl_seat* seat, uint serial, wl_surface* parent, int x, int y, wl_shell_surface_transient flags)
         {
-            SetPopup(Pointer, seat, serial, parent, x, y, flags);
-        }
-
-        public static void SetPopup(IntPtr pointer, WlSeat seat, uint serial, WlSurface parent, int x, int y, TransientEnum flags)
-        {
-            var args = new ArgumentStruct[] { seat, serial, parent, x, y, (int) flags };
-            MarshalArray(pointer, SetPopupOp, args);
+            var args = stackalloc wl_argument[6];
+            args[0] = seat;
+            args[1] = serial;
+            args[2] = parent;
+            args[3] = x;
+            args[4] = y;
+            args[5] = (int) flags;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 6, args);
         }
 
         /// <summary>
@@ -2761,14 +1720,9 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="output">output on which the surface is to be maximized</param>
-        public void SetMaximized(WlOutput output)
+        public static void wl_shell_surface_set_maximized(wl_shell_surface* pointer, wl_output* output)
         {
-            SetMaximized(Pointer, output);
-        }
-
-        public static void SetMaximized(IntPtr pointer, WlOutput output)
-        {
-            Marshal(pointer, SetMaximizedOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 7);
         }
 
         /// <summary>
@@ -2785,16 +1739,12 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="title">surface title</param>
-        public void SetTitle(string title)
+        public static void wl_shell_surface_set_title(wl_shell_surface* pointer, string title)
         {
-            SetTitle(Pointer, title);
-        }
-
-        public static void SetTitle(IntPtr pointer, string title)
-        {
-            var titleStr = SMarshal.StringToHGlobalAnsi(title);
-            Marshal(pointer, SetTitleOp);
-            SMarshal.FreeHGlobal(titleStr);
+            var titleByteCount = System.Text.Encoding.UTF8.GetByteCount(title);
+            var titleBytes = stackalloc byte[titleByteCount];
+            Util.StringToUtf8(title, titleBytes, titleByteCount);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 8);
         }
 
         /// <summary>
@@ -2809,291 +1759,105 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="class_">surface class</param>
-        public void SetClass(string class_)
+        public static void wl_shell_surface_set_class(wl_shell_surface* pointer, string class_)
         {
-            SetClass(Pointer, class_);
-        }
-
-        public static void SetClass(IntPtr pointer, string class_)
-        {
-            var class_Str = SMarshal.StringToHGlobalAnsi(class_);
-            Marshal(pointer, SetClassOp);
-            SMarshal.FreeHGlobal(class_Str);
-        }
-
-        #endregion
-
-        #region Enums
-
-        /// <summary>
-        /// <p>
-        /// These values are used to indicate which edge of a surface
-        /// is being dragged in a resize operation. The server may
-        /// use this information to adapt its behavior, e.g. choose
-        /// an appropriate cursor image.
-        /// </p>
-        /// </summary>
-        [Flags]
-        public enum ResizeEnum
-        {
-            /// <summary>
-            /// no edge
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// top edge
-            /// </summary>
-            Top = 1,
-
-            /// <summary>
-            /// bottom edge
-            /// </summary>
-            Bottom = 2,
-
-            /// <summary>
-            /// left edge
-            /// </summary>
-            Left = 4,
-
-            /// <summary>
-            /// top and left edges
-            /// </summary>
-            TopLeft = 5,
-
-            /// <summary>
-            /// bottom and left edges
-            /// </summary>
-            BottomLeft = 6,
-
-            /// <summary>
-            /// right edge
-            /// </summary>
-            Right = 8,
-
-            /// <summary>
-            /// top and right edges
-            /// </summary>
-            TopRight = 9,
-
-            /// <summary>
-            /// bottom and right edges
-            /// </summary>
-            BottomRight = 10,
-
+            var class_ByteCount = System.Text.Encoding.UTF8.GetByteCount(class_);
+            var class_Bytes = stackalloc byte[class_ByteCount];
+            Util.StringToUtf8(class_, class_Bytes, class_ByteCount);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 9);
         }
 
         /// <summary>
         /// <p>
-        /// These flags specify details of the expected behaviour
-        /// of transient surfaces. Used in the set_transient request.
+        /// Ping a client to check if it is receiving events and sending
+        /// requests. A client is expected to reply with a pong request.
         /// </p>
         /// </summary>
-        [Flags]
-        public enum TransientEnum
-        {
-            /// <summary>
-            /// do not set keyboard focus
-            /// </summary>
-            Inactive = 0x1,
-
-        }
+        public delegate void wl_shell_surface_ping_delegate(void* data, wl_shell_surface* proxy, uint serial);
 
         /// <summary>
         /// <p>
-        /// Hints to indicate to the compositor how to deal with a conflict
-        /// between the dimensions of the surface and the dimensions of the
-        /// output. The compositor is free to ignore this parameter.
+        /// The configure event asks the client to resize its surface.
+        /// </p>
+        /// <p>
+        /// The size is a hint, in the sense that the client is free to
+        /// ignore it if it doesn't resize, pick a smaller size (to
+        /// satisfy aspect ratio or resize in steps of NxM pixels).
+        /// </p>
+        /// <p>
+        /// The edges parameter provides a hint about how the surface
+        /// was resized. The client may use this information to decide
+        /// how to adjust its content to the new size (e.g. a scrolling
+        /// area might adjust its content position to leave the viewable
+        /// content unmoved).
+        /// </p>
+        /// <p>
+        /// The client is free to dismiss all but the last configure
+        /// event it received.
+        /// </p>
+        /// <p>
+        /// The width and height arguments specify the size of the window
+        /// in surface-local coordinates.
         /// </p>
         /// </summary>
-        public enum FullscreenMethodEnum
+        public delegate void wl_shell_surface_configure_delegate(void* data, wl_shell_surface* proxy, wl_shell_surface_resize edges, int width, int height);
+
+        /// <summary>
+        /// <p>
+        /// The popup_done event is sent out when a popup grab is broken,
+        /// that is, when the user clicks a surface that doesn't belong
+        /// to the client owning the popup surface.
+        /// </p>
+        /// </summary>
+        public delegate void wl_shell_surface_popup_done_delegate(void* data, wl_shell_surface* proxy);
+
+        internal struct wl_shell_surface_listener
         {
-            /// <summary>
-            /// no preference, apply default policy
-            /// </summary>
-            Default = 0,
+            public IntPtr ping;
+            public IntPtr configure;
+            public IntPtr popup_done;
 
-            /// <summary>
-            /// scale, preserve the surface's aspect ratio and center on output
-            /// </summary>
-            Scale = 1,
-
-            /// <summary>
-            /// switch output mode to the smallest mode that can fit the surface, add black borders to compensate size mismatch
-            /// </summary>
-            Driver = 2,
-
-            /// <summary>
-            /// no upscaling, center on output and add black borders to compensate size mismatch
-            /// </summary>
-            Fill = 3,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// A surface is a rectangular area that is displayed on the screen.
-    /// It has a location, size and pixel contents.
-    /// </p>
-    /// <p>
-    /// The size of a surface (and relative positions on it) is described
-    /// in surface-local coordinates, which may differ from the buffer
-    /// coordinates of the pixel content, in case a buffer_transform
-    /// or a buffer_scale is used.
-    /// </p>
-    /// <p>
-    /// A surface without a "role" is fairly useless: a compositor does
-    /// not know where, when or how to present it. The role is the
-    /// purpose of a wl_surface. Examples of roles are a cursor for a
-    /// pointer (as set by wl_pointer.set_cursor), a drag icon
-    /// (wl_data_device.start_drag), a sub-surface
-    /// (wl_subcompositor.get_subsurface), and a window as defined by a
-    /// shell protocol (e.g. wl_shell.get_shell_surface).
-    /// </p>
-    /// <p>
-    /// A surface can have only one role at a time. Initially a
-    /// wl_surface does not have a role. Once a wl_surface is given a
-    /// role, it is set permanently for the whole lifetime of the
-    /// wl_surface object. Giving the current role again is allowed,
-    /// unless explicitly forbidden by the relevant interface
-    /// specification.
-    /// </p>
-    /// <p>
-    /// Surface roles are given by requests in other interfaces such as
-    /// wl_pointer.set_cursor. The request should explicitly mention
-    /// that this request gives a role to a wl_surface. Often, this
-    /// request also creates a new protocol object that represents the
-    /// role and adds additional functionality to wl_surface. When a
-    /// client wants to destroy a wl_surface, they must destroy this 'role
-    /// object' before the wl_surface.
-    /// </p>
-    /// <p>
-    /// Destroying the role object does not remove the role from the
-    /// wl_surface, but it may stop the wl_surface from "playing the role".
-    /// For instance, if a wl_subsurface object is destroyed, the wl_surface
-    /// it was created for will be unmapped and forget its position and
-    /// z-order. It is allowed to create a wl_subsurface for the same
-    /// wl_surface again, but it is not allowed to use the wl_surface as
-    /// a cursor (cursor is a different role than sub-surface, and role
-    /// switching is not allowed).
-    /// </p>
-    /// </summary>
-    internal partial class WlSurface : WlProxy
-    {
-        #region Opcodes
-
-        private const int DestroyOp = 0;
-        private const int AttachOp = 1;
-        private const int DamageOp = 2;
-        private const int FrameOp = 3;
-        private const int SetOpaqueRegionOp = 4;
-        private const int SetInputRegionOp = 5;
-        private const int CommitOp = 6;
-        private const int SetBufferTransformOp = 7;
-        private const int SetBufferScaleOp = 8;
-        private const int DamageBufferOp = 9;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_surface", 4, 10, 2);
-        public const string InterfaceName = "wl_surface";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
+            public static wl_shell_surface_listener* Alloc(
+                wl_shell_surface_ping_delegate ping,
+                wl_shell_surface_configure_delegate configure,
+                wl_shell_surface_popup_done_delegate popup_done)
             {
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("attach", "?oii", new [] {WlBuffer.Interface.Pointer, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("damage", "iiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("frame", "n", new [] {WlCallback.Interface.Pointer}),
-                new WlMessage("set_opaque_region", "?o", new [] {WlRegion.Interface.Pointer}),
-                new WlMessage("set_input_region", "?o", new [] {WlRegion.Interface.Pointer}),
-                new WlMessage("commit", "", new IntPtr[0]),
-                new WlMessage("set_buffer_transform", "i", new [] {IntPtr.Zero}),
-                new WlMessage("set_buffer_scale", "i", new [] {IntPtr.Zero}),
-                new WlMessage("damage_buffer", "iiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-            });
-            Interface.SetEvents(new []
+                var ret = (wl_shell_surface_listener*) Marshal.AllocHGlobal(sizeof(wl_shell_surface_listener));
+                Set(ret, ping,configure,popup_done);
+                return ret;
+            }
+
+            public static void Set(wl_shell_surface_listener* listener
+            ,
+                wl_shell_surface_ping_delegate ping,
+                wl_shell_surface_configure_delegate configure,
+                wl_shell_surface_popup_done_delegate popup_done)
             {
-                new WlMessage("enter", "o", new [] {WlOutput.Interface.Pointer}),
-                new WlMessage("leave", "o", new [] {WlOutput.Interface.Pointer}),
-            });
-            Interface.Finish();
+                if (ping != null) listener->ping = Marshal.GetFunctionPointerForDelegate<wl_shell_surface_ping_delegate>(ping);
+                if (configure != null) listener->configure = Marshal.GetFunctionPointerForDelegate<wl_shell_surface_configure_delegate>(configure);
+                if (popup_done != null) listener->popup_done = Marshal.GetFunctionPointerForDelegate<wl_shell_surface_popup_done_delegate>(popup_done);
+            }
         }
 
-
-        #endregion
-
-        public WlSurface(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="output">output entered by the surface</param>
-        public delegate void EnterHandler(IntPtr data, IntPtr iface, IntPtr output);
-
-        /// <param name="output">output left by the surface</param>
-        public delegate void LeaveHandler(IntPtr data, IntPtr iface, IntPtr output);
-
-        private IntPtr _listener;
-        private bool _setListener;
-
         /// <summary>
-        /// <p>
-        /// This is emitted whenever a surface's creation, movement, or resizing
-        /// results in some part of it being within the scanout region of an
-        /// output.
-        /// </p>
-        /// <p>
-        /// Note that a surface may be overlapping with zero or more outputs.
-        /// </p>
+        /// Set the callbacks for the given <see cref="wl_shell_surface"/>.
         /// </summary>
-        public EnterHandler Enter;
-
-        /// <summary>
-        /// <p>
-        /// This is emitted whenever a surface's creation, movement, or resizing
-        /// results in it no longer having any part of it within the scanout region
-        /// of an output.
-        /// </p>
-        /// </summary>
-        public LeaveHandler Leave;
-
-        public void SetListener()
+        /// <param name="serial">serial number of the ping</param>
+        /// <param name="edges">how the surface was resized</param>
+        /// <param name="width">new width of the surface</param>
+        /// <param name="height">new height of the surface</param>
+        public static int wl_shell_surface_add_listener(wl_shell_surface* iface, wl_shell_surface_listener* listener)
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 2);
-            if (Enter != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Enter));
-            if (Leave != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Leave));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
         }
-
-        #endregion
-
-        #region Requests
-
         /// <summary>
         /// <p>
         /// Deletes the surface and invalidates its object ID.
         /// </p>
         /// </summary>
-        public void Destroy()
+        public static void wl_surface_destroy(wl_surface* pointer)
         {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
 
         /// <summary>
@@ -3149,15 +1913,13 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="buffer">buffer of surface contents</param>
         /// <param name="x">surface-local x coordinate</param>
         /// <param name="y">surface-local y coordinate</param>
-        public void Attach(WlBuffer buffer, int x, int y)
+        public static void wl_surface_attach(wl_surface* pointer, wl_buffer* buffer, int x, int y)
         {
-            Attach(Pointer, buffer, x, y);
-        }
-
-        public static void Attach(IntPtr pointer, WlBuffer buffer, int x, int y)
-        {
-            var args = new ArgumentStruct[] { buffer, x, y };
-            MarshalArray(pointer, AttachOp, args);
+            var args = stackalloc wl_argument[3];
+            args[0] = buffer;
+            args[1] = x;
+            args[2] = y;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 1, args);
         }
 
         /// <summary>
@@ -3185,24 +1947,23 @@ namespace OpenWindow.Backends.Wayland
         /// damage as it repaints the surface.
         /// </p>
         /// <p>
-        /// Alternatively, damage can be posted with wl_surface.damage_buffer
-        /// which uses buffer coordinates instead of surface coordinates,
-        /// and is probably the preferred and intuitive way of doing this.
+        /// Note! New clients should not use this request. Instead damage can be
+        /// posted with wl_surface.damage_buffer which uses buffer coordinates
+        /// instead of surface coordinates.
         /// </p>
         /// </summary>
         /// <param name="x">surface-local x coordinate</param>
         /// <param name="y">surface-local y coordinate</param>
         /// <param name="width">width of damage rectangle</param>
         /// <param name="height">height of damage rectangle</param>
-        public void Damage(int x, int y, int width, int height)
+        public static void wl_surface_damage(wl_surface* pointer, int x, int y, int width, int height)
         {
-            Damage(Pointer, x, y, width, height);
-        }
-
-        public static void Damage(IntPtr pointer, int x, int y, int width, int height)
-        {
-            var args = new ArgumentStruct[] { x, y, width, height };
-            MarshalArray(pointer, DamageOp, args);
+            var args = stackalloc wl_argument[4];
+            args[0] = x;
+            args[1] = y;
+            args[2] = width;
+            args[3] = height;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 2, args);
         }
 
         /// <summary>
@@ -3248,16 +2009,12 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="callback">callback object for the frame request</param>
-        public WlCallback Frame()
+        public static wl_callback* wl_surface_frame(wl_surface* pointer)
         {
-            return Frame(Pointer);
-        }
-
-        public static WlCallback Frame(IntPtr pointer)
-        {
-            var args = new ArgumentStruct[] { 0 };
-            var ptr = MarshalArrayConstructor(pointer, FrameOp, args, WlCallback.Interface.Pointer);
-            return new WlCallback(ptr);
+            var args = stackalloc wl_argument[1];
+            args[0] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 3, args, wl_callback.Interface);
+            return (wl_callback*) ptr;
         }
 
         /// <summary>
@@ -3295,14 +2052,9 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="region">opaque region of the surface</param>
-        public void SetOpaqueRegion(WlRegion region)
+        public static void wl_surface_set_opaque_region(wl_surface* pointer, wl_region* region)
         {
-            SetOpaqueRegion(Pointer, region);
-        }
-
-        public static void SetOpaqueRegion(IntPtr pointer, WlRegion region)
-        {
-            Marshal(pointer, SetOpaqueRegionOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 4);
         }
 
         /// <summary>
@@ -3337,14 +2089,9 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="region">input region of the surface</param>
-        public void SetInputRegion(WlRegion region)
+        public static void wl_surface_set_input_region(wl_surface* pointer, wl_region* region)
         {
-            SetInputRegion(Pointer, region);
-        }
-
-        public static void SetInputRegion(IntPtr pointer, WlRegion region)
-        {
-            Marshal(pointer, SetInputRegionOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 5);
         }
 
         /// <summary>
@@ -3371,14 +2118,9 @@ namespace OpenWindow.Backends.Wayland
         /// Other interfaces may add further double-buffered surface state.
         /// </p>
         /// </summary>
-        public void Commit()
+        public static void wl_surface_commit(wl_surface* pointer)
         {
-            Commit(Pointer);
-        }
-
-        public static void Commit(IntPtr pointer)
-        {
-            Marshal(pointer, CommitOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 6);
         }
 
         /// <summary>
@@ -3421,14 +2163,9 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="transform">transform for interpreting buffer contents</param>
-        public void SetBufferTransform(WlOutput.TransformEnum transform)
+        public static void wl_surface_set_buffer_transform(wl_surface* pointer, wl_output_transform transform)
         {
-            SetBufferTransform(Pointer, transform);
-        }
-
-        public static void SetBufferTransform(IntPtr pointer, WlOutput.TransformEnum transform)
-        {
-            Marshal(pointer, SetBufferTransformOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 7);
         }
 
         /// <summary>
@@ -3465,14 +2202,9 @@ namespace OpenWindow.Backends.Wayland
         /// </p>
         /// </summary>
         /// <param name="scale">positive scale for interpreting buffer contents</param>
-        public void SetBufferScale(int scale)
+        public static void wl_surface_set_buffer_scale(wl_surface* pointer, int scale)
         {
-            SetBufferScale(Pointer, scale);
-        }
-
-        public static void SetBufferScale(IntPtr pointer, int scale)
-        {
-            Marshal(pointer, SetBufferScaleOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 8);
         }
 
         /// <summary>
@@ -3521,100 +2253,143 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="y">buffer-local y coordinate</param>
         /// <param name="width">width of damage rectangle</param>
         /// <param name="height">height of damage rectangle</param>
-        public void DamageBuffer(int x, int y, int width, int height)
+        public static void wl_surface_damage_buffer(wl_surface* pointer, int x, int y, int width, int height)
         {
-            DamageBuffer(Pointer, x, y, width, height);
+            var args = stackalloc wl_argument[4];
+            args[0] = x;
+            args[1] = y;
+            args[2] = width;
+            args[3] = height;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 9, args);
         }
-
-        public static void DamageBuffer(IntPtr pointer, int x, int y, int width, int height)
-        {
-            var args = new ArgumentStruct[] { x, y, width, height };
-            MarshalArray(pointer, DamageBufferOp, args);
-        }
-
-        #endregion
-
-        #region Enums
 
         /// <summary>
         /// <p>
-        /// These errors can be emitted in response to wl_surface requests.
+        /// This is emitted whenever a surface's creation, movement, or resizing
+        /// results in some part of it being within the scanout region of an
+        /// output.
+        /// </p>
+        /// <p>
+        /// Note that a surface may be overlapping with zero or more outputs.
         /// </p>
         /// </summary>
-        public enum ErrorEnum
+        public delegate void wl_surface_enter_delegate(void* data, wl_surface* proxy, wl_output* output);
+
+        /// <summary>
+        /// <p>
+        /// This is emitted whenever a surface's creation, movement, or resizing
+        /// results in it no longer having any part of it within the scanout region
+        /// of an output.
+        /// </p>
+        /// </summary>
+        public delegate void wl_surface_leave_delegate(void* data, wl_surface* proxy, wl_output* output);
+
+        internal struct wl_surface_listener
         {
-            /// <summary>
-            /// buffer scale value is invalid
-            /// </summary>
-            InvalidScale = 0,
+            public IntPtr enter;
+            public IntPtr leave;
 
-            /// <summary>
-            /// buffer transform value is invalid
-            /// </summary>
-            InvalidTransform = 1,
+            public static wl_surface_listener* Alloc(
+                wl_surface_enter_delegate enter,
+                wl_surface_leave_delegate leave)
+            {
+                var ret = (wl_surface_listener*) Marshal.AllocHGlobal(sizeof(wl_surface_listener));
+                Set(ret, enter,leave);
+                return ret;
+            }
 
+            public static void Set(wl_surface_listener* listener
+            ,
+                wl_surface_enter_delegate enter,
+                wl_surface_leave_delegate leave)
+            {
+                if (enter != null) listener->enter = Marshal.GetFunctionPointerForDelegate<wl_surface_enter_delegate>(enter);
+                if (leave != null) listener->leave = Marshal.GetFunctionPointerForDelegate<wl_surface_leave_delegate>(leave);
+            }
         }
 
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// A seat is a group of keyboards, pointer and touch devices. This
-    /// object is published as a global during start up, or when such a
-    /// device is hot plugged.  A seat typically has a pointer and
-    /// maintains a keyboard focus and a pointer focus.
-    /// </p>
-    /// </summary>
-    internal partial class WlSeat : WlProxy
-    {
-        #region Opcodes
-
-        private const int GetPointerOp = 0;
-        private const int GetKeyboardOp = 1;
-        private const int GetTouchOp = 2;
-        private const int ReleaseOp = 3;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_seat", 6, 4, 2);
-        public const string InterfaceName = "wl_seat";
-
-        internal static void Initialize()
+        /// <summary>
+        /// Set the callbacks for the given <see cref="wl_surface"/>.
+        /// </summary>
+        /// <param name="output">output entered by the surface</param>
+        /// <param name="output">output left by the surface</param>
+        public static int wl_surface_add_listener(wl_surface* iface, wl_surface_listener* listener)
         {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("get_pointer", "n", new [] {WlPointer.Interface.Pointer}),
-                new WlMessage("get_keyboard", "n", new [] {WlKeyboard.Interface.Pointer}),
-                new WlMessage("get_touch", "n", new [] {WlTouch.Interface.Pointer}),
-                new WlMessage("release", "", new IntPtr[0]),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("capabilities", "u", new [] {IntPtr.Zero}),
-                new WlMessage("name", "s", new [] {IntPtr.Zero}),
-            });
-            Interface.Finish();
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
+        }
+        /// <summary>
+        /// <p>
+        /// The ID provided will be initialized to the wl_pointer interface
+        /// for this seat.
+        /// </p>
+        /// <p>
+        /// This request only takes effect if the seat has the pointer
+        /// capability, or has had the pointer capability in the past.
+        /// It is a protocol violation to issue this request on a seat that has
+        /// never had the pointer capability.
+        /// </p>
+        /// </summary>
+        /// <param name="id">seat pointer</param>
+        public static wl_pointer* wl_seat_get_pointer(wl_seat* pointer)
+        {
+            var args = stackalloc wl_argument[1];
+            args[0] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, wl_pointer.Interface);
+            return (wl_pointer*) ptr;
         }
 
+        /// <summary>
+        /// <p>
+        /// The ID provided will be initialized to the wl_keyboard interface
+        /// for this seat.
+        /// </p>
+        /// <p>
+        /// This request only takes effect if the seat has the keyboard
+        /// capability, or has had the keyboard capability in the past.
+        /// It is a protocol violation to issue this request on a seat that has
+        /// never had the keyboard capability.
+        /// </p>
+        /// </summary>
+        /// <param name="id">seat keyboard</param>
+        public static wl_keyboard* wl_seat_get_keyboard(wl_seat* pointer)
+        {
+            var args = stackalloc wl_argument[1];
+            args[0] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, wl_keyboard.Interface);
+            return (wl_keyboard*) ptr;
+        }
 
-        #endregion
+        /// <summary>
+        /// <p>
+        /// The ID provided will be initialized to the wl_touch interface
+        /// for this seat.
+        /// </p>
+        /// <p>
+        /// This request only takes effect if the seat has the touch
+        /// capability, or has had the touch capability in the past.
+        /// It is a protocol violation to issue this request on a seat that has
+        /// never had the touch capability.
+        /// </p>
+        /// </summary>
+        /// <param name="id">seat touch interface</param>
+        public static wl_touch* wl_seat_get_touch(wl_seat* pointer)
+        {
+            var args = stackalloc wl_argument[1];
+            args[0] = 0;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 2, args, wl_touch.Interface);
+            return (wl_touch*) ptr;
+        }
 
-        public WlSeat(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="capabilities">capabilities of the seat</param>
-        public delegate void CapabilitiesHandler(IntPtr data, IntPtr iface, CapabilityEnum capabilities);
-
-        /// <param name="name">seat identifier</param>
-        public delegate void NameHandler(IntPtr data, IntPtr iface, string name);
-
-        private IntPtr _listener;
-        private bool _setListener;
+        /// <summary>
+        /// <p>
+        /// Using this request a client can tell the server that it is not going to
+        /// use the seat object anymore.
+        /// </p>
+        /// </summary>
+        public static void wl_seat_release(wl_seat* pointer)
+        {
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 3);
+        }
 
         /// <summary>
         /// <p>
@@ -3648,7 +2423,7 @@ namespace OpenWindow.Backends.Wayland
         /// keyboard and touch capabilities, respectively.
         /// </p>
         /// </summary>
-        public CapabilitiesHandler Capabilities;
+        public delegate void wl_seat_capabilities_delegate(void* data, wl_seat* proxy, wl_seat_capability capabilities);
 
         /// <summary>
         /// <p>
@@ -3657,503 +2432,41 @@ namespace OpenWindow.Backends.Wayland
         /// the seat configuration used by the compositor.
         /// </p>
         /// </summary>
-        public NameHandler Name;
+        public delegate void wl_seat_name_delegate(void* data, wl_seat* proxy, byte* name);
 
-        public void SetListener()
+        internal struct wl_seat_listener
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 2);
-            if (Capabilities != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Capabilities));
-            if (Name != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Name));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
-        }
+            public IntPtr capabilities;
+            public IntPtr name;
 
-        #endregion
-
-        #region Requests
-
-        /// <summary>
-        /// <p>
-        /// The ID provided will be initialized to the wl_pointer interface
-        /// for this seat.
-        /// </p>
-        /// <p>
-        /// This request only takes effect if the seat has the pointer
-        /// capability, or has had the pointer capability in the past.
-        /// It is a protocol violation to issue this request on a seat that has
-        /// never had the pointer capability.
-        /// </p>
-        /// </summary>
-        /// <param name="id">seat pointer</param>
-        public WlPointer GetPointer()
-        {
-            return GetPointer(Pointer);
-        }
-
-        public static WlPointer GetPointer(IntPtr pointer)
-        {
-            var args = new ArgumentStruct[] { 0 };
-            var ptr = MarshalArrayConstructor(pointer, GetPointerOp, args, WlPointer.Interface.Pointer);
-            return new WlPointer(ptr);
-        }
-
-        /// <summary>
-        /// <p>
-        /// The ID provided will be initialized to the wl_keyboard interface
-        /// for this seat.
-        /// </p>
-        /// <p>
-        /// This request only takes effect if the seat has the keyboard
-        /// capability, or has had the keyboard capability in the past.
-        /// It is a protocol violation to issue this request on a seat that has
-        /// never had the keyboard capability.
-        /// </p>
-        /// </summary>
-        /// <param name="id">seat keyboard</param>
-        public WlKeyboard GetKeyboard()
-        {
-            return GetKeyboard(Pointer);
-        }
-
-        public static WlKeyboard GetKeyboard(IntPtr pointer)
-        {
-            var args = new ArgumentStruct[] { 0 };
-            var ptr = MarshalArrayConstructor(pointer, GetKeyboardOp, args, WlKeyboard.Interface.Pointer);
-            return new WlKeyboard(ptr);
-        }
-
-        /// <summary>
-        /// <p>
-        /// The ID provided will be initialized to the wl_touch interface
-        /// for this seat.
-        /// </p>
-        /// <p>
-        /// This request only takes effect if the seat has the touch
-        /// capability, or has had the touch capability in the past.
-        /// It is a protocol violation to issue this request on a seat that has
-        /// never had the touch capability.
-        /// </p>
-        /// </summary>
-        /// <param name="id">seat touch interface</param>
-        public WlTouch GetTouch()
-        {
-            return GetTouch(Pointer);
-        }
-
-        public static WlTouch GetTouch(IntPtr pointer)
-        {
-            var args = new ArgumentStruct[] { 0 };
-            var ptr = MarshalArrayConstructor(pointer, GetTouchOp, args, WlTouch.Interface.Pointer);
-            return new WlTouch(ptr);
-        }
-
-        /// <summary>
-        /// <p>
-        /// Using this request a client can tell the server that it is not going to
-        /// use the seat object anymore.
-        /// </p>
-        /// </summary>
-        public void Release()
-        {
-            Release(Pointer);
-        }
-
-        public static void Release(IntPtr pointer)
-        {
-            Marshal(pointer, ReleaseOp);
-        }
-
-        #endregion
-
-        #region Enums
-
-        /// <summary>
-        /// <p>
-        /// This is a bitmask of capabilities this seat has; if a member is
-        /// set, then it is present on the seat.
-        /// </p>
-        /// </summary>
-        [Flags]
-        public enum CapabilityEnum
-        {
-            /// <summary>
-            /// the seat has pointer devices
-            /// </summary>
-            Pointer = 1,
-
-            /// <summary>
-            /// the seat has one or more keyboards
-            /// </summary>
-            Keyboard = 2,
-
-            /// <summary>
-            /// the seat has touch devices
-            /// </summary>
-            Touch = 4,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// The wl_pointer interface represents one or more input devices,
-    /// such as mice, which control the pointer location and pointer_focus
-    /// of a seat.
-    /// </p>
-    /// <p>
-    /// The wl_pointer interface generates motion, enter and leave
-    /// events for the surfaces that the pointer is located over,
-    /// and button and axis events for button presses, button releases
-    /// and scrolling.
-    /// </p>
-    /// </summary>
-    internal partial class WlPointer : WlProxy
-    {
-        #region Opcodes
-
-        private const int SetCursorOp = 0;
-        private const int ReleaseOp = 1;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_pointer", 6, 2, 9);
-        public const string InterfaceName = "wl_pointer";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
+            public static wl_seat_listener* Alloc(
+                wl_seat_capabilities_delegate capabilities,
+                wl_seat_name_delegate name)
             {
-                new WlMessage("set_cursor", "u?oii", new [] {IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("release", "", new IntPtr[0]),
-            });
-            Interface.SetEvents(new []
+                var ret = (wl_seat_listener*) Marshal.AllocHGlobal(sizeof(wl_seat_listener));
+                Set(ret, capabilities,name);
+                return ret;
+            }
+
+            public static void Set(wl_seat_listener* listener
+            ,
+                wl_seat_capabilities_delegate capabilities,
+                wl_seat_name_delegate name)
             {
-                new WlMessage("enter", "uoff", new [] {IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("leave", "uo", new [] {IntPtr.Zero, WlSurface.Interface.Pointer}),
-                new WlMessage("motion", "uff", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("button", "uuuu", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("axis", "uuf", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("frame", "", new IntPtr[0]),
-                new WlMessage("axis_source", "u", new [] {IntPtr.Zero}),
-                new WlMessage("axis_stop", "uu", new [] {IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("axis_discrete", "ui", new [] {IntPtr.Zero, IntPtr.Zero}),
-            });
-            Interface.Finish();
+                if (capabilities != null) listener->capabilities = Marshal.GetFunctionPointerForDelegate<wl_seat_capabilities_delegate>(capabilities);
+                if (name != null) listener->name = Marshal.GetFunctionPointerForDelegate<wl_seat_name_delegate>(name);
+            }
         }
 
-
-        #endregion
-
-        public WlPointer(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="serial">serial number of the enter event</param>
-        /// <param name="surface">surface entered by the pointer</param>
-        /// <param name="surface_x">surface-local x coordinate</param>
-        /// <param name="surface_y">surface-local y coordinate</param>
-        public delegate void EnterHandler(IntPtr data, IntPtr iface, uint serial, IntPtr surface, int surface_x, int surface_y);
-
-        /// <param name="serial">serial number of the leave event</param>
-        /// <param name="surface">surface left by the pointer</param>
-        public delegate void LeaveHandler(IntPtr data, IntPtr iface, uint serial, IntPtr surface);
-
-        /// <param name="time">timestamp with millisecond granularity</param>
-        /// <param name="surface_x">surface-local x coordinate</param>
-        /// <param name="surface_y">surface-local y coordinate</param>
-        public delegate void MotionHandler(IntPtr data, IntPtr iface, uint time, int surface_x, int surface_y);
-
-        /// <param name="serial">serial number of the button event</param>
-        /// <param name="time">timestamp with millisecond granularity</param>
-        /// <param name="button">button that produced the event</param>
-        /// <param name="state">physical state of the button</param>
-        public delegate void ButtonHandler(IntPtr data, IntPtr iface, uint serial, uint time, uint button, ButtonStateEnum state);
-
-        /// <param name="time">timestamp with millisecond granularity</param>
-        /// <param name="axis">axis type</param>
-        /// <param name="value">length of vector in surface-local coordinate space</param>
-        public delegate void AxisHandler(IntPtr data, IntPtr iface, uint time, AxisEnum axis, int value);
-
-        public delegate void FrameHandler(IntPtr data, IntPtr iface);
-
-        /// <param name="axis_source">source of the axis event</param>
-        public delegate void AxisSourceHandler(IntPtr data, IntPtr iface, AxisSourceEnum axis_source);
-
-        /// <param name="time">timestamp with millisecond granularity</param>
-        /// <param name="axis">the axis stopped with this event</param>
-        public delegate void AxisStopHandler(IntPtr data, IntPtr iface, uint time, AxisEnum axis);
-
-        /// <param name="axis">axis type</param>
-        /// <param name="discrete">number of steps</param>
-        public delegate void AxisDiscreteHandler(IntPtr data, IntPtr iface, AxisEnum axis, int discrete);
-
-        private IntPtr _listener;
-        private bool _setListener;
-
         /// <summary>
-        /// <p>
-        /// Notification that this seat's pointer is focused on a certain
-        /// surface.
-        /// </p>
-        /// <p>
-        /// When a seat's focus enters a surface, the pointer image
-        /// is undefined and a client should respond to this event by setting
-        /// an appropriate pointer image with the set_cursor request.
-        /// </p>
+        /// Set the callbacks for the given <see cref="wl_seat"/>.
         /// </summary>
-        public EnterHandler Enter;
-
-        /// <summary>
-        /// <p>
-        /// Notification that this seat's pointer is no longer focused on
-        /// a certain surface.
-        /// </p>
-        /// <p>
-        /// The leave notification is sent before the enter notification
-        /// for the new focus.
-        /// </p>
-        /// </summary>
-        public LeaveHandler Leave;
-
-        /// <summary>
-        /// <p>
-        /// Notification of pointer location change. The arguments
-        /// surface_x and surface_y are the location relative to the
-        /// focused surface.
-        /// </p>
-        /// </summary>
-        public MotionHandler Motion;
-
-        /// <summary>
-        /// <p>
-        /// Mouse button click and release notifications.
-        /// </p>
-        /// <p>
-        /// The location of the click is given by the last motion or
-        /// enter event.
-        /// The time argument is a timestamp with millisecond
-        /// granularity, with an undefined base.
-        /// </p>
-        /// <p>
-        /// The button is a button code as defined in the Linux kernel's
-        /// linux/input-event-codes.h header file, e.g. BTN_LEFT.
-        /// </p>
-        /// <p>
-        /// Any 16-bit button code value is reserved for future additions to the
-        /// kernel's event code list. All other button codes above 0xFFFF are
-        /// currently undefined but may be used in future versions of this
-        /// protocol.
-        /// </p>
-        /// </summary>
-        public ButtonHandler Button;
-
-        /// <summary>
-        /// <p>
-        /// Scroll and other axis notifications.
-        /// </p>
-        /// <p>
-        /// For scroll events (vertical and horizontal scroll axes), the
-        /// value parameter is the length of a vector along the specified
-        /// axis in a coordinate space identical to those of motion events,
-        /// representing a relative movement along the specified axis.
-        /// </p>
-        /// <p>
-        /// For devices that support movements non-parallel to axes multiple
-        /// axis events will be emitted.
-        /// </p>
-        /// <p>
-        /// When applicable, for example for touch pads, the server can
-        /// choose to emit scroll events where the motion vector is
-        /// equivalent to a motion event vector.
-        /// </p>
-        /// <p>
-        /// When applicable, a client can transform its content relative to the
-        /// scroll distance.
-        /// </p>
-        /// </summary>
-        public AxisHandler Axis;
-
-        /// <summary>
-        /// <p>
-        /// Indicates the end of a set of events that logically belong together.
-        /// A client is expected to accumulate the data in all events within the
-        /// frame before proceeding.
-        /// </p>
-        /// <p>
-        /// All wl_pointer events before a wl_pointer.frame event belong
-        /// logically together. For example, in a diagonal scroll motion the
-        /// compositor will send an optional wl_pointer.axis_source event, two
-        /// wl_pointer.axis events (horizontal and vertical) and finally a
-        /// wl_pointer.frame event. The client may use this information to
-        /// calculate a diagonal vector for scrolling.
-        /// </p>
-        /// <p>
-        /// When multiple wl_pointer.axis events occur within the same frame,
-        /// the motion vector is the combined motion of all events.
-        /// When a wl_pointer.axis and a wl_pointer.axis_stop event occur within
-        /// the same frame, this indicates that axis movement in one axis has
-        /// stopped but continues in the other axis.
-        /// When multiple wl_pointer.axis_stop events occur within the same
-        /// frame, this indicates that these axes stopped in the same instance.
-        /// </p>
-        /// <p>
-        /// A wl_pointer.frame event is sent for every logical event group,
-        /// even if the group only contains a single wl_pointer event.
-        /// Specifically, a client may get a sequence: motion, frame, button,
-        /// frame, axis, frame, axis_stop, frame.
-        /// </p>
-        /// <p>
-        /// The wl_pointer.enter and wl_pointer.leave events are logical events
-        /// generated by the compositor and not the hardware. These events are
-        /// also grouped by a wl_pointer.frame. When a pointer moves from one
-        /// surface to another, a compositor should group the
-        /// wl_pointer.leave event within the same wl_pointer.frame.
-        /// However, a client must not rely on wl_pointer.leave and
-        /// wl_pointer.enter being in the same wl_pointer.frame.
-        /// Compositor-specific policies may require the wl_pointer.leave and
-        /// wl_pointer.enter event being split across multiple wl_pointer.frame
-        /// groups.
-        /// </p>
-        /// </summary>
-        public FrameHandler Frame;
-
-        /// <summary>
-        /// <p>
-        /// Source information for scroll and other axes.
-        /// </p>
-        /// <p>
-        /// This event does not occur on its own. It is sent before a
-        /// wl_pointer.frame event and carries the source information for
-        /// all events within that frame.
-        /// </p>
-        /// <p>
-        /// The source specifies how this event was generated. If the source is
-        /// wl_pointer.axis_source.finger, a wl_pointer.axis_stop event will be
-        /// sent when the user lifts the finger off the device.
-        /// </p>
-        /// <p>
-        /// If the source is wl_pointer.axis_source.wheel,
-        /// wl_pointer.axis_source.wheel_tilt or
-        /// wl_pointer.axis_source.continuous, a wl_pointer.axis_stop event may
-        /// or may not be sent. Whether a compositor sends an axis_stop event
-        /// for these sources is hardware-specific and implementation-dependent;
-        /// clients must not rely on receiving an axis_stop event for these
-        /// scroll sources and should treat scroll sequences from these scroll
-        /// sources as unterminated by default.
-        /// </p>
-        /// <p>
-        /// This event is optional. If the source is unknown for a particular
-        /// axis event sequence, no event is sent.
-        /// Only one wl_pointer.axis_source event is permitted per frame.
-        /// </p>
-        /// <p>
-        /// The order of wl_pointer.axis_discrete and wl_pointer.axis_source is
-        /// not guaranteed.
-        /// </p>
-        /// </summary>
-        public AxisSourceHandler AxisSource;
-
-        /// <summary>
-        /// <p>
-        /// Stop notification for scroll and other axes.
-        /// </p>
-        /// <p>
-        /// For some wl_pointer.axis_source types, a wl_pointer.axis_stop event
-        /// is sent to notify a client that the axis sequence has terminated.
-        /// This enables the client to implement kinetic scrolling.
-        /// See the wl_pointer.axis_source documentation for information on when
-        /// this event may be generated.
-        /// </p>
-        /// <p>
-        /// Any wl_pointer.axis events with the same axis_source after this
-        /// event should be considered as the start of a new axis motion.
-        /// </p>
-        /// <p>
-        /// The timestamp is to be interpreted identical to the timestamp in the
-        /// wl_pointer.axis event. The timestamp value may be the same as a
-        /// preceding wl_pointer.axis event.
-        /// </p>
-        /// </summary>
-        public AxisStopHandler AxisStop;
-
-        /// <summary>
-        /// <p>
-        /// Discrete step information for scroll and other axes.
-        /// </p>
-        /// <p>
-        /// This event carries the axis value of the wl_pointer.axis event in
-        /// discrete steps (e.g. mouse wheel clicks).
-        /// </p>
-        /// <p>
-        /// This event does not occur on its own, it is coupled with a
-        /// wl_pointer.axis event that represents this axis value on a
-        /// continuous scale. The protocol guarantees that each axis_discrete
-        /// event is always followed by exactly one axis event with the same
-        /// axis number within the same wl_pointer.frame. Note that the protocol
-        /// allows for other events to occur between the axis_discrete and
-        /// its coupled axis event, including other axis_discrete or axis
-        /// events.
-        /// </p>
-        /// <p>
-        /// This event is optional; continuous scrolling devices
-        /// like two-finger scrolling on touchpads do not have discrete
-        /// steps and do not generate this event.
-        /// </p>
-        /// <p>
-        /// The discrete value carries the directional information. e.g. a value
-        /// of -2 is two steps towards the negative direction of this axis.
-        /// </p>
-        /// <p>
-        /// The axis number is identical to the axis number in the associated
-        /// axis event.
-        /// </p>
-        /// <p>
-        /// The order of wl_pointer.axis_discrete and wl_pointer.axis_source is
-        /// not guaranteed.
-        /// </p>
-        /// </summary>
-        public AxisDiscreteHandler AxisDiscrete;
-
-        public void SetListener()
+        /// <param name="capabilities">capabilities of the seat</param>
+        /// <param name="name">seat identifier</param>
+        public static int wl_seat_add_listener(wl_seat* iface, wl_seat_listener* listener)
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 9);
-            if (Enter != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Enter));
-            if (Leave != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Leave));
-            if (Motion != null)
-                SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Motion));
-            if (Button != null)
-                SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Button));
-            if (Axis != null)
-                SMarshal.WriteIntPtr(_listener, 4 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Axis));
-            if (Frame != null)
-                SMarshal.WriteIntPtr(_listener, 5 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Frame));
-            if (AxisSource != null)
-                SMarshal.WriteIntPtr(_listener, 6 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(AxisSource));
-            if (AxisStop != null)
-                SMarshal.WriteIntPtr(_listener, 7 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(AxisStop));
-            if (AxisDiscrete != null)
-                SMarshal.WriteIntPtr(_listener, 8 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(AxisDiscrete));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
         }
-
-        #endregion
-
-        #region Requests
-
         /// <summary>
         /// <p>
         /// Set the pointer surface, i.e., the surface that contains the
@@ -4198,15 +2511,14 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="surface">pointer surface</param>
         /// <param name="hotspot_x">surface-local x coordinate</param>
         /// <param name="hotspot_y">surface-local y coordinate</param>
-        public void SetCursor(uint serial, WlSurface surface, int hotspot_x, int hotspot_y)
+        public static void wl_pointer_set_cursor(wl_pointer* pointer, uint serial, wl_surface* surface, int hotspot_x, int hotspot_y)
         {
-            SetCursor(Pointer, serial, surface, hotspot_x, hotspot_y);
-        }
-
-        public static void SetCursor(IntPtr pointer, uint serial, WlSurface surface, int hotspot_x, int hotspot_y)
-        {
-            var args = new ArgumentStruct[] { serial, surface, hotspot_x, hotspot_y };
-            MarshalArray(pointer, SetCursorOp, args);
+            var args = stackalloc wl_argument[4];
+            args[0] = serial;
+            args[1] = surface;
+            args[2] = hotspot_x;
+            args[3] = hotspot_y;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 0, args);
         }
 
         /// <summary>
@@ -4219,203 +2531,334 @@ namespace OpenWindow.Backends.Wayland
         /// wl_pointer_destroy() after using this request.
         /// </p>
         /// </summary>
-        public void Release()
+        public static void wl_pointer_release(wl_pointer* pointer)
         {
-            Release(Pointer);
-        }
-
-        public static void Release(IntPtr pointer)
-        {
-            Marshal(pointer, ReleaseOp);
-        }
-
-        #endregion
-
-        #region Enums
-
-        public enum ErrorEnum
-        {
-            /// <summary>
-            /// given wl_surface has another role
-            /// </summary>
-            Role = 0,
-
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 1);
         }
 
         /// <summary>
         /// <p>
-        /// Describes the physical state of a button that produced the button
-        /// event.
+        /// Notification that this seat's pointer is focused on a certain
+        /// surface.
+        /// </p>
+        /// <p>
+        /// When a seat's focus enters a surface, the pointer image
+        /// is undefined and a client should respond to this event by setting
+        /// an appropriate pointer image with the set_cursor request.
         /// </p>
         /// </summary>
-        public enum ButtonStateEnum
-        {
-            /// <summary>
-            /// the button is not pressed
-            /// </summary>
-            Released = 0,
-
-            /// <summary>
-            /// the button is pressed
-            /// </summary>
-            Pressed = 1,
-
-        }
+        public delegate void wl_pointer_enter_delegate(void* data, wl_pointer* proxy, uint serial, wl_surface* surface, int surface_x, int surface_y);
 
         /// <summary>
         /// <p>
-        /// Describes the axis types of scroll events.
+        /// Notification that this seat's pointer is no longer focused on
+        /// a certain surface.
+        /// </p>
+        /// <p>
+        /// The leave notification is sent before the enter notification
+        /// for the new focus.
         /// </p>
         /// </summary>
-        public enum AxisEnum
-        {
-            /// <summary>
-            /// vertical axis
-            /// </summary>
-            VerticalScroll = 0,
-
-            /// <summary>
-            /// horizontal axis
-            /// </summary>
-            HorizontalScroll = 1,
-
-        }
+        public delegate void wl_pointer_leave_delegate(void* data, wl_pointer* proxy, uint serial, wl_surface* surface);
 
         /// <summary>
         /// <p>
-        /// Describes the source types for axis events. This indicates to the
-        /// client how an axis event was physically generated; a client may
-        /// adjust the user interface accordingly. For example, scroll events
-        /// from a "finger" source may be in a smooth coordinate space with
-        /// kinetic scrolling whereas a "wheel" source may be in discrete steps
-        /// of a number of lines.
-        /// </p>
-        /// <p>
-        /// The "continuous" axis source is a device generating events in a
-        /// continuous coordinate space, but using something other than a
-        /// finger. One example for this source is button-based scrolling where
-        /// the vertical motion of a device is converted to scroll events while
-        /// a button is held down.
-        /// </p>
-        /// <p>
-        /// The "wheel tilt" axis source indicates that the actual device is a
-        /// wheel but the scroll event is not caused by a rotation but a
-        /// (usually sideways) tilt of the wheel.
+        /// Notification of pointer location change. The arguments
+        /// surface_x and surface_y are the location relative to the
+        /// focused surface.
         /// </p>
         /// </summary>
-        public enum AxisSourceEnum
+        public delegate void wl_pointer_motion_delegate(void* data, wl_pointer* proxy, uint time, int surface_x, int surface_y);
+
+        /// <summary>
+        /// <p>
+        /// Mouse button click and release notifications.
+        /// </p>
+        /// <p>
+        /// The location of the click is given by the last motion or
+        /// enter event.
+        /// The time argument is a timestamp with millisecond
+        /// granularity, with an undefined base.
+        /// </p>
+        /// <p>
+        /// The button is a button code as defined in the Linux kernel's
+        /// linux/input-event-codes.h header file, e.g. BTN_LEFT.
+        /// </p>
+        /// <p>
+        /// Any 16-bit button code value is reserved for future additions to the
+        /// kernel's event code list. All other button codes above 0xFFFF are
+        /// currently undefined but may be used in future versions of this
+        /// protocol.
+        /// </p>
+        /// </summary>
+        public delegate void wl_pointer_button_delegate(void* data, wl_pointer* proxy, uint serial, uint time, uint button, wl_pointer_button_state state);
+
+        /// <summary>
+        /// <p>
+        /// Scroll and other axis notifications.
+        /// </p>
+        /// <p>
+        /// For scroll events (vertical and horizontal scroll axes), the
+        /// value parameter is the length of a vector along the specified
+        /// axis in a coordinate space identical to those of motion events,
+        /// representing a relative movement along the specified axis.
+        /// </p>
+        /// <p>
+        /// For devices that support movements non-parallel to axes multiple
+        /// axis events will be emitted.
+        /// </p>
+        /// <p>
+        /// When applicable, for example for touch pads, the server can
+        /// choose to emit scroll events where the motion vector is
+        /// equivalent to a motion event vector.
+        /// </p>
+        /// <p>
+        /// When applicable, a client can transform its content relative to the
+        /// scroll distance.
+        /// </p>
+        /// </summary>
+        public delegate void wl_pointer_axis_delegate(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis, int value);
+
+        /// <summary>
+        /// <p>
+        /// Indicates the end of a set of events that logically belong together.
+        /// A client is expected to accumulate the data in all events within the
+        /// frame before proceeding.
+        /// </p>
+        /// <p>
+        /// All wl_pointer events before a wl_pointer.frame event belong
+        /// logically together. For example, in a diagonal scroll motion the
+        /// compositor will send an optional wl_pointer.axis_source event, two
+        /// wl_pointer.axis events (horizontal and vertical) and finally a
+        /// wl_pointer.frame event. The client may use this information to
+        /// calculate a diagonal vector for scrolling.
+        /// </p>
+        /// <p>
+        /// When multiple wl_pointer.axis events occur within the same frame,
+        /// the motion vector is the combined motion of all events.
+        /// When a wl_pointer.axis and a wl_pointer.axis_stop event occur within
+        /// the same frame, this indicates that axis movement in one axis has
+        /// stopped but continues in the other axis.
+        /// When multiple wl_pointer.axis_stop events occur within the same
+        /// frame, this indicates that these axes stopped in the same instance.
+        /// </p>
+        /// <p>
+        /// A wl_pointer.frame event is sent for every logical event group,
+        /// even if the group only contains a single wl_pointer event.
+        /// Specifically, a client may get a sequence: motion, frame, button,
+        /// frame, axis, frame, axis_stop, frame.
+        /// </p>
+        /// <p>
+        /// The wl_pointer.enter and wl_pointer.leave events are logical events
+        /// generated by the compositor and not the hardware. These events are
+        /// also grouped by a wl_pointer.frame. When a pointer moves from one
+        /// surface to another, a compositor should group the
+        /// wl_pointer.leave event within the same wl_pointer.frame.
+        /// However, a client must not rely on wl_pointer.leave and
+        /// wl_pointer.enter being in the same wl_pointer.frame.
+        /// Compositor-specific policies may require the wl_pointer.leave and
+        /// wl_pointer.enter event being split across multiple wl_pointer.frame
+        /// groups.
+        /// </p>
+        /// </summary>
+        public delegate void wl_pointer_frame_delegate(void* data, wl_pointer* proxy);
+
+        /// <summary>
+        /// <p>
+        /// Source information for scroll and other axes.
+        /// </p>
+        /// <p>
+        /// This event does not occur on its own. It is sent before a
+        /// wl_pointer.frame event and carries the source information for
+        /// all events within that frame.
+        /// </p>
+        /// <p>
+        /// The source specifies how this event was generated. If the source is
+        /// wl_pointer.axis_source.finger, a wl_pointer.axis_stop event will be
+        /// sent when the user lifts the finger off the device.
+        /// </p>
+        /// <p>
+        /// If the source is wl_pointer.axis_source.wheel,
+        /// wl_pointer.axis_source.wheel_tilt or
+        /// wl_pointer.axis_source.continuous, a wl_pointer.axis_stop event may
+        /// or may not be sent. Whether a compositor sends an axis_stop event
+        /// for these sources is hardware-specific and implementation-dependent;
+        /// clients must not rely on receiving an axis_stop event for these
+        /// scroll sources and should treat scroll sequences from these scroll
+        /// sources as unterminated by default.
+        /// </p>
+        /// <p>
+        /// This event is optional. If the source is unknown for a particular
+        /// axis event sequence, no event is sent.
+        /// Only one wl_pointer.axis_source event is permitted per frame.
+        /// </p>
+        /// <p>
+        /// The order of wl_pointer.axis_discrete and wl_pointer.axis_source is
+        /// not guaranteed.
+        /// </p>
+        /// </summary>
+        public delegate void wl_pointer_axis_source_delegate(void* data, wl_pointer* proxy, wl_pointer_axis_source axis_source);
+
+        /// <summary>
+        /// <p>
+        /// Stop notification for scroll and other axes.
+        /// </p>
+        /// <p>
+        /// For some wl_pointer.axis_source types, a wl_pointer.axis_stop event
+        /// is sent to notify a client that the axis sequence has terminated.
+        /// This enables the client to implement kinetic scrolling.
+        /// See the wl_pointer.axis_source documentation for information on when
+        /// this event may be generated.
+        /// </p>
+        /// <p>
+        /// Any wl_pointer.axis events with the same axis_source after this
+        /// event should be considered as the start of a new axis motion.
+        /// </p>
+        /// <p>
+        /// The timestamp is to be interpreted identical to the timestamp in the
+        /// wl_pointer.axis event. The timestamp value may be the same as a
+        /// preceding wl_pointer.axis event.
+        /// </p>
+        /// </summary>
+        public delegate void wl_pointer_axis_stop_delegate(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis);
+
+        /// <summary>
+        /// <p>
+        /// Discrete step information for scroll and other axes.
+        /// </p>
+        /// <p>
+        /// This event carries the axis value of the wl_pointer.axis event in
+        /// discrete steps (e.g. mouse wheel clicks).
+        /// </p>
+        /// <p>
+        /// This event does not occur on its own, it is coupled with a
+        /// wl_pointer.axis event that represents this axis value on a
+        /// continuous scale. The protocol guarantees that each axis_discrete
+        /// event is always followed by exactly one axis event with the same
+        /// axis number within the same wl_pointer.frame. Note that the protocol
+        /// allows for other events to occur between the axis_discrete and
+        /// its coupled axis event, including other axis_discrete or axis
+        /// events.
+        /// </p>
+        /// <p>
+        /// This event is optional; continuous scrolling devices
+        /// like two-finger scrolling on touchpads do not have discrete
+        /// steps and do not generate this event.
+        /// </p>
+        /// <p>
+        /// The discrete value carries the directional information. e.g. a value
+        /// of -2 is two steps towards the negative direction of this axis.
+        /// </p>
+        /// <p>
+        /// The axis number is identical to the axis number in the associated
+        /// axis event.
+        /// </p>
+        /// <p>
+        /// The order of wl_pointer.axis_discrete and wl_pointer.axis_source is
+        /// not guaranteed.
+        /// </p>
+        /// </summary>
+        public delegate void wl_pointer_axis_discrete_delegate(void* data, wl_pointer* proxy, wl_pointer_axis axis, int discrete);
+
+        internal struct wl_pointer_listener
         {
-            /// <summary>
-            /// a physical wheel rotation
-            /// </summary>
-            Wheel = 0,
+            public IntPtr enter;
+            public IntPtr leave;
+            public IntPtr motion;
+            public IntPtr button;
+            public IntPtr axis;
+            public IntPtr frame;
+            public IntPtr axis_source;
+            public IntPtr axis_stop;
+            public IntPtr axis_discrete;
 
-            /// <summary>
-            /// finger on a touch surface
-            /// </summary>
-            Finger = 1,
-
-            /// <summary>
-            /// continuous coordinate space
-            /// </summary>
-            Continuous = 2,
-
-            /// <summary>
-            /// a physical wheel tilt
-            /// </summary>
-            WheelTilt = 3,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// The wl_keyboard interface represents one or more keyboards
-    /// associated with a seat.
-    /// </p>
-    /// </summary>
-    internal partial class WlKeyboard : WlProxy
-    {
-        #region Opcodes
-
-        private const int ReleaseOp = 0;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_keyboard", 6, 1, 6);
-        public const string InterfaceName = "wl_keyboard";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
+            public static wl_pointer_listener* Alloc(
+                wl_pointer_enter_delegate enter,
+                wl_pointer_leave_delegate leave,
+                wl_pointer_motion_delegate motion,
+                wl_pointer_button_delegate button,
+                wl_pointer_axis_delegate axis,
+                wl_pointer_frame_delegate frame,
+                wl_pointer_axis_source_delegate axis_source,
+                wl_pointer_axis_stop_delegate axis_stop,
+                wl_pointer_axis_discrete_delegate axis_discrete)
             {
-                new WlMessage("release", "", new IntPtr[0]),
-            });
-            Interface.SetEvents(new []
+                var ret = (wl_pointer_listener*) Marshal.AllocHGlobal(sizeof(wl_pointer_listener));
+                Set(ret, enter,leave,motion,button,axis,frame,axis_source,axis_stop,axis_discrete);
+                return ret;
+            }
+
+            public static void Set(wl_pointer_listener* listener
+            ,
+                wl_pointer_enter_delegate enter,
+                wl_pointer_leave_delegate leave,
+                wl_pointer_motion_delegate motion,
+                wl_pointer_button_delegate button,
+                wl_pointer_axis_delegate axis,
+                wl_pointer_frame_delegate frame,
+                wl_pointer_axis_source_delegate axis_source,
+                wl_pointer_axis_stop_delegate axis_stop,
+                wl_pointer_axis_discrete_delegate axis_discrete)
             {
-                new WlMessage("keymap", "uhu", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("enter", "uoa", new [] {IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero}),
-                new WlMessage("leave", "uo", new [] {IntPtr.Zero, WlSurface.Interface.Pointer}),
-                new WlMessage("key", "uuuu", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("modifiers", "uuuuu", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("repeat_info", "ii", new [] {IntPtr.Zero, IntPtr.Zero}),
-            });
-            Interface.Finish();
+                if (enter != null) listener->enter = Marshal.GetFunctionPointerForDelegate<wl_pointer_enter_delegate>(enter);
+                if (leave != null) listener->leave = Marshal.GetFunctionPointerForDelegate<wl_pointer_leave_delegate>(leave);
+                if (motion != null) listener->motion = Marshal.GetFunctionPointerForDelegate<wl_pointer_motion_delegate>(motion);
+                if (button != null) listener->button = Marshal.GetFunctionPointerForDelegate<wl_pointer_button_delegate>(button);
+                if (axis != null) listener->axis = Marshal.GetFunctionPointerForDelegate<wl_pointer_axis_delegate>(axis);
+                if (frame != null) listener->frame = Marshal.GetFunctionPointerForDelegate<wl_pointer_frame_delegate>(frame);
+                if (axis_source != null) listener->axis_source = Marshal.GetFunctionPointerForDelegate<wl_pointer_axis_source_delegate>(axis_source);
+                if (axis_stop != null) listener->axis_stop = Marshal.GetFunctionPointerForDelegate<wl_pointer_axis_stop_delegate>(axis_stop);
+                if (axis_discrete != null) listener->axis_discrete = Marshal.GetFunctionPointerForDelegate<wl_pointer_axis_discrete_delegate>(axis_discrete);
+            }
         }
 
-
-        #endregion
-
-        public WlKeyboard(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="format">keymap format</param>
-        /// <param name="fd">keymap file descriptor</param>
-        /// <param name="size">keymap size, in bytes</param>
-        public delegate void KeymapHandler(IntPtr data, IntPtr iface, KeymapFormatEnum format, int fd, uint size);
-
+        /// <summary>
+        /// Set the callbacks for the given <see cref="wl_pointer"/>.
+        /// </summary>
         /// <param name="serial">serial number of the enter event</param>
-        /// <param name="surface">surface gaining keyboard focus</param>
-        /// <param name="keys">the currently pressed keys</param>
-        public delegate void EnterHandler(IntPtr data, IntPtr iface, uint serial, IntPtr surface, WlArray keys);
-
+        /// <param name="surface">surface entered by the pointer</param>
+        /// <param name="surface_x">surface-local x coordinate</param>
+        /// <param name="surface_y">surface-local y coordinate</param>
         /// <param name="serial">serial number of the leave event</param>
-        /// <param name="surface">surface that lost keyboard focus</param>
-        public delegate void LeaveHandler(IntPtr data, IntPtr iface, uint serial, IntPtr surface);
-
-        /// <param name="serial">serial number of the key event</param>
+        /// <param name="surface">surface left by the pointer</param>
         /// <param name="time">timestamp with millisecond granularity</param>
-        /// <param name="key">key that produced the event</param>
-        /// <param name="state">physical state of the key</param>
-        public delegate void KeyHandler(IntPtr data, IntPtr iface, uint serial, uint time, uint key, KeyStateEnum state);
-
-        /// <param name="serial">serial number of the modifiers event</param>
-        /// <param name="mods_depressed">depressed modifiers</param>
-        /// <param name="mods_latched">latched modifiers</param>
-        /// <param name="mods_locked">locked modifiers</param>
-        /// <param name="group">keyboard layout</param>
-        public delegate void ModifiersHandler(IntPtr data, IntPtr iface, uint serial, uint mods_depressed, uint mods_latched, uint mods_locked, uint group);
-
-        /// <param name="rate">the rate of repeating keys in characters per second</param>
-        /// <param name="delay">delay in milliseconds since key down until repeating starts</param>
-        public delegate void RepeatInfoHandler(IntPtr data, IntPtr iface, int rate, int delay);
-
-        private IntPtr _listener;
-        private bool _setListener;
+        /// <param name="surface_x">surface-local x coordinate</param>
+        /// <param name="surface_y">surface-local y coordinate</param>
+        /// <param name="serial">serial number of the button event</param>
+        /// <param name="time">timestamp with millisecond granularity</param>
+        /// <param name="button">button that produced the event</param>
+        /// <param name="state">physical state of the button</param>
+        /// <param name="time">timestamp with millisecond granularity</param>
+        /// <param name="axis">axis type</param>
+        /// <param name="value">length of vector in surface-local coordinate space</param>
+        /// <param name="axis_source">source of the axis event</param>
+        /// <param name="time">timestamp with millisecond granularity</param>
+        /// <param name="axis">the axis stopped with this event</param>
+        /// <param name="axis">axis type</param>
+        /// <param name="discrete">number of steps</param>
+        public static int wl_pointer_add_listener(wl_pointer* iface, wl_pointer_listener* listener)
+        {
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
+        }
+        /// <summary>
+        /// <p></p>
+        /// </summary>
+        public static void wl_keyboard_release(wl_keyboard* pointer)
+        {
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
+        }
 
         /// <summary>
         /// <p>
         /// This event provides a file descriptor to the client which can be
         /// memory-mapped to provide a keyboard mapping description.
         /// </p>
+        /// <p>
+        /// From version 7 onwards, the fd must be mapped with MAP_PRIVATE by
+        /// the recipient, as MAP_SHARED may fail.
+        /// </p>
         /// </summary>
-        public KeymapHandler Keymap;
+        public delegate void wl_keyboard_keymap_delegate(void* data, wl_keyboard* proxy, wl_keyboard_keymap_format format, int fd, uint size);
 
         /// <summary>
         /// <p>
@@ -4423,7 +2866,7 @@ namespace OpenWindow.Backends.Wayland
         /// surface.
         /// </p>
         /// </summary>
-        public EnterHandler Enter;
+        public delegate void wl_keyboard_enter_delegate(void* data, wl_keyboard* proxy, uint serial, wl_surface* surface, wl_array* keys);
 
         /// <summary>
         /// <p>
@@ -4435,7 +2878,7 @@ namespace OpenWindow.Backends.Wayland
         /// for the new focus.
         /// </p>
         /// </summary>
-        public LeaveHandler Leave;
+        public delegate void wl_keyboard_leave_delegate(void* data, wl_keyboard* proxy, uint serial, wl_surface* surface);
 
         /// <summary>
         /// <p>
@@ -4444,7 +2887,7 @@ namespace OpenWindow.Backends.Wayland
         /// granularity, with an undefined base.
         /// </p>
         /// </summary>
-        public KeyHandler Key;
+        public delegate void wl_keyboard_key_delegate(void* data, wl_keyboard* proxy, uint serial, uint time, uint key, wl_keyboard_key_state state);
 
         /// <summary>
         /// <p>
@@ -4452,7 +2895,7 @@ namespace OpenWindow.Backends.Wayland
         /// changed, and it should update its local state.
         /// </p>
         /// </summary>
-        public ModifiersHandler Modifiers;
+        public delegate void wl_keyboard_modifiers_delegate(void* data, wl_keyboard* proxy, uint serial, uint mods_depressed, uint mods_latched, uint mods_locked, uint group);
 
         /// <summary>
         /// <p>
@@ -4473,179 +2916,81 @@ namespace OpenWindow.Backends.Wayland
         /// of wl_keyboard.
         /// </p>
         /// </summary>
-        public RepeatInfoHandler RepeatInfo;
+        public delegate void wl_keyboard_repeat_info_delegate(void* data, wl_keyboard* proxy, int rate, int delay);
 
-        public void SetListener()
+        internal struct wl_keyboard_listener
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 6);
-            if (Keymap != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Keymap));
-            if (Enter != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Enter));
-            if (Leave != null)
-                SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Leave));
-            if (Key != null)
-                SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Key));
-            if (Modifiers != null)
-                SMarshal.WriteIntPtr(_listener, 4 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Modifiers));
-            if (RepeatInfo != null)
-                SMarshal.WriteIntPtr(_listener, 5 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(RepeatInfo));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
+            public IntPtr keymap;
+            public IntPtr enter;
+            public IntPtr leave;
+            public IntPtr key;
+            public IntPtr modifiers;
+            public IntPtr repeat_info;
+
+            public static wl_keyboard_listener* Alloc(
+                wl_keyboard_keymap_delegate keymap,
+                wl_keyboard_enter_delegate enter,
+                wl_keyboard_leave_delegate leave,
+                wl_keyboard_key_delegate key,
+                wl_keyboard_modifiers_delegate modifiers,
+                wl_keyboard_repeat_info_delegate repeat_info)
+            {
+                var ret = (wl_keyboard_listener*) Marshal.AllocHGlobal(sizeof(wl_keyboard_listener));
+                Set(ret, keymap,enter,leave,key,modifiers,repeat_info);
+                return ret;
+            }
+
+            public static void Set(wl_keyboard_listener* listener
+            ,
+                wl_keyboard_keymap_delegate keymap,
+                wl_keyboard_enter_delegate enter,
+                wl_keyboard_leave_delegate leave,
+                wl_keyboard_key_delegate key,
+                wl_keyboard_modifiers_delegate modifiers,
+                wl_keyboard_repeat_info_delegate repeat_info)
+            {
+                if (keymap != null) listener->keymap = Marshal.GetFunctionPointerForDelegate<wl_keyboard_keymap_delegate>(keymap);
+                if (enter != null) listener->enter = Marshal.GetFunctionPointerForDelegate<wl_keyboard_enter_delegate>(enter);
+                if (leave != null) listener->leave = Marshal.GetFunctionPointerForDelegate<wl_keyboard_leave_delegate>(leave);
+                if (key != null) listener->key = Marshal.GetFunctionPointerForDelegate<wl_keyboard_key_delegate>(key);
+                if (modifiers != null) listener->modifiers = Marshal.GetFunctionPointerForDelegate<wl_keyboard_modifiers_delegate>(modifiers);
+                if (repeat_info != null) listener->repeat_info = Marshal.GetFunctionPointerForDelegate<wl_keyboard_repeat_info_delegate>(repeat_info);
+            }
         }
 
-        #endregion
-
-        #region Requests
-
+        /// <summary>
+        /// Set the callbacks for the given <see cref="wl_keyboard"/>.
+        /// </summary>
+        /// <param name="format">keymap format</param>
+        /// <param name="fd">keymap file descriptor</param>
+        /// <param name="size">keymap size, in bytes</param>
+        /// <param name="serial">serial number of the enter event</param>
+        /// <param name="surface">surface gaining keyboard focus</param>
+        /// <param name="keys">the currently pressed keys</param>
+        /// <param name="serial">serial number of the leave event</param>
+        /// <param name="surface">surface that lost keyboard focus</param>
+        /// <param name="serial">serial number of the key event</param>
+        /// <param name="time">timestamp with millisecond granularity</param>
+        /// <param name="key">key that produced the event</param>
+        /// <param name="state">physical state of the key</param>
+        /// <param name="serial">serial number of the modifiers event</param>
+        /// <param name="mods_depressed">depressed modifiers</param>
+        /// <param name="mods_latched">latched modifiers</param>
+        /// <param name="mods_locked">locked modifiers</param>
+        /// <param name="group">keyboard layout</param>
+        /// <param name="rate">the rate of repeating keys in characters per second</param>
+        /// <param name="delay">delay in milliseconds since key down until repeating starts</param>
+        public static int wl_keyboard_add_listener(wl_keyboard* iface, wl_keyboard_listener* listener)
+        {
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
+        }
         /// <summary>
         /// <p></p>
         /// </summary>
-        public void Release()
+        public static void wl_touch_release(wl_touch* pointer)
         {
-            Release(Pointer);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
-
-        public static void Release(IntPtr pointer)
-        {
-            Marshal(pointer, ReleaseOp);
-        }
-
-        #endregion
-
-        #region Enums
-
-        /// <summary>
-        /// <p>
-        /// This specifies the format of the keymap provided to the
-        /// client with the wl_keyboard.keymap event.
-        /// </p>
-        /// </summary>
-        public enum KeymapFormatEnum
-        {
-            /// <summary>
-            /// no keymap; client must understand how to interpret the raw keycode
-            /// </summary>
-            NoKeymap = 0,
-
-            /// <summary>
-            /// libxkbcommon compatible; to determine the xkb keycode, clients must add 8 to the key event keycode
-            /// </summary>
-            XkbV1 = 1,
-
-        }
-
-        /// <summary>
-        /// <p>
-        /// Describes the physical state of a key that produced the key event.
-        /// </p>
-        /// </summary>
-        public enum KeyStateEnum
-        {
-            /// <summary>
-            /// key is not pressed
-            /// </summary>
-            Released = 0,
-
-            /// <summary>
-            /// key is pressed
-            /// </summary>
-            Pressed = 1,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// The wl_touch interface represents a touchscreen
-    /// associated with a seat.
-    /// </p>
-    /// <p>
-    /// Touch interactions can consist of one or more contacts.
-    /// For each contact, a series of events is generated, starting
-    /// with a down event, followed by zero or more motion events,
-    /// and ending with an up event. Events relating to the same
-    /// contact point can be identified by the ID of the sequence.
-    /// </p>
-    /// </summary>
-    internal partial class WlTouch : WlProxy
-    {
-        #region Opcodes
-
-        private const int ReleaseOp = 0;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_touch", 6, 1, 7);
-        public const string InterfaceName = "wl_touch";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("release", "", new IntPtr[0]),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("down", "uuoiff", new [] {IntPtr.Zero, IntPtr.Zero, WlSurface.Interface.Pointer, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("up", "uui", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("motion", "uiff", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("frame", "", new IntPtr[0]),
-                new WlMessage("cancel", "", new IntPtr[0]),
-                new WlMessage("shape", "iff", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("orientation", "if", new [] {IntPtr.Zero, IntPtr.Zero}),
-            });
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public WlTouch(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="serial">serial number of the touch down event</param>
-        /// <param name="time">timestamp with millisecond granularity</param>
-        /// <param name="surface">surface touched</param>
-        /// <param name="id">the unique ID of this touch point</param>
-        /// <param name="x">surface-local x coordinate</param>
-        /// <param name="y">surface-local y coordinate</param>
-        public delegate void DownHandler(IntPtr data, IntPtr iface, uint serial, uint time, IntPtr surface, int id, int x, int y);
-
-        /// <param name="serial">serial number of the touch up event</param>
-        /// <param name="time">timestamp with millisecond granularity</param>
-        /// <param name="id">the unique ID of this touch point</param>
-        public delegate void UpHandler(IntPtr data, IntPtr iface, uint serial, uint time, int id);
-
-        /// <param name="time">timestamp with millisecond granularity</param>
-        /// <param name="id">the unique ID of this touch point</param>
-        /// <param name="x">surface-local x coordinate</param>
-        /// <param name="y">surface-local y coordinate</param>
-        public delegate void MotionHandler(IntPtr data, IntPtr iface, uint time, int id, int x, int y);
-
-        public delegate void FrameHandler(IntPtr data, IntPtr iface);
-
-        public delegate void CancelHandler(IntPtr data, IntPtr iface);
-
-        /// <param name="id">the unique ID of this touch point</param>
-        /// <param name="major">length of the major axis in surface-local coordinates</param>
-        /// <param name="minor">length of the minor axis in surface-local coordinates</param>
-        public delegate void ShapeHandler(IntPtr data, IntPtr iface, int id, int major, int minor);
-
-        /// <param name="id">the unique ID of this touch point</param>
-        /// <param name="orientation">angle between major axis and positive surface y-axis in degrees</param>
-        public delegate void OrientationHandler(IntPtr data, IntPtr iface, int id, int orientation);
-
-        private IntPtr _listener;
-        private bool _setListener;
 
         /// <summary>
         /// <p>
@@ -4655,7 +3000,7 @@ namespace OpenWindow.Backends.Wayland
         /// reused in the future.
         /// </p>
         /// </summary>
-        public DownHandler Down;
+        public delegate void wl_touch_down_delegate(void* data, wl_touch* proxy, uint serial, uint time, wl_surface* surface, int id, int x, int y);
 
         /// <summary>
         /// <p>
@@ -4664,14 +3009,14 @@ namespace OpenWindow.Backends.Wayland
         /// reused in a future touch down event.
         /// </p>
         /// </summary>
-        public UpHandler Up;
+        public delegate void wl_touch_up_delegate(void* data, wl_touch* proxy, uint serial, uint time, int id);
 
         /// <summary>
         /// <p>
         /// A touch point has changed coordinates.
         /// </p>
         /// </summary>
-        public MotionHandler Motion;
+        public delegate void wl_touch_motion_delegate(void* data, wl_touch* proxy, uint time, int id, int x, int y);
 
         /// <summary>
         /// <p>
@@ -4686,7 +3031,7 @@ namespace OpenWindow.Backends.Wayland
         /// previously known state.
         /// </p>
         /// </summary>
-        public FrameHandler Frame;
+        public delegate void wl_touch_frame_delegate(void* data, wl_touch* proxy);
 
         /// <summary>
         /// <p>
@@ -4698,7 +3043,7 @@ namespace OpenWindow.Backends.Wayland
         /// this surface may reuse the touch point ID.
         /// </p>
         /// </summary>
-        public CancelHandler Cancel;
+        public delegate void wl_touch_cancel_delegate(void* data, wl_touch* proxy);
 
         /// <summary>
         /// <p>
@@ -4733,7 +3078,7 @@ namespace OpenWindow.Backends.Wayland
         /// shape if it did not receive this event.
         /// </p>
         /// </summary>
-        public ShapeHandler Shape;
+        public delegate void wl_touch_shape_delegate(void* data, wl_touch* proxy, int id, int major, int minor);
 
         /// <summary>
         /// <p>
@@ -4766,121 +3111,87 @@ namespace OpenWindow.Backends.Wayland
         /// orientation reports.
         /// </p>
         /// </summary>
-        public OrientationHandler Orientation;
+        public delegate void wl_touch_orientation_delegate(void* data, wl_touch* proxy, int id, int orientation);
 
-        public void SetListener()
+        internal struct wl_touch_listener
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 7);
-            if (Down != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Down));
-            if (Up != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Up));
-            if (Motion != null)
-                SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Motion));
-            if (Frame != null)
-                SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Frame));
-            if (Cancel != null)
-                SMarshal.WriteIntPtr(_listener, 4 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Cancel));
-            if (Shape != null)
-                SMarshal.WriteIntPtr(_listener, 5 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Shape));
-            if (Orientation != null)
-                SMarshal.WriteIntPtr(_listener, 6 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Orientation));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
+            public IntPtr down;
+            public IntPtr up;
+            public IntPtr motion;
+            public IntPtr frame;
+            public IntPtr cancel;
+            public IntPtr shape;
+            public IntPtr orientation;
+
+            public static wl_touch_listener* Alloc(
+                wl_touch_down_delegate down,
+                wl_touch_up_delegate up,
+                wl_touch_motion_delegate motion,
+                wl_touch_frame_delegate frame,
+                wl_touch_cancel_delegate cancel,
+                wl_touch_shape_delegate shape,
+                wl_touch_orientation_delegate orientation)
+            {
+                var ret = (wl_touch_listener*) Marshal.AllocHGlobal(sizeof(wl_touch_listener));
+                Set(ret, down,up,motion,frame,cancel,shape,orientation);
+                return ret;
+            }
+
+            public static void Set(wl_touch_listener* listener
+            ,
+                wl_touch_down_delegate down,
+                wl_touch_up_delegate up,
+                wl_touch_motion_delegate motion,
+                wl_touch_frame_delegate frame,
+                wl_touch_cancel_delegate cancel,
+                wl_touch_shape_delegate shape,
+                wl_touch_orientation_delegate orientation)
+            {
+                if (down != null) listener->down = Marshal.GetFunctionPointerForDelegate<wl_touch_down_delegate>(down);
+                if (up != null) listener->up = Marshal.GetFunctionPointerForDelegate<wl_touch_up_delegate>(up);
+                if (motion != null) listener->motion = Marshal.GetFunctionPointerForDelegate<wl_touch_motion_delegate>(motion);
+                if (frame != null) listener->frame = Marshal.GetFunctionPointerForDelegate<wl_touch_frame_delegate>(frame);
+                if (cancel != null) listener->cancel = Marshal.GetFunctionPointerForDelegate<wl_touch_cancel_delegate>(cancel);
+                if (shape != null) listener->shape = Marshal.GetFunctionPointerForDelegate<wl_touch_shape_delegate>(shape);
+                if (orientation != null) listener->orientation = Marshal.GetFunctionPointerForDelegate<wl_touch_orientation_delegate>(orientation);
+            }
         }
-
-        #endregion
-
-        #region Requests
 
         /// <summary>
-        /// <p></p>
+        /// Set the callbacks for the given <see cref="wl_touch"/>.
         /// </summary>
-        public void Release()
+        /// <param name="serial">serial number of the touch down event</param>
+        /// <param name="time">timestamp with millisecond granularity</param>
+        /// <param name="surface">surface touched</param>
+        /// <param name="id">the unique ID of this touch point</param>
+        /// <param name="x">surface-local x coordinate</param>
+        /// <param name="y">surface-local y coordinate</param>
+        /// <param name="serial">serial number of the touch up event</param>
+        /// <param name="time">timestamp with millisecond granularity</param>
+        /// <param name="id">the unique ID of this touch point</param>
+        /// <param name="time">timestamp with millisecond granularity</param>
+        /// <param name="id">the unique ID of this touch point</param>
+        /// <param name="x">surface-local x coordinate</param>
+        /// <param name="y">surface-local y coordinate</param>
+        /// <param name="id">the unique ID of this touch point</param>
+        /// <param name="major">length of the major axis in surface-local coordinates</param>
+        /// <param name="minor">length of the minor axis in surface-local coordinates</param>
+        /// <param name="id">the unique ID of this touch point</param>
+        /// <param name="orientation">angle between major axis and positive surface y-axis in degrees</param>
+        public static int wl_touch_add_listener(wl_touch* iface, wl_touch_listener* listener)
         {
-            Release(Pointer);
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
         }
-
-        public static void Release(IntPtr pointer)
+        /// <summary>
+        /// <p>
+        /// Using this request a client can tell the server that it is not going to
+        /// use the output object anymore.
+        /// </p>
+        /// </summary>
+        public static void wl_output_release(wl_output* pointer)
         {
-            Marshal(pointer, ReleaseOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// An output describes part of the compositor geometry.  The
-    /// compositor works in the 'compositor coordinate system' and an
-    /// output corresponds to a rectangular area in that space that is
-    /// actually visible.  This typically corresponds to a monitor that
-    /// displays part of the compositor space.  This object is published
-    /// as global during start up, or when a monitor is hotplugged.
-    /// </p>
-    /// </summary>
-    internal partial class WlOutput : WlProxy
-    {
-        #region Opcodes
-
-        private const int ReleaseOp = 0;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_output", 3, 1, 4);
-        public const string InterfaceName = "wl_output";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("release", "", new IntPtr[0]),
-            });
-            Interface.SetEvents(new []
-            {
-                new WlMessage("geometry", "iiiiissi", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("mode", "uiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("done", "", new IntPtr[0]),
-                new WlMessage("scale", "i", new [] {IntPtr.Zero}),
-            });
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public WlOutput(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Events
-
-        /// <param name="x">x position within the global compositor space</param>
-        /// <param name="y">y position within the global compositor space</param>
-        /// <param name="physical_width">width in millimeters of the output</param>
-        /// <param name="physical_height">height in millimeters of the output</param>
-        /// <param name="subpixel">subpixel orientation of the output</param>
-        /// <param name="make">textual description of the manufacturer</param>
-        /// <param name="model">textual description of the model</param>
-        /// <param name="transform">transform that maps framebuffer to output</param>
-        public delegate void GeometryHandler(IntPtr data, IntPtr iface, int x, int y, int physical_width, int physical_height, SubpixelEnum subpixel, string make, string model, TransformEnum transform);
-
-        /// <param name="flags">bitfield of mode flags</param>
-        /// <param name="width">width of the mode in hardware units</param>
-        /// <param name="height">height of the mode in hardware units</param>
-        /// <param name="refresh">vertical refresh rate in mHz</param>
-        public delegate void ModeHandler(IntPtr data, IntPtr iface, ModeEnum flags, int width, int height, int refresh);
-
-        public delegate void DoneHandler(IntPtr data, IntPtr iface);
-
-        /// <param name="factor">scaling factor of output</param>
-        public delegate void ScaleHandler(IntPtr data, IntPtr iface, int factor);
-
-        private IntPtr _listener;
-        private bool _setListener;
 
         /// <summary>
         /// <p>
@@ -4893,7 +3204,7 @@ namespace OpenWindow.Backends.Wayland
         /// output (e.g. for projectors or virtual outputs).
         /// </p>
         /// </summary>
-        public GeometryHandler Geometry;
+        public delegate void wl_output_geometry_delegate(void* data, wl_output* proxy, int x, int y, int physical_width, int physical_height, wl_output_subpixel subpixel, byte* make, byte* model, wl_output_transform transform);
 
         /// <summary>
         /// <p>
@@ -4914,7 +3225,7 @@ namespace OpenWindow.Backends.Wayland
         /// or transformed, as described in wl_output.transform.
         /// </p>
         /// </summary>
-        public ModeHandler Mode;
+        public delegate void wl_output_mode_delegate(void* data, wl_output* proxy, wl_output_mode flags, int width, int height, int refresh);
 
         /// <summary>
         /// <p>
@@ -4925,7 +3236,7 @@ namespace OpenWindow.Backends.Wayland
         /// atomic, even if they happen via multiple events.
         /// </p>
         /// </summary>
-        public DoneHandler Done;
+        public delegate void wl_output_done_delegate(void* data, wl_output* proxy);
 
         /// <summary>
         /// <p>
@@ -4951,231 +3262,68 @@ namespace OpenWindow.Backends.Wayland
         /// a higher detail image.
         /// </p>
         /// </summary>
-        public ScaleHandler Scale;
+        public delegate void wl_output_scale_delegate(void* data, wl_output* proxy, int factor);
 
-        public void SetListener()
+        internal struct wl_output_listener
         {
-            if (_setListener)
-                throw new Exception("Listener already set.");
-            _listener = SMarshal.AllocHGlobal(IntPtr.Size * 4);
-            if (Geometry != null)
-                SMarshal.WriteIntPtr(_listener, 0 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Geometry));
-            if (Mode != null)
-                SMarshal.WriteIntPtr(_listener, 1 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Mode));
-            if (Done != null)
-                SMarshal.WriteIntPtr(_listener, 2 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Done));
-            if (Scale != null)
-                SMarshal.WriteIntPtr(_listener, 3 * IntPtr.Size, SMarshal.GetFunctionPointerForDelegate(Scale));
-            AddListener(Pointer, _listener, IntPtr.Zero);
-            _setListener = true;
-        }
+            public IntPtr geometry;
+            public IntPtr mode;
+            public IntPtr done;
+            public IntPtr scale;
 
-        #endregion
-
-        #region Requests
-
-        /// <summary>
-        /// <p>
-        /// Using this request a client can tell the server that it is not going to
-        /// use the output object anymore.
-        /// </p>
-        /// </summary>
-        public void Release()
-        {
-            Release(Pointer);
-        }
-
-        public static void Release(IntPtr pointer)
-        {
-            Marshal(pointer, ReleaseOp);
-        }
-
-        #endregion
-
-        #region Enums
-
-        /// <summary>
-        /// <p>
-        /// This enumeration describes how the physical
-        /// pixels on an output are laid out.
-        /// </p>
-        /// </summary>
-        public enum SubpixelEnum
-        {
-            /// <summary>
-            /// unknown geometry
-            /// </summary>
-            Unknown = 0,
-
-            /// <summary>
-            /// no geometry
-            /// </summary>
-            None = 1,
-
-            /// <summary>
-            /// horizontal RGB
-            /// </summary>
-            HorizontalRgb = 2,
-
-            /// <summary>
-            /// horizontal BGR
-            /// </summary>
-            HorizontalBgr = 3,
-
-            /// <summary>
-            /// vertical RGB
-            /// </summary>
-            VerticalRgb = 4,
-
-            /// <summary>
-            /// vertical BGR
-            /// </summary>
-            VerticalBgr = 5,
-
-        }
-
-        /// <summary>
-        /// <p>
-        /// This describes the transform that a compositor will apply to a
-        /// surface to compensate for the rotation or mirroring of an
-        /// output device.
-        /// </p>
-        /// <p>
-        /// The flipped values correspond to an initial flip around a
-        /// vertical axis followed by rotation.
-        /// </p>
-        /// <p>
-        /// The purpose is mainly to allow clients to render accordingly and
-        /// tell the compositor, so that for fullscreen surfaces, the
-        /// compositor will still be able to scan out directly from client
-        /// surfaces.
-        /// </p>
-        /// </summary>
-        public enum TransformEnum
-        {
-            /// <summary>
-            /// no transform
-            /// </summary>
-            Normal = 0,
-
-            /// <summary>
-            /// 90 degrees counter-clockwise
-            /// </summary>
-            V90 = 1,
-
-            /// <summary>
-            /// 180 degrees counter-clockwise
-            /// </summary>
-            V180 = 2,
-
-            /// <summary>
-            /// 270 degrees counter-clockwise
-            /// </summary>
-            V270 = 3,
-
-            /// <summary>
-            /// 180 degree flip around a vertical axis
-            /// </summary>
-            Flipped = 4,
-
-            /// <summary>
-            /// flip and rotate 90 degrees counter-clockwise
-            /// </summary>
-            Flipped90 = 5,
-
-            /// <summary>
-            /// flip and rotate 180 degrees counter-clockwise
-            /// </summary>
-            Flipped180 = 6,
-
-            /// <summary>
-            /// flip and rotate 270 degrees counter-clockwise
-            /// </summary>
-            Flipped270 = 7,
-
-        }
-
-        /// <summary>
-        /// <p>
-        /// These flags describe properties of an output mode.
-        /// They are used in the flags bitfield of the mode event.
-        /// </p>
-        /// </summary>
-        [Flags]
-        public enum ModeEnum
-        {
-            /// <summary>
-            /// indicates this is the current mode
-            /// </summary>
-            Current = 0x1,
-
-            /// <summary>
-            /// indicates this is the preferred mode
-            /// </summary>
-            Preferred = 0x2,
-
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// A region object describes an area.
-    /// </p>
-    /// <p>
-    /// Region objects are used to describe the opaque and input
-    /// regions of a surface.
-    /// </p>
-    /// </summary>
-    internal partial class WlRegion : WlProxy
-    {
-        #region Opcodes
-
-        private const int DestroyOp = 0;
-        private const int AddOp = 1;
-        private const int SubtractOp = 2;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_region", 1, 3, 0);
-        public const string InterfaceName = "wl_region";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
+            public static wl_output_listener* Alloc(
+                wl_output_geometry_delegate geometry,
+                wl_output_mode_delegate mode,
+                wl_output_done_delegate done,
+                wl_output_scale_delegate scale)
             {
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("add", "iiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("subtract", "iiii", new [] {IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero}),
-            });
-            Interface.SetEvents(new WlMessage[0]);
-            Interface.Finish();
+                var ret = (wl_output_listener*) Marshal.AllocHGlobal(sizeof(wl_output_listener));
+                Set(ret, geometry,mode,done,scale);
+                return ret;
+            }
+
+            public static void Set(wl_output_listener* listener
+            ,
+                wl_output_geometry_delegate geometry,
+                wl_output_mode_delegate mode,
+                wl_output_done_delegate done,
+                wl_output_scale_delegate scale)
+            {
+                if (geometry != null) listener->geometry = Marshal.GetFunctionPointerForDelegate<wl_output_geometry_delegate>(geometry);
+                if (mode != null) listener->mode = Marshal.GetFunctionPointerForDelegate<wl_output_mode_delegate>(mode);
+                if (done != null) listener->done = Marshal.GetFunctionPointerForDelegate<wl_output_done_delegate>(done);
+                if (scale != null) listener->scale = Marshal.GetFunctionPointerForDelegate<wl_output_scale_delegate>(scale);
+            }
         }
 
-
-        #endregion
-
-        public WlRegion(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Requests
-
+        /// <summary>
+        /// Set the callbacks for the given <see cref="wl_output"/>.
+        /// </summary>
+        /// <param name="x">x position within the global compositor space</param>
+        /// <param name="y">y position within the global compositor space</param>
+        /// <param name="physical_width">width in millimeters of the output</param>
+        /// <param name="physical_height">height in millimeters of the output</param>
+        /// <param name="subpixel">subpixel orientation of the output</param>
+        /// <param name="make">textual description of the manufacturer</param>
+        /// <param name="model">textual description of the model</param>
+        /// <param name="transform">transform that maps framebuffer to output</param>
+        /// <param name="flags">bitfield of mode flags</param>
+        /// <param name="width">width of the mode in hardware units</param>
+        /// <param name="height">height of the mode in hardware units</param>
+        /// <param name="refresh">vertical refresh rate in mHz</param>
+        /// <param name="factor">scaling factor of output</param>
+        public static int wl_output_add_listener(wl_output* iface, wl_output_listener* listener)
+        {
+            return WaylandClient.wl_proxy_add_listener((wl_proxy*) iface, listener, null);
+        }
         /// <summary>
         /// <p>
         /// Destroy the region.  This will invalidate the object ID.
         /// </p>
         /// </summary>
-        public void Destroy()
+        public static void wl_region_destroy(wl_region* pointer)
         {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
 
         /// <summary>
@@ -5187,15 +3335,14 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="y">region-local y coordinate</param>
         /// <param name="width">rectangle width</param>
         /// <param name="height">rectangle height</param>
-        public void Add(int x, int y, int width, int height)
+        public static void wl_region_add(wl_region* pointer, int x, int y, int width, int height)
         {
-            Add(Pointer, x, y, width, height);
-        }
-
-        public static void Add(IntPtr pointer, int x, int y, int width, int height)
-        {
-            var args = new ArgumentStruct[] { x, y, width, height };
-            MarshalArray(pointer, AddOp, args);
+            var args = stackalloc wl_argument[4];
+            args[0] = x;
+            args[1] = y;
+            args[2] = width;
+            args[3] = height;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 1, args);
         }
 
         /// <summary>
@@ -5207,78 +3354,15 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="y">region-local y coordinate</param>
         /// <param name="width">rectangle width</param>
         /// <param name="height">rectangle height</param>
-        public void Subtract(int x, int y, int width, int height)
+        public static void wl_region_subtract(wl_region* pointer, int x, int y, int width, int height)
         {
-            Subtract(Pointer, x, y, width, height);
+            var args = stackalloc wl_argument[4];
+            args[0] = x;
+            args[1] = y;
+            args[2] = width;
+            args[3] = height;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 2, args);
         }
-
-        public static void Subtract(IntPtr pointer, int x, int y, int width, int height)
-        {
-            var args = new ArgumentStruct[] { x, y, width, height };
-            MarshalArray(pointer, SubtractOp, args);
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <p>
-    /// The global interface exposing sub-surface compositing capabilities.
-    /// A wl_surface, that has sub-surfaces associated, is called the
-    /// parent surface. Sub-surfaces can be arbitrarily nested and create
-    /// a tree of sub-surfaces.
-    /// </p>
-    /// <p>
-    /// The root surface in a tree of sub-surfaces is the main
-    /// surface. The main surface cannot be a sub-surface, because
-    /// sub-surfaces must always have a parent.
-    /// </p>
-    /// <p>
-    /// A main surface with its sub-surfaces forms a (compound) window.
-    /// For window management purposes, this set of wl_surface objects is
-    /// to be considered as a single window, and it should also behave as
-    /// such.
-    /// </p>
-    /// <p>
-    /// The aim of sub-surfaces is to offload some of the compositing work
-    /// within a window from clients to the compositor. A prime example is
-    /// a video player with decorations and video in separate wl_surface
-    /// objects. This should allow the compositor to pass YUV video buffer
-    /// processing to dedicated overlay hardware when possible.
-    /// </p>
-    /// </summary>
-    internal partial class WlSubcompositor : WlProxy
-    {
-        #region Opcodes
-
-        private const int DestroyOp = 0;
-        private const int GetSubsurfaceOp = 1;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_subcompositor", 1, 2, 0);
-        public const string InterfaceName = "wl_subcompositor";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("get_subsurface", "noo", new [] {WlSubsurface.Interface.Pointer, WlSurface.Interface.Pointer, WlSurface.Interface.Pointer}),
-            });
-            Interface.SetEvents(new WlMessage[0]);
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public WlSubcompositor(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Requests
 
         /// <summary>
         /// <p>
@@ -5287,14 +3371,9 @@ namespace OpenWindow.Backends.Wayland
         /// objects, wl_subsurface objects included.
         /// </p>
         /// </summary>
-        public void Destroy()
+        public static void wl_subcompositor_destroy(wl_subcompositor* pointer)
         {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
 
         /// <summary>
@@ -5322,34 +3401,468 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">the new sub-surface object ID</param>
         /// <param name="surface">the surface to be turned into a sub-surface</param>
         /// <param name="parent">the parent surface</param>
-        public WlSubsurface GetSubsurface(WlSurface surface, WlSurface parent)
+        public static wl_subsurface* wl_subcompositor_get_subsurface(wl_subcompositor* pointer, wl_surface* surface, wl_surface* parent)
         {
-            return GetSubsurface(Pointer, surface, parent);
+            var args = stackalloc wl_argument[3];
+            args[0] = 0;
+            args[1] = surface;
+            args[2] = parent;
+            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, wl_subsurface.Interface);
+            return (wl_subsurface*) ptr;
         }
 
-        public static WlSubsurface GetSubsurface(IntPtr pointer, WlSurface surface, WlSurface parent)
+        /// <summary>
+        /// <p>
+        /// The sub-surface interface is removed from the wl_surface object
+        /// that was turned into a sub-surface with a
+        /// wl_subcompositor.get_subsurface request. The wl_surface's association
+        /// to the parent is deleted, and the wl_surface loses its role as
+        /// a sub-surface. The wl_surface is unmapped immediately.
+        /// </p>
+        /// </summary>
+        public static void wl_subsurface_destroy(wl_subsurface* pointer)
         {
-            var args = new ArgumentStruct[] { 0, surface, parent };
-            var ptr = MarshalArrayConstructor(pointer, GetSubsurfaceOp, args, WlSubsurface.Interface.Pointer);
-            return new WlSubsurface(ptr);
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
         }
 
-        #endregion
-
-        #region Enums
-
-        public enum ErrorEnum
+        /// <summary>
+        /// <p>
+        /// This schedules a sub-surface position change.
+        /// The sub-surface will be moved so that its origin (top left
+        /// corner pixel) will be at the location x, y of the parent surface
+        /// coordinate system. The coordinates are not restricted to the parent
+        /// surface area. Negative values are allowed.
+        /// </p>
+        /// <p>
+        /// The scheduled coordinates will take effect whenever the state of the
+        /// parent surface is applied. When this happens depends on whether the
+        /// parent surface is in synchronized mode or not. See
+        /// wl_subsurface.set_sync and wl_subsurface.set_desync for details.
+        /// </p>
+        /// <p>
+        /// If more than one set_position request is invoked by the client before
+        /// the commit of the parent surface, the position of a new request always
+        /// replaces the scheduled position from any previous request.
+        /// </p>
+        /// <p>
+        /// The initial position is 0, 0.
+        /// </p>
+        /// </summary>
+        /// <param name="x">x coordinate in the parent surface</param>
+        /// <param name="y">y coordinate in the parent surface</param>
+        public static void wl_subsurface_set_position(wl_subsurface* pointer, int x, int y)
         {
-            /// <summary>
-            /// the to-be sub-surface is invalid
-            /// </summary>
-            BadSurface = 0,
-
+            var args = stackalloc wl_argument[2];
+            args[0] = x;
+            args[1] = y;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 1, args);
         }
 
-        #endregion
+        /// <summary>
+        /// <p>
+        /// This sub-surface is taken from the stack, and put back just
+        /// above the reference surface, changing the z-order of the sub-surfaces.
+        /// The reference surface must be one of the sibling surfaces, or the
+        /// parent surface. Using any other surface, including this sub-surface,
+        /// will cause a protocol error.
+        /// </p>
+        /// <p>
+        /// The z-order is double-buffered. Requests are handled in order and
+        /// applied immediately to a pending state. The final pending state is
+        /// copied to the active state the next time the state of the parent
+        /// surface is applied. When this happens depends on whether the parent
+        /// surface is in synchronized mode or not. See wl_subsurface.set_sync and
+        /// wl_subsurface.set_desync for details.
+        /// </p>
+        /// <p>
+        /// A new sub-surface is initially added as the top-most in the stack
+        /// of its siblings and parent.
+        /// </p>
+        /// </summary>
+        /// <param name="sibling">the reference surface</param>
+        public static void wl_subsurface_place_above(wl_subsurface* pointer, wl_surface* sibling)
+        {
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 2);
+        }
+
+        /// <summary>
+        /// <p>
+        /// The sub-surface is placed just below the reference surface.
+        /// See wl_subsurface.place_above.
+        /// </p>
+        /// </summary>
+        /// <param name="sibling">the reference surface</param>
+        public static void wl_subsurface_place_below(wl_subsurface* pointer, wl_surface* sibling)
+        {
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 3);
+        }
+
+        /// <summary>
+        /// <p>
+        /// Change the commit behaviour of the sub-surface to synchronized
+        /// mode, also described as the parent dependent mode.
+        /// </p>
+        /// <p>
+        /// In synchronized mode, wl_surface.commit on a sub-surface will
+        /// accumulate the committed state in a cache, but the state will
+        /// not be applied and hence will not change the compositor output.
+        /// The cached state is applied to the sub-surface immediately after
+        /// the parent surface's state is applied. This ensures atomic
+        /// updates of the parent and all its synchronized sub-surfaces.
+        /// Applying the cached state will invalidate the cache, so further
+        /// parent surface commits do not (re-)apply old state.
+        /// </p>
+        /// <p>
+        /// See wl_subsurface for the recursive effect of this mode.
+        /// </p>
+        /// </summary>
+        public static void wl_subsurface_set_sync(wl_subsurface* pointer)
+        {
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 4);
+        }
+
+        /// <summary>
+        /// <p>
+        /// Change the commit behaviour of the sub-surface to desynchronized
+        /// mode, also described as independent or freely running mode.
+        /// </p>
+        /// <p>
+        /// In desynchronized mode, wl_surface.commit on a sub-surface will
+        /// apply the pending state directly, without caching, as happens
+        /// normally with a wl_surface. Calling wl_surface.commit on the
+        /// parent surface has no effect on the sub-surface's wl_surface
+        /// state. This mode allows a sub-surface to be updated on its own.
+        /// </p>
+        /// <p>
+        /// If cached state exists when wl_surface.commit is called in
+        /// desynchronized mode, the pending state is added to the cached
+        /// state, and applied as a whole. This invalidates the cache.
+        /// </p>
+        /// <p>
+        /// Note: even if a sub-surface is set to desynchronized, a parent
+        /// sub-surface may override it to behave as synchronized. For details,
+        /// see wl_subsurface.
+        /// </p>
+        /// <p>
+        /// If a surface's parent surface behaves as desynchronized, then
+        /// the cached state is applied on set_desync.
+        /// </p>
+        /// </summary>
+        public static void wl_subsurface_set_desync(wl_subsurface* pointer)
+        {
+            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 5);
+        }
+
     }
 
+    /// <summary>
+    /// <p>
+    /// The core global object.  This is a special singleton object.  It
+    /// is used for internal Wayland protocol features.
+    /// </p>
+    /// </summary>
+    internal struct wl_display { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[0]; }
+    /// <summary>
+    /// <p>
+    /// The singleton global registry object.  The server has a number of
+    /// global objects that are available to all clients.  These objects
+    /// typically represent an actual object in the server (for example,
+    /// an input device) or they are singleton objects that provide
+    /// extension functionality.
+    /// </p>
+    /// <p>
+    /// When a client creates a registry object, the registry object
+    /// will emit a global event for each global currently in the
+    /// registry.  Globals come and go as a result of device or
+    /// monitor hotplugs, reconfiguration or other events, and the
+    /// registry will send out global and global_remove events to
+    /// keep the client up to date with the changes.  To mark the end
+    /// of the initial burst of events, the client can use the
+    /// wl_display.sync request immediately after calling
+    /// wl_display.get_registry.
+    /// </p>
+    /// <p>
+    /// A client can bind to a global object by using the bind
+    /// request.  This creates a client-side handle that lets the object
+    /// emit events to the client and lets the client invoke requests on
+    /// the object.
+    /// </p>
+    /// </summary>
+    internal struct wl_registry { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[1]; }
+    /// <summary>
+    /// <p>
+    /// Clients can handle the 'done' event to get notified when
+    /// the related request is done.
+    /// </p>
+    /// </summary>
+    internal struct wl_callback { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[2]; }
+    /// <summary>
+    /// <p>
+    /// A compositor.  This object is a singleton global.  The
+    /// compositor is in charge of combining the contents of multiple
+    /// surfaces into one displayable output.
+    /// </p>
+    /// </summary>
+    internal struct wl_compositor { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[3]; }
+    /// <summary>
+    /// <p>
+    /// The wl_shm_pool object encapsulates a piece of memory shared
+    /// between the compositor and client.  Through the wl_shm_pool
+    /// object, the client can allocate shared memory wl_buffer objects.
+    /// All objects created through the same pool share the same
+    /// underlying mapped memory. Reusing the mapped memory avoids the
+    /// setup/teardown overhead and is useful when interactively resizing
+    /// a surface or for many small buffers.
+    /// </p>
+    /// </summary>
+    internal struct wl_shm_pool { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[4]; }
+    /// <summary>
+    /// <p>
+    /// A singleton global object that provides support for shared
+    /// memory.
+    /// </p>
+    /// <p>
+    /// Clients can create wl_shm_pool objects using the create_pool
+    /// request.
+    /// </p>
+    /// <p>
+    /// At connection setup time, the wl_shm object emits one or more
+    /// format events to inform clients about the valid pixel formats
+    /// that can be used for buffers.
+    /// </p>
+    /// </summary>
+    internal struct wl_shm { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[5]; }
+    /// <summary>
+    /// <p>
+    /// A buffer provides the content for a wl_surface. Buffers are
+    /// created through factory interfaces such as wl_drm, wl_shm or
+    /// similar. It has a width and a height and can be attached to a
+    /// wl_surface, but the mechanism by which a client provides and
+    /// updates the contents is defined by the buffer factory interface.
+    /// </p>
+    /// </summary>
+    internal struct wl_buffer { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[6]; }
+    /// <summary>
+    /// <p>
+    /// A wl_data_offer represents a piece of data offered for transfer
+    /// by another client (the source client).  It is used by the
+    /// copy-and-paste and drag-and-drop mechanisms.  The offer
+    /// describes the different mime types that the data can be
+    /// converted to and provides the mechanism for transferring the
+    /// data directly from the source client.
+    /// </p>
+    /// </summary>
+    internal struct wl_data_offer { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[7]; }
+    /// <summary>
+    /// <p>
+    /// The wl_data_source object is the source side of a wl_data_offer.
+    /// It is created by the source client in a data transfer and
+    /// provides a way to describe the offered data and a way to respond
+    /// to requests to transfer the data.
+    /// </p>
+    /// </summary>
+    internal struct wl_data_source { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[8]; }
+    /// <summary>
+    /// <p>
+    /// There is one wl_data_device per seat which can be obtained
+    /// from the global wl_data_device_manager singleton.
+    /// </p>
+    /// <p>
+    /// A wl_data_device provides access to inter-client data transfer
+    /// mechanisms such as copy-and-paste and drag-and-drop.
+    /// </p>
+    /// </summary>
+    internal struct wl_data_device { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[9]; }
+    /// <summary>
+    /// <p>
+    /// The wl_data_device_manager is a singleton global object that
+    /// provides access to inter-client data transfer mechanisms such as
+    /// copy-and-paste and drag-and-drop.  These mechanisms are tied to
+    /// a wl_seat and this interface lets a client get a wl_data_device
+    /// corresponding to a wl_seat.
+    /// </p>
+    /// <p>
+    /// Depending on the version bound, the objects created from the bound
+    /// wl_data_device_manager object will have different requirements for
+    /// functioning properly. See wl_data_source.set_actions,
+    /// wl_data_offer.accept and wl_data_offer.finish for details.
+    /// </p>
+    /// </summary>
+    internal struct wl_data_device_manager { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[10]; }
+    /// <summary>
+    /// <p>
+    /// This interface is implemented by servers that provide
+    /// desktop-style user interfaces.
+    /// </p>
+    /// <p>
+    /// It allows clients to associate a wl_shell_surface with
+    /// a basic surface.
+    /// </p>
+    /// <p>
+    /// Note! This protocol is deprecated and not intended for production use.
+    /// For desktop-style user interfaces, use xdg_shell.
+    /// </p>
+    /// </summary>
+    internal struct wl_shell { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[11]; }
+    /// <summary>
+    /// <p>
+    /// An interface that may be implemented by a wl_surface, for
+    /// implementations that provide a desktop-style user interface.
+    /// </p>
+    /// <p>
+    /// It provides requests to treat surfaces like toplevel, fullscreen
+    /// or popup windows, move, resize or maximize them, associate
+    /// metadata like title and class, etc.
+    /// </p>
+    /// <p>
+    /// On the server side the object is automatically destroyed when
+    /// the related wl_surface is destroyed. On the client side,
+    /// wl_shell_surface_destroy() must be called before destroying
+    /// the wl_surface object.
+    /// </p>
+    /// </summary>
+    internal struct wl_shell_surface { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[12]; }
+    /// <summary>
+    /// <p>
+    /// A surface is a rectangular area that is displayed on the screen.
+    /// It has a location, size and pixel contents.
+    /// </p>
+    /// <p>
+    /// The size of a surface (and relative positions on it) is described
+    /// in surface-local coordinates, which may differ from the buffer
+    /// coordinates of the pixel content, in case a buffer_transform
+    /// or a buffer_scale is used.
+    /// </p>
+    /// <p>
+    /// A surface without a "role" is fairly useless: a compositor does
+    /// not know where, when or how to present it. The role is the
+    /// purpose of a wl_surface. Examples of roles are a cursor for a
+    /// pointer (as set by wl_pointer.set_cursor), a drag icon
+    /// (wl_data_device.start_drag), a sub-surface
+    /// (wl_subcompositor.get_subsurface), and a window as defined by a
+    /// shell protocol (e.g. wl_shell.get_shell_surface).
+    /// </p>
+    /// <p>
+    /// A surface can have only one role at a time. Initially a
+    /// wl_surface does not have a role. Once a wl_surface is given a
+    /// role, it is set permanently for the whole lifetime of the
+    /// wl_surface object. Giving the current role again is allowed,
+    /// unless explicitly forbidden by the relevant interface
+    /// specification.
+    /// </p>
+    /// <p>
+    /// Surface roles are given by requests in other interfaces such as
+    /// wl_pointer.set_cursor. The request should explicitly mention
+    /// that this request gives a role to a wl_surface. Often, this
+    /// request also creates a new protocol object that represents the
+    /// role and adds additional functionality to wl_surface. When a
+    /// client wants to destroy a wl_surface, they must destroy this 'role
+    /// object' before the wl_surface.
+    /// </p>
+    /// <p>
+    /// Destroying the role object does not remove the role from the
+    /// wl_surface, but it may stop the wl_surface from "playing the role".
+    /// For instance, if a wl_subsurface object is destroyed, the wl_surface
+    /// it was created for will be unmapped and forget its position and
+    /// z-order. It is allowed to create a wl_subsurface for the same
+    /// wl_surface again, but it is not allowed to use the wl_surface as
+    /// a cursor (cursor is a different role than sub-surface, and role
+    /// switching is not allowed).
+    /// </p>
+    /// </summary>
+    internal struct wl_surface { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[13]; }
+    /// <summary>
+    /// <p>
+    /// A seat is a group of keyboards, pointer and touch devices. This
+    /// object is published as a global during start up, or when such a
+    /// device is hot plugged.  A seat typically has a pointer and
+    /// maintains a keyboard focus and a pointer focus.
+    /// </p>
+    /// </summary>
+    internal struct wl_seat { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[14]; }
+    /// <summary>
+    /// <p>
+    /// The wl_pointer interface represents one or more input devices,
+    /// such as mice, which control the pointer location and pointer_focus
+    /// of a seat.
+    /// </p>
+    /// <p>
+    /// The wl_pointer interface generates motion, enter and leave
+    /// events for the surfaces that the pointer is located over,
+    /// and button and axis events for button presses, button releases
+    /// and scrolling.
+    /// </p>
+    /// </summary>
+    internal struct wl_pointer { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[15]; }
+    /// <summary>
+    /// <p>
+    /// The wl_keyboard interface represents one or more keyboards
+    /// associated with a seat.
+    /// </p>
+    /// </summary>
+    internal struct wl_keyboard { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[16]; }
+    /// <summary>
+    /// <p>
+    /// The wl_touch interface represents a touchscreen
+    /// associated with a seat.
+    /// </p>
+    /// <p>
+    /// Touch interactions can consist of one or more contacts.
+    /// For each contact, a series of events is generated, starting
+    /// with a down event, followed by zero or more motion events,
+    /// and ending with an up event. Events relating to the same
+    /// contact point can be identified by the ID of the sequence.
+    /// </p>
+    /// </summary>
+    internal struct wl_touch { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[17]; }
+    /// <summary>
+    /// <p>
+    /// An output describes part of the compositor geometry.  The
+    /// compositor works in the 'compositor coordinate system' and an
+    /// output corresponds to a rectangular area in that space that is
+    /// actually visible.  This typically corresponds to a monitor that
+    /// displays part of the compositor space.  This object is published
+    /// as global during start up, or when a monitor is hotplugged.
+    /// </p>
+    /// </summary>
+    internal struct wl_output { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[18]; }
+    /// <summary>
+    /// <p>
+    /// A region object describes an area.
+    /// </p>
+    /// <p>
+    /// Region objects are used to describe the opaque and input
+    /// regions of a surface.
+    /// </p>
+    /// </summary>
+    internal struct wl_region { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[19]; }
+    /// <summary>
+    /// <p>
+    /// The global interface exposing sub-surface compositing capabilities.
+    /// A wl_surface, that has sub-surfaces associated, is called the
+    /// parent surface. Sub-surfaces can be arbitrarily nested and create
+    /// a tree of sub-surfaces.
+    /// </p>
+    /// <p>
+    /// The root surface in a tree of sub-surfaces is the main
+    /// surface. The main surface cannot be a sub-surface, because
+    /// sub-surfaces must always have a parent.
+    /// </p>
+    /// <p>
+    /// A main surface with its sub-surfaces forms a (compound) window.
+    /// For window management purposes, this set of wl_surface objects is
+    /// to be considered as a single window, and it should also behave as
+    /// such.
+    /// </p>
+    /// <p>
+    /// The aim of sub-surfaces is to offload some of the compositing work
+    /// within a window from clients to the compositor. A prime example is
+    /// a video player with decorations and video in separate wl_surface
+    /// objects. This should allow the compositor to pass YUV video buffer
+    /// processing to dedicated overlay hardware when possible.
+    /// </p>
+    /// </summary>
+    internal struct wl_subcompositor { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[20]; }
     /// <summary>
     /// <p>
     /// An additional interface to a wl_surface object, which has been
@@ -5410,230 +3923,1449 @@ namespace OpenWindow.Backends.Wayland
     /// unmapped.
     /// </p>
     /// </summary>
-    internal partial class WlSubsurface : WlProxy
+    internal struct wl_subsurface { public static unsafe wl_interface* Interface => &WaylandBindings.Interfaces[21]; }
+
+
+    /// <summary>
+    /// <p>
+    /// These errors are global and can be emitted in response to any
+    /// server request.
+    /// </p>
+    /// </summary>
+    internal enum wl_display_error
     {
-        #region Opcodes
-
-        private const int DestroyOp = 0;
-        private const int SetPositionOp = 1;
-        private const int PlaceAboveOp = 2;
-        private const int PlaceBelowOp = 3;
-        private const int SetSyncOp = 4;
-        private const int SetDesyncOp = 5;
-
-        #endregion
-
-        #region Interface
-
-        public static WlInterface Interface = new WlInterface("wl_subsurface", 1, 6, 0);
-        public const string InterfaceName = "wl_subsurface";
-
-        internal static void Initialize()
-        {
-            Interface.SetRequests(new []
-            {
-                new WlMessage("destroy", "", new IntPtr[0]),
-                new WlMessage("set_position", "ii", new [] {IntPtr.Zero, IntPtr.Zero}),
-                new WlMessage("place_above", "o", new [] {WlSurface.Interface.Pointer}),
-                new WlMessage("place_below", "o", new [] {WlSurface.Interface.Pointer}),
-                new WlMessage("set_sync", "", new IntPtr[0]),
-                new WlMessage("set_desync", "", new IntPtr[0]),
-            });
-            Interface.SetEvents(new WlMessage[0]);
-            Interface.Finish();
-        }
-
-
-        #endregion
-
-        public WlSubsurface(IntPtr pointer)
-            : base(pointer) { }
-
-        #region Requests
+        /// <summary>
+        /// server couldn't find object
+        /// </summary>
+        InvalidObject = 0,
 
         /// <summary>
-        /// <p>
-        /// The sub-surface interface is removed from the wl_surface object
-        /// that was turned into a sub-surface with a
-        /// wl_subcompositor.get_subsurface request. The wl_surface's association
-        /// to the parent is deleted, and the wl_surface loses its role as
-        /// a sub-surface. The wl_surface is unmapped immediately.
-        /// </p>
+        /// method doesn't exist on the specified interface
         /// </summary>
-        public void Destroy()
-        {
-            Destroy(Pointer);
-        }
-
-        public static void Destroy(IntPtr pointer)
-        {
-            Marshal(pointer, DestroyOp);
-        }
+        InvalidMethod = 1,
 
         /// <summary>
-        /// <p>
-        /// This schedules a sub-surface position change.
-        /// The sub-surface will be moved so that its origin (top left
-        /// corner pixel) will be at the location x, y of the parent surface
-        /// coordinate system. The coordinates are not restricted to the parent
-        /// surface area. Negative values are allowed.
-        /// </p>
-        /// <p>
-        /// The scheduled coordinates will take effect whenever the state of the
-        /// parent surface is applied. When this happens depends on whether the
-        /// parent surface is in synchronized mode or not. See
-        /// wl_subsurface.set_sync and wl_subsurface.set_desync for details.
-        /// </p>
-        /// <p>
-        /// If more than one set_position request is invoked by the client before
-        /// the commit of the parent surface, the position of a new request always
-        /// replaces the scheduled position from any previous request.
-        /// </p>
-        /// <p>
-        /// The initial position is 0, 0.
-        /// </p>
+        /// server is out of memory
         /// </summary>
-        /// <param name="x">x coordinate in the parent surface</param>
-        /// <param name="y">y coordinate in the parent surface</param>
-        public void SetPosition(int x, int y)
-        {
-            SetPosition(Pointer, x, y);
-        }
+        NoMemory = 2,
 
-        public static void SetPosition(IntPtr pointer, int x, int y)
-        {
-            var args = new ArgumentStruct[] { x, y };
-            MarshalArray(pointer, SetPositionOp, args);
-        }
+    }
+
+    /// <summary>
+    /// <p>
+    /// These errors can be emitted in response to wl_shm requests.
+    /// </p>
+    /// </summary>
+    internal enum wl_shm_error
+    {
+        /// <summary>
+        /// buffer format is not known
+        /// </summary>
+        InvalidFormat = 0,
 
         /// <summary>
-        /// <p>
-        /// This sub-surface is taken from the stack, and put back just
-        /// above the reference surface, changing the z-order of the sub-surfaces.
-        /// The reference surface must be one of the sibling surfaces, or the
-        /// parent surface. Using any other surface, including this sub-surface,
-        /// will cause a protocol error.
-        /// </p>
-        /// <p>
-        /// The z-order is double-buffered. Requests are handled in order and
-        /// applied immediately to a pending state. The final pending state is
-        /// copied to the active state the next time the state of the parent
-        /// surface is applied. When this happens depends on whether the parent
-        /// surface is in synchronized mode or not. See wl_subsurface.set_sync and
-        /// wl_subsurface.set_desync for details.
-        /// </p>
-        /// <p>
-        /// A new sub-surface is initially added as the top-most in the stack
-        /// of its siblings and parent.
-        /// </p>
+        /// invalid size or stride during pool or buffer creation
         /// </summary>
-        /// <param name="sibling">the reference surface</param>
-        public void PlaceAbove(WlSurface sibling)
-        {
-            PlaceAbove(Pointer, sibling);
-        }
-
-        public static void PlaceAbove(IntPtr pointer, WlSurface sibling)
-        {
-            Marshal(pointer, PlaceAboveOp);
-        }
+        InvalidStride = 1,
 
         /// <summary>
-        /// <p>
-        /// The sub-surface is placed just below the reference surface.
-        /// See wl_subsurface.place_above.
-        /// </p>
+        /// mmapping the file descriptor failed
         /// </summary>
-        /// <param name="sibling">the reference surface</param>
-        public void PlaceBelow(WlSurface sibling)
-        {
-            PlaceBelow(Pointer, sibling);
-        }
+        InvalidFd = 2,
 
-        public static void PlaceBelow(IntPtr pointer, WlSurface sibling)
-        {
-            Marshal(pointer, PlaceBelowOp);
-        }
+    }
+
+    /// <summary>
+    /// <p>
+    /// This describes the memory layout of an individual pixel.
+    /// </p>
+    /// <p>
+    /// All renderers should support argb8888 and xrgb8888 but any other
+    /// formats are optional and may not be supported by the particular
+    /// renderer in use.
+    /// </p>
+    /// <p>
+    /// The drm format codes match the macros defined in drm_fourcc.h.
+    /// The formats actually supported by the compositor will be
+    /// reported by the format event.
+    /// </p>
+    /// </summary>
+    internal enum wl_shm_format
+    {
+        /// <summary>
+        /// 32-bit ARGB format, [31:0] A:R:G:B 8:8:8:8 little endian
+        /// </summary>
+        Argb8888 = 0,
 
         /// <summary>
-        /// <p>
-        /// Change the commit behaviour of the sub-surface to synchronized
-        /// mode, also described as the parent dependent mode.
-        /// </p>
-        /// <p>
-        /// In synchronized mode, wl_surface.commit on a sub-surface will
-        /// accumulate the committed state in a cache, but the state will
-        /// not be applied and hence will not change the compositor output.
-        /// The cached state is applied to the sub-surface immediately after
-        /// the parent surface's state is applied. This ensures atomic
-        /// updates of the parent and all its synchronized sub-surfaces.
-        /// Applying the cached state will invalidate the cache, so further
-        /// parent surface commits do not (re-)apply old state.
-        /// </p>
-        /// <p>
-        /// See wl_subsurface for the recursive effect of this mode.
-        /// </p>
+        /// 32-bit RGB format, [31:0] x:R:G:B 8:8:8:8 little endian
         /// </summary>
-        public void SetSync()
-        {
-            SetSync(Pointer);
-        }
-
-        public static void SetSync(IntPtr pointer)
-        {
-            Marshal(pointer, SetSyncOp);
-        }
+        Xrgb8888 = 1,
 
         /// <summary>
-        /// <p>
-        /// Change the commit behaviour of the sub-surface to desynchronized
-        /// mode, also described as independent or freely running mode.
-        /// </p>
-        /// <p>
-        /// In desynchronized mode, wl_surface.commit on a sub-surface will
-        /// apply the pending state directly, without caching, as happens
-        /// normally with a wl_surface. Calling wl_surface.commit on the
-        /// parent surface has no effect on the sub-surface's wl_surface
-        /// state. This mode allows a sub-surface to be updated on its own.
-        /// </p>
-        /// <p>
-        /// If cached state exists when wl_surface.commit is called in
-        /// desynchronized mode, the pending state is added to the cached
-        /// state, and applied as a whole. This invalidates the cache.
-        /// </p>
-        /// <p>
-        /// Note: even if a sub-surface is set to desynchronized, a parent
-        /// sub-surface may override it to behave as synchronized. For details,
-        /// see wl_subsurface.
-        /// </p>
-        /// <p>
-        /// If a surface's parent surface behaves as desynchronized, then
-        /// the cached state is applied on set_desync.
-        /// </p>
+        /// 8-bit color index format, [7:0] C
         /// </summary>
-        public void SetDesync()
+        C8 = 0x20203843,
+
+        /// <summary>
+        /// 8-bit RGB format, [7:0] R:G:B 3:3:2
+        /// </summary>
+        Rgb332 = 0x38424752,
+
+        /// <summary>
+        /// 8-bit BGR format, [7:0] B:G:R 2:3:3
+        /// </summary>
+        Bgr233 = 0x38524742,
+
+        /// <summary>
+        /// 16-bit xRGB format, [15:0] x:R:G:B 4:4:4:4 little endian
+        /// </summary>
+        Xrgb4444 = 0x32315258,
+
+        /// <summary>
+        /// 16-bit xBGR format, [15:0] x:B:G:R 4:4:4:4 little endian
+        /// </summary>
+        Xbgr4444 = 0x32314258,
+
+        /// <summary>
+        /// 16-bit RGBx format, [15:0] R:G:B:x 4:4:4:4 little endian
+        /// </summary>
+        Rgbx4444 = 0x32315852,
+
+        /// <summary>
+        /// 16-bit BGRx format, [15:0] B:G:R:x 4:4:4:4 little endian
+        /// </summary>
+        Bgrx4444 = 0x32315842,
+
+        /// <summary>
+        /// 16-bit ARGB format, [15:0] A:R:G:B 4:4:4:4 little endian
+        /// </summary>
+        Argb4444 = 0x32315241,
+
+        /// <summary>
+        /// 16-bit ABGR format, [15:0] A:B:G:R 4:4:4:4 little endian
+        /// </summary>
+        Abgr4444 = 0x32314241,
+
+        /// <summary>
+        /// 16-bit RBGA format, [15:0] R:G:B:A 4:4:4:4 little endian
+        /// </summary>
+        Rgba4444 = 0x32314152,
+
+        /// <summary>
+        /// 16-bit BGRA format, [15:0] B:G:R:A 4:4:4:4 little endian
+        /// </summary>
+        Bgra4444 = 0x32314142,
+
+        /// <summary>
+        /// 16-bit xRGB format, [15:0] x:R:G:B 1:5:5:5 little endian
+        /// </summary>
+        Xrgb1555 = 0x35315258,
+
+        /// <summary>
+        /// 16-bit xBGR 1555 format, [15:0] x:B:G:R 1:5:5:5 little endian
+        /// </summary>
+        Xbgr1555 = 0x35314258,
+
+        /// <summary>
+        /// 16-bit RGBx 5551 format, [15:0] R:G:B:x 5:5:5:1 little endian
+        /// </summary>
+        Rgbx5551 = 0x35315852,
+
+        /// <summary>
+        /// 16-bit BGRx 5551 format, [15:0] B:G:R:x 5:5:5:1 little endian
+        /// </summary>
+        Bgrx5551 = 0x35315842,
+
+        /// <summary>
+        /// 16-bit ARGB 1555 format, [15:0] A:R:G:B 1:5:5:5 little endian
+        /// </summary>
+        Argb1555 = 0x35315241,
+
+        /// <summary>
+        /// 16-bit ABGR 1555 format, [15:0] A:B:G:R 1:5:5:5 little endian
+        /// </summary>
+        Abgr1555 = 0x35314241,
+
+        /// <summary>
+        /// 16-bit RGBA 5551 format, [15:0] R:G:B:A 5:5:5:1 little endian
+        /// </summary>
+        Rgba5551 = 0x35314152,
+
+        /// <summary>
+        /// 16-bit BGRA 5551 format, [15:0] B:G:R:A 5:5:5:1 little endian
+        /// </summary>
+        Bgra5551 = 0x35314142,
+
+        /// <summary>
+        /// 16-bit RGB 565 format, [15:0] R:G:B 5:6:5 little endian
+        /// </summary>
+        Rgb565 = 0x36314752,
+
+        /// <summary>
+        /// 16-bit BGR 565 format, [15:0] B:G:R 5:6:5 little endian
+        /// </summary>
+        Bgr565 = 0x36314742,
+
+        /// <summary>
+        /// 24-bit RGB format, [23:0] R:G:B little endian
+        /// </summary>
+        Rgb888 = 0x34324752,
+
+        /// <summary>
+        /// 24-bit BGR format, [23:0] B:G:R little endian
+        /// </summary>
+        Bgr888 = 0x34324742,
+
+        /// <summary>
+        /// 32-bit xBGR format, [31:0] x:B:G:R 8:8:8:8 little endian
+        /// </summary>
+        Xbgr8888 = 0x34324258,
+
+        /// <summary>
+        /// 32-bit RGBx format, [31:0] R:G:B:x 8:8:8:8 little endian
+        /// </summary>
+        Rgbx8888 = 0x34325852,
+
+        /// <summary>
+        /// 32-bit BGRx format, [31:0] B:G:R:x 8:8:8:8 little endian
+        /// </summary>
+        Bgrx8888 = 0x34325842,
+
+        /// <summary>
+        /// 32-bit ABGR format, [31:0] A:B:G:R 8:8:8:8 little endian
+        /// </summary>
+        Abgr8888 = 0x34324241,
+
+        /// <summary>
+        /// 32-bit RGBA format, [31:0] R:G:B:A 8:8:8:8 little endian
+        /// </summary>
+        Rgba8888 = 0x34324152,
+
+        /// <summary>
+        /// 32-bit BGRA format, [31:0] B:G:R:A 8:8:8:8 little endian
+        /// </summary>
+        Bgra8888 = 0x34324142,
+
+        /// <summary>
+        /// 32-bit xRGB format, [31:0] x:R:G:B 2:10:10:10 little endian
+        /// </summary>
+        Xrgb2101010 = 0x30335258,
+
+        /// <summary>
+        /// 32-bit xBGR format, [31:0] x:B:G:R 2:10:10:10 little endian
+        /// </summary>
+        Xbgr2101010 = 0x30334258,
+
+        /// <summary>
+        /// 32-bit RGBx format, [31:0] R:G:B:x 10:10:10:2 little endian
+        /// </summary>
+        Rgbx1010102 = 0x30335852,
+
+        /// <summary>
+        /// 32-bit BGRx format, [31:0] B:G:R:x 10:10:10:2 little endian
+        /// </summary>
+        Bgrx1010102 = 0x30335842,
+
+        /// <summary>
+        /// 32-bit ARGB format, [31:0] A:R:G:B 2:10:10:10 little endian
+        /// </summary>
+        Argb2101010 = 0x30335241,
+
+        /// <summary>
+        /// 32-bit ABGR format, [31:0] A:B:G:R 2:10:10:10 little endian
+        /// </summary>
+        Abgr2101010 = 0x30334241,
+
+        /// <summary>
+        /// 32-bit RGBA format, [31:0] R:G:B:A 10:10:10:2 little endian
+        /// </summary>
+        Rgba1010102 = 0x30334152,
+
+        /// <summary>
+        /// 32-bit BGRA format, [31:0] B:G:R:A 10:10:10:2 little endian
+        /// </summary>
+        Bgra1010102 = 0x30334142,
+
+        /// <summary>
+        /// packed YCbCr format, [31:0] Cr0:Y1:Cb0:Y0 8:8:8:8 little endian
+        /// </summary>
+        Yuyv = 0x56595559,
+
+        /// <summary>
+        /// packed YCbCr format, [31:0] Cb0:Y1:Cr0:Y0 8:8:8:8 little endian
+        /// </summary>
+        Yvyu = 0x55595659,
+
+        /// <summary>
+        /// packed YCbCr format, [31:0] Y1:Cr0:Y0:Cb0 8:8:8:8 little endian
+        /// </summary>
+        Uyvy = 0x59565955,
+
+        /// <summary>
+        /// packed YCbCr format, [31:0] Y1:Cb0:Y0:Cr0 8:8:8:8 little endian
+        /// </summary>
+        Vyuy = 0x59555956,
+
+        /// <summary>
+        /// packed AYCbCr format, [31:0] A:Y:Cb:Cr 8:8:8:8 little endian
+        /// </summary>
+        Ayuv = 0x56555941,
+
+        /// <summary>
+        /// 2 plane YCbCr Cr:Cb format, 2x2 subsampled Cr:Cb plane
+        /// </summary>
+        Nv12 = 0x3231564e,
+
+        /// <summary>
+        /// 2 plane YCbCr Cb:Cr format, 2x2 subsampled Cb:Cr plane
+        /// </summary>
+        Nv21 = 0x3132564e,
+
+        /// <summary>
+        /// 2 plane YCbCr Cr:Cb format, 2x1 subsampled Cr:Cb plane
+        /// </summary>
+        Nv16 = 0x3631564e,
+
+        /// <summary>
+        /// 2 plane YCbCr Cb:Cr format, 2x1 subsampled Cb:Cr plane
+        /// </summary>
+        Nv61 = 0x3136564e,
+
+        /// <summary>
+        /// 3 plane YCbCr format, 4x4 subsampled Cb (1) and Cr (2) planes
+        /// </summary>
+        Yuv410 = 0x39565559,
+
+        /// <summary>
+        /// 3 plane YCbCr format, 4x4 subsampled Cr (1) and Cb (2) planes
+        /// </summary>
+        Yvu410 = 0x39555659,
+
+        /// <summary>
+        /// 3 plane YCbCr format, 4x1 subsampled Cb (1) and Cr (2) planes
+        /// </summary>
+        Yuv411 = 0x31315559,
+
+        /// <summary>
+        /// 3 plane YCbCr format, 4x1 subsampled Cr (1) and Cb (2) planes
+        /// </summary>
+        Yvu411 = 0x31315659,
+
+        /// <summary>
+        /// 3 plane YCbCr format, 2x2 subsampled Cb (1) and Cr (2) planes
+        /// </summary>
+        Yuv420 = 0x32315559,
+
+        /// <summary>
+        /// 3 plane YCbCr format, 2x2 subsampled Cr (1) and Cb (2) planes
+        /// </summary>
+        Yvu420 = 0x32315659,
+
+        /// <summary>
+        /// 3 plane YCbCr format, 2x1 subsampled Cb (1) and Cr (2) planes
+        /// </summary>
+        Yuv422 = 0x36315559,
+
+        /// <summary>
+        /// 3 plane YCbCr format, 2x1 subsampled Cr (1) and Cb (2) planes
+        /// </summary>
+        Yvu422 = 0x36315659,
+
+        /// <summary>
+        /// 3 plane YCbCr format, non-subsampled Cb (1) and Cr (2) planes
+        /// </summary>
+        Yuv444 = 0x34325559,
+
+        /// <summary>
+        /// 3 plane YCbCr format, non-subsampled Cr (1) and Cb (2) planes
+        /// </summary>
+        Yvu444 = 0x34325659,
+
+    }
+
+    internal enum wl_data_offer_error
+    {
+        /// <summary>
+        /// finish request was called untimely
+        /// </summary>
+        InvalidFinish = 0,
+
+        /// <summary>
+        /// action mask contains invalid values
+        /// </summary>
+        InvalidActionMask = 1,
+
+        /// <summary>
+        /// action argument has an invalid value
+        /// </summary>
+        InvalidAction = 2,
+
+        /// <summary>
+        /// offer doesn't accept this request
+        /// </summary>
+        InvalidOffer = 3,
+
+    }
+
+    internal enum wl_data_source_error
+    {
+        /// <summary>
+        /// action mask contains invalid values
+        /// </summary>
+        InvalidActionMask = 0,
+
+        /// <summary>
+        /// source doesn't accept this request
+        /// </summary>
+        InvalidSource = 1,
+
+    }
+
+    internal enum wl_data_device_error
+    {
+        /// <summary>
+        /// given wl_surface has another role
+        /// </summary>
+        Role = 0,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// This is a bitmask of the available/preferred actions in a
+    /// drag-and-drop operation.
+    /// </p>
+    /// <p>
+    /// In the compositor, the selected action is a result of matching the
+    /// actions offered by the source and destination sides.  "action" events
+    /// with a "none" action will be sent to both source and destination if
+    /// there is no match. All further checks will effectively happen on
+    /// (source actions ∩ destination actions).
+    /// </p>
+    /// <p>
+    /// In addition, compositors may also pick different actions in
+    /// reaction to key modifiers being pressed. One common design that
+    /// is used in major toolkits (and the behavior recommended for
+    /// compositors) is:
+    /// </p>
+    /// <p>
+    /// - If no modifiers are pressed, the first match (in bit order)
+    /// will be used.
+    /// - Pressing Shift selects "move", if enabled in the mask.
+    /// - Pressing Control selects "copy", if enabled in the mask.
+    /// </p>
+    /// <p>
+    /// Behavior beyond that is considered implementation-dependent.
+    /// Compositors may for example bind other modifiers (like Alt/Meta)
+    /// or drags initiated with other buttons than BTN_LEFT to specific
+    /// actions (e.g. "ask").
+    /// </p>
+    /// </summary>
+    [Flags]
+    internal enum wl_data_device_manager_dnd_action
+    {
+        /// <summary>
+        /// no action
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// copy action
+        /// </summary>
+        Copy = 1,
+
+        /// <summary>
+        /// move action
+        /// </summary>
+        Move = 2,
+
+        /// <summary>
+        /// ask action
+        /// </summary>
+        Ask = 4,
+
+    }
+
+    internal enum wl_shell_error
+    {
+        /// <summary>
+        /// given wl_surface has another role
+        /// </summary>
+        Role = 0,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// These values are used to indicate which edge of a surface
+    /// is being dragged in a resize operation. The server may
+    /// use this information to adapt its behavior, e.g. choose
+    /// an appropriate cursor image.
+    /// </p>
+    /// </summary>
+    [Flags]
+    internal enum wl_shell_surface_resize
+    {
+        /// <summary>
+        /// no edge
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// top edge
+        /// </summary>
+        Top = 1,
+
+        /// <summary>
+        /// bottom edge
+        /// </summary>
+        Bottom = 2,
+
+        /// <summary>
+        /// left edge
+        /// </summary>
+        Left = 4,
+
+        /// <summary>
+        /// top and left edges
+        /// </summary>
+        TopLeft = 5,
+
+        /// <summary>
+        /// bottom and left edges
+        /// </summary>
+        BottomLeft = 6,
+
+        /// <summary>
+        /// right edge
+        /// </summary>
+        Right = 8,
+
+        /// <summary>
+        /// top and right edges
+        /// </summary>
+        TopRight = 9,
+
+        /// <summary>
+        /// bottom and right edges
+        /// </summary>
+        BottomRight = 10,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// These flags specify details of the expected behaviour
+    /// of transient surfaces. Used in the set_transient request.
+    /// </p>
+    /// </summary>
+    [Flags]
+    internal enum wl_shell_surface_transient
+    {
+        /// <summary>
+        /// do not set keyboard focus
+        /// </summary>
+        Inactive = 0x1,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// Hints to indicate to the compositor how to deal with a conflict
+    /// between the dimensions of the surface and the dimensions of the
+    /// output. The compositor is free to ignore this parameter.
+    /// </p>
+    /// </summary>
+    internal enum wl_shell_surface_fullscreen_method
+    {
+        /// <summary>
+        /// no preference, apply default policy
+        /// </summary>
+        Default = 0,
+
+        /// <summary>
+        /// scale, preserve the surface's aspect ratio and center on output
+        /// </summary>
+        Scale = 1,
+
+        /// <summary>
+        /// switch output mode to the smallest mode that can fit the surface, add black borders to compensate size mismatch
+        /// </summary>
+        Driver = 2,
+
+        /// <summary>
+        /// no upscaling, center on output and add black borders to compensate size mismatch
+        /// </summary>
+        Fill = 3,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// These errors can be emitted in response to wl_surface requests.
+    /// </p>
+    /// </summary>
+    internal enum wl_surface_error
+    {
+        /// <summary>
+        /// buffer scale value is invalid
+        /// </summary>
+        InvalidScale = 0,
+
+        /// <summary>
+        /// buffer transform value is invalid
+        /// </summary>
+        InvalidTransform = 1,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// This is a bitmask of capabilities this seat has; if a member is
+    /// set, then it is present on the seat.
+    /// </p>
+    /// </summary>
+    [Flags]
+    internal enum wl_seat_capability
+    {
+        /// <summary>
+        /// the seat has pointer devices
+        /// </summary>
+        Pointer = 1,
+
+        /// <summary>
+        /// the seat has one or more keyboards
+        /// </summary>
+        Keyboard = 2,
+
+        /// <summary>
+        /// the seat has touch devices
+        /// </summary>
+        Touch = 4,
+
+    }
+
+    internal enum wl_pointer_error
+    {
+        /// <summary>
+        /// given wl_surface has another role
+        /// </summary>
+        Role = 0,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// Describes the physical state of a button that produced the button
+    /// event.
+    /// </p>
+    /// </summary>
+    internal enum wl_pointer_button_state
+    {
+        /// <summary>
+        /// the button is not pressed
+        /// </summary>
+        Released = 0,
+
+        /// <summary>
+        /// the button is pressed
+        /// </summary>
+        Pressed = 1,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// Describes the axis types of scroll events.
+    /// </p>
+    /// </summary>
+    internal enum wl_pointer_axis
+    {
+        /// <summary>
+        /// vertical axis
+        /// </summary>
+        VerticalScroll = 0,
+
+        /// <summary>
+        /// horizontal axis
+        /// </summary>
+        HorizontalScroll = 1,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// Describes the source types for axis events. This indicates to the
+    /// client how an axis event was physically generated; a client may
+    /// adjust the user interface accordingly. For example, scroll events
+    /// from a "finger" source may be in a smooth coordinate space with
+    /// kinetic scrolling whereas a "wheel" source may be in discrete steps
+    /// of a number of lines.
+    /// </p>
+    /// <p>
+    /// The "continuous" axis source is a device generating events in a
+    /// continuous coordinate space, but using something other than a
+    /// finger. One example for this source is button-based scrolling where
+    /// the vertical motion of a device is converted to scroll events while
+    /// a button is held down.
+    /// </p>
+    /// <p>
+    /// The "wheel tilt" axis source indicates that the actual device is a
+    /// wheel but the scroll event is not caused by a rotation but a
+    /// (usually sideways) tilt of the wheel.
+    /// </p>
+    /// </summary>
+    internal enum wl_pointer_axis_source
+    {
+        /// <summary>
+        /// a physical wheel rotation
+        /// </summary>
+        Wheel = 0,
+
+        /// <summary>
+        /// finger on a touch surface
+        /// </summary>
+        Finger = 1,
+
+        /// <summary>
+        /// continuous coordinate space
+        /// </summary>
+        Continuous = 2,
+
+        /// <summary>
+        /// a physical wheel tilt
+        /// </summary>
+        WheelTilt = 3,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// This specifies the format of the keymap provided to the
+    /// client with the wl_keyboard.keymap event.
+    /// </p>
+    /// </summary>
+    internal enum wl_keyboard_keymap_format
+    {
+        /// <summary>
+        /// no keymap; client must understand how to interpret the raw keycode
+        /// </summary>
+        NoKeymap = 0,
+
+        /// <summary>
+        /// libxkbcommon compatible; to determine the xkb keycode, clients must add 8 to the key event keycode
+        /// </summary>
+        XkbV1 = 1,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// Describes the physical state of a key that produced the key event.
+    /// </p>
+    /// </summary>
+    internal enum wl_keyboard_key_state
+    {
+        /// <summary>
+        /// key is not pressed
+        /// </summary>
+        Released = 0,
+
+        /// <summary>
+        /// key is pressed
+        /// </summary>
+        Pressed = 1,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// This enumeration describes how the physical
+    /// pixels on an output are laid out.
+    /// </p>
+    /// </summary>
+    internal enum wl_output_subpixel
+    {
+        /// <summary>
+        /// unknown geometry
+        /// </summary>
+        Unknown = 0,
+
+        /// <summary>
+        /// no geometry
+        /// </summary>
+        None = 1,
+
+        /// <summary>
+        /// horizontal RGB
+        /// </summary>
+        HorizontalRgb = 2,
+
+        /// <summary>
+        /// horizontal BGR
+        /// </summary>
+        HorizontalBgr = 3,
+
+        /// <summary>
+        /// vertical RGB
+        /// </summary>
+        VerticalRgb = 4,
+
+        /// <summary>
+        /// vertical BGR
+        /// </summary>
+        VerticalBgr = 5,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// This describes the transform that a compositor will apply to a
+    /// surface to compensate for the rotation or mirroring of an
+    /// output device.
+    /// </p>
+    /// <p>
+    /// The flipped values correspond to an initial flip around a
+    /// vertical axis followed by rotation.
+    /// </p>
+    /// <p>
+    /// The purpose is mainly to allow clients to render accordingly and
+    /// tell the compositor, so that for fullscreen surfaces, the
+    /// compositor will still be able to scan out directly from client
+    /// surfaces.
+    /// </p>
+    /// </summary>
+    internal enum wl_output_transform
+    {
+        /// <summary>
+        /// no transform
+        /// </summary>
+        Normal = 0,
+
+        /// <summary>
+        /// 90 degrees counter-clockwise
+        /// </summary>
+        V90 = 1,
+
+        /// <summary>
+        /// 180 degrees counter-clockwise
+        /// </summary>
+        V180 = 2,
+
+        /// <summary>
+        /// 270 degrees counter-clockwise
+        /// </summary>
+        V270 = 3,
+
+        /// <summary>
+        /// 180 degree flip around a vertical axis
+        /// </summary>
+        Flipped = 4,
+
+        /// <summary>
+        /// flip and rotate 90 degrees counter-clockwise
+        /// </summary>
+        Flipped90 = 5,
+
+        /// <summary>
+        /// flip and rotate 180 degrees counter-clockwise
+        /// </summary>
+        Flipped180 = 6,
+
+        /// <summary>
+        /// flip and rotate 270 degrees counter-clockwise
+        /// </summary>
+        Flipped270 = 7,
+
+    }
+
+    /// <summary>
+    /// <p>
+    /// These flags describe properties of an output mode.
+    /// They are used in the flags bitfield of the mode event.
+    /// </p>
+    /// </summary>
+    [Flags]
+    internal enum wl_output_mode
+    {
+        /// <summary>
+        /// indicates this is the current mode
+        /// </summary>
+        Current = 0x1,
+
+        /// <summary>
+        /// indicates this is the preferred mode
+        /// </summary>
+        Preferred = 0x2,
+
+    }
+
+    internal enum wl_subcompositor_error
+    {
+        /// <summary>
+        /// the to-be sub-surface is invalid
+        /// </summary>
+        BadSurface = 0,
+
+    }
+
+    internal enum wl_subsurface_error
+    {
+        /// <summary>
+        /// wl_surface is not a sibling or the parent
+        /// </summary>
+        BadSurface = 0,
+
+    }
+}
+
+namespace OpenWindow.Backends.Wayland.Managed
+{
+    internal unsafe partial struct WlDisplay
+    {
+        public static IntPtr Interface => (IntPtr) wl_display.Interface;
+        public readonly wl_display* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_display_error_delegate _error;
+        private WaylandBindings.wl_display_delete_id_delegate _delete_id;
+        private WaylandBindings.wl_display_listener* _listener;
+        public WlDisplay(wl_display* ptr) { Pointer = ptr; _listener = null; _error = null; _delete_id = null; }
+        public static implicit operator WlDisplay(wl_display* ptr) => new WlDisplay(ptr);
+        public static explicit operator WlDisplay(wl_proxy* ptr) => new WlDisplay((wl_display*) ptr);
+        public WlCallback Sync() => WaylandBindings.wl_display_sync(Pointer);
+        public WlRegistry GetRegistry() => WaylandBindings.wl_display_get_registry(Pointer);
+        public void SetListener(
+            WaylandBindings.wl_display_error_delegate error,
+            WaylandBindings.wl_display_delete_id_delegate delete_id)
         {
-            SetDesync(Pointer);
+            _error = error;
+            _delete_id = delete_id;
+            _listener = WaylandBindings.wl_display_listener.Alloc(error, delete_id);
+            WaylandBindings.wl_display_add_listener(Pointer, _listener);
         }
-
-        public static void SetDesync(IntPtr pointer)
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlRegistry
+    {
+        public static IntPtr Interface => (IntPtr) wl_registry.Interface;
+        public readonly wl_registry* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_registry_global_delegate _global;
+        private WaylandBindings.wl_registry_global_remove_delegate _global_remove;
+        private WaylandBindings.wl_registry_listener* _listener;
+        public WlRegistry(wl_registry* ptr) { Pointer = ptr; _listener = null; _global = null; _global_remove = null; }
+        public static implicit operator WlRegistry(wl_registry* ptr) => new WlRegistry(ptr);
+        public static explicit operator WlRegistry(wl_proxy* ptr) => new WlRegistry((wl_registry*) ptr);
+        public T* Bind<T>(uint name, IntPtr iface, uint version) where T : unmanaged => (T*) WaylandBindings.wl_registry_bind(Pointer, name, (wl_interface*) iface, version);
+        public void SetListener(
+            WaylandBindings.wl_registry_global_delegate global,
+            WaylandBindings.wl_registry_global_remove_delegate global_remove)
         {
-            Marshal(pointer, SetDesyncOp);
+            _global = global;
+            _global_remove = global_remove;
+            _listener = WaylandBindings.wl_registry_listener.Alloc(global, global_remove);
+            WaylandBindings.wl_registry_add_listener(Pointer, _listener);
         }
-
-        #endregion
-
-        #region Enums
-
-        public enum ErrorEnum
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlCallback
+    {
+        public static IntPtr Interface => (IntPtr) wl_callback.Interface;
+        public readonly wl_callback* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_callback_done_delegate _done;
+        private WaylandBindings.wl_callback_listener* _listener;
+        public WlCallback(wl_callback* ptr) { Pointer = ptr; _listener = null; _done = null; }
+        public static implicit operator WlCallback(wl_callback* ptr) => new WlCallback(ptr);
+        public static explicit operator WlCallback(wl_proxy* ptr) => new WlCallback((wl_callback*) ptr);
+        public void SetListener(
+            WaylandBindings.wl_callback_done_delegate done)
         {
-            /// <summary>
-            /// wl_surface is not a sibling or the parent
-            /// </summary>
-            BadSurface = 0,
-
+            _done = done;
+            _listener = WaylandBindings.wl_callback_listener.Alloc(done);
+            WaylandBindings.wl_callback_add_listener(Pointer, _listener);
         }
-
-        #endregion
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlCompositor
+    {
+        public static IntPtr Interface => (IntPtr) wl_compositor.Interface;
+        public readonly wl_compositor* Pointer;
+        public bool IsNull => Pointer == null;
+        public WlCompositor(wl_compositor* ptr) { Pointer = ptr; }
+        public static implicit operator WlCompositor(wl_compositor* ptr) => new WlCompositor(ptr);
+        public static explicit operator WlCompositor(wl_proxy* ptr) => new WlCompositor((wl_compositor*) ptr);
+        public WlSurface CreateSurface() => WaylandBindings.wl_compositor_create_surface(Pointer);
+        public WlRegion CreateRegion() => WaylandBindings.wl_compositor_create_region(Pointer);
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlShmPool
+    {
+        public static IntPtr Interface => (IntPtr) wl_shm_pool.Interface;
+        public readonly wl_shm_pool* Pointer;
+        public bool IsNull => Pointer == null;
+        public WlShmPool(wl_shm_pool* ptr) { Pointer = ptr; }
+        public static implicit operator WlShmPool(wl_shm_pool* ptr) => new WlShmPool(ptr);
+        public static explicit operator WlShmPool(wl_proxy* ptr) => new WlShmPool((wl_shm_pool*) ptr);
+        public WlBuffer CreateBuffer(int offset, int width, int height, int stride, wl_shm_format format) => WaylandBindings.wl_shm_pool_create_buffer(Pointer, offset, width, height, stride, format);
+        public void Destroy() => WaylandBindings.wl_shm_pool_destroy(Pointer);
+        public void Resize(int size) => WaylandBindings.wl_shm_pool_resize(Pointer, size);
+    }
+    internal unsafe partial struct WlShm
+    {
+        public static IntPtr Interface => (IntPtr) wl_shm.Interface;
+        public readonly wl_shm* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_shm_format_delegate _format;
+        private WaylandBindings.wl_shm_listener* _listener;
+        public WlShm(wl_shm* ptr) { Pointer = ptr; _listener = null; _format = null; }
+        public static implicit operator WlShm(wl_shm* ptr) => new WlShm(ptr);
+        public static explicit operator WlShm(wl_proxy* ptr) => new WlShm((wl_shm*) ptr);
+        public WlShmPool CreatePool(int fd, int size) => WaylandBindings.wl_shm_create_pool(Pointer, fd, size);
+        public void SetListener(
+            WaylandBindings.wl_shm_format_delegate format)
+        {
+            _format = format;
+            _listener = WaylandBindings.wl_shm_listener.Alloc(format);
+            WaylandBindings.wl_shm_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlBuffer
+    {
+        public static IntPtr Interface => (IntPtr) wl_buffer.Interface;
+        public readonly wl_buffer* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_buffer_release_delegate _release;
+        private WaylandBindings.wl_buffer_listener* _listener;
+        public WlBuffer(wl_buffer* ptr) { Pointer = ptr; _listener = null; _release = null; }
+        public static implicit operator WlBuffer(wl_buffer* ptr) => new WlBuffer(ptr);
+        public static explicit operator WlBuffer(wl_proxy* ptr) => new WlBuffer((wl_buffer*) ptr);
+        public void Destroy() => WaylandBindings.wl_buffer_destroy(Pointer);
+        public void SetListener(
+            WaylandBindings.wl_buffer_release_delegate release)
+        {
+            _release = release;
+            _listener = WaylandBindings.wl_buffer_listener.Alloc(release);
+            WaylandBindings.wl_buffer_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+    }
+    internal unsafe partial struct WlDataOffer
+    {
+        public static IntPtr Interface => (IntPtr) wl_data_offer.Interface;
+        public readonly wl_data_offer* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_data_offer_offer_delegate _offer;
+        private WaylandBindings.wl_data_offer_source_actions_delegate _source_actions;
+        private WaylandBindings.wl_data_offer_action_delegate _action;
+        private WaylandBindings.wl_data_offer_listener* _listener;
+        public WlDataOffer(wl_data_offer* ptr) { Pointer = ptr; _listener = null; _offer = null; _source_actions = null; _action = null; }
+        public static implicit operator WlDataOffer(wl_data_offer* ptr) => new WlDataOffer(ptr);
+        public static explicit operator WlDataOffer(wl_proxy* ptr) => new WlDataOffer((wl_data_offer*) ptr);
+        public void Accept(uint serial, string mime_type) => WaylandBindings.wl_data_offer_accept(Pointer, serial, mime_type);
+        public void Receive(string mime_type, int fd) => WaylandBindings.wl_data_offer_receive(Pointer, mime_type, fd);
+        public void Destroy() => WaylandBindings.wl_data_offer_destroy(Pointer);
+        public void Finish() => WaylandBindings.wl_data_offer_finish(Pointer);
+        public void SetActions(uint dnd_actions, uint preferred_action) => WaylandBindings.wl_data_offer_set_actions(Pointer, dnd_actions, preferred_action);
+        public void SetListener(
+            WaylandBindings.wl_data_offer_offer_delegate offer,
+            WaylandBindings.wl_data_offer_source_actions_delegate source_actions,
+            WaylandBindings.wl_data_offer_action_delegate action)
+        {
+            _offer = offer;
+            _source_actions = source_actions;
+            _action = action;
+            _listener = WaylandBindings.wl_data_offer_listener.Alloc(offer, source_actions, action);
+            WaylandBindings.wl_data_offer_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+    }
+    internal unsafe partial struct WlDataSource
+    {
+        public static IntPtr Interface => (IntPtr) wl_data_source.Interface;
+        public readonly wl_data_source* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_data_source_target_delegate _target;
+        private WaylandBindings.wl_data_source_send_delegate _send;
+        private WaylandBindings.wl_data_source_cancelled_delegate _cancelled;
+        private WaylandBindings.wl_data_source_dnd_drop_performed_delegate _dnd_drop_performed;
+        private WaylandBindings.wl_data_source_dnd_finished_delegate _dnd_finished;
+        private WaylandBindings.wl_data_source_action_delegate _action;
+        private WaylandBindings.wl_data_source_listener* _listener;
+        public WlDataSource(wl_data_source* ptr) { Pointer = ptr; _listener = null; _target = null; _send = null; _cancelled = null; _dnd_drop_performed = null; _dnd_finished = null; _action = null; }
+        public static implicit operator WlDataSource(wl_data_source* ptr) => new WlDataSource(ptr);
+        public static explicit operator WlDataSource(wl_proxy* ptr) => new WlDataSource((wl_data_source*) ptr);
+        public void Offer(string mime_type) => WaylandBindings.wl_data_source_offer(Pointer, mime_type);
+        public void Destroy() => WaylandBindings.wl_data_source_destroy(Pointer);
+        public void SetActions(uint dnd_actions) => WaylandBindings.wl_data_source_set_actions(Pointer, dnd_actions);
+        public void SetListener(
+            WaylandBindings.wl_data_source_target_delegate target,
+            WaylandBindings.wl_data_source_send_delegate send,
+            WaylandBindings.wl_data_source_cancelled_delegate cancelled,
+            WaylandBindings.wl_data_source_dnd_drop_performed_delegate dnd_drop_performed,
+            WaylandBindings.wl_data_source_dnd_finished_delegate dnd_finished,
+            WaylandBindings.wl_data_source_action_delegate action)
+        {
+            _target = target;
+            _send = send;
+            _cancelled = cancelled;
+            _dnd_drop_performed = dnd_drop_performed;
+            _dnd_finished = dnd_finished;
+            _action = action;
+            _listener = WaylandBindings.wl_data_source_listener.Alloc(target, send, cancelled, dnd_drop_performed, dnd_finished, action);
+            WaylandBindings.wl_data_source_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+    }
+    internal unsafe partial struct WlDataDevice
+    {
+        public static IntPtr Interface => (IntPtr) wl_data_device.Interface;
+        public readonly wl_data_device* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_data_device_data_offer_delegate _data_offer;
+        private WaylandBindings.wl_data_device_enter_delegate _enter;
+        private WaylandBindings.wl_data_device_leave_delegate _leave;
+        private WaylandBindings.wl_data_device_motion_delegate _motion;
+        private WaylandBindings.wl_data_device_drop_delegate _drop;
+        private WaylandBindings.wl_data_device_selection_delegate _selection;
+        private WaylandBindings.wl_data_device_listener* _listener;
+        public WlDataDevice(wl_data_device* ptr) { Pointer = ptr; _listener = null; _data_offer = null; _enter = null; _leave = null; _motion = null; _drop = null; _selection = null; }
+        public static implicit operator WlDataDevice(wl_data_device* ptr) => new WlDataDevice(ptr);
+        public static explicit operator WlDataDevice(wl_proxy* ptr) => new WlDataDevice((wl_data_device*) ptr);
+        public void StartDrag(in WlDataSource source, in WlSurface origin, in WlSurface icon, uint serial) => WaylandBindings.wl_data_device_start_drag(Pointer, source.Pointer, origin.Pointer, icon.Pointer, serial);
+        public void SetSelection(in WlDataSource source, uint serial) => WaylandBindings.wl_data_device_set_selection(Pointer, source.Pointer, serial);
+        public void Release() => WaylandBindings.wl_data_device_release(Pointer);
+        public void SetListener(
+            WaylandBindings.wl_data_device_data_offer_delegate data_offer,
+            WaylandBindings.wl_data_device_enter_delegate enter,
+            WaylandBindings.wl_data_device_leave_delegate leave,
+            WaylandBindings.wl_data_device_motion_delegate motion,
+            WaylandBindings.wl_data_device_drop_delegate drop,
+            WaylandBindings.wl_data_device_selection_delegate selection)
+        {
+            _data_offer = data_offer;
+            _enter = enter;
+            _leave = leave;
+            _motion = motion;
+            _drop = drop;
+            _selection = selection;
+            _listener = WaylandBindings.wl_data_device_listener.Alloc(data_offer, enter, leave, motion, drop, selection);
+            WaylandBindings.wl_data_device_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlDataDeviceManager
+    {
+        public static IntPtr Interface => (IntPtr) wl_data_device_manager.Interface;
+        public readonly wl_data_device_manager* Pointer;
+        public bool IsNull => Pointer == null;
+        public WlDataDeviceManager(wl_data_device_manager* ptr) { Pointer = ptr; }
+        public static implicit operator WlDataDeviceManager(wl_data_device_manager* ptr) => new WlDataDeviceManager(ptr);
+        public static explicit operator WlDataDeviceManager(wl_proxy* ptr) => new WlDataDeviceManager((wl_data_device_manager*) ptr);
+        public WlDataSource CreateDataSource() => WaylandBindings.wl_data_device_manager_create_data_source(Pointer);
+        public WlDataDevice GetDataDevice(in WlSeat seat) => WaylandBindings.wl_data_device_manager_get_data_device(Pointer, seat.Pointer);
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlShell
+    {
+        public static IntPtr Interface => (IntPtr) wl_shell.Interface;
+        public readonly wl_shell* Pointer;
+        public bool IsNull => Pointer == null;
+        public WlShell(wl_shell* ptr) { Pointer = ptr; }
+        public static implicit operator WlShell(wl_shell* ptr) => new WlShell(ptr);
+        public static explicit operator WlShell(wl_proxy* ptr) => new WlShell((wl_shell*) ptr);
+        public WlShellSurface GetShellSurface(in WlSurface surface) => WaylandBindings.wl_shell_get_shell_surface(Pointer, surface.Pointer);
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlShellSurface
+    {
+        public static IntPtr Interface => (IntPtr) wl_shell_surface.Interface;
+        public readonly wl_shell_surface* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_shell_surface_ping_delegate _ping;
+        private WaylandBindings.wl_shell_surface_configure_delegate _configure;
+        private WaylandBindings.wl_shell_surface_popup_done_delegate _popup_done;
+        private WaylandBindings.wl_shell_surface_listener* _listener;
+        public WlShellSurface(wl_shell_surface* ptr) { Pointer = ptr; _listener = null; _ping = null; _configure = null; _popup_done = null; }
+        public static implicit operator WlShellSurface(wl_shell_surface* ptr) => new WlShellSurface(ptr);
+        public static explicit operator WlShellSurface(wl_proxy* ptr) => new WlShellSurface((wl_shell_surface*) ptr);
+        public void Pong(uint serial) => WaylandBindings.wl_shell_surface_pong(Pointer, serial);
+        public void Move(in WlSeat seat, uint serial) => WaylandBindings.wl_shell_surface_move(Pointer, seat.Pointer, serial);
+        public void Resize(in WlSeat seat, uint serial, wl_shell_surface_resize edges) => WaylandBindings.wl_shell_surface_resize(Pointer, seat.Pointer, serial, edges);
+        public void SetToplevel() => WaylandBindings.wl_shell_surface_set_toplevel(Pointer);
+        public void SetTransient(in WlSurface parent, int x, int y, wl_shell_surface_transient flags) => WaylandBindings.wl_shell_surface_set_transient(Pointer, parent.Pointer, x, y, flags);
+        public void SetFullscreen(wl_shell_surface_fullscreen_method method, uint framerate, in WlOutput output) => WaylandBindings.wl_shell_surface_set_fullscreen(Pointer, method, framerate, output.Pointer);
+        public void SetPopup(in WlSeat seat, uint serial, in WlSurface parent, int x, int y, wl_shell_surface_transient flags) => WaylandBindings.wl_shell_surface_set_popup(Pointer, seat.Pointer, serial, parent.Pointer, x, y, flags);
+        public void SetMaximized(in WlOutput output) => WaylandBindings.wl_shell_surface_set_maximized(Pointer, output.Pointer);
+        public void SetTitle(string title) => WaylandBindings.wl_shell_surface_set_title(Pointer, title);
+        public void SetClass(string class_) => WaylandBindings.wl_shell_surface_set_class(Pointer, class_);
+        public void SetListener(
+            WaylandBindings.wl_shell_surface_ping_delegate ping,
+            WaylandBindings.wl_shell_surface_configure_delegate configure,
+            WaylandBindings.wl_shell_surface_popup_done_delegate popup_done)
+        {
+            _ping = ping;
+            _configure = configure;
+            _popup_done = popup_done;
+            _listener = WaylandBindings.wl_shell_surface_listener.Alloc(ping, configure, popup_done);
+            WaylandBindings.wl_shell_surface_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlSurface
+    {
+        public static IntPtr Interface => (IntPtr) wl_surface.Interface;
+        public readonly wl_surface* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_surface_enter_delegate _enter;
+        private WaylandBindings.wl_surface_leave_delegate _leave;
+        private WaylandBindings.wl_surface_listener* _listener;
+        public WlSurface(wl_surface* ptr) { Pointer = ptr; _listener = null; _enter = null; _leave = null; }
+        public static implicit operator WlSurface(wl_surface* ptr) => new WlSurface(ptr);
+        public static explicit operator WlSurface(wl_proxy* ptr) => new WlSurface((wl_surface*) ptr);
+        public void Destroy() => WaylandBindings.wl_surface_destroy(Pointer);
+        public void Attach(in WlBuffer buffer, int x, int y) => WaylandBindings.wl_surface_attach(Pointer, buffer.Pointer, x, y);
+        public void Damage(int x, int y, int width, int height) => WaylandBindings.wl_surface_damage(Pointer, x, y, width, height);
+        public WlCallback Frame() => WaylandBindings.wl_surface_frame(Pointer);
+        public void SetOpaqueRegion(in WlRegion region) => WaylandBindings.wl_surface_set_opaque_region(Pointer, region.Pointer);
+        public void SetInputRegion(in WlRegion region) => WaylandBindings.wl_surface_set_input_region(Pointer, region.Pointer);
+        public void Commit() => WaylandBindings.wl_surface_commit(Pointer);
+        public void SetBufferTransform(wl_output_transform transform) => WaylandBindings.wl_surface_set_buffer_transform(Pointer, transform);
+        public void SetBufferScale(int scale) => WaylandBindings.wl_surface_set_buffer_scale(Pointer, scale);
+        public void DamageBuffer(int x, int y, int width, int height) => WaylandBindings.wl_surface_damage_buffer(Pointer, x, y, width, height);
+        public void SetListener(
+            WaylandBindings.wl_surface_enter_delegate enter,
+            WaylandBindings.wl_surface_leave_delegate leave)
+        {
+            _enter = enter;
+            _leave = leave;
+            _listener = WaylandBindings.wl_surface_listener.Alloc(enter, leave);
+            WaylandBindings.wl_surface_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+    }
+    internal unsafe partial struct WlSeat
+    {
+        public static IntPtr Interface => (IntPtr) wl_seat.Interface;
+        public readonly wl_seat* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_seat_capabilities_delegate _capabilities;
+        private WaylandBindings.wl_seat_name_delegate _name;
+        private WaylandBindings.wl_seat_listener* _listener;
+        public WlSeat(wl_seat* ptr) { Pointer = ptr; _listener = null; _capabilities = null; _name = null; }
+        public static implicit operator WlSeat(wl_seat* ptr) => new WlSeat(ptr);
+        public static explicit operator WlSeat(wl_proxy* ptr) => new WlSeat((wl_seat*) ptr);
+        public WlPointer GetPointer() => WaylandBindings.wl_seat_get_pointer(Pointer);
+        public WlKeyboard GetKeyboard() => WaylandBindings.wl_seat_get_keyboard(Pointer);
+        public WlTouch GetTouch() => WaylandBindings.wl_seat_get_touch(Pointer);
+        public void Release() => WaylandBindings.wl_seat_release(Pointer);
+        public void SetListener(
+            WaylandBindings.wl_seat_capabilities_delegate capabilities,
+            WaylandBindings.wl_seat_name_delegate name)
+        {
+            _capabilities = capabilities;
+            _name = name;
+            _listener = WaylandBindings.wl_seat_listener.Alloc(capabilities, name);
+            WaylandBindings.wl_seat_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlPointer
+    {
+        public static IntPtr Interface => (IntPtr) wl_pointer.Interface;
+        public readonly wl_pointer* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_pointer_enter_delegate _enter;
+        private WaylandBindings.wl_pointer_leave_delegate _leave;
+        private WaylandBindings.wl_pointer_motion_delegate _motion;
+        private WaylandBindings.wl_pointer_button_delegate _button;
+        private WaylandBindings.wl_pointer_axis_delegate _axis;
+        private WaylandBindings.wl_pointer_frame_delegate _frame;
+        private WaylandBindings.wl_pointer_axis_source_delegate _axis_source;
+        private WaylandBindings.wl_pointer_axis_stop_delegate _axis_stop;
+        private WaylandBindings.wl_pointer_axis_discrete_delegate _axis_discrete;
+        private WaylandBindings.wl_pointer_listener* _listener;
+        public WlPointer(wl_pointer* ptr) { Pointer = ptr; _listener = null; _enter = null; _leave = null; _motion = null; _button = null; _axis = null; _frame = null; _axis_source = null; _axis_stop = null; _axis_discrete = null; }
+        public static implicit operator WlPointer(wl_pointer* ptr) => new WlPointer(ptr);
+        public static explicit operator WlPointer(wl_proxy* ptr) => new WlPointer((wl_pointer*) ptr);
+        public void SetCursor(uint serial, in WlSurface surface, int hotspot_x, int hotspot_y) => WaylandBindings.wl_pointer_set_cursor(Pointer, serial, surface.Pointer, hotspot_x, hotspot_y);
+        public void Release() => WaylandBindings.wl_pointer_release(Pointer);
+        public void SetListener(
+            WaylandBindings.wl_pointer_enter_delegate enter,
+            WaylandBindings.wl_pointer_leave_delegate leave,
+            WaylandBindings.wl_pointer_motion_delegate motion,
+            WaylandBindings.wl_pointer_button_delegate button,
+            WaylandBindings.wl_pointer_axis_delegate axis,
+            WaylandBindings.wl_pointer_frame_delegate frame,
+            WaylandBindings.wl_pointer_axis_source_delegate axis_source,
+            WaylandBindings.wl_pointer_axis_stop_delegate axis_stop,
+            WaylandBindings.wl_pointer_axis_discrete_delegate axis_discrete)
+        {
+            _enter = enter;
+            _leave = leave;
+            _motion = motion;
+            _button = button;
+            _axis = axis;
+            _frame = frame;
+            _axis_source = axis_source;
+            _axis_stop = axis_stop;
+            _axis_discrete = axis_discrete;
+            _listener = WaylandBindings.wl_pointer_listener.Alloc(enter, leave, motion, button, axis, frame, axis_source, axis_stop, axis_discrete);
+            WaylandBindings.wl_pointer_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlKeyboard
+    {
+        public static IntPtr Interface => (IntPtr) wl_keyboard.Interface;
+        public readonly wl_keyboard* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_keyboard_keymap_delegate _keymap;
+        private WaylandBindings.wl_keyboard_enter_delegate _enter;
+        private WaylandBindings.wl_keyboard_leave_delegate _leave;
+        private WaylandBindings.wl_keyboard_key_delegate _key;
+        private WaylandBindings.wl_keyboard_modifiers_delegate _modifiers;
+        private WaylandBindings.wl_keyboard_repeat_info_delegate _repeat_info;
+        private WaylandBindings.wl_keyboard_listener* _listener;
+        public WlKeyboard(wl_keyboard* ptr) { Pointer = ptr; _listener = null; _keymap = null; _enter = null; _leave = null; _key = null; _modifiers = null; _repeat_info = null; }
+        public static implicit operator WlKeyboard(wl_keyboard* ptr) => new WlKeyboard(ptr);
+        public static explicit operator WlKeyboard(wl_proxy* ptr) => new WlKeyboard((wl_keyboard*) ptr);
+        public void Release() => WaylandBindings.wl_keyboard_release(Pointer);
+        public void SetListener(
+            WaylandBindings.wl_keyboard_keymap_delegate keymap,
+            WaylandBindings.wl_keyboard_enter_delegate enter,
+            WaylandBindings.wl_keyboard_leave_delegate leave,
+            WaylandBindings.wl_keyboard_key_delegate key,
+            WaylandBindings.wl_keyboard_modifiers_delegate modifiers,
+            WaylandBindings.wl_keyboard_repeat_info_delegate repeat_info)
+        {
+            _keymap = keymap;
+            _enter = enter;
+            _leave = leave;
+            _key = key;
+            _modifiers = modifiers;
+            _repeat_info = repeat_info;
+            _listener = WaylandBindings.wl_keyboard_listener.Alloc(keymap, enter, leave, key, modifiers, repeat_info);
+            WaylandBindings.wl_keyboard_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlTouch
+    {
+        public static IntPtr Interface => (IntPtr) wl_touch.Interface;
+        public readonly wl_touch* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_touch_down_delegate _down;
+        private WaylandBindings.wl_touch_up_delegate _up;
+        private WaylandBindings.wl_touch_motion_delegate _motion;
+        private WaylandBindings.wl_touch_frame_delegate _frame;
+        private WaylandBindings.wl_touch_cancel_delegate _cancel;
+        private WaylandBindings.wl_touch_shape_delegate _shape;
+        private WaylandBindings.wl_touch_orientation_delegate _orientation;
+        private WaylandBindings.wl_touch_listener* _listener;
+        public WlTouch(wl_touch* ptr) { Pointer = ptr; _listener = null; _down = null; _up = null; _motion = null; _frame = null; _cancel = null; _shape = null; _orientation = null; }
+        public static implicit operator WlTouch(wl_touch* ptr) => new WlTouch(ptr);
+        public static explicit operator WlTouch(wl_proxy* ptr) => new WlTouch((wl_touch*) ptr);
+        public void Release() => WaylandBindings.wl_touch_release(Pointer);
+        public void SetListener(
+            WaylandBindings.wl_touch_down_delegate down,
+            WaylandBindings.wl_touch_up_delegate up,
+            WaylandBindings.wl_touch_motion_delegate motion,
+            WaylandBindings.wl_touch_frame_delegate frame,
+            WaylandBindings.wl_touch_cancel_delegate cancel,
+            WaylandBindings.wl_touch_shape_delegate shape,
+            WaylandBindings.wl_touch_orientation_delegate orientation)
+        {
+            _down = down;
+            _up = up;
+            _motion = motion;
+            _frame = frame;
+            _cancel = cancel;
+            _shape = shape;
+            _orientation = orientation;
+            _listener = WaylandBindings.wl_touch_listener.Alloc(down, up, motion, frame, cancel, shape, orientation);
+            WaylandBindings.wl_touch_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlOutput
+    {
+        public static IntPtr Interface => (IntPtr) wl_output.Interface;
+        public readonly wl_output* Pointer;
+        public bool IsNull => Pointer == null;
+        private WaylandBindings.wl_output_geometry_delegate _geometry;
+        private WaylandBindings.wl_output_mode_delegate _mode;
+        private WaylandBindings.wl_output_done_delegate _done;
+        private WaylandBindings.wl_output_scale_delegate _scale;
+        private WaylandBindings.wl_output_listener* _listener;
+        public WlOutput(wl_output* ptr) { Pointer = ptr; _listener = null; _geometry = null; _mode = null; _done = null; _scale = null; }
+        public static implicit operator WlOutput(wl_output* ptr) => new WlOutput(ptr);
+        public static explicit operator WlOutput(wl_proxy* ptr) => new WlOutput((wl_output*) ptr);
+        public void Release() => WaylandBindings.wl_output_release(Pointer);
+        public void SetListener(
+            WaylandBindings.wl_output_geometry_delegate geometry,
+            WaylandBindings.wl_output_mode_delegate mode,
+            WaylandBindings.wl_output_done_delegate done,
+            WaylandBindings.wl_output_scale_delegate scale)
+        {
+            _geometry = geometry;
+            _mode = mode;
+            _done = done;
+            _scale = scale;
+            _listener = WaylandBindings.wl_output_listener.Alloc(geometry, mode, done, scale);
+            WaylandBindings.wl_output_add_listener(Pointer, _listener);
+        }
+        public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
+        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
+    }
+    internal unsafe partial struct WlRegion
+    {
+        public static IntPtr Interface => (IntPtr) wl_region.Interface;
+        public readonly wl_region* Pointer;
+        public bool IsNull => Pointer == null;
+        public WlRegion(wl_region* ptr) { Pointer = ptr; }
+        public static implicit operator WlRegion(wl_region* ptr) => new WlRegion(ptr);
+        public static explicit operator WlRegion(wl_proxy* ptr) => new WlRegion((wl_region*) ptr);
+        public void Destroy() => WaylandBindings.wl_region_destroy(Pointer);
+        public void Add(int x, int y, int width, int height) => WaylandBindings.wl_region_add(Pointer, x, y, width, height);
+        public void Subtract(int x, int y, int width, int height) => WaylandBindings.wl_region_subtract(Pointer, x, y, width, height);
+    }
+    internal unsafe partial struct WlSubcompositor
+    {
+        public static IntPtr Interface => (IntPtr) wl_subcompositor.Interface;
+        public readonly wl_subcompositor* Pointer;
+        public bool IsNull => Pointer == null;
+        public WlSubcompositor(wl_subcompositor* ptr) { Pointer = ptr; }
+        public static implicit operator WlSubcompositor(wl_subcompositor* ptr) => new WlSubcompositor(ptr);
+        public static explicit operator WlSubcompositor(wl_proxy* ptr) => new WlSubcompositor((wl_subcompositor*) ptr);
+        public void Destroy() => WaylandBindings.wl_subcompositor_destroy(Pointer);
+        public WlSubsurface GetSubsurface(in WlSurface surface, in WlSurface parent) => WaylandBindings.wl_subcompositor_get_subsurface(Pointer, surface.Pointer, parent.Pointer);
+    }
+    internal unsafe partial struct WlSubsurface
+    {
+        public static IntPtr Interface => (IntPtr) wl_subsurface.Interface;
+        public readonly wl_subsurface* Pointer;
+        public bool IsNull => Pointer == null;
+        public WlSubsurface(wl_subsurface* ptr) { Pointer = ptr; }
+        public static implicit operator WlSubsurface(wl_subsurface* ptr) => new WlSubsurface(ptr);
+        public static explicit operator WlSubsurface(wl_proxy* ptr) => new WlSubsurface((wl_subsurface*) ptr);
+        public void Destroy() => WaylandBindings.wl_subsurface_destroy(Pointer);
+        public void SetPosition(int x, int y) => WaylandBindings.wl_subsurface_set_position(Pointer, x, y);
+        public void PlaceAbove(in WlSurface sibling) => WaylandBindings.wl_subsurface_place_above(Pointer, sibling.Pointer);
+        public void PlaceBelow(in WlSurface sibling) => WaylandBindings.wl_subsurface_place_below(Pointer, sibling.Pointer);
+        public void SetSync() => WaylandBindings.wl_subsurface_set_sync(Pointer);
+        public void SetDesync() => WaylandBindings.wl_subsurface_set_desync(Pointer);
     }
 }
