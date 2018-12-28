@@ -60,6 +60,7 @@ namespace OpenWindow.Backends.Wayland
 
         private void Configure(void* data,  xdg_toplevel* toplevel, int width, int height, wl_array* states)
         {
+            RaiseResize();
         }
 
         private void SurfaceEnter(void* data, wl_surface* surface, wl_output* output)
@@ -158,19 +159,19 @@ namespace OpenWindow.Backends.Wayland
         /// <inheritdoc />
         protected override void InternalMaximize()
         {
-            throw new NotImplementedException();
+            _xdgTopLevel.SetMaximized();
         }
 
         /// <inheritdoc />
         protected override void InternalMinimize()
         {
-            throw new NotImplementedException();
+            _xdgTopLevel.SetMinimized();
         }
 
         /// <inheritdoc />
         protected override void InternalRestore()
         {
-            throw new NotImplementedException();
+            _xdgTopLevel.UnsetMaximized();
         }
 
         /// <inheritdoc />
