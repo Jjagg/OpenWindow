@@ -21,6 +21,7 @@ namespace WaylandSharpGen
                 ? Arguments.Select(a => a.Signature).Aggregate(string.Concat)
                 : string.Empty;
         public readonly string[] Types;
+        internal int TypesIndex;
 
         public Message(XElement element)
         {
@@ -31,22 +32,6 @@ namespace WaylandSharpGen
             Arguments = element.Elements(ArgElement).Select(e => new Argument(e)).ToArray();
             var types = new List<string>();
             Types = Arguments.SelectMany(a => a.GetSignatureTypes()).ToArray();
-        }
-
-        public string EventDelegate()
-        {
-            var sb = new StringBuilder($"public delegate void {NiceName}Handler(IntPtr data, IntPtr iface");
-            foreach (var a in Arguments)
-            {
-                sb.Append(", ");
-                sb.Append(a.Type == ArgType.Object ? "IntPtr" : a.ParamType);
-                sb.Append(" ");
-                if (Util.IsCSharpKeyword(a.Name))
-                    sb.Append("@");
-                sb.Append(a.Name);
-            }
-            sb.Append(");");
-            return sb.ToString();
         }
 
         public string Initializer()

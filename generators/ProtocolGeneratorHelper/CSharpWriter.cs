@@ -9,17 +9,12 @@ namespace ProtocolGeneratorHelper
         private readonly StringBuilder _sb;
         private bool _newline = true;
 
-        public AccessModifier DefaultAm { get; set; }
-        public bool DefaultStatic { get; set; }
-        public bool DefaultAbstract { get; set; }
-        public bool DefaultExtern { get; set; }
-
         public CSharpWriter()
         {
             _sb = new StringBuilder();
         }
 
-        public void NewLine()
+        public void Line()
         {
             _sb.AppendLine();
             _newline = true;
@@ -36,71 +31,22 @@ namespace ProtocolGeneratorHelper
             Line(text);
             Dedent();
         }
-        
-        public void LineComment(string l)
-        {
-            AppendLine($"// {l}");
-        }
 
-        public void BlockComment(string t)
+        public void Write(CSharpWriter embedded)
         {
-            var lines = t.Split('\n');
-            AppendLine("/*");
-            foreach (var l in lines)
-                AppendLine(l);
-            AppendLine("*/");
-        }
+            var text = embedded.ToString();
+            var start = 0;
+            int end = -1;
+            while ((end = text.IndexOf('\n', start)) != -1)
+            {
+                if (end == start)
+                    Line();
+                else
+                    Line(text.Substring(start, end - start));
+                start = end + 1;
+            }
 
-        public void Using(string u)
-        {
-            AppendLine($"using {u};");
-        }
-
-        public void BeginNs(string ns)
-        {
-            AppendLine($"namespace {ns}");
-            OpenBlock();
-        }
-
-        public void BeginClass(string name, AccessModifier? am = null,
-            bool? sttic = null, bool? ptial = null)
-        {
-            var ams = ArgAm(am);
-            var sts = ArgStatic(sttic);
-            var pts = (ptial ?? false) ? "partial " : "";
-            AppendLine($"{ams} {sts}{pts}class {name}");
-            OpenBlock();
-        }
-
-        public void BeginEnum(string name, AccessModifier? am = null)
-        {
-            var ams = ArgAm(am);
-            AppendLine($"{ams} enum {name}");
-            OpenBlock();
-        }
-
-        public void Constant(string type, string name, string value, AccessModifier? am = null)
-        {
-            var ams = ArgAm(am);
-            AppendLine($"{ams} const {type} {name} = {value};");
-        }
-
-        public void Field(string type, string name, bool? sttic = null, AccessModifier? am = null, string init = null)
-        {
-            var ams = ArgAm(am);
-            var sts = ArgStatic(sttic);
-            var ins = init == null ? string.Empty : $" = {init}";
-            AppendLine($"{ams} {sts}{type} {name}{ins};");
-        }
-
-        public void BeginMethod(string name, string ret = null, string ps = null,
-            bool? sttic = null, AccessModifier? am = null)
-        {
-            var ams = ArgAm(am);
-            var sts = ArgStatic(sttic);
-            var res = ret ?? "void";
-            AppendLine($"{ams} {sts}{res} {name}({ps ?? string.Empty})");
-            OpenBlock();
+            Append(text.Substring(start));
         }
 
         public void DocSummary(string summary)
@@ -109,7 +55,7 @@ namespace ProtocolGeneratorHelper
             if (!string.IsNullOrEmpty(summary))
             {
                 foreach (var line in summary.Split('\n'))
-                    DocComment(line);
+                    AppendLine("/// " + line);
             }
             AppendLine("/// </summary>");
         }
@@ -118,21 +64,8 @@ namespace ProtocolGeneratorHelper
         {
             AppendLine("/// <summary>");
             foreach (var line in lines)
-                DocComment(line);
+                AppendLine("/// " + line);
             AppendLine("/// </summary>");
-        }
-
-        public void DocParam(string name, string descr)
-        {
-            Append($"/// <param name=\"{name}\">");
-            Append(descr);
-            Append("</param>");
-            NewLine();
-        }
-
-        public void DocComment(string l)
-        {
-            AppendLine($"/// {l}");
         }
 
         public void OpenBlock()
@@ -152,12 +85,19 @@ namespace ProtocolGeneratorHelper
             return _sb.ToString();
         }
 
-        private void Append(string text)
+        public void Append(string text)
         {
             if (_newline)
                 text = Indent(text);
             _sb.Append(text);
             _newline = false;
+        }
+
+        public void AppendIndented(string text)
+        {
+            Indent();
+            Append(text);
+            Dedent();
         }
 
         private void AppendLine(string text)
@@ -183,26 +123,6 @@ namespace ProtocolGeneratorHelper
             _indentation--;
             if (_indentation < 0)
                 _indentation = 0;
-        }
-
-        private string ArgAm(AccessModifier? am)
-        {
-            return (am ?? DefaultAm).ToString().ToLowerInvariant();
-        }
-
-        private string ArgStatic(bool? sttic)
-        {
-            return (sttic ?? DefaultStatic) ? "static " : string.Empty;
-        }
-
-        private string ArgAbstract(bool? abstrct)
-        {
-            return (abstrct ?? DefaultAbstract) ? "abstract " : string.Empty;
-        }
-
-        private string ArgExtern(bool? ext)
-        {
-            return (ext ?? DefaultExtern) ? "extern " : string.Empty;
         }
     }
 }

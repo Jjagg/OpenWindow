@@ -19,9 +19,10 @@ namespace WaylandSharpGen
         public readonly string Signature;
         public readonly string ParamType;
         public readonly string Interface;
-        public readonly string InterfaceCls;
         public readonly bool ObjectType;
         public readonly bool AllowNull;
+
+        public bool IsEnumType => EnumType != null;
 
         public Argument(XElement element)
         {
@@ -29,7 +30,6 @@ namespace WaylandSharpGen
             Enum.TryParse(element.Attribute(TypeAttrib).Value, true, out Type);
             EnumType = element.Attribute(EnumAttrib)?.Value;
             Interface = element.Attribute(InterfaceAttrib)?.Value;
-            InterfaceCls = Util.ToPascalCase(Interface);
             ObjectType = Type == ArgType.New_id || Type == ArgType.Object;
             var allowNull = element.Attribute(AllowNullAttrib);
             AllowNull = allowNull == null ? false : bool.Parse(allowNull.Value);
@@ -46,7 +46,7 @@ namespace WaylandSharpGen
                 yield return string.Empty;
                 yield return string.Empty;
             }
-            yield return Interface != null ? InterfaceCls : string.Empty;
+            yield return Interface != null ? Interface : string.Empty;
         }
 
         private static string ArgToSig(ArgType type, bool hasInterface)
@@ -81,10 +81,10 @@ namespace WaylandSharpGen
 
         private string GetParamType()
         {
-            if (EnumType != null)
+            if (IsEnumType)
                 return Util.ToPascalCase(EnumType) + "Enum";
             if (Type == ArgType.Object)
-                return InterfaceCls ?? "WlObject";
+                return (Interface ?? "wl_object") + '*';
 
             switch (Type)
             {
@@ -97,9 +97,9 @@ namespace WaylandSharpGen
                 case ArgType.String:
                     return "string";
                 case ArgType.New_id:
-                    return "WlObject";
+                    return "wl_object*";
                 case ArgType.Array:
-                    return "WlArray";
+                    return "wl_array";
                 case ArgType.Fd:
                     return "int";
                 default:
