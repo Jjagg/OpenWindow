@@ -146,10 +146,10 @@ namespace WaylandSharpGen
             var typeMapIndex = 0;
 
             // handle messages with the most types first so we don't create duplicates
-            foreach (var message in messages.OrderByDescending(m => m.Types.Length))
+            foreach (var message in messages.OrderByDescending(m => m.SigTypes.Length))
             {
                 var typesIndex = 0;
-                var typeStr = ';' + string.Join(";", message.Types) + ';';
+                var typeStr = ';' + string.Join(";", message.SigTypes) + ';';
                 var match = typeMap.Where(t => t.TypeStr.Contains(typeStr));
                 if (match.Any())
                 {
@@ -163,7 +163,7 @@ namespace WaylandSharpGen
                     typeMap.Add((typeStr, typeMapIndex));
                     typesIndex = typeMapIndex;
 
-                    foreach (var type in message.Types)
+                    foreach (var type in message.SigTypes)
                     {
                         var sigTypeStr = type == string.Empty ? null : type;
                         signatureTypes.Add(sigTypeStr);
@@ -171,7 +171,7 @@ namespace WaylandSharpGen
                     }
                 }
 
-                message.TypesIndex = typesIndex;
+                message.SigTypesIndex = typesIndex;
             }
 
             w.Line($"_signatureTypes = (wl_interface**) Marshal.AllocHGlobal(sizeof(void*) * {signatureTypes.Count});");
@@ -187,7 +187,7 @@ namespace WaylandSharpGen
             for (var i = 0; i < messages.Length; i++)
             {
                 var message = messages[i];
-                w.Line($"Util.CreateMessage(&_messages[{i}], \"{message.RawName}\", \"{message.Signature}\", &_signatureTypes[{message.TypesIndex}]);");
+                w.Line($"Util.CreateMessage(&_messages[{i}], \"{message.RawName}\", \"{message.Signature}\", &_signatureTypes[{message.SigTypesIndex}]);");
             }
 
             w.Line();
@@ -259,7 +259,7 @@ namespace WaylandSharpGen
                 WriteRequests(iface, w, hlw);
                 WriteEvents(iface, w, hlw);
 
-                if (!iface.Requests.Any(m => m.RawName.Equals("destroy")))
+                if (!iface.Requests.Any(m => "destructor".Equals(m.Type)))
                     hlw.Line("public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }");
 
                 hlw.CloseBlock();

@@ -11,6 +11,7 @@ namespace WaylandSharpGen
     {
         private const string ArgElement = "arg";
         private const string NameAttrib = "name";
+        private const string TypeAttrib = "type";
 
         public readonly XElement Element;
 
@@ -20,8 +21,9 @@ namespace WaylandSharpGen
         public string Signature => Arguments.Any()
                 ? Arguments.Select(a => a.Signature).Aggregate(string.Concat)
                 : string.Empty;
-        public readonly string[] Types;
-        internal int TypesIndex;
+        public readonly string[] SigTypes;
+        public readonly string Type;
+        internal int SigTypesIndex;
 
         public Message(XElement element)
         {
@@ -30,8 +32,8 @@ namespace WaylandSharpGen
             RawName = element.Attribute(NameAttrib).Value;
             NiceName = Util.ToPascalCase(RawName);
             Arguments = element.Elements(ArgElement).Select(e => new Argument(e)).ToArray();
-            var types = new List<string>();
-            Types = Arguments.SelectMany(a => a.GetSignatureTypes()).ToArray();
+            SigTypes = Arguments.SelectMany(a => a.GetSignatureTypes()).ToArray();
+            Type = Element.Attribute(TypeAttrib)?.Value;
         }
 
         public string Initializer()
@@ -42,10 +44,10 @@ namespace WaylandSharpGen
             sb.Append("\", \"");
             sb.Append(Signature);
             sb.Append("\", ");
-            if (Types.Any())
+            if (SigTypes.Any())
             {
                 sb.Append("new [] {");
-                sb.Append(Types.Select(t => t == "" ? "IntPtr.Zero" : $"{t}.Interface.Pointer").Aggregate((s1, s2) => s1 + ", " + s2));
+                sb.Append(SigTypes.Select(t => t == "" ? "IntPtr.Zero" : $"{t}.Interface.Pointer").Aggregate((s1, s2) => s1 + ", " + s2));
                 sb.Append("})");
             }
             else
