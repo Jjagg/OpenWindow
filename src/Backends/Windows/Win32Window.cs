@@ -95,7 +95,7 @@ namespace OpenWindow.Backends.Windows
             try
             {
                 var pfd = new PixelFormatDescriptor();
-                pfd.nSize = (short) Marshal.SizeOf(typeof(PixelFormatDescriptor));
+                pfd.nSize = (short) Marshal.SizeOf<PixelFormatDescriptor>();
                 pfd.nVersion = 1;
                 pfd.dwFlags = PfdFlags.DrawToWindow | PfdFlags.SupportOpengl;
 
@@ -170,7 +170,7 @@ namespace OpenWindow.Backends.Windows
                 }
 
                 var ppfd = new PixelFormatDescriptor();
-                Native.DescribePixelFormat(hdc, iPixelFormat, (uint) Marshal.SizeOf(typeof(PixelFormatDescriptor)), ref ppfd);
+                Native.DescribePixelFormat(hdc, iPixelFormat, (uint) Marshal.SizeOf<PixelFormatDescriptor>(), ref ppfd);
 
                 GlSettings = new OpenGlSurfaceSettings
                 {
@@ -453,7 +453,7 @@ namespace OpenWindow.Backends.Windows
             var ptr = Native.wglGetProcAddress(name);
             if (ptr == IntPtr.Zero)
                 return default(T);
-            return Marshal.GetDelegateForFunctionPointer(ptr, typeof(T)) as T;
+            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
         }
 
         #endregion
