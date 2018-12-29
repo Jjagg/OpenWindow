@@ -72,9 +72,9 @@ namespace OpenWindow
             // LINUX
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                if (UnixGetVariable("XDG_SESSION_TYPE").Contains("x11"))
+                if (Environment.GetEnvironmentVariable("XDG_SESSION_TYPE").Contains("x11"))
                     return WindowingBackend.X;
-                if (!string.IsNullOrEmpty(UnixGetVariable("WAYLAND_DISPLAY")))
+                if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY")))
                     return WindowingBackend.Wayland;
                 // TODO check if above is reliable enough, we can always just try both
                 throw new OpenWindowException("Failed to detect if x11 or Wayland is used." +
@@ -105,11 +105,6 @@ namespace OpenWindow
             }
         }
         #endregion
-
-        private static string UnixGetVariable(string name)
-        {
-            return Environment.GetEnvironmentVariable(name);
-        }
 
         #region Logging
 

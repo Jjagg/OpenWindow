@@ -5059,7 +5059,6 @@ namespace OpenWindow.Backends.Wayland.Managed
             WaylandBindings.wl_data_device_add_listener(Pointer, _listener);
         }
         public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
-        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
     }
     internal unsafe partial struct WlDataDeviceManager
     {
@@ -5177,7 +5176,6 @@ namespace OpenWindow.Backends.Wayland.Managed
             WaylandBindings.wl_seat_add_listener(Pointer, _listener);
         }
         public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
-        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
     }
     internal unsafe partial struct WlPointer
     {
@@ -5223,7 +5221,6 @@ namespace OpenWindow.Backends.Wayland.Managed
             WaylandBindings.wl_pointer_add_listener(Pointer, _listener);
         }
         public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
-        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
     }
     internal unsafe partial struct WlKeyboard
     {
@@ -5259,7 +5256,6 @@ namespace OpenWindow.Backends.Wayland.Managed
             WaylandBindings.wl_keyboard_add_listener(Pointer, _listener);
         }
         public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
-        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
     }
     internal unsafe partial struct WlTouch
     {
@@ -5298,7 +5294,6 @@ namespace OpenWindow.Backends.Wayland.Managed
             WaylandBindings.wl_touch_add_listener(Pointer, _listener);
         }
         public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
-        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
     }
     internal unsafe partial struct WlOutput
     {
@@ -5328,7 +5323,6 @@ namespace OpenWindow.Backends.Wayland.Managed
             WaylandBindings.wl_output_add_listener(Pointer, _listener);
         }
         public void FreeListener() { if (_listener != null) Marshal.FreeHGlobal((IntPtr) _listener); }
-        public void Destroy() { if (!IsNull) WaylandClient.wl_proxy_destroy((wl_proxy*) Pointer); }
     }
     internal unsafe partial struct WlRegion
     {

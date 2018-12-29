@@ -12,23 +12,32 @@ namespace OpenWindow.Backends.Wayland
         private readonly WlSurface _wlSurface;
         private readonly XdgSurface _xdgSurface;
         private readonly XdgToplevel _xdgTopLevel;
+        private readonly ZxdgToplevelDecorationV1 _xdgDecoration;
 
         #endregion
 
         #region Constructor
 
-        public WaylandWindow(WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, OpenGlSurfaceSettings glSettings)
+        public WaylandWindow(WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, OpenGlSurfaceSettings glSettings)
             : base(false)
         {
             _wlCompositor = wlCompositor;
             _wlSurface = wlSurface;
-            _xdgSurface = xdgSurface;
-            _xdgTopLevel = _xdgSurface.GetToplevel();
-            _xdgTopLevel.SetListener(Configure, null);
             _wlSurface.SetListener(SurfaceEnter, SurfaceLeave);
+            _xdgSurface = xdgSurface;
+            _xdgSurface.SetListener(ConfigureSurfaceCallback);
+            _xdgTopLevel = _xdgSurface.GetToplevel();
+            _xdgTopLevel.SetListener(ConfigureTopLevelCallback, null);
+            if (!xdgDecorationManager.IsNull)
+                _xdgDecoration = xdgDecorationManager.GetToplevelDecoration(_xdgTopLevel);
         }
 
-        private void Configure(void* data,  xdg_toplevel* toplevel, int width, int height, wl_array* states)
+        private void ConfigureSurfaceCallback(void* data, xdg_surface* proxy, uint serial)
+        {
+            _xdgSurface.AckConfigure(serial);
+        }
+
+        private void ConfigureTopLevelCallback(void* data,  xdg_toplevel* toplevel, int width, int height, wl_array* states)
         {
             RaiseResize();
         }
@@ -153,25 +162,30 @@ namespace OpenWindow.Backends.Wayland
         /// <inheritdoc />
         protected override void InternalSetBorderless(bool value)
         {
-            throw new NotImplementedException();
+            // TODO client side border fallback?
+            if (!_xdgDecoration.IsNull)
+                _xdgDecoration.SetMode(value ? zxdg_toplevel_decoration_v1_mode.ClientSide : zxdg_toplevel_decoration_v1_mode.ServerSide);
+            else if (!value)
+                WindowingService.LogWarning("Border enabled but Wayland compositor does not support server side decoration.");
         }
 
         /// <inheritdoc />
         protected override void InternalSetResizable(bool value)
         {
-            throw new NotImplementedException();
+            // nothing to do, use _resizable to check if resizing is allowed
+            // TODO client side border resizing
         }
 
         /// <inheritdoc />
         protected override void InternalSetMinSize(Size value)
         {
-            throw new NotImplementedException();
+            _xdgTopLevel.SetMinSize(value.Width, value.Height);
         }
 
         /// <inheritdoc />
         protected override void InternalSetMaxSize(Size value)
         {
-            throw new NotImplementedException();
+            _xdgTopLevel.SetMaxSize(value.Width, value.Height);
         }
 
         /// <inheritdoc />
@@ -205,6 +219,7 @@ namespace OpenWindow.Backends.Wayland
 
         protected override void ReleaseUnmanagedResources()
         {
+            _xdgDecoration.Destroy();
             _xdgTopLevel.Destroy();
             _xdgSurface.Destroy();
             _wlSurface.Destroy();

@@ -22,6 +22,9 @@ namespace OpenWindow.Backends.Wayland
         private WlShm _wlShm;
         private readonly List<wl_shm_format> _formats;
 
+
+        private ZxdgDecorationManagerV1 _xdgDecorationManager;
+
         internal List<WaylandWindowData.GlobalObject> Globals;
 
         internal WaylandWindowingService()
@@ -39,6 +42,7 @@ namespace OpenWindow.Backends.Wayland
         {
             WaylandBindings.Load();
             XdgShellBindings.Load();
+            XdgDecorationUnstableV1Bindings.Load();
 
             LogDebug("Connecting to display...");
             _wlDisplay = WlDisplay.Connect();
@@ -83,6 +87,7 @@ namespace OpenWindow.Backends.Wayland
 
         private void RegistryGlobal(void* data, wl_registry* registry, uint name, byte* ifaceUtf8, uint version)
         {
+            // TODO we should only bind with the required version
             // TODO we should expose interface names in Utf8 format so we can do a direct compare without marshalling
             var iface = Util.Utf8ToString(ifaceUtf8);
             LogDebug($"Registry global announce for type '{iface}' v{version}.");
@@ -117,6 +122,9 @@ namespace OpenWindow.Backends.Wayland
                     LogDebug($"Binding XdgWmBase.");
                     _xdgWmBase = _wlRegistry.Bind<xdg_wm_base>(name, XdgWmBase.Interface, version);
                     _xdgWmBase.SetListener(XdgWmBasePingHandler);
+                    break;
+                case XdgDecorationUnstableV1Bindings.zxdg_decoration_manager_v1_name:
+                    _xdgDecorationManager = _wlRegistry.Bind<zxdg_decoration_manager_v1>(name, ZxdgDecorationManagerV1.Interface, version);
                     break;
             }
         }
@@ -210,7 +218,7 @@ namespace OpenWindow.Backends.Wayland
             LogDebug("Getting xdg surface");
             var xdgSurface = _xdgWmBase.GetXdgSurface(wlSurface);
             LogDebug("Window ctor");
-            var window = new WaylandWindow(_wlCompositor, wlSurface, xdgSurface, GlSettings);
+            var window = new WaylandWindow(_wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, GlSettings);
             return window;
         }
 
@@ -221,7 +229,7 @@ namespace OpenWindow.Backends.Wayland
 
         public override void PumpEvents()
         {
-            _wlDisplay.DispatchPending();
+            _wlDisplay.Roundtrip();
         }
 
         public override void WaitEvent()
@@ -231,7 +239,7 @@ namespace OpenWindow.Backends.Wayland
 
         protected override void Dispose(bool disposing)
         {
-            // TODO check what actually needs explicit disposing
+            _xdgDecorationManager.Destroy();
             _wlShm.Destroy();
             _wlCompositor.Destroy();
             _wlRegistry.Destroy();
@@ -239,6 +247,7 @@ namespace OpenWindow.Backends.Wayland
             _wlDisplay.Destroy();
             WaylandBindings.Unload();
             XdgShellBindings.Unload();
+            XdgDecorationUnstableV1Bindings.Unload();
         }
     }
 }
