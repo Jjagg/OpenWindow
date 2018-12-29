@@ -12,8 +12,6 @@ namespace OpenWindow.Backends.Wayland
         private readonly WlSurface _wlSurface;
         private readonly XdgSurface _xdgSurface;
         private readonly XdgToplevel _xdgTopLevel;
-        private readonly IntPtr _eglWindow;
-        private readonly IntPtr _eglSurface;
 
         #endregion
 
@@ -27,35 +25,7 @@ namespace OpenWindow.Backends.Wayland
             _xdgSurface = xdgSurface;
             _xdgTopLevel = _xdgSurface.GetToplevel();
             _xdgTopLevel.SetListener(Configure, null);
-
             _wlSurface.SetListener(SurfaceEnter, SurfaceLeave);
-
-            /*_eglWindow = WlEgl.WindowCreate(_wlSurface.Pointer, 100, 100);
-            if (_eglWindow == IntPtr.Zero)
-                throw new OpenWindowException("Failed to create EGL window.");*/
-
-            //_eglSurface = CreateEglSurface(glSettings);
-
-            //_wlSurface.Attach(_wlBuffer, 0, 0);
-            //_wlSurface.Commit();
-        }
-
-        private IntPtr CreateEglSurface(OpenGlSurfaceSettings glSettings)
-        {
-            var eglDisplay = Egl.GetDisplay(0);
-            if (eglDisplay == IntPtr.Zero)
-                throw new OpenWindowException("Failed to get EGL display.");
-
-            if (!Egl.Initialize(eglDisplay, out var major, out var minor))
-                throw new OpenWindowException("Failed to initialize EGL.");
-
-            WindowingService.LogDebug($"EGL intialized with version {major}.{minor}");
-            Egl.GetConfigs(eglDisplay, IntPtr.Zero, 0, out var numConfig);
-
-            var configs = new IntPtr[numConfig];
-            Egl.GetConfigs(eglDisplay, ref configs[0], numConfig, out numConfig);
-
-            return IntPtr.Zero;
         }
 
         private void Configure(void* data,  xdg_toplevel* toplevel, int width, int height, wl_array* states)

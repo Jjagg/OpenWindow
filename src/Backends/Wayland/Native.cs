@@ -89,20 +89,6 @@ namespace OpenWindow.Backends.Wayland
         private static extern IntPtr ArrayAdd(wl_array* array, uint size);
     }
 
-    internal static class Egl
-    {
-        [DllImport("libEGL.so", EntryPoint = "eglGetDisplay")]
-        public static extern IntPtr GetDisplay(int nativeDisplayType);
-        [DllImport("libEGL.so", EntryPoint = "eglInitialize")]
-        public static extern bool Initialize(IntPtr display, out int major, out int minor);
-        [DllImport("libEGL.so", EntryPoint = "eglTerminate")]
-        public static extern bool Terminate(IntPtr display);
-        [DllImport("libEGL.so", EntryPoint = "eglGetConfigs")]
-        public static extern bool GetConfigs(IntPtr display, IntPtr configs, int configSize, out int numConfig);
-        [DllImport("libEGL.so", EntryPoint = "eglGetConfigs")]
-        public static extern bool GetConfigs(IntPtr display, ref IntPtr configs, int configSize, out int numConfig);
-    }
-
     internal static class WlEgl
     {
 
