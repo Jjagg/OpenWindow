@@ -239,6 +239,7 @@ namespace WaylandSharpGen
                 hlw.Line($"internal unsafe partial struct {iface.ClsName}");
                 hlw.OpenBlock();
                 hlw.Line($"public static IntPtr Interface => (IntPtr) {iface.RawName}.Interface;");
+                hlw.Line($"public static {iface.ClsName} Null => new {iface.ClsName}();");
                 hlw.Line($"public readonly {iface.RawName}* Pointer;");
                 hlw.Line("public bool IsNull => Pointer == null;");
                 if (iface.Events.Length != 0)
