@@ -17,7 +17,6 @@ namespace OpenWindow
         private bool _resizable;
         private Size _minSize;
         private Size _maxSize;
-        internal bool _focused;
         private bool _cursorVisible = true;
 
         private MouseState _mouseState;
@@ -159,7 +158,7 @@ namespace OpenWindow
         /// <summary>
         /// Indicates if this window has keyboard focus.
         /// </summary>
-        public bool Focused => _focused;
+        public bool Focused => WindowingService.Get().KeyboardState.FocusedWindow == this;
 
         /// <summary>
         /// The current state of the mouse.
@@ -381,6 +380,11 @@ namespace OpenWindow
         public event EventHandler<FocusChangedEventArgs> FocusChanged;
 
         /// <summary>
+        /// Invoked after the window mouse focus changed.
+        /// </summary>
+        public event EventHandler<FocusChangedEventArgs> MouseFocusChanged;
+
+        /// <summary>
         /// Invoked when a key is pressed down.
         /// <seealso cref="KeyUp"/>
         /// </summary>
@@ -404,7 +408,12 @@ namespace OpenWindow
         /// <summary>
         /// Invoked when the mouse moves in the client area of the window.
         /// </summary>
-        public event EventHandler<MouseMovedEventArgs> MouseMoved;
+        public event EventHandler<MouseMoveEventArgs> MouseMove;
+
+        /// <summary>
+        /// Invoked when the mouse wheel is scrolled horizontally or vertically.
+        /// </summary>
+        public event EventHandler<MouseScrollEventArgs> MouseScroll;
 
         /// <summary>
         /// Invoked when a mouse button is pressed down.
@@ -465,6 +474,11 @@ namespace OpenWindow
             FocusChanged?.Invoke(this, new FocusChangedEventArgs(newFocus));
         }
 
+        internal void RaiseMouseFocusChanged(bool newFocus)
+        {
+            MouseFocusChanged?.Invoke(this, new FocusChangedEventArgs(newFocus));
+        }
+
         internal void RaiseKeyDown(Key key, ScanCode sc)
         {
             KeyDown?.Invoke(this, new KeyDownEventArgs(key, sc));
@@ -482,17 +496,21 @@ namespace OpenWindow
 
         internal void RaiseMouseMoved(int x, int y)
         {
-            MouseMoved?.Invoke(this, new MouseMovedEventArgs(x, y));
+            MouseMove?.Invoke(this, new MouseMoveEventArgs(x, y));
         }
 
-        internal void RaiseMouseDown(MouseButtons buttons, Point position)
+        internal void RaiseMouseScroll(float x, float y)
         {
-            MouseDown?.Invoke(this, new MouseEventArgs(buttons, position));
+            MouseScroll?.Invoke(this, new MouseScrollEventArgs(x, y));
+        }
+        internal void RaiseMouseDown(MouseButtons button, int x, int y)
+        {
+            MouseDown?.Invoke(this, new MouseEventArgs(button, x, y));
         }
 
-        internal void RaiseMouseUp(MouseButtons buttons, Point position)
+        internal void RaiseMouseUp(MouseButtons button, int x, int y)
         {
-            MouseUp?.Invoke(this, new MouseEventArgs(buttons, position));
+            MouseUp?.Invoke(this, new MouseEventArgs(button, x, y));
         }
 
         internal void RaiseMouseLeave()

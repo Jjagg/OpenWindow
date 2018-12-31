@@ -8,61 +8,13 @@ using OpenWindow.Backends.Wayland.Managed;
 
 namespace OpenWindow.Backends.Wayland
 {
-    internal unsafe class WlMouseState
-    {
-        public readonly WlPointer Pointer;
-        public MouseState State;
-
-        public WlMouseState(WlPointer pointer)
-        {
-            Pointer = pointer;
-            State = new MouseState();
-
-            Pointer.SetListener(EnterCallback, LeaveCallback, MotionCallback,
-                ButtonCallback, AxisCallback, null, null, null, null);
-        }
-
-        private void EnterCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface, int surface_x, int surface_y)
-        {
-            // TODO call set_cursor here
-            // TODO set focus
-            WindowingService.LogDebug("Got focus");
-        }
-
-        private void LeaveCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface)
-        {
-            // TODO unset focus
-            WindowingService.LogDebug("Lost focus");
-        }
-
-        private void MotionCallback(void* data, wl_pointer* proxy, uint time, int surface_x, int surface_y)
-        {
-            State.X = surface_x;
-            State.Y = surface_y;
-        }
-
-        private void ButtonCallback(void* data, wl_pointer* proxy, uint serial, uint time, uint button, wl_pointer_button_state state)
-        {
-            // For key codes see:
-            // https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
-        }
-
-        private void AxisCallback(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis, int value)
-        {
-            // TODO mouse scroll
-        }
-
-        internal void Free()
-        {
-            Pointer.FreeListener();
-        }
-    }
-
     internal unsafe class WaylandWindowingService : WindowingService
     {
+        private List<WaylandWindow> _windows;
         private List<Display> _displays;
         public override ReadOnlyCollection<Display> Displays { get; }
         public override Display PrimaryDisplay { get; }
+        public override int WindowCount => _windows.Count;
 
         private bool _wlShellAvailable;
         public WlDisplay _wlDisplay;
@@ -71,9 +23,9 @@ namespace OpenWindow.Backends.Wayland
         private WlCompositor _wlCompositor;
         private WlShm _wlShm;
         private WlSeat _wlSeat;
-        internal WlMouseState MouseState;
-        internal WlKeyboard WlKeyboard;
-        internal WlTouch WlTouch;
+        private WlPointer _wlPointer;
+        private WlKeyboard _wlKeyboard;
+        private WlTouch _wlTouch;
 
         private readonly List<wl_shm_format> _formats;
 
@@ -262,38 +214,45 @@ namespace OpenWindow.Backends.Wayland
 
         private void SeatCapabilitiesCallback(void* data, wl_seat* proxy, wl_seat_capability capabilities)
         {
-            if (capabilities.HasFlag(wl_seat_capability.Keyboard) && WlKeyboard.IsNull)
+            var hasKeyboard = capabilities.HasFlag(wl_seat_capability.Keyboard);
+            var hasPointer = capabilities.HasFlag(wl_seat_capability.Pointer);
+            var hasTouch = capabilities.HasFlag(wl_seat_capability.Touch);
+
+            if (hasKeyboard && _wlKeyboard.IsNull)
             {
-                WlKeyboard = _wlSeat.GetKeyboard();
+                _wlKeyboard = _wlSeat.GetKeyboard();
                 LogDebug("Got keyboard.");
             }
-            if (capabilities.HasFlag(wl_seat_capability.Pointer) && MouseState == null)
+            if (hasPointer && _wlPointer.IsNull)
             {
-                MouseState = new WlMouseState(_wlSeat.GetPointer());
+                _wlPointer = _wlSeat.GetPointer();
                 LogDebug("Got pointer.");
+                _wlPointer.SetListener(EnterCallback, LeaveCallback, MotionCallback,
+                    ButtonCallback, AxisCallback, null, null, null, null);
+
             }
-            if (capabilities.HasFlag(wl_seat_capability.Touch) && WlTouch.IsNull)
+            if (hasTouch && _wlTouch.IsNull)
             {
-                WlTouch = _wlSeat.GetTouch();
+                _wlTouch = _wlSeat.GetTouch();
                 LogDebug("Got touch.");
             }
 
-            if (!capabilities.HasFlag(wl_seat_capability.Keyboard) && !WlKeyboard.IsNull)
+            if (!hasKeyboard && !_wlKeyboard.IsNull)
             {
-                WlKeyboard.FreeListener();
-                WlKeyboard = new WlKeyboard(null);
+                _wlKeyboard.FreeListener();
+                _wlKeyboard = WlKeyboard.Null;
                 LogDebug("Lost keyboard.");
             }
-            if (!capabilities.HasFlag(wl_seat_capability.Pointer) && MouseState != null)
+            if (!hasPointer && !_wlPointer.IsNull)
             {
-                MouseState.Free();
-                MouseState = new WlMouseState(null);
+                _wlPointer.FreeListener();
+                _wlPointer = WlPointer.Null;
                 LogDebug("Lost mouse.");
             }
-            if (!capabilities.HasFlag(wl_seat_capability.Touch) && !WlTouch.IsNull)
+            if (!hasTouch && !_wlTouch.IsNull)
             {
-                WlTouch.FreeListener();
-                WlTouch = new WlTouch(null);
+                _wlTouch.FreeListener();
+                _wlTouch = WlTouch.Null;
                 LogDebug("Lost touch.");
             }
         }
@@ -303,9 +262,77 @@ namespace OpenWindow.Backends.Wayland
             LogDebug("Got seat name " + Util.Utf8ToString(name));
         }
 
-        private static void XdgWmBasePingCallback(void* data, xdg_wm_base* wmBase, uint serial)
+        private void EnterCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface, int surface_x, int surface_y)
         {
-            XdgShellBindings.xdg_wm_base_pong(wmBase, serial);
+            // TODO call set_cursor here
+            // TODO check if mouse capture prevents this callback
+            WlSetMouseFocus(surface, true);
+        }
+
+        private void LeaveCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface)
+        {
+            WlSetMouseFocus(surface, false);
+        }
+
+        private void WlSetMouseFocus(wl_surface* surface, bool value)
+        {
+            var w = GetWindowBySurface(surface);
+            if (w == null)
+                return;
+
+            SetMouseFocus(w, value);
+        }
+
+        private void MotionCallback(void* data, wl_pointer* proxy, uint time, int surface_x, int surface_y)
+        {
+            _mouseState.X = surface_x;
+            _mouseState.Y = surface_y;
+        }
+
+        private void ButtonCallback(void* data, wl_pointer* proxy, uint serial, uint time, uint button, wl_pointer_button_state state)
+        {
+            // For key codes see:
+            // https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
+            const uint BTN_LEFT    = 0x110;
+            const uint BTN_RIGHT   = 0x111;
+            const uint BTN_MIDDLE  = 0x112;
+            //const uint BTN_SIDE    = 0x113;
+            //const uint BTN_EXTRA   = 0x114;
+            const uint BTN_FORWARD = 0x115; // X2
+            const uint BTN_BACK    = 0x116; // X1
+
+            MouseButtons btn = MouseButtons.None;
+            // TODO verify these
+            switch (button)
+            {
+                case BTN_LEFT: btn = MouseButtons.Left; break;
+                case BTN_RIGHT: btn = MouseButtons.Right; break;
+                case BTN_MIDDLE: btn = MouseButtons.Middle; break;
+                case BTN_FORWARD: btn = MouseButtons.X2; break;
+                case BTN_BACK: btn = MouseButtons.X1; break;
+            }
+
+            if (btn != MouseButtons.None)
+                SetMouseButton(btn, state == wl_pointer_button_state.Pressed);
+        }
+
+        private void AxisCallback(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis, int value)
+        {
+            // TODO mouse scroll
+        }
+
+        private static void XdgWmBasePingCallback(void* data, xdg_wm_base* wmBase, uint serial)
+            => XdgShellBindings.xdg_wm_base_pong(wmBase, serial);
+
+        private Window GetWindowBySurface(wl_surface* surface)
+        {
+            for (var i = 0; i < _windows.Count; i++)
+            {
+                if (_windows[i].Surface.Pointer == surface)
+                    return _windows[i];
+            }
+
+            return null;
         }
 
         public override Window CreateWindow()
@@ -319,18 +346,16 @@ namespace OpenWindow.Backends.Wayland
             var xdgSurface = _xdgWmBase.GetXdgSurface(wlSurface);
             LogDebug("Window ctor");
             var window = new WaylandWindow(_wlDisplay, _wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, GlSettings);
+            // TODO remove windows
+            _windows.Add(window);
             return window;
         }
 
         public override void PumpEvents()
-        {
-            _wlDisplay.Roundtrip();
-        }
+            => _wlDisplay.Roundtrip();
 
         public override void WaitEvent()
-        {
-            _wlDisplay.Dispatch();
-        }
+            => _wlDisplay.Dispatch();
 
         protected override void Dispose(bool disposing)
         {

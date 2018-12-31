@@ -8,8 +8,8 @@ namespace OpenWindow.Backends.Wayland
     {
         #region Private Fields
 
-        private readonly WlCompositor _wlCompositor;
-        private readonly WlSurface _wlSurface;
+        private readonly WlCompositor _compositor;
+        public readonly WlSurface Surface;
         private readonly XdgSurface _xdgSurface;
         private readonly XdgToplevel _xdgTopLevel;
         private readonly ZxdgToplevelDecorationV1 _xdgDecoration;
@@ -23,9 +23,9 @@ namespace OpenWindow.Backends.Wayland
         public WaylandWindow(WlDisplay display, WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, OpenGlSurfaceSettings glSettings)
             : base(false)
         {
-            _wlCompositor = wlCompositor;
-            _wlSurface = wlSurface;
-            _wlSurface.SetListener(SurfaceEnterCallback, SurfaceLeaveCallback);
+            _compositor = wlCompositor;
+            Surface = wlSurface;
+            Surface.SetListener(SurfaceEnterCallback, SurfaceLeaveCallback);
             _xdgSurface = xdgSurface;
             _xdgSurface.SetListener(XdgSurfaceConfigureCallback);
             _xdgTopLevel = _xdgSurface.GetToplevel();
@@ -33,7 +33,7 @@ namespace OpenWindow.Backends.Wayland
             if (!xdgDecorationManager.IsNull)
                 _xdgDecoration = xdgDecorationManager.GetToplevelDecoration(_xdgTopLevel);
 
-            _wlSurface.Commit();
+            Surface.Commit();
 
             // from the xdg-shell protocol file:
             // "Creating an xdg_surface from a wl_surface which has a buffer attached or
@@ -129,7 +129,7 @@ namespace OpenWindow.Backends.Wayland
         public override WindowData GetPlatformData()
         {
             var ws = (WaylandWindowingService) WindowingService.Get();
-            return new WaylandWindowData(ws.GetDisplayProxy(), ws.GetRegistryProxy(), (IntPtr) _wlSurface.Pointer, ws.GetGlobals());
+            return new WaylandWindowData(ws.GetDisplayProxy(), ws.GetRegistryProxy(), (IntPtr) Surface.Pointer, ws.GetGlobals());
         }
 
         #endregion
@@ -232,12 +232,12 @@ namespace OpenWindow.Backends.Wayland
         {
             _xdgTopLevel.FreeListener();
             _xdgSurface.FreeListener();
-            _wlSurface.FreeListener();
+            Surface.FreeListener();
 
             _xdgDecoration.Destroy();
             _xdgTopLevel.Destroy();
             _xdgSurface.Destroy();
-            _wlSurface.Destroy();
+            Surface.Destroy();
         }
 
         #endregion

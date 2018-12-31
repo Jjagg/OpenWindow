@@ -10,11 +10,15 @@ namespace OpenWindow.Backends.Windows
     internal class Win32WindowingService : WindowingService
     {
         private List<Display> _displays;
+        private readonly Dictionary<IntPtr, Window> ManagedWindows;
+
+        public override int WindowCount => ManagedWindows.Count;
         public override ReadOnlyCollection<Display> Displays => new ReadOnlyCollection<Display>(_displays);
         public override Display PrimaryDisplay => _displays.FirstOrDefault(d => d.IsPrimary);
 
         public Win32WindowingService()
         {
+            ManagedWindows = new Dictionary<IntPtr, Window>();
             WndProc = ProcessWindowMessage;
         }
 
@@ -72,52 +76,55 @@ namespace OpenWindow.Backends.Windows
 
         private IntPtr ProcessWindowMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
         {
-            if (TryGetWindow(hWnd, out var window))
+            if (ManagedWindows.TryGetValue(hWnd, out var window))
             {
-                var wwindow = (Win32Window) window;
                 switch (msg)
                 {
-                    case WindowMessage.SetFocus:
-                        wwindow._focused = true;
-                        wwindow.RaiseFocusChanged(true);
-                        return IntPtr.Zero;
-
-                    case WindowMessage.KillFocus:
-                        wwindow._focused = false;
-                        wwindow.RaiseFocusChanged(false);
-                        return IntPtr.Zero;
                     case WindowMessage.Size:
                     {
                         var wp = wParam.ToInt32();
                         if (wp == 2)
-                            wwindow.RaiseMaximized();
+                            window.RaiseMaximized();
                         else if (wp == 1)
-                            wwindow.RaiseMinimized();
-                        wwindow.RaiseResize();
+                            window.RaiseMinimized();
+                        window.RaiseResize();
                         return IntPtr.Zero;
                     }
                     case WindowMessage.EnterSizeMove:
-                        wwindow.RaiseResizeStart();
+                        window.RaiseResizeStart();
                         break;
                     case WindowMessage.ExitSizeMove:
-                        wwindow.RaiseResizeEnd();
+                        window.RaiseResizeEnd();
                         break;
                     case WindowMessage.GetMinMaxInfo:
                     {
                         Debug.WriteLine("GetMinMaxInfo");
-                        if (wwindow.MinSize != Size.Empty)
+                        if (window.MinSize != Size.Empty)
                         {
-                            Marshal.WriteInt32(lParam, 24, wwindow.MinSize.Width);
-                            Marshal.WriteInt32(lParam, 28, wwindow.MinSize.Height);
+                            Marshal.WriteInt32(lParam, 24, window.MinSize.Width);
+                            Marshal.WriteInt32(lParam, 28, window.MinSize.Height);
                         }
-                        if (wwindow.MaxSize != Size.Empty)
+                        if (window.MaxSize != Size.Empty)
                         {
-                            Marshal.WriteInt32(lParam, 32, wwindow.MaxSize.Width);
-                            Marshal.WriteInt32(lParam, 36, wwindow.MaxSize.Height);
+                            Marshal.WriteInt32(lParam, 32, window.MaxSize.Width);
+                            Marshal.WriteInt32(lParam, 36, window.MaxSize.Height);
                         }
 
                         return IntPtr.Zero;
                     }
+
+                    case WindowMessage.SetFocus:
+                        SetFocus(window, true);
+                        // keyboard layout might have changed while we didn't have focus
+                        UpdateKeyMap();
+                        return IntPtr.Zero;
+                    case WindowMessage.KillFocus:
+                        SetFocus(window, false);
+                        return IntPtr.Zero;
+                    case WindowMessage.InputLangChange:
+                        // TODO pass input locale to keymap update
+                        UpdateKeyMap();
+                        return IntPtr.Zero;
                     case WindowMessage.KeyDown:
                     case WindowMessage.SysKeyDown:
                     {
@@ -156,68 +163,68 @@ namespace OpenWindow.Backends.Windows
 
                         return IntPtr.Zero;
                     }
-
                     //case WindowMessage.NcMouseMove:
                     case WindowMessage.MouseMove:
                     {
                         ExtractCoords(lParam, out var x, out var y);
                         SetMousePosition(x, y);
-                        break;
+                        SetMouseFocus(window, true);
+                        return IntPtr.Zero;
                     }
                     case WindowMessage.LButtonDown:
-                    {
                         SetMouseButton(MouseButtons.Left, true);
-                        break;
-                    }
+                        return IntPtr.Zero;
                     case WindowMessage.LButtonUp:
-                    {
                         SetMouseButton(MouseButtons.Left, false);
-                        break;
-                    }
+                        return IntPtr.Zero;
                     case WindowMessage.MButtonDown:
-                    {
                         SetMouseButton(MouseButtons.Middle, true);
-                        break;
-                    }
+                        return IntPtr.Zero;
                     case WindowMessage.MButtonUp:
-                    {
                         SetMouseButton(MouseButtons.Middle, false);
-                        break;
-                    }
+                        return IntPtr.Zero;
                     case WindowMessage.RButtonDown:
-                    {
                         SetMouseButton(MouseButtons.Right, true);
-                        break;
-                    }
+                        return IntPtr.Zero;
                     case WindowMessage.RButtonUp:
-                    {
                         SetMouseButton(MouseButtons.Right, false);
-                        break;
-                    }
+                        return IntPtr.Zero;
                     case WindowMessage.XButtonDown:
                     {
                         var btn = ((wParam.ToInt32() >> 16) & 1) > 0 ? MouseButtons.X1 : MouseButtons.X2;
                         SetMouseButton(btn, true);
-                        break;
+                        return (IntPtr) 1;
                     }
                     case WindowMessage.XButtonUp:
                     {
                         var btn = ((wParam.ToInt32() >> 16) & 1) > 0 ? MouseButtons.X1 : MouseButtons.X2;
                         SetMouseButton(btn, false);
-                        break;
+                        return (IntPtr) 1;
+                    }
+                    case WindowMessage.MouseWheel:
+                    {
+                        // TODO this should be scaled
+                        var scroll = GetScroll(wParam);
+                        SetMouseScroll(0, scroll);
+                        return IntPtr.Zero;
+                    }
+                    case WindowMessage.MouseHWheel:
+                    {
+                        // TODO this should be scaled
+                        var scroll = GetScroll(wParam);
+                        SetMouseScroll(scroll, 0);
+                        return IntPtr.Zero;
                     }
                     case WindowMessage.MouseLeave:
-                        LogDebug("Mouse left!");
-                        break;
-                    case WindowMessage.MouseWheel:
-                        LogDebug("Mouse wheel!");
-                        break;
+                        SetMouseFocus(window, false);
+                        return IntPtr.Zero;
 
                     case WindowMessage.Close:
                         window.Close();
                         return IntPtr.Zero;
 
                     case WindowMessage.Destroy:
+                        var wwindow = (Win32Window) window;
                         ManagedWindows.Remove(wwindow.Hwnd);
                         window.RaiseClosing();
                         return IntPtr.Zero;
@@ -238,11 +245,16 @@ namespace OpenWindow.Backends.Windows
             return ScanCode.Unknown;
         }
 
-        private void ExtractCoords(IntPtr lparam, out int x, out int y)
+        private void ExtractCoords(IntPtr lParam, out int x, out int y)
         {
-            var lp = lparam.ToInt32();
+            var lp = lParam.ToInt32();
             x = lp & 0xff;
             y = (lp >> 16) & 0xff;
+        }
+
+        private float GetScroll(IntPtr wParam)
+        {
+            return ((short) (wParam.ToInt32() >> 16));
         }
     }
 }

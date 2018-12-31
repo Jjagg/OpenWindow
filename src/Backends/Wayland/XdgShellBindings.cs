@@ -1719,6 +1719,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct XdgWmBase
     {
         public static IntPtr Interface => (IntPtr) xdg_wm_base.Interface;
+        public static XdgWmBase Null => new XdgWmBase();
         public readonly xdg_wm_base* Pointer;
         public bool IsNull => Pointer == null;
         private XdgShellBindings.xdg_wm_base_ping_delegate _ping;
@@ -1742,6 +1743,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct XdgPositioner
     {
         public static IntPtr Interface => (IntPtr) xdg_positioner.Interface;
+        public static XdgPositioner Null => new XdgPositioner();
         public readonly xdg_positioner* Pointer;
         public bool IsNull => Pointer == null;
         public XdgPositioner(xdg_positioner* ptr) { Pointer = ptr; }
@@ -1758,6 +1760,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct XdgSurface
     {
         public static IntPtr Interface => (IntPtr) xdg_surface.Interface;
+        public static XdgSurface Null => new XdgSurface();
         public readonly xdg_surface* Pointer;
         public bool IsNull => Pointer == null;
         private XdgShellBindings.xdg_surface_configure_delegate _configure;
@@ -1782,6 +1785,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct XdgToplevel
     {
         public static IntPtr Interface => (IntPtr) xdg_toplevel.Interface;
+        public static XdgToplevel Null => new XdgToplevel();
         public readonly xdg_toplevel* Pointer;
         public bool IsNull => Pointer == null;
         private XdgShellBindings.xdg_toplevel_configure_delegate _configure;
@@ -1818,6 +1822,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct XdgPopup
     {
         public static IntPtr Interface => (IntPtr) xdg_popup.Interface;
+        public static XdgPopup Null => new XdgPopup();
         public readonly xdg_popup* Pointer;
         public bool IsNull => Pointer == null;
         private XdgShellBindings.xdg_popup_configure_delegate _configure;

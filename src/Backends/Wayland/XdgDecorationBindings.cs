@@ -296,6 +296,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct ZxdgDecorationManagerV1
     {
         public static IntPtr Interface => (IntPtr) zxdg_decoration_manager_v1.Interface;
+        public static ZxdgDecorationManagerV1 Null => new ZxdgDecorationManagerV1();
         public readonly zxdg_decoration_manager_v1* Pointer;
         public bool IsNull => Pointer == null;
         public ZxdgDecorationManagerV1(zxdg_decoration_manager_v1* ptr) { Pointer = ptr; }
@@ -307,6 +308,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct ZxdgToplevelDecorationV1
     {
         public static IntPtr Interface => (IntPtr) zxdg_toplevel_decoration_v1.Interface;
+        public static ZxdgToplevelDecorationV1 Null => new ZxdgToplevelDecorationV1();
         public readonly zxdg_toplevel_decoration_v1* Pointer;
         public bool IsNull => Pointer == null;
         private XdgDecorationUnstableV1Bindings.zxdg_toplevel_decoration_v1_configure_delegate _configure;

@@ -1,7 +1,7 @@
 ﻿namespace OpenWindow
 {
     /// <summary>
-    /// Contains data for the <see cref="Window.FocusChanged"/> event.
+    /// Contains data for the <see cref="Window.FocusChange"/> event.
     /// </summary>
     public struct FocusChangedEventArgs
     {

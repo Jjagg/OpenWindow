@@ -4825,6 +4825,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlDisplay
     {
         public static IntPtr Interface => (IntPtr) wl_display.Interface;
+        public static WlDisplay Null => new WlDisplay();
         public readonly wl_display* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_display_error_delegate _error;
@@ -4850,6 +4851,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlRegistry
     {
         public static IntPtr Interface => (IntPtr) wl_registry.Interface;
+        public static WlRegistry Null => new WlRegistry();
         public readonly wl_registry* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_registry_global_delegate _global;
@@ -4874,6 +4876,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlCallback
     {
         public static IntPtr Interface => (IntPtr) wl_callback.Interface;
+        public static WlCallback Null => new WlCallback();
         public readonly wl_callback* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_callback_done_delegate _done;
@@ -4894,6 +4897,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlCompositor
     {
         public static IntPtr Interface => (IntPtr) wl_compositor.Interface;
+        public static WlCompositor Null => new WlCompositor();
         public readonly wl_compositor* Pointer;
         public bool IsNull => Pointer == null;
         public WlCompositor(wl_compositor* ptr) { Pointer = ptr; }
@@ -4906,6 +4910,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlShmPool
     {
         public static IntPtr Interface => (IntPtr) wl_shm_pool.Interface;
+        public static WlShmPool Null => new WlShmPool();
         public readonly wl_shm_pool* Pointer;
         public bool IsNull => Pointer == null;
         public WlShmPool(wl_shm_pool* ptr) { Pointer = ptr; }
@@ -4918,6 +4923,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlShm
     {
         public static IntPtr Interface => (IntPtr) wl_shm.Interface;
+        public static WlShm Null => new WlShm();
         public readonly wl_shm* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_shm_format_delegate _format;
@@ -4939,6 +4945,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlBuffer
     {
         public static IntPtr Interface => (IntPtr) wl_buffer.Interface;
+        public static WlBuffer Null => new WlBuffer();
         public readonly wl_buffer* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_buffer_release_delegate _release;
@@ -4959,6 +4966,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlDataOffer
     {
         public static IntPtr Interface => (IntPtr) wl_data_offer.Interface;
+        public static WlDataOffer Null => new WlDataOffer();
         public readonly wl_data_offer* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_data_offer_offer_delegate _offer;
@@ -4989,6 +4997,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlDataSource
     {
         public static IntPtr Interface => (IntPtr) wl_data_source.Interface;
+        public static WlDataSource Null => new WlDataSource();
         public readonly wl_data_source* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_data_source_target_delegate _target;
@@ -5026,6 +5035,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlDataDevice
     {
         public static IntPtr Interface => (IntPtr) wl_data_device.Interface;
+        public static WlDataDevice Null => new WlDataDevice();
         public readonly wl_data_device* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_data_device_data_offer_delegate _data_offer;
@@ -5063,6 +5073,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlDataDeviceManager
     {
         public static IntPtr Interface => (IntPtr) wl_data_device_manager.Interface;
+        public static WlDataDeviceManager Null => new WlDataDeviceManager();
         public readonly wl_data_device_manager* Pointer;
         public bool IsNull => Pointer == null;
         public WlDataDeviceManager(wl_data_device_manager* ptr) { Pointer = ptr; }
@@ -5075,6 +5086,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlShell
     {
         public static IntPtr Interface => (IntPtr) wl_shell.Interface;
+        public static WlShell Null => new WlShell();
         public readonly wl_shell* Pointer;
         public bool IsNull => Pointer == null;
         public WlShell(wl_shell* ptr) { Pointer = ptr; }
@@ -5086,6 +5098,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlShellSurface
     {
         public static IntPtr Interface => (IntPtr) wl_shell_surface.Interface;
+        public static WlShellSurface Null => new WlShellSurface();
         public readonly wl_shell_surface* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_shell_surface_ping_delegate _ping;
@@ -5122,6 +5135,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlSurface
     {
         public static IntPtr Interface => (IntPtr) wl_surface.Interface;
+        public static WlSurface Null => new WlSurface();
         public readonly wl_surface* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_surface_enter_delegate _enter;
@@ -5154,6 +5168,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlSeat
     {
         public static IntPtr Interface => (IntPtr) wl_seat.Interface;
+        public static WlSeat Null => new WlSeat();
         public readonly wl_seat* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_seat_capabilities_delegate _capabilities;
@@ -5180,6 +5195,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlPointer
     {
         public static IntPtr Interface => (IntPtr) wl_pointer.Interface;
+        public static WlPointer Null => new WlPointer();
         public readonly wl_pointer* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_pointer_enter_delegate _enter;
@@ -5225,6 +5241,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlKeyboard
     {
         public static IntPtr Interface => (IntPtr) wl_keyboard.Interface;
+        public static WlKeyboard Null => new WlKeyboard();
         public readonly wl_keyboard* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_keyboard_keymap_delegate _keymap;
@@ -5260,6 +5277,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlTouch
     {
         public static IntPtr Interface => (IntPtr) wl_touch.Interface;
+        public static WlTouch Null => new WlTouch();
         public readonly wl_touch* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_touch_down_delegate _down;
@@ -5298,6 +5316,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlOutput
     {
         public static IntPtr Interface => (IntPtr) wl_output.Interface;
+        public static WlOutput Null => new WlOutput();
         public readonly wl_output* Pointer;
         public bool IsNull => Pointer == null;
         private WaylandBindings.wl_output_geometry_delegate _geometry;
@@ -5327,6 +5346,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlRegion
     {
         public static IntPtr Interface => (IntPtr) wl_region.Interface;
+        public static WlRegion Null => new WlRegion();
         public readonly wl_region* Pointer;
         public bool IsNull => Pointer == null;
         public WlRegion(wl_region* ptr) { Pointer = ptr; }
@@ -5339,6 +5359,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlSubcompositor
     {
         public static IntPtr Interface => (IntPtr) wl_subcompositor.Interface;
+        public static WlSubcompositor Null => new WlSubcompositor();
         public readonly wl_subcompositor* Pointer;
         public bool IsNull => Pointer == null;
         public WlSubcompositor(wl_subcompositor* ptr) { Pointer = ptr; }
@@ -5350,6 +5371,7 @@ namespace OpenWindow.Backends.Wayland.Managed
     internal unsafe partial struct WlSubsurface
     {
         public static IntPtr Interface => (IntPtr) wl_subsurface.Interface;
+        public static WlSubsurface Null => new WlSubsurface();
         public readonly wl_subsurface* Pointer;
         public bool IsNull => Pointer == null;
         public WlSubsurface(wl_subsurface* ptr) { Pointer = ptr; }

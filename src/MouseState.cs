@@ -18,17 +18,31 @@
         public MouseButtons ButtonsDown;
 
         /// <summary>
-        /// X coordinate of the mouse position.
+        /// X coordinate of the mouse position relative to the upper left corner of the client area.
         /// </summary>
         public int X;
 
         /// <summary>
-        /// Y coordinate of the mouse position.
+        /// Y coordinate of the mouse position relative to the upper left corner of the client area.
         /// </summary>
         public int Y;
 
         /// <summary>
-        /// Position of the cursor.
+        /// Position of the horizontal scroll wheel.
+        /// To get the delta value when a scroll occurs, use <see cref="Window.MouseScroll"/>
+        /// or track the difference between frames yourself.
+        /// </summary>
+        public float ScrollX;
+
+        /// <summary>
+        /// Position of the vertical scroll wheel.
+        /// To get the delta value when a scroll occurs, use <see cref="Window.MouseScroll"/>
+        /// or track the difference between frames yourself.
+        /// </summary>
+        public float ScrollY;
+
+        /// <summary>
+        /// Position of the cursor relative to the upper left corner of the client area.
         /// </summary>
         public Point Position
         {

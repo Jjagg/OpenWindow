@@ -17,11 +17,6 @@ namespace OpenWindow
         protected readonly KeyboardState _keyboardState;
         protected readonly MouseState _mouseState;
 
-        /// <summary>
-        /// A map from handles to the windows managed by this service.
-        /// </summary>
-        protected readonly Dictionary<IntPtr, Window> ManagedWindows;
-
         #endregion
 
         #region Constructor
@@ -34,7 +29,6 @@ namespace OpenWindow
             _keyboardState = new KeyboardState();
             _mouseState = new MouseState();
 
-            ManagedWindows = new Dictionary<IntPtr, Window>();
             GlSettings = new OpenGlSurfaceSettings();
         }
 
@@ -193,7 +187,7 @@ namespace OpenWindow
         /// <summary>
         /// The number of windows managed by this service.
         /// </summary>
-        public int WindowCount => ManagedWindows.Count;
+        public abstract int WindowCount {get; }
 
         /// <summary>
         /// The settings to use for an OpenGL window. You only need to touch this when using OpenGL for rendering.
@@ -211,17 +205,6 @@ namespace OpenWindow
         /// Get the primary display or <code>null</code> if the primary display could not be found.
         /// </summary>
         public abstract Display PrimaryDisplay { get; }
-
-        /// <summary>
-        /// Get a window owned by this service by its handle.
-        /// </summary>
-        /// <param name="handle">The native handle to the window.</param>
-        /// <param name="window">The window with the specified handle or null if the lookup failed.</param>
-        /// <returns>True if the window was found, false otherwise.</returns>
-        public bool TryGetWindow(IntPtr handle, out Window window)
-        {
-            return ManagedWindows.TryGetValue(handle, out window);
-        }
 
         /// <summary>
         /// Create a new <see cref="Window"/>.
@@ -255,7 +238,23 @@ namespace OpenWindow
 
         #endregion
 
-        #region Protected methods
+        #region Input state methods
+
+        internal void SetFocus(Window window, bool newFocus)
+        {
+            var hasFocus = _keyboardState.FocusedWindow == window;
+
+            if (!hasFocus && newFocus)
+            {
+                window.RaiseFocusChanged(true);
+                _keyboardState.FocusedWindow = window;
+            }
+            else if (hasFocus && !newFocus)
+            {
+                window.RaiseFocusChanged(false);
+                _keyboardState.FocusedWindow = null;
+            }
+        }
 
         protected void SetKey(ScanCode sc, bool down)
         {
@@ -276,20 +275,48 @@ namespace OpenWindow
             }
         }
 
+        internal void SetMouseFocus(Window window, bool newFocus)
+        {
+            var hasFocus = _mouseState.FocusedWindow == window;
+
+            if (!hasFocus && newFocus)
+            {
+                window.RaiseMouseFocusChanged(true);
+                _mouseState.FocusedWindow = window;
+            }
+            else if (hasFocus && !newFocus)
+            {
+                window.RaiseMouseFocusChanged(false);
+                _mouseState.FocusedWindow = null;
+            }
+        }
+
         protected void SetMousePosition(int x, int y)
         {
+            _mouseState.X = x;
+            _mouseState.Y = y;
+            _mouseState.FocusedWindow?.RaiseMouseMoved(x, y);
         }
 
         protected void SetMouseButton(MouseButtons button, bool down)
         {
+            if (down)
+            {
+                _mouseState.FocusedWindow?.RaiseMouseDown(button, _mouseState.X, _mouseState.Y);
+                _mouseState.ButtonsDown |= button;
+            }
+            else
+            {
+                _mouseState.FocusedWindow?.RaiseMouseUp(button, _mouseState.X, _mouseState.Y);
+                _mouseState.ButtonsDown &= ~button;
+            }
         }
 
-        protected void SetMouseScrollX(float value)
+        protected void SetMouseScroll(float x, float y)
         {
-        }
-
-        protected void SetMouseScrollY(float value)
-        {
+            _mouseState.FocusedWindow?.RaiseMouseScroll(x, y);
+            _mouseState.ScrollX += x;
+            _mouseState.ScrollY += y;
         }
 
         #endregion
