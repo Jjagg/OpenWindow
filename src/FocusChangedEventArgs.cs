@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains data for the <see cref="Window.FocusChanged"/> event.
     /// </summary>
-    public class FocusChangedEventArgs : System.EventArgs
+    public struct FocusChangedEventArgs
     {
         /// <summary>
         /// <code>true</code> if the <see cref="Window"/> got keyboard focus,

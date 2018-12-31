@@ -14,40 +14,63 @@ namespace OpenWindow.Backends.Wayland
         private readonly XdgToplevel _xdgTopLevel;
         private readonly ZxdgToplevelDecorationV1 _xdgDecoration;
 
+        private bool _surfaceConfigured;
+
         #endregion
 
         #region Constructor
 
-        public WaylandWindow(WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, OpenGlSurfaceSettings glSettings)
+        public WaylandWindow(WlDisplay display, WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, OpenGlSurfaceSettings glSettings)
             : base(false)
         {
             _wlCompositor = wlCompositor;
             _wlSurface = wlSurface;
-            _wlSurface.SetListener(SurfaceEnter, SurfaceLeave);
+            _wlSurface.SetListener(SurfaceEnterCallback, SurfaceLeaveCallback);
             _xdgSurface = xdgSurface;
-            _xdgSurface.SetListener(ConfigureSurfaceCallback);
+            _xdgSurface.SetListener(XdgSurfaceConfigureCallback);
             _xdgTopLevel = _xdgSurface.GetToplevel();
-            _xdgTopLevel.SetListener(ConfigureTopLevelCallback, null);
+            _xdgTopLevel.SetListener(TopLevelConfigureCallback, TopLevelCloseCallback);
             if (!xdgDecorationManager.IsNull)
                 _xdgDecoration = xdgDecorationManager.GetToplevelDecoration(_xdgTopLevel);
+
+            _wlSurface.Commit();
+
+            // from the xdg-shell protocol file:
+            // "Creating an xdg_surface from a wl_surface which has a buffer attached or
+            //  committed is a client error, and any attempts by a client to attach or
+            //  manipulate a buffer prior to the first xdg_surface.configure call must
+            //  also be treated as errors."
+            // We do a blocking wait to make sure users can't attach a buffer before the first configure call
+            while (!_surfaceConfigured)
+            {
+                display.Flush();
+                display.Dispatch();
+            }
         }
 
-        private void ConfigureSurfaceCallback(void* data, xdg_surface* proxy, uint serial)
+        private void SurfaceEnterCallback(void* data, wl_surface* surface, wl_output* output)
         {
-            _xdgSurface.AckConfigure(serial);
         }
 
-        private void ConfigureTopLevelCallback(void* data,  xdg_toplevel* toplevel, int width, int height, wl_array* states)
+        private void SurfaceLeaveCallback(void* data, wl_surface* surface, wl_output* output)
+        {
+        }
+
+        private void XdgSurfaceConfigureCallback(void* data, xdg_surface* proxy, uint serial)
+        {
+            WindowingService.LogDebug("Got configure event");
+            _xdgSurface.AckConfigure(serial);
+            _surfaceConfigured = true;
+        }
+
+        private void TopLevelConfigureCallback(void* data,  xdg_toplevel* toplevel, int width, int height, wl_array* states)
         {
             RaiseResize();
         }
 
-        private void SurfaceEnter(void* data, wl_surface* surface, wl_output* output)
+        private void TopLevelCloseCallback(void* data, xdg_toplevel* proxy)
         {
-        }
-
-        private void SurfaceLeave(void* data, wl_surface* surface, wl_output* output)
-        {
+            Close();
         }
 
         #endregion
@@ -68,12 +91,6 @@ namespace OpenWindow.Backends.Wayland
 
         /// <inheritdoc />
         public override Display GetContainingDisplay()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public override bool IsDown(Key key)
         {
             throw new NotImplementedException();
         }
@@ -103,12 +120,6 @@ namespace OpenWindow.Backends.Wayland
         }
 
         /// <inheritdoc />
-        public override MouseState GetMouseState()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
         public override void SetCursorPosition(int x, int y)
         {
             throw new NotImplementedException();
@@ -132,7 +143,7 @@ namespace OpenWindow.Backends.Wayland
                 WaylandWindowingService.LogWarning(
                     "Showing/hiding the window is not supported on Wayland. " +
                     "Wayland windows are hidden when they don't have a mapped surface. " +
-                    "We do not destroy the surface because it requires users to recreate the EGL or vk surface.");
+                    "OpenWindow does not destroy the surface because it requires users to recreate the EGL or vk surface.");
         }
 
         /// <inheritdoc />
@@ -219,6 +230,10 @@ namespace OpenWindow.Backends.Wayland
 
         protected override void ReleaseUnmanagedResources()
         {
+            _xdgTopLevel.FreeListener();
+            _xdgSurface.FreeListener();
+            _wlSurface.FreeListener();
+
             _xdgDecoration.Destroy();
             _xdgTopLevel.Destroy();
             _xdgSurface.Destroy();

@@ -8,6 +8,56 @@ using OpenWindow.Backends.Wayland.Managed;
 
 namespace OpenWindow.Backends.Wayland
 {
+    internal unsafe class WlMouseState
+    {
+        public readonly WlPointer Pointer;
+        public MouseState State;
+
+        public WlMouseState(WlPointer pointer)
+        {
+            Pointer = pointer;
+            State = new MouseState();
+
+            Pointer.SetListener(EnterCallback, LeaveCallback, MotionCallback,
+                ButtonCallback, AxisCallback, null, null, null, null);
+        }
+
+        private void EnterCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface, int surface_x, int surface_y)
+        {
+            // TODO call set_cursor here
+            // TODO set focus
+            WindowingService.LogDebug("Got focus");
+        }
+
+        private void LeaveCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface)
+        {
+            // TODO unset focus
+            WindowingService.LogDebug("Lost focus");
+        }
+
+        private void MotionCallback(void* data, wl_pointer* proxy, uint time, int surface_x, int surface_y)
+        {
+            State.X = surface_x;
+            State.Y = surface_y;
+        }
+
+        private void ButtonCallback(void* data, wl_pointer* proxy, uint serial, uint time, uint button, wl_pointer_button_state state)
+        {
+            // For key codes see:
+            // https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
+        }
+
+        private void AxisCallback(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis, int value)
+        {
+            // TODO mouse scroll
+        }
+
+        internal void Free()
+        {
+            Pointer.FreeListener();
+        }
+    }
+
     internal unsafe class WaylandWindowingService : WindowingService
     {
         private List<Display> _displays;
@@ -20,6 +70,11 @@ namespace OpenWindow.Backends.Wayland
         private XdgWmBase _xdgWmBase;
         private WlCompositor _wlCompositor;
         private WlShm _wlShm;
+        private WlSeat _wlSeat;
+        internal WlMouseState MouseState;
+        internal WlKeyboard WlKeyboard;
+        internal WlTouch WlTouch;
+
         private readonly List<wl_shm_format> _formats;
 
 
@@ -48,7 +103,7 @@ namespace OpenWindow.Backends.Wayland
             _wlDisplay = WlDisplay.Connect();
             if (_wlDisplay.IsNull)
                 throw new OpenWindowException("Failed to connect to Wayland display.");
-            _wlDisplay.SetListener(DisplayErrorHandler, null);
+            _wlDisplay.SetListener(DisplayErrorCallback, null);
 
             LogDebug("Connected to display.");
 
@@ -59,7 +114,7 @@ namespace OpenWindow.Backends.Wayland
 
             LogDebug("Got registry.");
             
-            _wlRegistry.SetListener(RegistryGlobal, RegistryGlobalRemove);
+            _wlRegistry.SetListener(RegistryGlobalCallback, RegistryGlobalRemoveCallback);
 
             LogDebug("Initiating first display roundtrip.");
             _wlDisplay.Roundtrip();
@@ -77,7 +132,7 @@ namespace OpenWindow.Backends.Wayland
             }
         }
 
-        private void DisplayErrorHandler(void* data, wl_display* display, uint objectId, uint code, byte* messagePtr)
+        private void DisplayErrorCallback(void* data, wl_display* display, uint objectId, uint code, byte* messagePtr)
         {
             var message = Util.Utf8ToString(messagePtr);
             LogError($"Irrecoverable error reported by Wayland server: ({message})");
@@ -85,7 +140,7 @@ namespace OpenWindow.Backends.Wayland
             throw new OpenWindowException($"Irrecoverable error reported by Wayland server: {message}");
         }
 
-        private void RegistryGlobal(void* data, wl_registry* registry, uint name, byte* ifaceUtf8, uint version)
+        private void RegistryGlobalCallback(void* data, wl_registry* registry, uint name, byte* ifaceUtf8, uint version)
         {
             // TODO we should only bind with the required version
             // TODO we should expose interface names in Utf8 format so we can do a direct compare without marshalling
@@ -113,15 +168,17 @@ namespace OpenWindow.Backends.Wayland
                 case WaylandBindings.wl_shm_name:
                     LogDebug($"Binding WlShm.");
                     _wlShm = _wlRegistry.Bind<wl_shm>(name, WlShm.Interface, version);
-                    _wlShm.SetListener(ShmFormatHandler);
+                    _wlShm.SetListener(ShmFormatCallback);
                     break;
                 case WaylandBindings.wl_seat_name:
-                    // TODO input
+                    LogDebug($"Binding WlSeat.");
+                    _wlSeat = _wlRegistry.Bind<wl_seat>(name, WlSeat.Interface, version);
+                    _wlSeat.SetListener(SeatCapabilitiesCallback, SeatNameCallback);
                     break;
                 case XdgShellBindings.xdg_wm_base_name:
                     LogDebug($"Binding XdgWmBase.");
                     _xdgWmBase = _wlRegistry.Bind<xdg_wm_base>(name, XdgWmBase.Interface, version);
-                    _xdgWmBase.SetListener(XdgWmBasePingHandler);
+                    _xdgWmBase.SetListener(XdgWmBasePingCallback);
                     break;
                 case XdgDecorationUnstableV1Bindings.zxdg_decoration_manager_v1_name:
                     _xdgDecorationManager = _wlRegistry.Bind<zxdg_decoration_manager_v1>(name, ZxdgDecorationManagerV1.Interface, version);
@@ -129,7 +186,7 @@ namespace OpenWindow.Backends.Wayland
             }
         }
 
-        private void RegistryGlobalRemove(void* data, wl_registry* registry, uint name)
+        private void RegistryGlobalRemoveCallback(void* data, wl_registry* registry, uint name)
         {
         }
 
@@ -137,10 +194,10 @@ namespace OpenWindow.Backends.Wayland
         {
             // keep track of the output and listen for configuration events
             output.SetListener(
-                OutputGeometryHandler,
-                OutputModeHandler,
-                OutputDoneHandler,
-                OutputScaleHandler);
+                OutputGeometryCallback,
+                OutputModeCallback,
+                OutputDoneCallback,
+                OutputScaleCallback);
             _displays.Add(new Display((IntPtr) output.Pointer));
         }
 
@@ -160,7 +217,7 @@ namespace OpenWindow.Backends.Wayland
         }
 
 
-        private void OutputGeometryHandler(void* data, wl_output* output, int x, int y, int physicalWidth,
+        private void OutputGeometryCallback(void* data, wl_output* output, int x, int y, int physicalWidth,
             int physicalHeight, wl_output_subpixel subpixelEnum, byte* make, byte* model, wl_output_transform transformEnum)
         {
             var display = GetDisplay(output);
@@ -174,7 +231,7 @@ namespace OpenWindow.Backends.Wayland
             display.Name = Util.Utf8ToString(make) + " - " + Util.Utf8ToString(model);
         }
 
-        private void OutputModeHandler(void* data, wl_output* output, wl_output_mode modeEnum, int width, int height, int refresh)
+        private void OutputModeCallback(void* data, wl_output* output, wl_output_mode modeEnum, int width, int height, int refresh)
         {
             var display = GetDisplay(output);
 
@@ -187,23 +244,66 @@ namespace OpenWindow.Backends.Wayland
             // TODO supported display modes of the output - should this exist in a pure windowing lib? Seems like this is graphics territory.
         }
 
-        private void OutputScaleHandler(void* data, wl_output* output, int factor)
+        private void OutputScaleCallback(void* data, wl_output* output, int factor)
         {
             // TODO high dpi stuff
         }
 
-        private void OutputDoneHandler(void* data, wl_output* output)
+        private void OutputDoneCallback(void* data, wl_output* output)
         {
             // we don't really need to handle this explicitly
         }
 
-        private void ShmFormatHandler(void* data, wl_shm* shm, wl_shm_format format)
+        private void ShmFormatCallback(void* data, wl_shm* shm, wl_shm_format format)
         {
             LogDebug($"Supported buffer surface format " + format.ToString());
             _formats.Add(format);
         }
 
-        private static void XdgWmBasePingHandler(void* data, xdg_wm_base* wmBase, uint serial)
+        private void SeatCapabilitiesCallback(void* data, wl_seat* proxy, wl_seat_capability capabilities)
+        {
+            if (capabilities.HasFlag(wl_seat_capability.Keyboard) && WlKeyboard.IsNull)
+            {
+                WlKeyboard = _wlSeat.GetKeyboard();
+                LogDebug("Got keyboard.");
+            }
+            if (capabilities.HasFlag(wl_seat_capability.Pointer) && MouseState == null)
+            {
+                MouseState = new WlMouseState(_wlSeat.GetPointer());
+                LogDebug("Got pointer.");
+            }
+            if (capabilities.HasFlag(wl_seat_capability.Touch) && WlTouch.IsNull)
+            {
+                WlTouch = _wlSeat.GetTouch();
+                LogDebug("Got touch.");
+            }
+
+            if (!capabilities.HasFlag(wl_seat_capability.Keyboard) && !WlKeyboard.IsNull)
+            {
+                WlKeyboard.FreeListener();
+                WlKeyboard = new WlKeyboard(null);
+                LogDebug("Lost keyboard.");
+            }
+            if (!capabilities.HasFlag(wl_seat_capability.Pointer) && MouseState != null)
+            {
+                MouseState.Free();
+                MouseState = new WlMouseState(null);
+                LogDebug("Lost mouse.");
+            }
+            if (!capabilities.HasFlag(wl_seat_capability.Touch) && !WlTouch.IsNull)
+            {
+                WlTouch.FreeListener();
+                WlTouch = new WlTouch(null);
+                LogDebug("Lost touch.");
+            }
+        }
+
+        private void SeatNameCallback(void* data, wl_seat* proxy, byte* name)
+        {
+            LogDebug("Got seat name " + Util.Utf8ToString(name));
+        }
+
+        private static void XdgWmBasePingCallback(void* data, xdg_wm_base* wmBase, uint serial)
         {
             XdgShellBindings.xdg_wm_base_pong(wmBase, serial);
         }
@@ -218,13 +318,8 @@ namespace OpenWindow.Backends.Wayland
             LogDebug("Getting xdg surface");
             var xdgSurface = _xdgWmBase.GetXdgSurface(wlSurface);
             LogDebug("Window ctor");
-            var window = new WaylandWindow(_wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, GlSettings);
+            var window = new WaylandWindow(_wlDisplay, _wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, GlSettings);
             return window;
-        }
-
-        public override Window WindowFromHandle(IntPtr handle)
-        {
-            throw new NotImplementedException();
         }
 
         public override void PumpEvents()
@@ -239,12 +334,19 @@ namespace OpenWindow.Backends.Wayland
 
         protected override void Dispose(bool disposing)
         {
+            _wlSeat.FreeListener();
+            _wlShm.FreeListener();
+            _wlRegistry.FreeListener();
+            _wlDisplay.FreeListener();
+
+            _wlSeat.Release();
             _xdgDecorationManager.Destroy();
             _wlShm.Destroy();
             _wlCompositor.Destroy();
             _wlRegistry.Destroy();
             _wlDisplay.Disconnect();
             _wlDisplay.Destroy();
+
             WaylandBindings.Unload();
             XdgShellBindings.Unload();
             XdgDecorationUnstableV1Bindings.Unload();

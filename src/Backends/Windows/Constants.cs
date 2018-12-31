@@ -6,6 +6,8 @@
         public const uint MonitorDefaultToPrimary = 1;
         public const uint MonitorDefaultToNearest = 2;
 
+        public const int UNICODE_NOCHAR = 0xffff;
+
         public const uint SWP_NOMOVE        = 0x0002;
         public const uint SWP_NOSIZE        = 0x0001;
         public const uint SWP_NOZORDER      = 0x0004;

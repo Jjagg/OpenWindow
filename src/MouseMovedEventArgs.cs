@@ -5,16 +5,27 @@ namespace OpenWindow
     /// <summary>
     /// Contains data for the <see cref="Window.MouseMoved"/> event.
     /// </summary>
-    public class MouseMovedEventArgs : EventArgs
+    public struct MouseMovedEventArgs
     {
         /// <summary>
-        /// The position of the mouse.
+        /// The x coordinate of the mouse in the window client area.
         /// </summary>
-        public readonly Point Position;
+        public int X;
 
-        internal MouseMovedEventArgs(Point position)
+        /// <summary>
+        /// The y coordinate of the mouse in the window client area.
+        /// </summary>
+        public int Y;
+
+        /// <summary>
+        /// The position of the mouse in the window client area.
+        /// </summary>
+        public Point Position => new Point(X, Y);
+
+        internal MouseMovedEventArgs(int x, int y)
         {
-            Position = position;
+            X = x;
+            Y =y ;
         }
     }
 }

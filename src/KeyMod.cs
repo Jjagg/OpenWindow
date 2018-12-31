@@ -13,13 +13,13 @@ namespace OpenWindow
         /// </summary>
         None    = 0,
         /// <summary>
-        /// Shift modifier.
-        /// </summary>
-        Shift   = 1,
-        /// <summary>
         /// Control modifier.
         /// </summary>
-        Control = 1 << 1,
+        Control = 1,
+        /// <summary>
+        /// Shift modifier.
+        /// </summary>
+        Shift   = 1 << 1,
         /// <summary>
         /// Alt modifier.
         /// </summary>

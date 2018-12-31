@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using OpenWindow.Backends.Windows;
 
 namespace OpenWindow
 {
@@ -12,6 +13,9 @@ namespace OpenWindow
     public abstract class WindowingService : IDisposable
     {
         #region Fields
+
+        protected readonly KeyboardState _keyboardState;
+        protected readonly MouseState _mouseState;
 
         /// <summary>
         /// A map from handles to the windows managed by this service.
@@ -27,6 +31,9 @@ namespace OpenWindow
         /// </summary>
         protected WindowingService()
         {
+            _keyboardState = new KeyboardState();
+            _mouseState = new MouseState();
+
             ManagedWindows = new Dictionary<IntPtr, Window>();
             GlSettings = new OpenGlSurfaceSettings();
         }
@@ -51,6 +58,9 @@ namespace OpenWindow
 
         private static void InitializeInstance()
         {
+            if (_instance != null)
+                return;
+
             Backend = GetWindowingBackend();
             LogInfo($"Detected windowing backend '{Backend}'.");
             _instance = CreateService(Backend);
@@ -161,6 +171,16 @@ namespace OpenWindow
         #region Public API
 
         /// <summary>
+        /// The current state of the mouse for this window.
+        /// </summary>
+        public KeyboardState KeyboardState => _keyboardState;
+
+        /// <summary>
+        /// The current state of the mouse for this window.
+        /// </summary>
+        public MouseState MouseState => _mouseState;
+
+        /// <summary>
         /// The <see cref="WindowingBackend"/> that this service uses.
         /// </summary>
         public static WindowingBackend Backend { get; private set; }
@@ -210,11 +230,18 @@ namespace OpenWindow
         public abstract Window CreateWindow();
 
         /// <summary>
-        /// Create a <see cref="Window"/> given a handle to an existing native window.
+        /// Create a <see cref="Window"/> given the handle from an existing Win32 Window.
         /// </summary>
-        /// <param name="handle">Handle to an existing window.</param>
-        /// <returns>A new <see cref="Window"/> created from the native <paramref name="handle"/>.</returns>
-        public abstract Window WindowFromHandle(IntPtr handle);
+        /// <param name="handle">Win32 window handle from an existing window.</param>
+        /// <returns>A new <see cref="Window"/> created from the Win32 handle.</returns>
+        public Window CreateFromWin32(IntPtr hWnd)
+        {
+            // TODO add a sample for this
+            if (Backend != WindowingBackend.Win32)
+                throw new OpenWindowException("CreateFromWin32 called with windowing backend " + Backend);
+
+            return new Win32Window(hWnd);
+        }
 
         /// <summary>
         /// Process all received events for windows managed by this service.
@@ -227,6 +254,47 @@ namespace OpenWindow
         public abstract void WaitEvent();
 
         #endregion
+
+        #region Protected methods
+
+        protected void SetKey(ScanCode sc, bool down)
+        {
+            if (sc == ScanCode.Unknown)
+                return;
+
+            if (down && _keyboardState.Up(sc))
+            {
+                var key = _keyboardState.Map(sc);
+                _keyboardState.FocusedWindow?.RaiseKeyDown(key, sc);
+                _keyboardState.KeyState[(int) sc] = true;
+            }
+            else if (!down && _keyboardState.KeyState[(int) sc])
+            {
+                var key = _keyboardState.Map(sc);
+                _keyboardState.FocusedWindow?.RaiseKeyUp(key, sc);
+                _keyboardState.KeyState[(int) sc] = false;
+            }
+        }
+
+        protected void SetMousePosition(int x, int y)
+        {
+        }
+
+        protected void SetMouseButton(MouseButtons button, bool down)
+        {
+        }
+
+        protected void SetMouseScrollX(float value)
+        {
+        }
+
+        protected void SetMouseScrollY(float value)
+        {
+        }
+
+        #endregion
+
+        #region IDisposable
 
         protected virtual void Dispose(bool disposing)
         {
@@ -241,5 +309,7 @@ namespace OpenWindow
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        #endregion
     }
 }

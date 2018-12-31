@@ -20,6 +20,8 @@ namespace OpenWindow
         internal bool _focused;
         private bool _cursorVisible = true;
 
+        private MouseState _mouseState;
+
         private bool _disposed;
 
         #endregion
@@ -160,6 +162,11 @@ namespace OpenWindow
         public bool Focused => _focused;
 
         /// <summary>
+        /// The current state of the mouse.
+        /// </summary>
+        public MouseState MouseState => _mouseState;
+
+        /// <summary>
         /// The position of the top left of this window (including border).
         /// </summary>
         public abstract Point Position { get; set; }
@@ -294,13 +301,6 @@ namespace OpenWindow
         }
 
         /// <summary>
-        /// Check if the specified key is down.
-        /// </summary>
-        /// <param name="key">The key to check for.</param>
-        /// <returns>True if the key is down, false if it is up.</returns>
-        public abstract bool IsDown(Key key);
-
-        /// <summary>
         /// Get the key modifiers currently enabled.
         /// </summary>
         /// <returns>The enabled key modifiers.</returns>
@@ -323,12 +323,6 @@ namespace OpenWindow
         /// </summary>
         /// <returns><code>true</code> if scroll lock is turned on, <code>false</code> if it is turned off.</returns>
         public abstract bool IsScrollLockOn();
-
-        /// <summary>
-        /// Get the state of the mouse.
-        /// </summary>
-        /// <returns>The current mouse state.</returns>
-        public abstract MouseState GetMouseState();
 
         /// <summary>
         /// Set the position of the mouse cursor.
@@ -382,33 +376,25 @@ namespace OpenWindow
         public event EventHandler<EventArgs> Maximized;
 
         /// <summary>
-        /// Invoked after the window focus changed.
+        /// Invoked after the window keyboard focus changed.
         /// </summary>
         public event EventHandler<FocusChangedEventArgs> FocusChanged;
 
         /// <summary>
-        /// Invoked when a key is pressed down or a key is repeated.
-        /// <seealso cref="KeyDown"/>
+        /// Invoked when a key is pressed down.
         /// <seealso cref="KeyUp"/>
         /// </summary>
         /// <remarks>
-        /// For handling text input, it's easier to use the specialized <see cref="TextInput"/> event.
+        /// For handling text input, use the <see cref="TextInput"/> event.
         /// </remarks>
         public event EventHandler<KeyDownEventArgs> KeyDown;
-
-        /// <summary>
-        /// Invoked when a key is pressed down. Not invoked when a key is held down.
-        /// <seealso cref="KeyDown"/>
-        /// <seealso cref="KeyUp"/>
-        /// </summary>
-        public event EventHandler<KeyEventArgs> KeyPress;
 
         /// <summary>
         /// Invoked when a key is released.
         /// <seealso cref="KeyDown"/>
         /// <seealso cref="KeyUp"/>
         /// </summary>
-        public event EventHandler<KeyEventArgs> KeyUp;
+        public event EventHandler<KeyUpEventArgs> KeyUp;
 
         /// <summary>
         /// Invoked when a keypress happens. Contains the correct character for text input.
@@ -423,12 +409,12 @@ namespace OpenWindow
         /// <summary>
         /// Invoked when a mouse button is pressed down.
         /// </summary>
-        public event EventHandler<MouseEventArgs> MouseDown;
+        public event InEventHandler<MouseEventArgs> MouseDown;
 
         /// <summary>
         /// Invoked when a mouse button is released.
         /// </summary>
-        public event EventHandler<MouseEventArgs> MouseUp;
+        public event InEventHandler<MouseEventArgs> MouseUp;
 
         /// <summary>
         /// Invoked when the mouse pointer leaves the bounds of the window.
@@ -479,29 +465,24 @@ namespace OpenWindow
             FocusChanged?.Invoke(this, new FocusChangedEventArgs(newFocus));
         }
 
-        internal void RaiseKeyDown(Key key, int repeatCount, bool repeated, int scanCode, char character)
+        internal void RaiseKeyDown(Key key, ScanCode sc)
         {
-            KeyDown?.Invoke(this, new KeyDownEventArgs(key, repeatCount, repeated, scanCode, character));
+            KeyDown?.Invoke(this, new KeyDownEventArgs(key, sc));
         }
 
-        internal void RaiseKeyPressed(Key key, int scanCode, char character)
+        internal void RaiseKeyUp(Key key, ScanCode sc)
         {
-            KeyPress?.Invoke(this, new KeyEventArgs(key, scanCode, character));
+            KeyUp?.Invoke(this, new KeyUpEventArgs(key, sc));
         }
 
-        internal void RaiseKeyUp(Key key, int scanCode, char character)
-        {
-            KeyUp?.Invoke(this, new KeyEventArgs(key, scanCode, character));
-        }
-
-        internal void RaiseTextInput(char c)
+        internal void RaiseTextInput(int c)
         {
             TextInput?.Invoke(this, new TextInputEventArgs(c));
         }
 
-        internal void RaiseMouseMoved(Point position)
+        internal void RaiseMouseMoved(int x, int y)
         {
-            MouseMoved?.Invoke(this, new MouseMovedEventArgs(position));
+            MouseMoved?.Invoke(this, new MouseMovedEventArgs(x, y));
         }
 
         internal void RaiseMouseDown(MouseButtons buttons, Point position)

@@ -15,13 +15,23 @@ namespace OpenWindow.Backends.Windows
 
         public Win32WindowingService()
         {
-            KeyMap.Create();
             WndProc = ProcessWindowMessage;
         }
 
         protected override void Initialize()
         {
-            // detect connected displays
+            UpdateKeyMap();
+            InitializeDisplays();
+        }
+
+        private void UpdateKeyMap()
+        {
+            // TODO Set the scan code to virtual key code map based on the keyboard layout
+            //      also call this method when keyboard layout changes.
+        }
+
+        private void InitializeDisplays()
+        {
             _displays = new List<Display>();
             Native.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
                 delegate(IntPtr handle, IntPtr hdc, ref Rect rect, IntPtr data)
@@ -37,12 +47,6 @@ namespace OpenWindow.Backends.Windows
             var window = new Win32Window(GlSettings);
             ManagedWindows.Add(window.Hwnd, window);
             return window;
-        }
-
-        /// <inheritdoc />
-        public override Window WindowFromHandle(IntPtr handle)
-        {
-            return new Win32Window(handle);
         }
 
         /// <inheritdoc />
@@ -119,14 +123,8 @@ namespace OpenWindow.Backends.Windows
                     {
                         var lp = lParam.ToInt64();
                         var scanCode = (uint) ((lp >> 16) & 0xFF);
-                        var vk = Native.MapVirtualKey(scanCode, KeyMapType.ScToVkEx);
-                        var key = KeyMap.Map[(int) vk];
-                        var c = (char) Native.MapVirtualKey((uint) vk, KeyMapType.VkToChar);
-                        var repeats = (int) (lp & 0xFFFF);
                         var repeated = ((lp >> 30) & 1) > 0;
-                        wwindow.RaiseKeyDown(key, repeats, repeated, (int) scanCode, c);
-                        if (!repeated)
-                            wwindow.RaiseKeyPressed(key, (int) scanCode, c);
+                        SetWinKey(scanCode, true);
                         break;
                     }
                     case WindowMessage.KeyUp:
@@ -134,19 +132,27 @@ namespace OpenWindow.Backends.Windows
                     {
                         var lp = lParam.ToInt64();
                         var scanCode = (uint) ((lp >> 16) & 0xFF);
-                        var vk = Native.MapVirtualKey(scanCode, KeyMapType.ScToVkEx);
-                        var key = KeyMap.Map[(int) vk];
-                        var c = (char) Native.MapVirtualKey((uint) vk, KeyMapType.VkToChar);
-                        wwindow.RaiseKeyUp(key, (int) scanCode, c);
+                        SetWinKey(scanCode, false);
                         break;
+                    }
+                    case WindowMessage.UniChar:
+                    {
+                        var c = wParam.ToInt32();
+                        if (c == Constants.UNICODE_NOCHAR)
+                            return (IntPtr) 1;
+
+                        // FIXME check what characters to (not) raise for
+                        window.RaiseTextInput(c);
+
+                        return IntPtr.Zero;
                     }
                     case WindowMessage.Char:
                     {
                         var lp = lParam.ToInt64();
                         var scanCode = (uint) ((lp >> 16) & 0xFF);
+                        // FIXME check what characters to (not) raise for
                         var vk = Native.MapVirtualKey(scanCode, KeyMapType.ScToVkEx);
-                        if (vk != VirtualKey.Escape && vk != VirtualKey.Tab && vk != VirtualKey.Back)
-                            wwindow.RaiseTextInput((char) wParam);
+                        window.RaiseTextInput((char) wParam);
 
                         return IntPtr.Zero;
                     }
@@ -154,58 +160,50 @@ namespace OpenWindow.Backends.Windows
                     //case WindowMessage.NcMouseMove:
                     case WindowMessage.MouseMove:
                     {
-                        var p = MakePoint(lParam);
-                        wwindow.RaiseMouseMoved(p);
+                        ExtractCoords(lParam, out var x, out var y);
+                        SetMousePosition(x, y);
                         break;
                     }
                     case WindowMessage.LButtonDown:
                     {
-                        var p = MakePoint(lParam);
-                        wwindow.RaiseMouseDown(MouseButtons.Left, p);
+                        SetMouseButton(MouseButtons.Left, true);
                         break;
                     }
                     case WindowMessage.LButtonUp:
                     {
-                        var p = MakePoint(lParam);
-                        wwindow.RaiseMouseUp(MouseButtons.Left, p);
+                        SetMouseButton(MouseButtons.Left, false);
                         break;
                     }
                     case WindowMessage.MButtonDown:
                     {
-                        var p = MakePoint(lParam);
-                        wwindow.RaiseMouseDown(MouseButtons.Middle, p);
+                        SetMouseButton(MouseButtons.Middle, true);
                         break;
                     }
                     case WindowMessage.MButtonUp:
                     {
-                        var p = MakePoint(lParam);
-                        wwindow.RaiseMouseUp(MouseButtons.Middle, p);
+                        SetMouseButton(MouseButtons.Middle, false);
                         break;
                     }
                     case WindowMessage.RButtonDown:
                     {
-                        var p = MakePoint(lParam);
-                        wwindow.RaiseMouseDown(MouseButtons.Right, p);
+                        SetMouseButton(MouseButtons.Right, true);
                         break;
                     }
                     case WindowMessage.RButtonUp:
                     {
-                        var p = MakePoint(lParam);
-                        wwindow.RaiseMouseUp(MouseButtons.Right, p);
+                        SetMouseButton(MouseButtons.Right, false);
                         break;
                     }
                     case WindowMessage.XButtonDown:
                     {
-                        var p = MakePoint(lParam);
                         var btn = ((wParam.ToInt32() >> 16) & 1) > 0 ? MouseButtons.X1 : MouseButtons.X2;
-                        wwindow.RaiseMouseDown(btn, p);
+                        SetMouseButton(btn, true);
                         break;
                     }
                     case WindowMessage.XButtonUp:
                     {
-                        var p = MakePoint(lParam);
                         var btn = ((wParam.ToInt32() >> 16) & 1) > 0 ? MouseButtons.X1 : MouseButtons.X2;
-                        wwindow.RaiseMouseUp(btn, p);
+                        SetMouseButton(btn, false);
                         break;
                     }
                     case WindowMessage.MouseLeave:
@@ -216,12 +214,12 @@ namespace OpenWindow.Backends.Windows
                         break;
 
                     case WindowMessage.Close:
-                        wwindow.Close();
+                        window.Close();
                         return IntPtr.Zero;
 
                     case WindowMessage.Destroy:
                         ManagedWindows.Remove(wwindow.Hwnd);
-                        wwindow.RaiseClosing();
+                        window.RaiseClosing();
                         return IntPtr.Zero;
                 }
             }
@@ -229,12 +227,22 @@ namespace OpenWindow.Backends.Windows
             return Native.DefWindowProc(hWnd, msg, wParam, lParam);
         }
 
-        private Point MakePoint(IntPtr lparam)
+        private void SetWinKey(uint sc, bool down)
+        {
+            var owSc = TranslateWinScanCode(sc);
+            SetKey(owSc, down);
+        }
+
+        private ScanCode TranslateWinScanCode(uint sc)
+        {
+            return ScanCode.Unknown;
+        }
+
+        private void ExtractCoords(IntPtr lparam, out int x, out int y)
         {
             var lp = lparam.ToInt32();
-            var x = lp & 0xff;
-            var y = (lp >> 16) & 0xff;
-            return new Point(x, y);
+            x = lp & 0xff;
+            y = (lp >> 16) & 0xff;
         }
     }
 }

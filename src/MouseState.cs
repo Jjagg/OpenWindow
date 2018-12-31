@@ -3,17 +3,38 @@
     /// <summary>
     /// State of the mouse. Returned by <see cref="Window.GetMouseState"/>.
     /// </summary>
-    public struct MouseState
+    public class MouseState
     {
+        /// <summary>
+        /// The window that currently has mouse focus.
+        /// If mouse capture is off, this is the window that contains the mouse.
+        /// This can be null.
+        /// </summary>
+        public Window FocusedWindow;
+
         /// <summary>
         /// The buttons that are down.
         /// </summary>
-        public readonly MouseButtons ButtonsDown;
+        public MouseButtons ButtonsDown;
+
+        /// <summary>
+        /// X coordinate of the mouse position.
+        /// </summary>
+        public int X;
+
+        /// <summary>
+        /// Y coordinate of the mouse position.
+        /// </summary>
+        public int Y;
 
         /// <summary>
         /// Position of the cursor.
         /// </summary>
-        public readonly Point Position;
+        public Point Position
+        {
+            get => new Point(X, Y); 
+            set { X = value.X; Y = value.Y; }
+        }
 
         /// <summary>
         /// <code>true</code> if the left mouse button is down, <code>false</code> if it is up.
@@ -41,6 +62,13 @@
         public bool X2Down => (ButtonsDown & MouseButtons.X2) > 0;
 
         /// <summary>
+        /// Create a mouse state with no buttons pressed and a position of (0, 0).
+        /// </summary>
+        public MouseState()
+        {
+        }
+
+        /// <summary>
         /// Create a mouse state.
         /// </summary>
         /// <param name="buttonsDown">The <see cref="MouseButtons"/>s that are down.</param>
@@ -48,7 +76,8 @@
         public MouseState(MouseButtons buttonsDown, Point position)
         {
             ButtonsDown = buttonsDown;
-            Position = position;
+            X = position.X;
+            Y = position.Y;
         }
     }
 }

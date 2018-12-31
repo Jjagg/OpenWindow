@@ -33,6 +33,7 @@ To do:
 - Touch
 - Drag and drop
 - Clipboard
+- Cursor appearance
 
 ### X (Linux)
 

@@ -9,5 +9,6 @@ namespace OpenWindow.Backends.Wayland.Managed
         public void Disconnect() => WaylandClient.wl_display_disconnect(Pointer);
         public void Dispatch() => WaylandClient.wl_display_dispatch(Pointer);
         public void DispatchPending() => WaylandClient.wl_display_dispatch_pending(Pointer);
+        public void Flush() => WaylandClient.wl_display_flush(Pointer);
     }
 }

@@ -129,12 +129,6 @@ namespace OpenWindow
         }
 
         /// <inheritdoc />
-        public override bool IsDown(Key key)
-        {
-            return _keyMap[(int) key];
-        }
-
-        /// <inheritdoc />
         public override KeyMod GetKeyModifiers()
         {
             return _keyModifiers;
@@ -192,12 +186,6 @@ namespace OpenWindow
         public void SetMouseButtons(MouseButtons buttons)
         {
             _mouseButtons = buttons;
-        }
-
-        /// <inheritdoc />
-        public override MouseState GetMouseState()
-        {
-            return new MouseState(_mouseButtons, _cursorPosition);
         }
 
         /// <inheritdoc />

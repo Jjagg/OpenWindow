@@ -3,14 +3,14 @@
     /// <summary>
     /// Contains data for the <see cref="Window.TextInput"/> event.
     /// </summary>
-    public class TextInputEventArgs : System.EventArgs
+    public struct TextInputEventArgs
     {
         /// <summary>
-        /// The character input.
+        /// The character input in UTF-32.
         /// </summary>
-        public readonly char Character;
+        public readonly int Character;
 
-        internal TextInputEventArgs(char character)
+        internal TextInputEventArgs(int character)
         {
             Character = character;
         }

@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace OpenWindow
+﻿namespace OpenWindow
 {
     /// <summary>
-    /// Contains data for the <see cref="Window.KeyDown"/> event.
+    /// Contains data for the <see cref="Window.KeyUp"/> and <see cref="Window.KeyPress"/> events.
     /// </summary>
-    public struct KeyDownEventArgs
+    public struct KeyUpEventArgs
     {
         /// <summary>
-        /// The virtual <see cref="Key"/> that was pressed or released.
+        /// The <see cref="Key"/> that was pressed or released.
         /// </summary>
         public readonly Key Key;
 
@@ -17,7 +15,7 @@ namespace OpenWindow
         /// </summary>
         public readonly ScanCode ScanCode;
 
-        internal KeyDownEventArgs(Key key, ScanCode scanCode)
+        internal KeyUpEventArgs(Key key, ScanCode scanCode)
         {
             Key = key;
             ScanCode = scanCode;

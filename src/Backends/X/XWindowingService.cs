@@ -22,11 +22,6 @@ namespace OpenWindow.Backends.X
             throw new NotImplementedException();
         }
 
-        public override Window WindowFromHandle(IntPtr handle)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void PumpEvents()
         {
             throw new NotImplementedException();

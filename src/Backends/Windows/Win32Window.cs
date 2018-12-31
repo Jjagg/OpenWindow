@@ -293,12 +293,6 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
-        public override bool IsDown(Key key)
-        {
-            var vk = KeyMap.InvMap[(int) key];
-            return Native.GetKeyState(vk) < 0;
-        }
-
         public override KeyMod GetKeyModifiers()
         {
             var ctrl = Native.GetKeyState(VirtualKey.Control) < 0 ? KeyMod.Control : 0;
@@ -323,27 +317,6 @@ namespace OpenWindow.Backends.Windows
         public override bool IsScrollLockOn()
         {
             return KeyEnabled(VirtualKey.ScrollLock);
-        }
-
-        /// <inheritdoc />
-        public override MouseState GetMouseState()
-        {
-            var btns = MouseButtons.None;
-            if (Native.GetKeyState(VirtualKey.LButton) < 0)
-                btns |= MouseButtons.Left;
-            if (Native.GetKeyState(VirtualKey.MButton) < 0)
-                btns |= MouseButtons.Middle;
-            if (Native.GetKeyState(VirtualKey.RButton) < 0)
-                btns |= MouseButtons.Right;
-            if (Native.GetKeyState(VirtualKey.XButton1) < 0)
-                btns |= MouseButtons.X1;
-            if (Native.GetKeyState(VirtualKey.XButton2) < 0)
-                btns |= MouseButtons.X2;
-
-            if (!Native.GetCursorPos(out var position))
-                throw GetLastException("Failed to get cursor position.");
-
-            return new MouseState(btns, position);
         }
 
         /// <inheritdoc />

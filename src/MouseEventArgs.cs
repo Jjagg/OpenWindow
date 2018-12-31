@@ -5,7 +5,7 @@ namespace OpenWindow
     /// <summary>
     /// Contains data for the <see cref="Window.MouseDown"/> and <see cref="Window.MouseUp"/> events.
     /// </summary>
-    public class MouseEventArgs : EventArgs
+    public struct MouseEventArgs
     {
         /// <summary>
         /// The affected <see cref="MouseButtons"/>.

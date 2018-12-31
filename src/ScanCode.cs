@@ -1,7 +1,7 @@
-﻿namespace OpenWindow
+namespace OpenWindow
 {
     // Jjagg:
-    //    These key codes where taken directly from SDL.
+    //    These scancodes where taken directly from SDL.
     //    Here's the original license header:
     /*
       Simple DirectMedia Layer
@@ -21,990 +21,1093 @@
       3. This notice may not be removed or altered from any source distribution.
     */
 
-
     /// <summary>
-    /// Virtual key codes.
-    ///
-    /// These codes are used to represent keys after mapping scancodes
-    /// using the current keyboard layout.
-    /// Where possible the enum values map to the corresponding
-    /// character. For key codes with no matching character,
-    /// the value is equal to the scan code.
+    /// Physical keys.
     /// </summary>
-    public enum Key
+    // TODO proper explanation of scan codes vs virtual key codes.
+    public enum ScanCode
     {
-        /// <summary>
-        /// Not an actual key. Used internally.
-        /// </summary>
         Unknown = 0,
 
-        /// <summary>
-        /// 
-        /// </summary>
-        Return = '\r',
-        /// <summary>
-        /// 
-        /// </summary>
-        Escape = '\u001B',
-        /// <summary>
-        /// 
-        /// </summary>
-        Backspace = '\b',
-        /// <summary>
-        /// 
-        /// </summary>
-        Tab = '\t',
-        /// <summary>
-        /// 
-        /// </summary>
-        Space = ' ',
-        /// <summary>
-        /// 
-        /// </summary>
-        Exclaim = '!',
-        /// <summary>
-        /// 
-        /// </summary>
-        Quotedbl = '"',
-        /// <summary>
-        /// 
-        /// </summary>
-        Hash = '#',
-        /// <summary>
-        /// 
-        /// </summary>
-        Percent = '%',
-        /// <summary>
-        /// 
-        /// </summary>
-        Dollar = '$',
-        /// <summary>
-        /// 
-        /// </summary>
-        Ampersand = '&',
-        /// <summary>
-        /// 
-        /// </summary>
-        Quote = '\'',
-        /// <summary>
-        /// 
-        /// </summary>
-        Leftparen = '(',
-        /// <summary>
-        /// 
-        /// </summary>
-        Rightparen = ')',
-        /// <summary>
-        /// 
-        /// </summary>
-        Asterisk = '*',
-        /// <summary>
-        /// 
-        /// </summary>
-        Plus = '+',
-        /// <summary>
-        /// 
-        /// </summary>
-        Comma = ',',
-        /// <summary>
-        /// 
-        /// </summary>
-        Minus = '-',
-        /// <summary>
-        /// 
-        /// </summary>
-        Period = '.',
-        /// <summary>
-        /// 
-        /// </summary>
-        Slash = '/',
-        /// <summary>
-        /// 
-        /// </summary>
-        D0 = '0',
-        /// <summary>
-        /// 
-        /// </summary>
-        D1 = '1',
-        /// <summary>
-        /// 
-        /// </summary>
-        D2 = '2',
-        /// <summary>
-        /// 
-        /// </summary>
-        D3 = '3',
-        /// <summary>
-        /// 
-        /// </summary>
-        D4 = '4',
-        /// <summary>
-        /// 
-        /// </summary>
-        D5 = '5',
-        /// <summary>
-        /// 
-        /// </summary>
-        D6 = '6',
-        /// <summary>
-        /// 
-        /// </summary>
-        D7 = '7',
-        /// <summary>
-        /// 
-        /// </summary>
-        D8 = '8',
-        /// <summary>
-        /// 
-        /// </summary>
-        D9 = '9',
-        /// <summary>
-        /// 
-        /// </summary>
-        Colon = ':',
-        /// <summary>
-        /// 
-        /// </summary>
-        Semicolon = ';',
-        /// <summary>
-        /// 
-        /// </summary>
-        Less = '<',
-        /// <summary>
-        /// 
-        /// </summary>
-        Equals = '=',
-        /// <summary>
-        /// 
-        /// </summary>
-        Greater = '>',
-        /// <summary>
-        /// 
-        /// </summary>
-        Question = '?',
-        /// <summary>
-        /// 
-        /// </summary>
-        At = '@',
-        /// <summary>
-        /// 
-        /// </summary>
-        LeftBracket = '[',
-        /// <summary>
-        /// 
-        /// </summary>
-        Backslash = '\\',
-        /// <summary>
-        /// 
-        /// </summary>
-        RightBracket = ']',
-        /// <summary>
-        /// 
-        /// </summary>
-        Caret = '^',
-        /// <summary>
-        /// 
-        /// </summary>
-        Underscore = '_',
-        /// <summary>
-        /// 
-        /// </summary>
-        Backquote = '`',
-        /// <summary>
-        /// 
-        /// </summary>
-        A = 'a',
-        /// <summary>
-        /// 
-        /// </summary>
-        B = 'b',
-        /// <summary>
-        /// 
-        /// </summary>
-        C = 'c',
-        /// <summary>
-        /// 
-        /// </summary>
-        D = 'd',
-        /// <summary>
-        /// 
-        /// </summary>
-        E = 'e',
-        /// <summary>
-        /// 
-        /// </summary>
-        F = 'f',
-        /// <summary>
-        /// 
-        /// </summary>
-        G = 'g',
-        /// <summary>
-        /// 
-        /// </summary>
-        H = 'h',
-        /// <summary>
-        /// 
-        /// </summary>
-        I = 'i',
-        /// <summary>
-        /// 
-        /// </summary>
-        J = 'j',
-        /// <summary>
-        /// 
-        /// </summary>
-        K = 'k',
-        /// <summary>
-        /// 
-        /// </summary>
-        L = 'l',
-        /// <summary>
-        /// 
-        /// </summary>
-        M = 'm',
-        /// <summary>
-        /// 
-        /// </summary>
-        N = 'n',
-        /// <summary>
-        /// 
-        /// </summary>
-        O = 'o',
-        /// <summary>
-        /// 
-        /// </summary>
-        P = 'p',
-        /// <summary>
-        /// 
-        /// </summary>
-        Q = 'q',
-        /// <summary>
-        /// 
-        /// </summary>
-        R = 'r',
-        /// <summary>
-        /// 
-        /// </summary>
-        S = 's',
-        /// <summary>
-        /// 
-        /// </summary>
-        T = 't',
-        /// <summary>
-        /// 
-        /// </summary>
-        U = 'u',
-        /// <summary>
-        /// 
-        /// </summary>
-        V = 'v',
-        /// <summary>
-        /// 
-        /// </summary>
-        W = 'w',
-        /// <summary>
-        /// 
-        /// </summary>
-        X = 'x',
-        /// <summary>
-        /// 
-        /// </summary>
-        Y = 'y',
-        /// <summary>
-        /// 
-        /// </summary>
-        Z = 'z',
+        /**
+        *  \name Usage page 0x07
+        *
+        *  These values are from usage page 0x07 (USB keyboard page).
+        */
+        /* @{ */
 
         /// <summary>
         /// 
         /// </summary>
-        Capslock = ScanCode.Capslock,
+        A = 4,
+        /// <summary>
+        /// 
+        /// </summary>
+        B = 5,
+        /// <summary>
+        /// 
+        /// </summary>
+        C = 6,
+        /// <summary>
+        /// 
+        /// </summary>
+        D = 7,
+        /// <summary>
+        /// 
+        /// </summary>
+        E = 8,
+        /// <summary>
+        /// 
+        /// </summary>
+        F = 9,
+        /// <summary>
+        /// 
+        /// </summary>
+        G = 10,
+        /// <summary>
+        /// 
+        /// </summary>
+        H = 11,
+        /// <summary>
+        /// 
+        /// </summary>
+        I = 12,
+        /// <summary>
+        /// 
+        /// </summary>
+        J = 13,
+        /// <summary>
+        /// 
+        /// </summary>
+        K = 14,
+        /// <summary>
+        /// 
+        /// </summary>
+        L = 15,
+        /// <summary>
+        /// 
+        /// </summary>
+        M = 16,
+        /// <summary>
+        /// 
+        /// </summary>
+        N = 17,
+        /// <summary>
+        /// 
+        /// </summary>
+        O = 18,
+        /// <summary>
+        /// 
+        /// </summary>
+        P = 19,
+        /// <summary>
+        /// 
+        /// </summary>
+        Q = 20,
+        /// <summary>
+        /// 
+        /// </summary>
+        R = 21,
+        /// <summary>
+        /// 
+        /// </summary>
+        S = 22,
+        /// <summary>
+        /// 
+        /// </summary>
+        T = 23,
+        /// <summary>
+        /// 
+        /// </summary>
+        U = 24,
+        /// <summary>
+        /// 
+        /// </summary>
+        V = 25,
+        /// <summary>
+        /// 
+        /// </summary>
+        W = 26,
+        /// <summary>
+        /// 
+        /// </summary>
+        X = 27,
+        /// <summary>
+        /// 
+        /// </summary>
+        Y = 28,
+        /// <summary>
+        /// 
+        /// </summary>
+        Z = 29,
+        /// <summary>
+        /// 
+        /// </summary>
+
+        D1 = 30,
+        /// <summary>
+        /// 
+        /// </summary>
+        D2 = 31,
+        /// <summary>
+        /// 
+        /// </summary>
+        D3 = 32,
+        /// <summary>
+        /// 
+        /// </summary>
+        D4 = 33,
+        /// <summary>
+        /// 
+        /// </summary>
+        D5 = 34,
+        /// <summary>
+        /// 
+        /// </summary>
+        D6 = 35,
+        /// <summary>
+        /// 
+        /// </summary>
+        D7 = 36,
+        /// <summary>
+        /// 
+        /// </summary>
+        D8 = 37,
+        /// <summary>
+        /// 
+        /// </summary>
+        D9 = 38,
+        /// <summary>
+        /// 
+        /// </summary>
+        D0 = 39,
+        /// <summary>
+        /// 
+        /// </summary>
+
+        Return = 40,
+        /// <summary>
+        /// 
+        /// </summary>
+        Escape = 41,
+        /// <summary>
+        /// 
+        /// </summary>
+        Backspace = 42,
+        /// <summary>
+        /// 
+        /// </summary>
+        Tab = 43,
+        /// <summary>
+        /// 
+        /// </summary>
+        Space = 44,
 
         /// <summary>
         /// 
         /// </summary>
-        F1 = ScanCode.F1,
+        Minus = 45,
         /// <summary>
         /// 
         /// </summary>
-        F2 = ScanCode.F2,
+        Equals = 46,
         /// <summary>
         /// 
         /// </summary>
-        F3 = ScanCode.F3,
+        Leftbracket = 47,
         /// <summary>
         /// 
         /// </summary>
-        F4 = ScanCode.F4,
+        Rightbracket = 48,
         /// <summary>
         /// 
         /// </summary>
-        F5 = ScanCode.F5,
+        Backslash = 49, /**< Located at the lower left of the return
+                         *   key on Iso keyboards and at the right end
+                         *   of the Qwerty row on Ansi keyboards.
+                         *   Produces Reverse Solidus (backslash) and
+                         *   Vertical Line in a Us layout, Reverse
+                         *   Solidus and Vertical Line in a Uk Mac
+                         *   layout, Number Sign and Tilde in a Uk
+                         *   Windows layout, Dollar Sign and Pound Sign
+                         *   in a Swiss German layout, Number Sign and
+                         *   Apostrophe in a German layout, Grave
+                         *   Accent and Pound Sign in a French Mac
+                         *   layout, and Asterisk and Micro Sign in a
+                         *   French Windows layout.
+                         */
         /// <summary>
         /// 
         /// </summary>
-        F6 = ScanCode.F6,
+        Nonushash = 50, /**< Iso Usb keyboards actually use this code
+                         *   instead of 49 for the same key, but all
+                         *   Oses I've seen treat the two codes
+                         *   identically. So, as an implementor, unless
+                         *   your keyboard generates both of those
+                         *   codes and your Os treats them differently,
+                         *   you should generate Backslash
+                         *   instead of this code. As a user, you
+                         *   should not rely on this code because Sdl
+                         *   will never generate it with most (all?)
+                         *   keyboards.
+                         */
         /// <summary>
         /// 
         /// </summary>
-        F7 = ScanCode.F7,
+        Semicolon = 51,
         /// <summary>
         /// 
         /// </summary>
-        F8 = ScanCode.F8,
+        Apostrophe = 52,
         /// <summary>
         /// 
         /// </summary>
-        F9 = ScanCode.F9,
+        Grave = 53, /**< Located in the top left corner (on both Ansi
+                     *   and Iso keyboards). Produces Grave Accent and
+                     *   Tilde in a Us Windows layout and in Us and Uk
+                     *   Mac layouts on Ansi keyboards, Grave Accent
+                     *   and Not Sign in a Uk Windows layout, Section
+                     *   Sign and Plus-Minus Sign in Us and Uk Mac
+                     *   layouts on Iso keyboards, Section Sign and
+                     *   Degree Sign in a Swiss German layout (Mac:
+                     *   only on Iso keyboards), Circumflex Accent and
+                     *   Degree Sign in a German layout (Mac: only on
+                     *   Iso keyboards), Superscript Two and Tilde in a
+                     *   French Windows layout, Commercial At and
+                     *   Number Sign in a French Mac layout on Iso
+                     *   keyboards, and Less-Than Sign and Greater-Than
+                     *   Sign in a Swiss German, German, or French Mac
+                     *   layout on Ansi keyboards.
+                     */
         /// <summary>
         /// 
         /// </summary>
-        F10 = ScanCode.F10,
+        Comma = 54,
         /// <summary>
         /// 
         /// </summary>
-        F11 = ScanCode.F11,
+        Period = 55,
         /// <summary>
         /// 
         /// </summary>
-        F12 = ScanCode.F12,
+        Slash = 56,
 
         /// <summary>
         /// 
         /// </summary>
-        Printscreen = ScanCode.Printscreen,
-        /// <summary>
-        /// 
-        /// </summary>
-        Scrolllock = ScanCode.Scrolllock,
-        /// <summary>
-        /// 
-        /// </summary>
-        Pause = ScanCode.Pause,
-        /// <summary>
-        /// 
-        /// </summary>
-        Insert = ScanCode.Insert,
-        /// <summary>
-        /// 
-        /// </summary>
-        Home = ScanCode.Home,
-        /// <summary>
-        /// 
-        /// </summary>
-        Pageup = ScanCode.Pageup,
-        /// <summary>
-        /// 
-        /// </summary>
-        Delete = '\u007F',
-        /// <summary>
-        /// 
-        /// </summary>
-        End = ScanCode.End,
-        /// <summary>
-        /// 
-        /// </summary>
-        Pagedown = ScanCode.Pagedown,
-        /// <summary>
-        /// 
-        /// </summary>
-        Right = ScanCode.Right,
-        /// <summary>
-        /// 
-        /// </summary>
-        Left = ScanCode.Left,
-        /// <summary>
-        /// 
-        /// </summary>
-        Down = ScanCode.Down,
-        /// <summary>
-        /// 
-        /// </summary>
-        Up = ScanCode.Up,
+        Capslock = 57,
 
         /// <summary>
         /// 
         /// </summary>
-        Numlockclear = ScanCode.Numlockclear,
+        F1 = 58,
         /// <summary>
         /// 
         /// </summary>
-        KpDivide = ScanCode.KpDivide,
+        F2 = 59,
         /// <summary>
         /// 
         /// </summary>
-        KpMultiply = ScanCode.KpMultiply,
+        F3 = 60,
         /// <summary>
         /// 
         /// </summary>
-        KpMinus = ScanCode.KpMinus,
+        F4 = 61,
         /// <summary>
         /// 
         /// </summary>
-        KpPlus = ScanCode.KpPlus,
+        F5 = 62,
         /// <summary>
         /// 
         /// </summary>
-        KpEnter = ScanCode.KpEnter,
+        F6 = 63,
         /// <summary>
         /// 
         /// </summary>
-        Kp_1 = ScanCode.Kp_1,
+        F7 = 64,
         /// <summary>
         /// 
         /// </summary>
-        Kp_2 = ScanCode.Kp_2,
+        F8 = 65,
         /// <summary>
         /// 
         /// </summary>
-        Kp_3 = ScanCode.Kp_3,
+        F9 = 66,
         /// <summary>
         /// 
         /// </summary>
-        Kp_4 = ScanCode.Kp_4,
+        F10 = 67,
         /// <summary>
         /// 
         /// </summary>
-        Kp_5 = ScanCode.Kp_5,
+        F11 = 68,
         /// <summary>
         /// 
         /// </summary>
-        Kp_6 = ScanCode.Kp_6,
-        /// <summary>
-        /// 
-        /// </summary>
-        Kp_7 = ScanCode.Kp_7,
-        /// <summary>
-        /// 
-        /// </summary>
-        Kp_8 = ScanCode.Kp_8,
-        /// <summary>
-        /// 
-        /// </summary>
-        Kp_9 = ScanCode.Kp_9,
-        /// <summary>
-        /// 
-        /// </summary>
-        Kp_0 = ScanCode.Kp_0,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpPeriod = ScanCode.KpPeriod,
+        F12 = 69,
 
         /// <summary>
         /// 
         /// </summary>
-        Application = ScanCode.Application,
+        Printscreen = 70,
         /// <summary>
         /// 
         /// </summary>
-        Power = ScanCode.Power,
+        Scrolllock = 71,
         /// <summary>
         /// 
         /// </summary>
-        KpEquals = ScanCode.KpEquals,
+        Pause = 72,
         /// <summary>
         /// 
         /// </summary>
-        F13 = ScanCode.F13,
+        Insert = 73, /**< insert on Pc, help on some Mac keyboards (but
+                          does send code 73, not 117) */
+        Home = 74,
         /// <summary>
         /// 
         /// </summary>
-        F14 = ScanCode.F14,
+        Pageup = 75,
         /// <summary>
         /// 
         /// </summary>
-        F15 = ScanCode.F15,
+        Delete = 76,
         /// <summary>
         /// 
         /// </summary>
-        F16 = ScanCode.F16,
+        End = 77,
         /// <summary>
         /// 
         /// </summary>
-        F17 = ScanCode.F17,
+        Pagedown = 78,
         /// <summary>
         /// 
         /// </summary>
-        F18 = ScanCode.F18,
+        Right = 79,
         /// <summary>
         /// 
         /// </summary>
-        F19 = ScanCode.F19,
+        Left = 80,
         /// <summary>
         /// 
         /// </summary>
-        F20 = ScanCode.F20,
+        Down = 81,
         /// <summary>
         /// 
         /// </summary>
-        F21 = ScanCode.F21,
-        /// <summary>
-        /// 
-        /// </summary>
-        F22 = ScanCode.F22,
-        /// <summary>
-        /// 
-        /// </summary>
-        F23 = ScanCode.F23,
-        /// <summary>
-        /// 
-        /// </summary>
-        F24 = ScanCode.F24,
-        /// <summary>
-        /// 
-        /// </summary>
-        Execute = ScanCode.Execute,
-        /// <summary>
-        /// 
-        /// </summary>
-        Help = ScanCode.Help,
-        /// <summary>
-        /// 
-        /// </summary>
-        Menu = ScanCode.Menu,
-        /// <summary>
-        /// 
-        /// </summary>
-        Select = ScanCode.Select,
-        /// <summary>
-        /// 
-        /// </summary>
-        Stop = ScanCode.Stop,
-        /// <summary>
-        /// 
-        /// </summary>
-        Again = ScanCode.Again,
-        /// <summary>
-        /// 
-        /// </summary>
-        Undo = ScanCode.Undo,
-        /// <summary>
-        /// 
-        /// </summary>
-        Cut = ScanCode.Cut,
-        /// <summary>
-        /// 
-        /// </summary>
-        Copy = ScanCode.Copy,
-        /// <summary>
-        /// 
-        /// </summary>
-        Paste = ScanCode.Paste,
-        /// <summary>
-        /// 
-        /// </summary>
-        Find = ScanCode.Find,
-        /// <summary>
-        /// 
-        /// </summary>
-        Mute = ScanCode.Mute,
-        /// <summary>
-        /// 
-        /// </summary>
-        Volumeup = ScanCode.Volumeup,
-        /// <summary>
-        /// 
-        /// </summary>
-        Volumedown = ScanCode.Volumedown,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpComma = ScanCode.KpComma,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpEqualsas400 = ScanCode.KpEqualsas400,
+        Up = 82,
 
         /// <summary>
         /// 
         /// </summary>
-        Alterase = ScanCode.Alterase,
+        Numlockclear = 83, /**< num lock on Pc, clear on Mac keyboards */
         /// <summary>
         /// 
         /// </summary>
-        Sysreq = ScanCode.Sysreq,
+        KpDivide = 84,
         /// <summary>
         /// 
         /// </summary>
-        Cancel = ScanCode.Cancel,
+        KpMultiply = 85,
         /// <summary>
         /// 
         /// </summary>
-        Clear = ScanCode.Clear,
+        KpMinus = 86,
         /// <summary>
         /// 
         /// </summary>
-        Prior = ScanCode.Prior,
+        KpPlus = 87,
         /// <summary>
         /// 
         /// </summary>
-        Return2 = ScanCode.Return2,
+        KpEnter = 88,
         /// <summary>
         /// 
         /// </summary>
-        Separator = ScanCode.Separator,
+        Kp_1 = 89,
         /// <summary>
         /// 
         /// </summary>
-        Out = ScanCode.Out,
+        Kp_2 = 90,
         /// <summary>
         /// 
         /// </summary>
-        Oper = ScanCode.Oper,
+        Kp_3 = 91,
         /// <summary>
         /// 
         /// </summary>
-        Clearagain = ScanCode.Clearagain,
+        Kp_4 = 92,
         /// <summary>
         /// 
         /// </summary>
-        Crsel = ScanCode.Crsel,
+        Kp_5 = 93,
         /// <summary>
         /// 
         /// </summary>
-        Exsel = ScanCode.Exsel,
+        Kp_6 = 94,
+        /// <summary>
+        /// 
+        /// </summary>
+        Kp_7 = 95,
+        /// <summary>
+        /// 
+        /// </summary>
+        Kp_8 = 96,
+        /// <summary>
+        /// 
+        /// </summary>
+        Kp_9 = 97,
+        /// <summary>
+        /// 
+        /// </summary>
+        Kp_0 = 98,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpPeriod = 99,
 
         /// <summary>
         /// 
         /// </summary>
-        Kp_00 = ScanCode.Kp_00,
+        Nonusbackslash = 100, /**< This is the additional key that Iso
+                               *   keyboards have over Ansi ones, 
+                               *   located between left shift and Y.
+                               *   Produces Grave Accent and Tilde in a
+                               *   Us or Uk Mac layout, Reverse Solidus
+                               *   (backslash) and Vertical Line in a
+                               *   Us or Uk Windows layout, and
+                               *   Less-Than Sign and Greater-Than Sign
+                               *   in a Swiss German, German, or French
+                               *   layout. */
         /// <summary>
         /// 
         /// </summary>
-        Kp_000 = ScanCode.Kp_000,
+        Application = 101, /**< windows contextual menu, compose */
         /// <summary>
         /// 
         /// </summary>
-        Thousandsseparator = ScanCode.Thousandsseparator,
+        Power = 102, /**< The Usb document says this is a status flag, 
+                      *   not a physical key - but some Mac keyboards
+                      *   do have a power key. */
         /// <summary>
         /// 
         /// </summary>
-        Decimalseparator = ScanCode.Decimalseparator,
+        KpEquals = 103,
         /// <summary>
         /// 
         /// </summary>
-        Currencyunit = ScanCode.Currencyunit,
+        F13 = 104,
         /// <summary>
         /// 
         /// </summary>
-        Currencysubunit = ScanCode.Currencysubunit,
+        F14 = 105,
         /// <summary>
         /// 
         /// </summary>
-        KpLeftparen = ScanCode.KpLeftparen,
+        F15 = 106,
         /// <summary>
         /// 
         /// </summary>
-        KpRightparen = ScanCode.KpRightparen,
+        F16 = 107,
         /// <summary>
         /// 
         /// </summary>
-        KpLeftbrace = ScanCode.KpLeftbrace,
+        F17 = 108,
         /// <summary>
         /// 
         /// </summary>
-        KpRightbrace = ScanCode.KpRightbrace,
+        F18 = 109,
         /// <summary>
         /// 
         /// </summary>
-        KpTab = ScanCode.KpTab,
+        F19 = 110,
         /// <summary>
         /// 
         /// </summary>
-        KpBackspace = ScanCode.KpBackspace,
+        F20 = 111,
         /// <summary>
         /// 
         /// </summary>
-        KpA = ScanCode.KpA,
+        F21 = 112,
         /// <summary>
         /// 
         /// </summary>
-        KpB = ScanCode.KpB,
+        F22 = 113,
         /// <summary>
         /// 
         /// </summary>
-        KpC = ScanCode.KpC,
+        F23 = 114,
         /// <summary>
         /// 
         /// </summary>
-        KpD = ScanCode.KpD,
+        F24 = 115,
         /// <summary>
         /// 
         /// </summary>
-        KpE = ScanCode.KpE,
+        Execute = 116,
         /// <summary>
         /// 
         /// </summary>
-        KpF = ScanCode.KpF,
+        Help = 117,
         /// <summary>
         /// 
         /// </summary>
-        KpXor = ScanCode.KpXor,
+        Menu = 118,
         /// <summary>
         /// 
         /// </summary>
-        KpPower = ScanCode.KpPower,
+        Select = 119,
         /// <summary>
         /// 
         /// </summary>
-        KpPercent = ScanCode.KpPercent,
+        Stop = 120,
         /// <summary>
         /// 
         /// </summary>
-        KpLess = ScanCode.KpLess,
+        Again = 121, /**< redo */
         /// <summary>
         /// 
         /// </summary>
-        KpGreater = ScanCode.KpGreater,
+        Undo = 122,
         /// <summary>
         /// 
         /// </summary>
-        KpAmpersand = ScanCode.KpAmpersand,
+        Cut = 123,
         /// <summary>
         /// 
         /// </summary>
-        KpDblampersand = ScanCode.KpDblampersand,
+        Copy = 124,
         /// <summary>
         /// 
         /// </summary>
-        KpVerticalbar = ScanCode.KpVerticalbar,
+        Paste = 125,
         /// <summary>
         /// 
         /// </summary>
-        KpDblverticalbar = ScanCode.KpDblverticalbar,
+        Find = 126,
         /// <summary>
         /// 
         /// </summary>
-        KpColon = ScanCode.KpColon,
+        Mute = 127,
         /// <summary>
         /// 
         /// </summary>
-        KpHash = ScanCode.KpHash,
+        Volumeup = 128,
         /// <summary>
         /// 
         /// </summary>
-        KpSpace = ScanCode.KpSpace,
+        Volumedown = 129,
+    /* not sure whether there's a reason to enable these */
+    /*     Lockingcapslock = 130, */
+    /*     Lockingnumlock = 131, */
+    /*     Lockingscrolllock = 132, */
         /// <summary>
         /// 
         /// </summary>
-        KpAt = ScanCode.KpAt,
+        KpComma = 133,
         /// <summary>
         /// 
         /// </summary>
-        KpExclam = ScanCode.KpExclam,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpMemstore = ScanCode.KpMemstore,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpMemrecall = ScanCode.KpMemrecall,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpMemclear = ScanCode.KpMemclear,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpMemadd = ScanCode.KpMemadd,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpMemsubtract = ScanCode.KpMemsubtract,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpMemmultiply = ScanCode.KpMemmultiply,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpMemdivide = ScanCode.KpMemdivide,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpPlusminus = ScanCode.KpPlusminus,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpClear = ScanCode.KpClear,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpClearentry = ScanCode.KpClearentry,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpBinary = ScanCode.KpBinary,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpOctal = ScanCode.KpOctal,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpDecimal = ScanCode.KpDecimal,
-        /// <summary>
-        /// 
-        /// </summary>
-        KpHexadecimal = ScanCode.KpHexadecimal,
+        KpEqualsas400 = 134,
 
         /// <summary>
         /// 
         /// </summary>
-        Lctrl = ScanCode.Lctrl,
+        International1 = 135, /**< used on Asian keyboards, see footnotes in Usb doc */
         /// <summary>
         /// 
         /// </summary>
-        Lshift = ScanCode.Lshift,
+        International2 = 136,
         /// <summary>
         /// 
         /// </summary>
-        Lalt = ScanCode.Lalt,
+        International3 = 137,
+        /// <summary>
+        /// 
+        /// </summary> /**< Yen */
+        International4 = 138,
         /// <summary>
         /// 
         /// </summary>
-        Lgui = ScanCode.Lgui,
+        International5 = 139,
         /// <summary>
         /// 
         /// </summary>
-        Rctrl = ScanCode.Rctrl,
+        International6 = 140,
         /// <summary>
         /// 
         /// </summary>
-        Rshift = ScanCode.Rshift,
+        International7 = 141,
         /// <summary>
         /// 
         /// </summary>
-        Ralt = ScanCode.Ralt,
+        International8 = 142,
         /// <summary>
         /// 
         /// </summary>
-        Rgui = ScanCode.Rgui,
+        International9 = 143,
+        /// <summary>
+        /// 
+        /// </summary>
+        Lang1 = 144, /**< Hangul/English toggle */
+        /// <summary>
+        /// 
+        /// </summary>
+        Lang2 = 145, /**< Hanja conversion */
+        /// <summary>
+        /// 
+        /// </summary>
+        Lang3 = 146, /**< Katakana */
+        /// <summary>
+        /// 
+        /// </summary>
+        Lang4 = 147, /**< Hiragana */
+        /// <summary>
+        /// 
+        /// </summary>
+        Lang5 = 148, /**< Zenkaku/Hankaku */
+        /// <summary>
+        /// 
+        /// </summary>
+        Lang6 = 149, /**< reserved */
+        /// <summary>
+        /// 
+        /// </summary>
+        Lang7 = 150, /**< reserved */
+        /// <summary>
+        /// 
+        /// </summary>
+        Lang8 = 151, /**< reserved */
+        /// <summary>
+        /// 
+        /// </summary>
+        Lang9 = 152, /**< reserved */
 
         /// <summary>
         /// 
         /// </summary>
-        Mode = ScanCode.Mode,
+        Alterase = 153, /**< Erase-Eaze */
+        /// <summary>
+        /// 
+        /// </summary>
+        Sysreq = 154,
+        /// <summary>
+        /// 
+        /// </summary>
+        Cancel = 155,
+        /// <summary>
+        /// 
+        /// </summary>
+        Clear = 156,
+        /// <summary>
+        /// 
+        /// </summary>
+        Prior = 157,
+        /// <summary>
+        /// 
+        /// </summary>
+        Return2 = 158,
+        /// <summary>
+        /// 
+        /// </summary>
+        Separator = 159,
+        /// <summary>
+        /// 
+        /// </summary>
+        Out = 160,
+        /// <summary>
+        /// 
+        /// </summary>
+        Oper = 161,
+        /// <summary>
+        /// 
+        /// </summary>
+        Clearagain = 162,
+        /// <summary>
+        /// 
+        /// </summary>
+        Crsel = 163,
+        /// <summary>
+        /// 
+        /// </summary>
+        Exsel = 164,
 
         /// <summary>
         /// 
         /// </summary>
-        Audionext = ScanCode.Audionext,
+        Kp_00 = 176,
         /// <summary>
         /// 
         /// </summary>
-        Audioprev = ScanCode.Audioprev,
+        Kp_000 = 177,
         /// <summary>
         /// 
         /// </summary>
-        Audiostop = ScanCode.Audiostop,
+        Thousandsseparator = 178,
         /// <summary>
         /// 
         /// </summary>
-        Audioplay = ScanCode.Audioplay,
+        Decimalseparator = 179,
         /// <summary>
         /// 
         /// </summary>
-        Audiomute = ScanCode.Audiomute,
+        Currencyunit = 180,
         /// <summary>
         /// 
         /// </summary>
-        Mediaselect = ScanCode.Mediaselect,
+        Currencysubunit = 181,
         /// <summary>
         /// 
         /// </summary>
-        Www = ScanCode.Www,
+        KpLeftparen = 182,
         /// <summary>
         /// 
         /// </summary>
-        Mail = ScanCode.Mail,
+        KpRightparen = 183,
         /// <summary>
         /// 
         /// </summary>
-        Calculator = ScanCode.Calculator,
+        KpLeftbrace = 184,
         /// <summary>
         /// 
         /// </summary>
-        Computer = ScanCode.Computer,
+        KpRightbrace = 185,
         /// <summary>
         /// 
         /// </summary>
-        AcSearch = ScanCode.AcSearch,
+        KpTab = 186,
         /// <summary>
         /// 
         /// </summary>
-        AcHome = ScanCode.AcHome,
+        KpBackspace = 187,
         /// <summary>
         /// 
         /// </summary>
-        AcBack = ScanCode.AcBack,
+        KpA = 188,
         /// <summary>
         /// 
         /// </summary>
-        AcForward = ScanCode.AcForward,
+        KpB = 189,
         /// <summary>
         /// 
         /// </summary>
-        AcStop = ScanCode.AcStop,
+        KpC = 190,
         /// <summary>
         /// 
         /// </summary>
-        AcRefresh = ScanCode.AcRefresh,
+        KpD = 191,
         /// <summary>
         /// 
         /// </summary>
-        AcBookmarks = ScanCode.AcBookmarks,
+        KpE = 192,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpF = 193,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpXor = 194,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpPower = 195,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpPercent = 196,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpLess = 197,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpGreater = 198,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpAmpersand = 199,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpDblampersand = 200,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpVerticalbar = 201,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpDblverticalbar = 202,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpColon = 203,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpHash = 204,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpSpace = 205,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpAt = 206,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpExclam = 207,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpMemstore = 208,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpMemrecall = 209,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpMemclear = 210,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpMemadd = 211,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpMemsubtract = 212,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpMemmultiply = 213,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpMemdivide = 214,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpPlusminus = 215,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpClear = 216,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpClearentry = 217,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpBinary = 218,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpOctal = 219,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpDecimal = 220,
+        /// <summary>
+        /// 
+        /// </summary>
+        KpHexadecimal = 221,
 
         /// <summary>
         /// 
         /// </summary>
-        Brightnessdown = ScanCode.Brightnessdown,
+        Lctrl = 224,
         /// <summary>
         /// 
         /// </summary>
-        Brightnessup = ScanCode.Brightnessup,
+        Lshift = 225,
         /// <summary>
         /// 
         /// </summary>
-        Displayswitch = ScanCode.Displayswitch,
+        Lalt = 226, /**< alt, option */
         /// <summary>
         /// 
         /// </summary>
-        Kbdillumtoggle = ScanCode.Kbdillumtoggle,
+        Lgui = 227, /**< windows, command (apple), meta */
         /// <summary>
         /// 
         /// </summary>
-        Kbdillumdown = ScanCode.Kbdillumdown,
+        Rctrl = 228,
         /// <summary>
         /// 
         /// </summary>
-        Kbdillumup = ScanCode.Kbdillumup,
+        Rshift = 229,
         /// <summary>
         /// 
         /// </summary>
-        Eject = ScanCode.Eject,
+        Ralt = 230, /**< alt gr, option */
         /// <summary>
         /// 
         /// </summary>
-        Sleep = ScanCode.Sleep,
-        /// <summary>
-        /// 
-        /// </summary>
-        App1 = ScanCode.App1,
-        /// <summary>
-        /// 
-        /// </summary>
-        App2 = ScanCode.App2,
+        Rgui = 231, /**< windows, command (apple), meta */
 
         /// <summary>
         /// 
         /// </summary>
-        Audiorewind = ScanCode.Audiorewind,
+        Mode = 257, /**< I'm not sure if this is really not covered
+                     *   by any of the above, but since there's a
+                     *   special KmodMode for it I'm adding it here
+                     */
+
+        /* @} *//* Usage page 0x07 */
+
+        /**
+        *  \name Usage page 0x0C
+        *
+        *  These values are mapped from usage page 0x0C (Usb consumer page).
+        */
+        /* @{ */
+
         /// <summary>
         /// 
         /// </summary>
-        Audiofastforward = ScanCode.Audiofastforward
+        Audionext = 258,
+        /// <summary>
+        /// 
+        /// </summary>
+        Audioprev = 259,
+        /// <summary>
+        /// 
+        /// </summary>
+        Audiostop = 260,
+        /// <summary>
+        /// 
+        /// </summary>
+        Audioplay = 261,
+        /// <summary>
+        /// 
+        /// </summary>
+        Audiomute = 262,
+        /// <summary>
+        /// 
+        /// </summary>
+        Mediaselect = 263,
+        /// <summary>
+        /// 
+        /// </summary>
+        Www = 264,
+        /// <summary>
+        /// 
+        /// </summary>
+        Mail = 265,
+        /// <summary>
+        /// 
+        /// </summary>
+        Calculator = 266,
+        /// <summary>
+        /// 
+        /// </summary>
+        Computer = 267,
+        /// <summary>
+        /// 
+        /// </summary>
+        AcSearch = 268,
+        /// <summary>
+        /// 
+        /// </summary>
+        AcHome = 269,
+        /// <summary>
+        /// 
+        /// </summary>
+        AcBack = 270,
+        /// <summary>
+        /// 
+        /// </summary>
+        AcForward = 271,
+        /// <summary>
+        /// 
+        /// </summary>
+        AcStop = 272,
+        /// <summary>
+        /// 
+        /// </summary>
+        AcRefresh = 273,
+        /// <summary>
+        /// 
+        /// </summary>
+        AcBookmarks = 274,
+
+        /* @} *//* Usage page 0x0C */
+
+        /**
+        *  \name Walther keys
+        *
+        *  These are values that Christian Walther added (for mac keyboard?).
+        */
+        /* @{ */
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Brightnessdown = 275,
+        /// <summary>
+        /// 
+        /// </summary>
+        Brightnessup = 276,
+        /// <summary>
+        /// 
+        /// </summary>
+        Displayswitch = 277, /**< display mirroring/dual display switch, video mode switch */
+        /// <summary>
+        /// 
+        /// </summary>
+        Kbdillumtoggle = 278,
+        /// <summary>
+        /// 
+        /// </summary>
+        Kbdillumdown = 279,
+        /// <summary>
+        /// 
+        /// </summary>
+        Kbdillumup = 280,
+        /// <summary>
+        /// 
+        /// </summary>
+        Eject = 281,
+        /// <summary>
+        /// 
+        /// </summary>
+        Sleep = 282,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        App1 = 283,
+        /// <summary>
+        /// 
+        /// </summary>
+        App2 = 284,
+
+        /* @} *//* Walther keys */
+
+        /**
+        *  \name Usage page 0x0C (additional media keys)
+        *
+        *  These values are mapped from usage page 0x0C (Usb consumer page).
+        */
+        /* @{ */
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Audiorewind = 285,
+        /// <summary>
+        /// 
+        /// </summary>
+        Audiofastforward = 286,
+        /// <summary>
+        /// Not an actual scan code. Has a value one larger than the largest value of all scan codes.
+        /// Used to create an array that can be indexed with scan codes.
+        /// </summary>
+        Count
     }
 }

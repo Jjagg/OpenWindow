@@ -23,6 +23,7 @@ namespace OpenWindow.Backends.Windows
         Char           = 0x0102,
         SysKeyDown     = 0x0104,
         SysKeyUp       = 0x0105,
+        UniChar        = 0x0109,
         MouseMove      = 0x0200,
         LButtonDown    = 0x0201,
         LButtonUp      = 0x0202,
