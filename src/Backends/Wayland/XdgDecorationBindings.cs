@@ -146,7 +146,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="mode">the decoration mode</param>
         public static void zxdg_toplevel_decoration_v1_set_mode(zxdg_toplevel_decoration_v1* pointer, zxdg_toplevel_decoration_v1_mode mode)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 1);
+            var args = stackalloc wl_argument[1];
+            args[0] = (int) mode;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 1, args);
         }
 
         /// <summary>

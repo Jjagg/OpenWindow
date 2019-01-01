@@ -522,7 +522,7 @@ namespace WaylandSharpGen
 
             var methodName = "WaylandClient.wl_proxy_marshal";
 
-            var array = args.Count > 0 && (args.Count != 1 || newId);
+            var array = args.Count > 0 && !(args.Count == 1 && newId);
             if (array)
             {
                 methodName += "_array";
@@ -539,7 +539,7 @@ namespace WaylandSharpGen
             {
                 argsString += ifaceArg;
                 if (newId)
-                    argsString += ", IntPtr.Zero";
+                    argsString += ", null";
             }
 
             if (newId)

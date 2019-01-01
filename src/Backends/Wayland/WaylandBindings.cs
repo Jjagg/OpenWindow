@@ -344,9 +344,7 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="callback">callback object for the sync request</param>
         public static wl_callback* wl_display_sync(wl_display* pointer)
         {
-            var args = stackalloc wl_argument[1];
-            args[0] = 0;
-            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, wl_callback.Interface);
+            var ptr = WaylandClient.wl_proxy_marshal_constructor((wl_proxy*) pointer, 0, wl_callback.Interface, null);
             return (wl_callback*) ptr;
         }
 
@@ -367,9 +365,7 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="registry">global registry object</param>
         public static wl_registry* wl_display_get_registry(wl_display* pointer)
         {
-            var args = stackalloc wl_argument[1];
-            args[0] = 0;
-            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, wl_registry.Interface);
+            var ptr = WaylandClient.wl_proxy_marshal_constructor((wl_proxy*) pointer, 1, wl_registry.Interface, null);
             return (wl_registry*) ptr;
         }
 
@@ -559,9 +555,7 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">the new surface</param>
         public static wl_surface* wl_compositor_create_surface(wl_compositor* pointer)
         {
-            var args = stackalloc wl_argument[1];
-            args[0] = 0;
-            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, wl_surface.Interface);
+            var ptr = WaylandClient.wl_proxy_marshal_constructor((wl_proxy*) pointer, 0, wl_surface.Interface, null);
             return (wl_surface*) ptr;
         }
 
@@ -573,9 +567,7 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">the new region</param>
         public static wl_region* wl_compositor_create_region(wl_compositor* pointer)
         {
-            var args = stackalloc wl_argument[1];
-            args[0] = 0;
-            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, wl_region.Interface);
+            var ptr = WaylandClient.wl_proxy_marshal_constructor((wl_proxy*) pointer, 1, wl_region.Interface, null);
             return (wl_region*) ptr;
         }
 
@@ -641,7 +633,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="size">new size of the pool, in bytes</param>
         public static void wl_shm_pool_resize(wl_shm_pool* pointer, int size)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 2);
+            var args = stackalloc wl_argument[1];
+            args[0] = size;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 2, args);
         }
 
         /// <summary>
@@ -1029,7 +1023,9 @@ namespace OpenWindow.Backends.Wayland
             var mime_typeByteCount = System.Text.Encoding.UTF8.GetByteCount(mime_type);
             var mime_typeBytes = stackalloc byte[mime_typeByteCount];
             Util.StringToUtf8(mime_type, mime_typeBytes, mime_typeByteCount);
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
+            var args = stackalloc wl_argument[1];
+            args[0] = mime_typeBytes;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 0, args);
         }
 
         /// <summary>
@@ -1064,7 +1060,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="dnd_actions">actions supported by the data source</param>
         public static void wl_data_source_set_actions(wl_data_source* pointer, uint dnd_actions)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 2);
+            var args = stackalloc wl_argument[1];
+            args[0] = dnd_actions;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 2, args);
         }
 
         /// <summary>
@@ -1456,9 +1454,7 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">data source to create</param>
         public static wl_data_source* wl_data_device_manager_create_data_source(wl_data_device_manager* pointer)
         {
-            var args = stackalloc wl_argument[1];
-            args[0] = 0;
-            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, wl_data_source.Interface);
+            var ptr = WaylandClient.wl_proxy_marshal_constructor((wl_proxy*) pointer, 0, wl_data_source.Interface, null);
             return (wl_data_source*) ptr;
         }
 
@@ -1508,7 +1504,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="serial">serial number of the ping event</param>
         public static void wl_shell_surface_pong(wl_shell_surface* pointer, uint serial)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 0);
+            var args = stackalloc wl_argument[1];
+            args[0] = serial;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 0, args);
         }
 
         /// <summary>
@@ -1722,7 +1720,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="output">output on which the surface is to be maximized</param>
         public static void wl_shell_surface_set_maximized(wl_shell_surface* pointer, wl_output* output)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 7);
+            var args = stackalloc wl_argument[1];
+            args[0] = output;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 7, args);
         }
 
         /// <summary>
@@ -1744,7 +1744,9 @@ namespace OpenWindow.Backends.Wayland
             var titleByteCount = System.Text.Encoding.UTF8.GetByteCount(title);
             var titleBytes = stackalloc byte[titleByteCount];
             Util.StringToUtf8(title, titleBytes, titleByteCount);
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 8);
+            var args = stackalloc wl_argument[1];
+            args[0] = titleBytes;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 8, args);
         }
 
         /// <summary>
@@ -1764,7 +1766,9 @@ namespace OpenWindow.Backends.Wayland
             var class_ByteCount = System.Text.Encoding.UTF8.GetByteCount(class_);
             var class_Bytes = stackalloc byte[class_ByteCount];
             Util.StringToUtf8(class_, class_Bytes, class_ByteCount);
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 9);
+            var args = stackalloc wl_argument[1];
+            args[0] = class_Bytes;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 9, args);
         }
 
         /// <summary>
@@ -2011,9 +2015,7 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="callback">callback object for the frame request</param>
         public static wl_callback* wl_surface_frame(wl_surface* pointer)
         {
-            var args = stackalloc wl_argument[1];
-            args[0] = 0;
-            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 3, args, wl_callback.Interface);
+            var ptr = WaylandClient.wl_proxy_marshal_constructor((wl_proxy*) pointer, 3, wl_callback.Interface, null);
             return (wl_callback*) ptr;
         }
 
@@ -2054,7 +2056,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="region">opaque region of the surface</param>
         public static void wl_surface_set_opaque_region(wl_surface* pointer, wl_region* region)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 4);
+            var args = stackalloc wl_argument[1];
+            args[0] = region;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 4, args);
         }
 
         /// <summary>
@@ -2091,7 +2095,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="region">input region of the surface</param>
         public static void wl_surface_set_input_region(wl_surface* pointer, wl_region* region)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 5);
+            var args = stackalloc wl_argument[1];
+            args[0] = region;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 5, args);
         }
 
         /// <summary>
@@ -2165,7 +2171,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="transform">transform for interpreting buffer contents</param>
         public static void wl_surface_set_buffer_transform(wl_surface* pointer, wl_output_transform transform)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 7);
+            var args = stackalloc wl_argument[1];
+            args[0] = (int) transform;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 7, args);
         }
 
         /// <summary>
@@ -2204,7 +2212,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="scale">positive scale for interpreting buffer contents</param>
         public static void wl_surface_set_buffer_scale(wl_surface* pointer, int scale)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 8);
+            var args = stackalloc wl_argument[1];
+            args[0] = scale;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 8, args);
         }
 
         /// <summary>
@@ -2332,9 +2342,7 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">seat pointer</param>
         public static wl_pointer* wl_seat_get_pointer(wl_seat* pointer)
         {
-            var args = stackalloc wl_argument[1];
-            args[0] = 0;
-            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 0, args, wl_pointer.Interface);
+            var ptr = WaylandClient.wl_proxy_marshal_constructor((wl_proxy*) pointer, 0, wl_pointer.Interface, null);
             return (wl_pointer*) ptr;
         }
 
@@ -2353,9 +2361,7 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">seat keyboard</param>
         public static wl_keyboard* wl_seat_get_keyboard(wl_seat* pointer)
         {
-            var args = stackalloc wl_argument[1];
-            args[0] = 0;
-            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, wl_keyboard.Interface);
+            var ptr = WaylandClient.wl_proxy_marshal_constructor((wl_proxy*) pointer, 1, wl_keyboard.Interface, null);
             return (wl_keyboard*) ptr;
         }
 
@@ -2374,9 +2380,7 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="id">seat touch interface</param>
         public static wl_touch* wl_seat_get_touch(wl_seat* pointer)
         {
-            var args = stackalloc wl_argument[1];
-            args[0] = 0;
-            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 2, args, wl_touch.Interface);
+            var ptr = WaylandClient.wl_proxy_marshal_constructor((wl_proxy*) pointer, 2, wl_touch.Interface, null);
             return (wl_touch*) ptr;
         }
 
@@ -3482,7 +3486,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="sibling">the reference surface</param>
         public static void wl_subsurface_place_above(wl_subsurface* pointer, wl_surface* sibling)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 2);
+            var args = stackalloc wl_argument[1];
+            args[0] = sibling;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 2, args);
         }
 
         /// <summary>
@@ -3494,7 +3500,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="sibling">the reference surface</param>
         public static void wl_subsurface_place_below(wl_subsurface* pointer, wl_surface* sibling)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 3);
+            var args = stackalloc wl_argument[1];
+            args[0] = sibling;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 3, args);
         }
 
         /// <summary>

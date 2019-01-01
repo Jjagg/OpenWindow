@@ -155,9 +155,7 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public static xdg_positioner* xdg_wm_base_create_positioner(xdg_wm_base* pointer)
         {
-            var args = stackalloc wl_argument[1];
-            args[0] = 0;
-            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, xdg_positioner.Interface);
+            var ptr = WaylandClient.wl_proxy_marshal_constructor((wl_proxy*) pointer, 1, xdg_positioner.Interface, null);
             return (xdg_positioner*) ptr;
         }
 
@@ -196,7 +194,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="serial">serial of the ping event</param>
         public static void xdg_wm_base_pong(xdg_wm_base* pointer, uint serial)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 3);
+            var args = stackalloc wl_argument[1];
+            args[0] = serial;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 3, args);
         }
 
         /// <summary>
@@ -319,7 +319,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="anchor">anchor</param>
         public static void xdg_positioner_set_anchor(xdg_positioner* pointer, xdg_positioner_anchor anchor)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 3);
+            var args = stackalloc wl_argument[1];
+            args[0] = (int) anchor;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 3, args);
         }
 
         /// <summary>
@@ -335,7 +337,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="gravity">gravity direction</param>
         public static void xdg_positioner_set_gravity(xdg_positioner* pointer, xdg_positioner_gravity gravity)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 4);
+            var args = stackalloc wl_argument[1];
+            args[0] = (int) gravity;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 4, args);
         }
 
         /// <summary>
@@ -361,7 +365,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="constraint_adjustment">bit mask of constraint adjustments</param>
         public static void xdg_positioner_set_constraint_adjustment(xdg_positioner* pointer, uint constraint_adjustment)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 5);
+            var args = stackalloc wl_argument[1];
+            args[0] = constraint_adjustment;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 5, args);
         }
 
         /// <summary>
@@ -413,9 +419,7 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public static xdg_toplevel* xdg_surface_get_toplevel(xdg_surface* pointer)
         {
-            var args = stackalloc wl_argument[1];
-            args[0] = 0;
-            var ptr = WaylandClient.wl_proxy_marshal_array_constructor((wl_proxy*) pointer, 1, args, xdg_toplevel.Interface);
+            var ptr = WaylandClient.wl_proxy_marshal_constructor((wl_proxy*) pointer, 1, xdg_toplevel.Interface, null);
             return (xdg_toplevel*) ptr;
         }
 
@@ -522,7 +526,9 @@ namespace OpenWindow.Backends.Wayland
         /// <param name="serial">the serial from the configure event</param>
         public static void xdg_surface_ack_configure(xdg_surface* pointer, uint serial)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 4);
+            var args = stackalloc wl_argument[1];
+            args[0] = serial;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 4, args);
         }
 
         /// <summary>
@@ -614,7 +620,9 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public static void xdg_toplevel_set_parent(xdg_toplevel* pointer, xdg_toplevel* parent)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 1);
+            var args = stackalloc wl_argument[1];
+            args[0] = parent;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 1, args);
         }
 
         /// <summary>
@@ -635,7 +643,9 @@ namespace OpenWindow.Backends.Wayland
             var titleByteCount = System.Text.Encoding.UTF8.GetByteCount(title);
             var titleBytes = stackalloc byte[titleByteCount];
             Util.StringToUtf8(title, titleBytes, titleByteCount);
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 2);
+            var args = stackalloc wl_argument[1];
+            args[0] = titleBytes;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 2, args);
         }
 
         /// <summary>
@@ -672,7 +682,9 @@ namespace OpenWindow.Backends.Wayland
             var app_idByteCount = System.Text.Encoding.UTF8.GetByteCount(app_id);
             var app_idBytes = stackalloc byte[app_idByteCount];
             Util.StringToUtf8(app_id, app_idBytes, app_idByteCount);
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 3);
+            var args = stackalloc wl_argument[1];
+            args[0] = app_idBytes;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 3, args);
         }
 
         /// <summary>
@@ -999,7 +1011,9 @@ namespace OpenWindow.Backends.Wayland
         /// </summary>
         public static void xdg_toplevel_set_fullscreen(xdg_toplevel* pointer, wl_output* output)
         {
-            WaylandClient.wl_proxy_marshal((wl_proxy*) pointer, 11);
+            var args = stackalloc wl_argument[1];
+            args[0] = output;
+            WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 11, args);
         }
 
         /// <summary>
