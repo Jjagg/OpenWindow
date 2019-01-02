@@ -475,8 +475,9 @@ namespace WaylandSharpGen
                 {
                     // TODO should this be in the low-level API?
                     before.Add($"var {arg.Name}ByteCount = System.Text.Encoding.UTF8.GetByteCount({arg.Name});");
-                    before.Add($"var {arg.Name}Bytes = stackalloc byte[{arg.Name}ByteCount];");
+                    before.Add($"var {arg.Name}Bytes = stackalloc byte[{arg.Name}ByteCount + 1];");
                     before.Add($"Util.StringToUtf8({arg.Name}, {arg.Name}Bytes, {arg.Name}ByteCount);");
+                    before.Add($"{arg.Name}Bytes[{arg.Name}ByteCount] = 0;");
                     parameters.Add(arg.ParamType + " " + arg.Name);
                     args.Add(arg.Name + "Bytes");
                 }

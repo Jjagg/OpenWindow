@@ -783,8 +783,9 @@ namespace OpenWindow.Backends.Wayland
         public static void wl_data_offer_accept(wl_data_offer* pointer, uint serial, string mime_type)
         {
             var mime_typeByteCount = System.Text.Encoding.UTF8.GetByteCount(mime_type);
-            var mime_typeBytes = stackalloc byte[mime_typeByteCount];
+            var mime_typeBytes = stackalloc byte[mime_typeByteCount + 1];
             Util.StringToUtf8(mime_type, mime_typeBytes, mime_typeByteCount);
+            mime_typeBytes[mime_typeByteCount] = 0;
             var args = stackalloc wl_argument[2];
             args[0] = serial;
             args[1] = mime_typeBytes;
@@ -817,8 +818,9 @@ namespace OpenWindow.Backends.Wayland
         public static void wl_data_offer_receive(wl_data_offer* pointer, string mime_type, int fd)
         {
             var mime_typeByteCount = System.Text.Encoding.UTF8.GetByteCount(mime_type);
-            var mime_typeBytes = stackalloc byte[mime_typeByteCount];
+            var mime_typeBytes = stackalloc byte[mime_typeByteCount + 1];
             Util.StringToUtf8(mime_type, mime_typeBytes, mime_typeByteCount);
+            mime_typeBytes[mime_typeByteCount] = 0;
             var args = stackalloc wl_argument[2];
             args[0] = mime_typeBytes;
             args[1] = fd;
@@ -1021,8 +1023,9 @@ namespace OpenWindow.Backends.Wayland
         public static void wl_data_source_offer(wl_data_source* pointer, string mime_type)
         {
             var mime_typeByteCount = System.Text.Encoding.UTF8.GetByteCount(mime_type);
-            var mime_typeBytes = stackalloc byte[mime_typeByteCount];
+            var mime_typeBytes = stackalloc byte[mime_typeByteCount + 1];
             Util.StringToUtf8(mime_type, mime_typeBytes, mime_typeByteCount);
+            mime_typeBytes[mime_typeByteCount] = 0;
             var args = stackalloc wl_argument[1];
             args[0] = mime_typeBytes;
             WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 0, args);
@@ -1742,8 +1745,9 @@ namespace OpenWindow.Backends.Wayland
         public static void wl_shell_surface_set_title(wl_shell_surface* pointer, string title)
         {
             var titleByteCount = System.Text.Encoding.UTF8.GetByteCount(title);
-            var titleBytes = stackalloc byte[titleByteCount];
+            var titleBytes = stackalloc byte[titleByteCount + 1];
             Util.StringToUtf8(title, titleBytes, titleByteCount);
+            titleBytes[titleByteCount] = 0;
             var args = stackalloc wl_argument[1];
             args[0] = titleBytes;
             WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 8, args);
@@ -1764,8 +1768,9 @@ namespace OpenWindow.Backends.Wayland
         public static void wl_shell_surface_set_class(wl_shell_surface* pointer, string class_)
         {
             var class_ByteCount = System.Text.Encoding.UTF8.GetByteCount(class_);
-            var class_Bytes = stackalloc byte[class_ByteCount];
+            var class_Bytes = stackalloc byte[class_ByteCount + 1];
             Util.StringToUtf8(class_, class_Bytes, class_ByteCount);
+            class_Bytes[class_ByteCount] = 0;
             var args = stackalloc wl_argument[1];
             args[0] = class_Bytes;
             WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 9, args);

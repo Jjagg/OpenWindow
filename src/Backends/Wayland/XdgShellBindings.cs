@@ -641,8 +641,9 @@ namespace OpenWindow.Backends.Wayland
         public static void xdg_toplevel_set_title(xdg_toplevel* pointer, string title)
         {
             var titleByteCount = System.Text.Encoding.UTF8.GetByteCount(title);
-            var titleBytes = stackalloc byte[titleByteCount];
+            var titleBytes = stackalloc byte[titleByteCount + 1];
             Util.StringToUtf8(title, titleBytes, titleByteCount);
+            titleBytes[titleByteCount] = 0;
             var args = stackalloc wl_argument[1];
             args[0] = titleBytes;
             WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 2, args);
@@ -680,8 +681,9 @@ namespace OpenWindow.Backends.Wayland
         public static void xdg_toplevel_set_app_id(xdg_toplevel* pointer, string app_id)
         {
             var app_idByteCount = System.Text.Encoding.UTF8.GetByteCount(app_id);
-            var app_idBytes = stackalloc byte[app_idByteCount];
+            var app_idBytes = stackalloc byte[app_idByteCount + 1];
             Util.StringToUtf8(app_id, app_idBytes, app_idByteCount);
+            app_idBytes[app_idByteCount] = 0;
             var args = stackalloc wl_argument[1];
             args[0] = app_idBytes;
             WaylandClient.wl_proxy_marshal_array((wl_proxy*) pointer, 3, args);
