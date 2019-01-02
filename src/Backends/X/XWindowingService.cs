@@ -10,6 +10,8 @@ namespace OpenWindow.Backends.X
         public override ReadOnlyCollection<Display> Displays { get; }
         public override Display PrimaryDisplay { get; }
 
+        public override int WindowCount => throw new NotImplementedException();
+
         protected override void Initialize()
         {
             _xcbConnection = Native.Connect(string.Empty, IntPtr.Zero);

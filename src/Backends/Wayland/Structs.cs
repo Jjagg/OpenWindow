@@ -5,6 +5,10 @@ namespace OpenWindow.Backends.Wayland
 {
     internal struct wl_object { }
     internal struct wl_proxy { }
+    internal struct wl_fixed
+    {
+        private int _value;
+    }
 
     internal unsafe struct wl_interface
     {

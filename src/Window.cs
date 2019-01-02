@@ -19,8 +19,6 @@ namespace OpenWindow
         private Size _maxSize;
         private bool _cursorVisible = true;
 
-        private MouseState _mouseState;
-
         private bool _disposed;
 
         #endregion
@@ -159,11 +157,6 @@ namespace OpenWindow
         /// Indicates if this window has keyboard focus.
         /// </summary>
         public bool Focused => WindowingService.Get().KeyboardState.FocusedWindow == this;
-
-        /// <summary>
-        /// The current state of the mouse.
-        /// </summary>
-        public MouseState MouseState => _mouseState;
 
         /// <summary>
         /// The position of the top left of this window (including border).
@@ -418,12 +411,12 @@ namespace OpenWindow
         /// <summary>
         /// Invoked when a mouse button is pressed down.
         /// </summary>
-        public event InEventHandler<MouseEventArgs> MouseDown;
+        public event EventHandler<MouseEventArgs> MouseDown;
 
         /// <summary>
         /// Invoked when a mouse button is released.
         /// </summary>
-        public event InEventHandler<MouseEventArgs> MouseUp;
+        public event EventHandler<MouseEventArgs> MouseUp;
 
         /// <summary>
         /// Invoked when the mouse pointer leaves the bounds of the window.

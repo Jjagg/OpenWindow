@@ -80,13 +80,28 @@ namespace OpenWindow.Backends.Wayland
 
 
         [DllImport("libwayland-client.so")]
-        private static extern void ArrayInit(wl_array* array);
+        public static extern int wl_fixed_to_int(wl_fixed f);
 
         [DllImport("libwayland-client.so")]
-        private static extern void ArrayRelease(wl_array* array);
+        public static extern wl_fixed wl_fixed_from_int(int i);
 
         [DllImport("libwayland-client.so")]
-        private static extern IntPtr ArrayAdd(wl_array* array, uint size);
+        public static extern double wl_fixed_to_double(wl_fixed f);
+
+        [DllImport("libwayland-client.so")]
+        public static extern wl_fixed wl_fixed_from_double(double d);
+
+        [DllImport("libwayland-client.so")]
+        public static extern void wl_array_init(wl_array* array);
+
+        [DllImport("libwayland-client.so")]
+        public static extern void wl_array_release(wl_array* array);
+
+        [DllImport("libwayland-client.so")]
+        public static extern void* wl_array_add(wl_array* array, uint size);
+
+        [DllImport("libwayland-client.so")]
+        public static extern int wl_array_copy(wl_array* array, wl_array* source);
     }
 
     internal static class WlEgl

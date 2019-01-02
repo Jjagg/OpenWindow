@@ -7,7 +7,7 @@
     {
         /// <summary>
         /// The window that currently has mouse focus.
-        /// If mouse capture is off, this is the window that contains the mouse.
+        /// This is the topmost window that contains the mouse.
         /// This can be null.
         /// </summary>
         public Window FocusedWindow;

@@ -36,6 +36,7 @@ namespace OpenWindow.Backends.Wayland
 
         internal WaylandWindowingService()
         {
+            _windows = new List<WaylandWindow>();
             _displays = new List<Display>();
             _formats = new List<wl_shm_format>();
             Globals = new List<WaylandWindowData.GlobalObject>();
@@ -228,7 +229,7 @@ namespace OpenWindow.Backends.Wayland
                 _wlPointer = _wlSeat.GetPointer();
                 LogDebug("Got pointer.");
                 _wlPointer.SetListener(EnterCallback, LeaveCallback, MotionCallback,
-                    ButtonCallback, AxisCallback, null, null, null, null);
+                    ButtonCallback, AxisCallback, FrameCallback, AxisSourceCallback, AxisStopCallback, AxisDiscreteCallback);
 
             }
             if (hasTouch && _wlTouch.IsNull)
@@ -257,12 +258,28 @@ namespace OpenWindow.Backends.Wayland
             }
         }
 
+        private void FrameCallback(void* data, wl_pointer* proxy)
+        {
+        }
+
+        private void AxisDiscreteCallback(void* data, wl_pointer* proxy, wl_pointer_axis axis, int discrete)
+        {
+        }
+
+        private void AxisStopCallback(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis)
+        {
+        }
+
+        private void AxisSourceCallback(void* data, wl_pointer* proxy, wl_pointer_axis_source axis_source)
+        {
+        }
+
         private void SeatNameCallback(void* data, wl_seat* proxy, byte* name)
         {
             LogDebug("Got seat name " + Util.Utf8ToString(name));
         }
 
-        private void EnterCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface, int surface_x, int surface_y)
+        private void EnterCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface, wl_fixed surface_x, wl_fixed surface_y)
         {
             // TODO call set_cursor here
             // TODO check if mouse capture prevents this callback
@@ -283,40 +300,40 @@ namespace OpenWindow.Backends.Wayland
             SetMouseFocus(w, value);
         }
 
-        private void MotionCallback(void* data, wl_pointer* proxy, uint time, int surface_x, int surface_y)
+        private void MotionCallback(void* data, wl_pointer* proxy, uint time, wl_fixed surface_x, wl_fixed surface_y)
         {
-            _mouseState.X = surface_x;
-            _mouseState.Y = surface_y;
+            var x = WaylandClient.wl_fixed_to_int(surface_x);
+            var y = WaylandClient.wl_fixed_to_int(surface_y);
+            SetMousePosition(x, y);
         }
 
         private void ButtonCallback(void* data, wl_pointer* proxy, uint serial, uint time, uint button, wl_pointer_button_state state)
         {
-            // For key codes see:
+            // Key codes:
             // https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
             const uint BTN_LEFT    = 0x110;
             const uint BTN_RIGHT   = 0x111;
             const uint BTN_MIDDLE  = 0x112;
-            //const uint BTN_SIDE    = 0x113;
-            //const uint BTN_EXTRA   = 0x114;
-            const uint BTN_FORWARD = 0x115; // X2
-            const uint BTN_BACK    = 0x116; // X1
+            const uint BTN_SIDE    = 0x113; // X1
+            const uint BTN_EXTRA   = 0x114; // X2
+            //const uint BTN_FORWARD = 0x115;
+            //const uint BTN_BACK    = 0x116;
 
-            MouseButtons btn = MouseButtons.None;
-            // TODO verify these
+            var btn = MouseButtons.None;
             switch (button)
             {
                 case BTN_LEFT: btn = MouseButtons.Left; break;
                 case BTN_RIGHT: btn = MouseButtons.Right; break;
                 case BTN_MIDDLE: btn = MouseButtons.Middle; break;
-                case BTN_FORWARD: btn = MouseButtons.X2; break;
-                case BTN_BACK: btn = MouseButtons.X1; break;
+                case BTN_SIDE: btn = MouseButtons.X1; break;
+                case BTN_EXTRA: btn = MouseButtons.X2; break;
             }
 
             if (btn != MouseButtons.None)
                 SetMouseButton(btn, state == wl_pointer_button_state.Pressed);
         }
 
-        private void AxisCallback(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis, int value)
+        private void AxisCallback(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis, wl_fixed value)
         {
             // TODO mouse scroll
         }

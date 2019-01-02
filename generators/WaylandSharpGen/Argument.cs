@@ -89,7 +89,7 @@ namespace WaylandSharpGen
                 case ArgType.Uint:
                     return "uint";
                 case ArgType.Fixed:
-                    return "int";
+                    return "wl_fixed";
                 case ArgType.String:
                     return "string";
                 case ArgType.Object:

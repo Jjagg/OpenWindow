@@ -65,6 +65,7 @@ namespace OpenWindow.Backends.Wayland
 
         private void TopLevelConfigureCallback(void* data,  xdg_toplevel* toplevel, int width, int height, wl_array* states)
         {
+            WindowingService.LogDebug($"Top level configure event ({width}, {height})");
             RaiseResize();
         }
 

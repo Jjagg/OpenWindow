@@ -14,7 +14,7 @@ namespace VeldridApp
 {
     class Program
     {
-        private static readonly GraphicsBackend Backend = GraphicsBackend.Direct3D11;
+        private static readonly GraphicsBackend GraphicsBackend = GraphicsBackend.Vulkan;
 
         private static GraphicsDevice _graphicsDevice;
         private static CommandList _commandList;
@@ -29,11 +29,11 @@ namespace VeldridApp
             var gdo = new GraphicsDeviceOptions();
             var ws = WindowingService.Get();
 
-            if (Backend == GraphicsBackend.OpenGL)
+            if (GraphicsBackend == GraphicsBackend.OpenGL)
                 ws.GlSettings.EnableOpenGl = true;
 
             var w = ws.CreateWindow();
-            w.Bounds = new Rectangle(100, 100, 960, 540);
+            //w.Bounds = new Rectangle(100, 100, 960, 540);
             w.Title = "Veldrid Tutorial";
             w.Show();
 
@@ -43,12 +43,24 @@ namespace VeldridApp
                 case WindowingBackend.Win32:
                     InitWindows(w, (Win32WindowData) windowData, gdo);
                     break;
+                case WindowingBackend.Wayland:
+                    InitWayland(w, (WaylandWindowData) windowData, gdo);
+                    break;
                 default:
                     throw new NotImplementedException();
             }
 
+            Console.WriteLine("Windowing backend: " + windowData.Backend);
+            Console.WriteLine("Graphics backend:  " + GraphicsBackend);
+
             CreateResources();
 
+            w.MouseMove += (ww, e) => Console.WriteLine($"Mouse pos: ({e.X}, {e.Y})");
+            w.MouseFocusChanged += (ww, e) => Console.WriteLine($"Mouse focus: {e.HasFocus}");
+            w.MouseDown += (ww, e) => Console.WriteLine($"Button {e.Button} down");
+            w.MouseUp += (ww, e) => Console.WriteLine($"Button {e.Button} up");
+
+            Console.WriteLine("Running draw loop...");
             while (!w.ShouldClose)
             {
                 ws.WaitEvent();
@@ -56,6 +68,8 @@ namespace VeldridApp
                     break;
                 Draw();
             }
+
+            Console.WriteLine("Shutting down.");
 
             DisposeResources();
 
@@ -65,7 +79,7 @@ namespace VeldridApp
 
         private static void InitWindows(Window w, Win32WindowData wd, in GraphicsDeviceOptions gdo)
         {
-            switch (Backend)
+            switch (GraphicsBackend)
             {
                 case GraphicsBackend.Direct3D11:
                     _graphicsDevice = GraphicsDevice.CreateD3D11(gdo, wd.Hwnd, (uint) w.Bounds.Width, (uint) w.Bounds.Height);
@@ -76,15 +90,36 @@ namespace VeldridApp
                         (uint) w.Bounds.Height);
                     break;
                 case GraphicsBackend.OpenGL:
-                    throw new NotImplementedException();
+                    throw new NotSupportedException();
                 case GraphicsBackend.Metal:
                     throw new NotSupportedException();
                 case GraphicsBackend.OpenGLES:
                     var scs = SwapchainSource.CreateWin32(wd.Hwnd, wd.HInstance);
-                    var scd = new SwapchainDescription(scs, (uint) w.Bounds.Width, (uint) w.Bounds.Height, null,
-                        true);
-                    GraphicsDevice.CreateOpenGLES(gdo, scd);
+                    var scd = new SwapchainDescription(scs, (uint) w.Bounds.Width, (uint) w.Bounds.Height, null, true);
+                    _graphicsDevice = GraphicsDevice.CreateOpenGLES(gdo, scd);
                     throw new NotSupportedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static void InitWayland(Window w, WaylandWindowData windowData, GraphicsDeviceOptions gdo)
+        {
+            switch (GraphicsBackend)
+            {
+                case GraphicsBackend.Direct3D11:
+                    throw new PlatformNotSupportedException("Direct3D11 is not supported on Wayland.");
+                case GraphicsBackend.Vulkan:
+                    var sws = SwapchainSource.CreateWayland(windowData.WlDisplay, windowData.WlSurface);
+                    var scd = new SwapchainDescription(sws, (uint) 960, (uint) 540, null, true);
+                    _graphicsDevice = GraphicsDevice.CreateVulkan(gdo, scd);
+                    break;
+                case GraphicsBackend.OpenGL:
+                    throw new NotImplementedException();
+                case GraphicsBackend.OpenGLES:
+                    throw new NotImplementedException();
+                case GraphicsBackend.Metal:
+                    throw new PlatformNotSupportedException("Metal is not supported on Wayland.");
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -182,7 +217,7 @@ namespace VeldridApp
             _commandList.ClearColorTarget(0, RgbaFloat.Black);
 
             // Set all relevant state to draw our quad.
-            _commandList.SetVertexBuffer(0, _vertexBuffer);
+            /*_commandList.SetVertexBuffer(0, _vertexBuffer);
             _commandList.SetIndexBuffer(_indexBuffer, IndexFormat.UInt16);
             _commandList.SetPipeline(_pipeline);
             // Issue a Draw command for a single instance with 4 indices.
@@ -191,7 +226,7 @@ namespace VeldridApp
                 instanceCount: 1,
                 indexStart: 0,
                 vertexOffset: 0,
-                instanceStart: 0);
+                instanceStart: 0);*/
 
             // End() must be called before commands can be submitted for execution.
             _commandList.End();

@@ -1330,7 +1330,7 @@ namespace OpenWindow.Backends.Wayland
         /// coordinates.
         /// </p>
         /// </summary>
-        public delegate void wl_data_device_enter_delegate(void* data, wl_data_device* proxy, uint serial, wl_surface* surface, int x, int y, wl_data_offer* id);
+        public delegate void wl_data_device_enter_delegate(void* data, wl_data_device* proxy, uint serial, wl_surface* surface, wl_fixed x, wl_fixed y, wl_data_offer* id);
 
         /// <summary>
         /// <p>
@@ -1349,7 +1349,7 @@ namespace OpenWindow.Backends.Wayland
         /// coordinates.
         /// </p>
         /// </summary>
-        public delegate void wl_data_device_motion_delegate(void* data, wl_data_device* proxy, uint time, int x, int y);
+        public delegate void wl_data_device_motion_delegate(void* data, wl_data_device* proxy, uint time, wl_fixed x, wl_fixed y);
 
         /// <summary>
         /// <p>
@@ -2551,7 +2551,7 @@ namespace OpenWindow.Backends.Wayland
         /// an appropriate pointer image with the set_cursor request.
         /// </p>
         /// </summary>
-        public delegate void wl_pointer_enter_delegate(void* data, wl_pointer* proxy, uint serial, wl_surface* surface, int surface_x, int surface_y);
+        public delegate void wl_pointer_enter_delegate(void* data, wl_pointer* proxy, uint serial, wl_surface* surface, wl_fixed surface_x, wl_fixed surface_y);
 
         /// <summary>
         /// <p>
@@ -2572,7 +2572,7 @@ namespace OpenWindow.Backends.Wayland
         /// focused surface.
         /// </p>
         /// </summary>
-        public delegate void wl_pointer_motion_delegate(void* data, wl_pointer* proxy, uint time, int surface_x, int surface_y);
+        public delegate void wl_pointer_motion_delegate(void* data, wl_pointer* proxy, uint time, wl_fixed surface_x, wl_fixed surface_y);
 
         /// <summary>
         /// <p>
@@ -2621,7 +2621,7 @@ namespace OpenWindow.Backends.Wayland
         /// scroll distance.
         /// </p>
         /// </summary>
-        public delegate void wl_pointer_axis_delegate(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis, int value);
+        public delegate void wl_pointer_axis_delegate(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis, wl_fixed value);
 
         /// <summary>
         /// <p>
@@ -3004,7 +3004,7 @@ namespace OpenWindow.Backends.Wayland
         /// reused in the future.
         /// </p>
         /// </summary>
-        public delegate void wl_touch_down_delegate(void* data, wl_touch* proxy, uint serial, uint time, wl_surface* surface, int id, int x, int y);
+        public delegate void wl_touch_down_delegate(void* data, wl_touch* proxy, uint serial, uint time, wl_surface* surface, int id, wl_fixed x, wl_fixed y);
 
         /// <summary>
         /// <p>
@@ -3020,7 +3020,7 @@ namespace OpenWindow.Backends.Wayland
         /// A touch point has changed coordinates.
         /// </p>
         /// </summary>
-        public delegate void wl_touch_motion_delegate(void* data, wl_touch* proxy, uint time, int id, int x, int y);
+        public delegate void wl_touch_motion_delegate(void* data, wl_touch* proxy, uint time, int id, wl_fixed x, wl_fixed y);
 
         /// <summary>
         /// <p>
@@ -3082,7 +3082,7 @@ namespace OpenWindow.Backends.Wayland
         /// shape if it did not receive this event.
         /// </p>
         /// </summary>
-        public delegate void wl_touch_shape_delegate(void* data, wl_touch* proxy, int id, int major, int minor);
+        public delegate void wl_touch_shape_delegate(void* data, wl_touch* proxy, int id, wl_fixed major, wl_fixed minor);
 
         /// <summary>
         /// <p>
@@ -3115,7 +3115,7 @@ namespace OpenWindow.Backends.Wayland
         /// orientation reports.
         /// </p>
         /// </summary>
-        public delegate void wl_touch_orientation_delegate(void* data, wl_touch* proxy, int id, int orientation);
+        public delegate void wl_touch_orientation_delegate(void* data, wl_touch* proxy, int id, wl_fixed orientation);
 
         internal struct wl_touch_listener
         {
