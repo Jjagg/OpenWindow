@@ -80,18 +80,6 @@ namespace OpenWindow.Backends.Wayland
 
 
         [DllImport("libwayland-client.so")]
-        public static extern int wl_fixed_to_int(wl_fixed f);
-
-        [DllImport("libwayland-client.so")]
-        public static extern wl_fixed wl_fixed_from_int(int i);
-
-        [DllImport("libwayland-client.so")]
-        public static extern double wl_fixed_to_double(wl_fixed f);
-
-        [DllImport("libwayland-client.so")]
-        public static extern wl_fixed wl_fixed_from_double(double d);
-
-        [DllImport("libwayland-client.so")]
         public static extern void wl_array_init(wl_array* array);
 
         [DllImport("libwayland-client.so")]

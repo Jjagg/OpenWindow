@@ -302,8 +302,8 @@ namespace OpenWindow.Backends.Wayland
 
         private void MotionCallback(void* data, wl_pointer* proxy, uint time, wl_fixed surface_x, wl_fixed surface_y)
         {
-            var x = WaylandClient.wl_fixed_to_int(surface_x);
-            var y = WaylandClient.wl_fixed_to_int(surface_y);
+            var x = surface_x.ToInt();
+            var y = surface_y.ToInt();
             SetMousePosition(x, y);
         }
 
