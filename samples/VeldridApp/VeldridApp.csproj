@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\OpenWindow.csproj" />
+    <!--ProjectReference Include="..\..\..\other\veldrid\src\Veldrid\Veldrid.csproj" /-->
   </ItemGroup>
 
   <ItemGroup>

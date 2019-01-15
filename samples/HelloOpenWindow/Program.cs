@@ -38,7 +38,7 @@ namespace HelloOpenWindow
             _window.MouseDown += (s, e) => Console.WriteLine($"Mouse button '{e.Button}' was pressed.");
             _window.MouseUp += (s, e) => Console.WriteLine($"Mouse button '{e.Button}' was released.");
 
-            _window.KeyPress += (s, e) =>
+            _window.KeyDown += (s, e) =>
             {
                 switch (e.Key)
                 {

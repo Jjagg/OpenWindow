@@ -7,14 +7,6 @@ namespace OpenWindow.Backends.Wayland
     internal struct wl_proxy { }
     internal struct wl_fixed
     {
-        // According to spec wl_fixed should be opaque,
-        // but conversion methods are not public and
-        // we need to know the size of the struct because
-        // it's used directly.
-        // See: https://gitlab.freedesktop.org/wayland/wayland/issues/69
-        //
-        // So we implement the conversions ourselves in here
-
         private int _value;
 
         public wl_fixed(int value)

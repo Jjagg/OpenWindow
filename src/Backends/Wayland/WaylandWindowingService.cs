@@ -26,11 +26,11 @@ namespace OpenWindow.Backends.Wayland
         private WlPointer _wlPointer;
         private WlKeyboard _wlKeyboard;
         private WlTouch _wlTouch;
-
-        private readonly List<wl_shm_format> _formats;
-
-
         private ZxdgDecorationManagerV1 _xdgDecorationManager;
+
+        private xkb_context* _xkbContext;
+        private xkb_keymap* _xkbKeymap;
+        private xkb_state* _xkbState;
 
         internal List<WaylandWindowData.GlobalObject> Globals;
 
@@ -38,7 +38,6 @@ namespace OpenWindow.Backends.Wayland
         {
             _windows = new List<WaylandWindow>();
             _displays = new List<Display>();
-            _formats = new List<wl_shm_format>();
             Globals = new List<WaylandWindowData.GlobalObject>();
         }
 
@@ -48,6 +47,10 @@ namespace OpenWindow.Backends.Wayland
 
         protected override void Initialize()
         {
+            _xkbContext = XkbCommon.xkb_context_new();
+            if (_xkbContext == null)
+                throw new OpenWindowException("Failed to create xkbcommon context.");
+
             WaylandBindings.Load();
             XdgShellBindings.Load();
             XdgDecorationUnstableV1Bindings.Load();
@@ -100,6 +103,7 @@ namespace OpenWindow.Backends.Wayland
             var iface = Util.Utf8ToString(ifaceUtf8);
             LogDebug($"Registry global announce for type '{iface}' v{version}.");
 
+            // we store and expose all globals so users can bind whatever they want
             var global = new WaylandWindowData.GlobalObject(iface, name, version);
             Globals.Add(global);
 
@@ -117,11 +121,6 @@ namespace OpenWindow.Backends.Wayland
                 case WaylandBindings.wl_compositor_name:
                     LogDebug($"Binding WlCompositor.");
                     _wlCompositor = _wlRegistry.Bind<wl_compositor>(name, WlCompositor.Interface, version);
-                    break;
-                case WaylandBindings.wl_shm_name:
-                    LogDebug($"Binding WlShm.");
-                    _wlShm = _wlRegistry.Bind<wl_shm>(name, WlShm.Interface, version);
-                    _wlShm.SetListener(ShmFormatCallback);
                     break;
                 case WaylandBindings.wl_seat_name:
                     LogDebug($"Binding WlSeat.");
@@ -142,6 +141,8 @@ namespace OpenWindow.Backends.Wayland
         private void RegistryGlobalRemoveCallback(void* data, wl_registry* registry, uint name)
         {
         }
+
+        #region Outputs
 
         private void AddDisplay(WlOutput output)
         {
@@ -168,7 +169,6 @@ namespace OpenWindow.Backends.Wayland
 
             return display;
         }
-
 
         private void OutputGeometryCallback(void* data, wl_output* output, int x, int y, int physicalWidth,
             int physicalHeight, wl_output_subpixel subpixelEnum, byte* make, byte* model, wl_output_transform transformEnum)
@@ -207,10 +207,13 @@ namespace OpenWindow.Backends.Wayland
             // we don't really need to handle this explicitly
         }
 
-        private void ShmFormatCallback(void* data, wl_shm* shm, wl_shm_format format)
+        #endregion
+
+        #region Seat
+
+        private void SeatNameCallback(void* data, wl_seat* proxy, byte* name)
         {
-            LogDebug($"Supported buffer surface format " + format.ToString());
-            _formats.Add(format);
+            LogDebug("Got seat name " + Util.Utf8ToString(name));
         }
 
         private void SeatCapabilitiesCallback(void* data, wl_seat* proxy, wl_seat_capability capabilities)
@@ -223,13 +226,16 @@ namespace OpenWindow.Backends.Wayland
             {
                 _wlKeyboard = _wlSeat.GetKeyboard();
                 LogDebug("Got keyboard.");
+                _wlKeyboard.SetListener(KeymapCallback, KeyboardEnterCallback, KeyboardLeaveCallback,
+                    KeyboardKeyCallback, KeyboardModifiersCallback, KeyboardRepeatInfoCallback);
             }
             if (hasPointer && _wlPointer.IsNull)
             {
                 _wlPointer = _wlSeat.GetPointer();
                 LogDebug("Got pointer.");
-                _wlPointer.SetListener(EnterCallback, LeaveCallback, MotionCallback,
-                    ButtonCallback, AxisCallback, FrameCallback, AxisSourceCallback, AxisStopCallback, AxisDiscreteCallback);
+                _wlPointer.SetListener(PointerEnterCallback, PointerLeaveCallback, PointerMotionCallback,
+                    PointerButtonCallback, PointerAxisCallback,
+                    PointerFrameCallback, PointerAxisSourceCallback, PointerAxisStopCallback, PointerAxisDiscreteCallback);
 
             }
             if (hasTouch && _wlTouch.IsNull)
@@ -258,35 +264,141 @@ namespace OpenWindow.Backends.Wayland
             }
         }
 
-        private void FrameCallback(void* data, wl_pointer* proxy)
+        #region Keyboard
+
+        private void KeymapCallback(void* data, wl_keyboard* proxy, wl_keyboard_keymap_format format, int fd, uint size)
+        {
+            if (format != wl_keyboard_keymap_format.XkbV1)
+            {
+                Libc.close(fd);
+                throw new NotImplementedException("Only xkbcommon compatible keymaps are currently supported.");
+            }
+
+            var kbdStr = Libc.mmap(null, size, Libc.PROT_READ, Libc.MAP_PRIVATE, fd, 0);
+            if (kbdStr == null)
+            {
+                Libc.close(fd);
+                return;
+            }
+
+            var newKeymap = XkbCommon.xkb_keymap_new_from_string(_xkbContext, kbdStr, XkbCommon.XKB_KEYMAP_FORMAT_TEXT_V1);
+
+            Libc.munmap(kbdStr, size);
+            Libc.close(fd);
+
+            if (newKeymap == null)
+                throw new OpenWindowException("Failed to create xkb keymap.");
+
+            var newState = XkbCommon.xkb_state_new(newKeymap);
+            if (newState == null)
+            {
+                XkbCommon.xkb_keymap_unref(newKeymap);
+                throw new OpenWindowException("Failed to create xkb state.");
+            }
+
+            if (_xkbKeymap != null) XkbCommon.xkb_keymap_unref(_xkbKeymap);
+            if (_xkbState != null) XkbCommon.xkb_state_unref(_xkbState);
+
+            _xkbKeymap = newKeymap;
+            _xkbState = newState;
+        }
+
+        private void KeyboardEnterCallback(void* data, wl_keyboard* proxy, uint serial, wl_surface* surface, wl_array* keys) => WlSetFocus(surface, true);
+        private void KeyboardLeaveCallback(void* data, wl_keyboard* proxy, uint serial, wl_surface* surface) => WlSetFocus(surface, false);
+
+        private void WlSetFocus(wl_surface* surface, bool newFocus)
+        {
+            var w = GetWindowBySurface(surface);
+            if (w != null)
+                SetFocus(w, newFocus);
+            else
+                LogWarning("Could not find window by surface. The window might have been destroyed after the event was sent from the server.");
+        }
+
+        private void KeyboardKeyCallback(void* data, wl_keyboard* proxy, uint serial, uint time, uint key, wl_keyboard_key_state state)
+        {
+            if (state == wl_keyboard_key_state.Pressed)
+                Console.WriteLine("Got key " + key + " -> " + (key < LinuxScanCodes.Map.Length ? LinuxScanCodes.Map[key].ToString() : "??"));
+            if (key >= LinuxScanCodes.Map.Length)
+                return;
+
+            var sc = LinuxScanCodes.Map[key];
+            SetKey(sc, state == wl_keyboard_key_state.Pressed);
+
+            var sym = XkbCommon.xkb_state_key_get_one_sym(_xkbState, key + 8);
+            if (sym == 0)
+                return;
+
+            // TODO how large should this be?
+            const int strBufSize = 8;
+            byte* strBuf = stackalloc byte[strBufSize];
+
+            var size = XkbCommon.xkb_state_key_get_utf8(_xkbState, key + 8, strBuf, strBufSize);
+            // add the null terminator
+            strBuf[size] = 0;
+
+            // We send text in UTF-32 i.e. no more than 32 bits at a time
+            var offset = 0;
+            var utf32 = 0;
+            while (ReadUtf32FromUtf8(strBuf, ref offset, ref utf32))
+                SendCharacter(utf32);
+        }
+
+        private bool ReadUtf32FromUtf8(byte* str, ref int offset, ref int utf32)
+        {
+            if (str[offset] == 0)
+                return false;
+
+            if ((str[offset] & 0b1000_0000) == 0)
+            {
+                utf32 = str[offset] & 0b0111_1111;
+                offset++;
+            }
+            else if ((str[offset] & 0b1110_0000) == 0b1100_0000)
+            {
+                utf32 = str[offset] & 0b0001_1111 << 6 |
+                        str[offset + 1] & 0b0011_1111;
+                offset += 2;
+            }
+            else if ((str[offset] & 0b1111_0000) == 0b1110_0000)
+            {
+                utf32 = str[offset] & 0b0000_1111 << 12 |
+                        str[offset + 1] & 0b0011_1111 << 6 |
+                        str[offset + 2] & 0b0011_1111;
+                offset += 3;
+            }
+            else
+            {
+                utf32 = str[offset] & 0b0000_0111 << 18 |
+                        str[offset + 1] & 0b0011_1111 << 12 |
+                        str[offset + 2] & 0b0011_1111 << 6 |
+                        str[offset + 3] & 0b0011_1111;
+                offset += 4;
+            }
+
+            return true;
+        }
+
+        private void KeyboardModifiersCallback(void* data, wl_keyboard* proxy, uint serial, uint mods_depressed, uint mods_latched, uint mods_locked, uint group)
         {
         }
 
-        private void AxisDiscreteCallback(void* data, wl_pointer* proxy, wl_pointer_axis axis, int discrete)
+        private void KeyboardRepeatInfoCallback(void* data, wl_keyboard* proxy, int rate, int delay)
         {
         }
 
-        private void AxisStopCallback(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis)
-        {
-        }
+        #endregion Keyboard
 
-        private void AxisSourceCallback(void* data, wl_pointer* proxy, wl_pointer_axis_source axis_source)
-        {
-        }
+        #region Pointer
 
-        private void SeatNameCallback(void* data, wl_seat* proxy, byte* name)
-        {
-            LogDebug("Got seat name " + Util.Utf8ToString(name));
-        }
-
-        private void EnterCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface, wl_fixed surface_x, wl_fixed surface_y)
+        private void PointerEnterCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface, wl_fixed surface_x, wl_fixed surface_y)
         {
             // TODO call set_cursor here
             // TODO check if mouse capture prevents this callback
             WlSetMouseFocus(surface, true);
         }
 
-        private void LeaveCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface)
+        private void PointerLeaveCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface)
         {
             WlSetMouseFocus(surface, false);
         }
@@ -300,14 +412,14 @@ namespace OpenWindow.Backends.Wayland
             SetMouseFocus(w, value);
         }
 
-        private void MotionCallback(void* data, wl_pointer* proxy, uint time, wl_fixed surface_x, wl_fixed surface_y)
+        private void PointerMotionCallback(void* data, wl_pointer* proxy, uint time, wl_fixed surface_x, wl_fixed surface_y)
         {
             var x = surface_x.ToInt();
             var y = surface_y.ToInt();
             SetMousePosition(x, y);
         }
 
-        private void ButtonCallback(void* data, wl_pointer* proxy, uint serial, uint time, uint button, wl_pointer_button_state state)
+        private void PointerButtonCallback(void* data, wl_pointer* proxy, uint serial, uint time, uint button, wl_pointer_button_state state)
         {
             // Key codes:
             // https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
@@ -333,16 +445,39 @@ namespace OpenWindow.Backends.Wayland
                 SetMouseButton(btn, state == wl_pointer_button_state.Pressed);
         }
 
-        private void AxisCallback(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis, wl_fixed value)
+        private void PointerAxisCallback(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis, wl_fixed value)
         {
             // TODO mouse scroll
         }
+
+        private void PointerFrameCallback(void* data, wl_pointer* proxy)
+        {
+        }
+
+        private void PointerAxisDiscreteCallback(void* data, wl_pointer* proxy, wl_pointer_axis axis, int discrete)
+        {
+        }
+
+        private void PointerAxisStopCallback(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis)
+        {
+        }
+
+        private void PointerAxisSourceCallback(void* data, wl_pointer* proxy, wl_pointer_axis_source axis_source)
+        {
+        }
+
+        #endregion Pointer
+
+        #endregion Seat
 
         private static void XdgWmBasePingCallback(void* data, xdg_wm_base* wmBase, uint serial)
             => XdgShellBindings.xdg_wm_base_pong(wmBase, serial);
 
         private Window GetWindowBySurface(wl_surface* surface)
         {
+            if (surface == null)
+                return null;
+
             for (var i = 0; i < _windows.Count; i++)
             {
                 if (_windows[i].Surface.Pointer == surface)

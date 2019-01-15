@@ -92,18 +92,64 @@ namespace OpenWindow.Backends.Wayland
         public static extern int wl_array_copy(wl_array* array, wl_array* source);
     }
 
-    internal static class WlEgl
+    internal unsafe static class Libc
     {
+        [DllImport("libc")]
+        public static extern int close(int fd);
 
-        [DllImport("libwayland-egl.so", EntryPoint = "wl_egl_window_create")]
-        public static extern IntPtr WindowCreate(IntPtr surface, int width, int height);
+        public const int PROT_NONE = 0;
+        public const int PROT_READ = 1;
+        public const int PROT_WRITE = 2;
+        public const int PROT_EXEC = 4;
 
-        [DllImport("libwayland-egl.so", EntryPoint = "wl_egl_window_destroy")]
-        public static extern void WindowDestroy(IntPtr egl_window);
-        [DllImport("libwayland-egl.so", EntryPoint = "wl_egl_window_resize")]
-        public static extern void WindowResize(IntPtr egl_window, int width, int height, int dx, int dy);
-        [DllImport("libwayland-egl.so", EntryPoint = "wl_egl_window_get_attached_size")]
-        public static extern void WindowGetAttachedSize(IntPtr egl_window, out int width, out int height);
+        public const int MAP_FILE = 0x0000;
+        public const int MAP_SHARED = 0x0001;
+        public const int MAP_PRIVATE = 0x0002;
+        public const int MAP_FIXED = 0x0010;
+        public const int MAP_ANON = 0x1000;
+
+        [DllImport("libc")]
+        public static extern byte* mmap(void *addr, uint length, int prot, int flags, int fd, int offset);
+
+        [DllImport("libc")]
+        public static extern int munmap(void *addr, uint length);
+    }
+
+    public struct xkb_context { }
+    public struct xkb_keymap { }
+    public struct xkb_state { }
+
+    internal unsafe static class XkbCommon
+    {
+        public const int XKB_CONTEXT_NO_FLAGS = 0;
+
+        [DllImport("libxkbcommon.so")]
+        public static extern xkb_context* xkb_context_new(int flags = XKB_CONTEXT_NO_FLAGS);
+
+        [DllImport("libxkbcommon.so")]
+        public static extern void xkb_context_unref(xkb_context *ctx);
+
+        public const int XKB_KEYMAP_COMPILE_NO_FLAGS = 0;
+        public const int XKB_KEYMAP_FORMAT_TEXT_V1 = 1;
+
+        [DllImport("libxkbcommon.so")]
+        public static extern xkb_keymap* xkb_keymap_new_from_string(xkb_context* context, byte* str, int format, int flags = XKB_KEYMAP_COMPILE_NO_FLAGS);
+
+        [DllImport("libxkbcommon.so")]
+        public static extern void xkb_keymap_unref(xkb_keymap *keymap);
+
+        [DllImport("libxkbcommon.so")]
+        public static extern xkb_state* xkb_state_new(xkb_keymap* keymap);
+
+
+        [DllImport("libxkbcommon.so")]
+        public static extern uint xkb_state_key_get_one_sym(xkb_state* state, uint key);
+
+        [DllImport("libxkbcommon.so")]
+        public static extern int xkb_state_key_get_utf8(xkb_state* state, uint key, byte* buffer, int size);
+
+        [DllImport("libxkbcommon.so")]
+        public static extern void xkb_state_unref(xkb_state *state);
     }
 }
 

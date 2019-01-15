@@ -246,6 +246,9 @@ namespace OpenWindow
 
             if (!hasFocus && newFocus)
             {
+                // unfocus should happen before setting the new focus, but we check just in case
+                if (_keyboardState.FocusedWindow != null)
+                    _keyboardState.FocusedWindow.RaiseFocusChanged(false);
                 window.RaiseFocusChanged(true);
                 _keyboardState.FocusedWindow = window;
             }
@@ -265,14 +268,18 @@ namespace OpenWindow
             {
                 var key = _keyboardState.Map(sc);
                 _keyboardState.FocusedWindow?.RaiseKeyDown(key, sc);
-                _keyboardState.KeyState[(int) sc] = true;
+                _keyboardState.ScanState[(int) sc] = true;
             }
-            else if (!down && _keyboardState.KeyState[(int) sc])
+            else if (!down && _keyboardState.Up(sc))
             {
                 var key = _keyboardState.Map(sc);
                 _keyboardState.FocusedWindow?.RaiseKeyUp(key, sc);
-                _keyboardState.KeyState[(int) sc] = false;
+                _keyboardState.ScanState[(int) sc] = false;
             }
+        }
+
+        protected void SendCharacter(int utf32)
+        {
         }
 
         internal void SetMouseFocus(Window window, bool newFocus)

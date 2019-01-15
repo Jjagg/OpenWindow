@@ -33,7 +33,7 @@ namespace OpenWindow.Backends.Wayland
             if (!xdgDecorationManager.IsNull)
                 _xdgDecoration = xdgDecorationManager.GetToplevelDecoration(_xdgTopLevel);
 
-            Surface.Commit();
+            //Surface.Commit();
 
             // from the xdg-shell protocol file:
             // "Creating an xdg_surface from a wl_surface which has a buffer attached or
@@ -41,11 +41,11 @@ namespace OpenWindow.Backends.Wayland
             //  manipulate a buffer prior to the first xdg_surface.configure call must
             //  also be treated as errors."
             // We do a blocking wait to make sure users can't attach a buffer before the first configure call
-            while (!_surfaceConfigured)
+            /*while (!_surfaceConfigured)
             {
                 display.Flush();
                 display.Dispatch();
-            }
+            }*/
         }
 
         private void SurfaceEnterCallback(void* data, wl_surface* surface, wl_output* output)
