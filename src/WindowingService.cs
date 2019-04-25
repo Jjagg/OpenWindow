@@ -264,13 +264,14 @@ namespace OpenWindow
             if (sc == ScanCode.Unknown)
                 return;
 
+            // TODO repeated keys
             if (down && _keyboardState.Up(sc))
             {
                 var key = _keyboardState.Map(sc);
                 _keyboardState.FocusedWindow?.RaiseKeyDown(key, sc);
                 _keyboardState.ScanState[(int) sc] = true;
             }
-            else if (!down && _keyboardState.Up(sc))
+            else if (!down && _keyboardState.Down(sc))
             {
                 var key = _keyboardState.Map(sc);
                 _keyboardState.FocusedWindow?.RaiseKeyUp(key, sc);
@@ -278,8 +279,9 @@ namespace OpenWindow
             }
         }
 
-        protected void SendCharacter(int utf32)
+        protected void SendCharacter(int c)
         {
+            _keyboardState.FocusedWindow?.RaiseTextInput(c);
         }
 
         internal void SetMouseFocus(Window window, bool newFocus)

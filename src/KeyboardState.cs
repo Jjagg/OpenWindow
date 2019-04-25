@@ -5,11 +5,11 @@ namespace OpenWindow
     /// <summary>
     /// State of keys (up or down) indexed by scancode and 
     /// </summary>
-    public partial class KeyboardState
+    public abstract class KeyboardState
     {
         /// <summary>
         /// The window that currently has keyboard focus.
-        /// This can be null.
+        /// This can be <c>null</c> if the focused window is not managed by OpenWindow.
         /// </summary>
         public Window FocusedWindow { get; internal set; }
 

@@ -2,7 +2,7 @@
 
 namespace OpenWindow
 {
-    public enum Key
+    public enum Key : short
     {
         Unknown = 0,
 

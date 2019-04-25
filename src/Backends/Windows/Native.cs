@@ -120,6 +120,10 @@ namespace OpenWindow.Backends.Windows
         #region Input
 
         [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetKeyboardLayout(uint idThread);
+
+
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern bool GetKeyboardState(byte[] lpKeyState);
 
         [DllImport("user32.dll", SetLastError = true)]

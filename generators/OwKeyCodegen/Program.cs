@@ -82,7 +82,7 @@ namespace OwKeyCodegen
                 Console.WriteLine("namespace OpenWindow");
                 Console.WriteLine("{");
 
-                Console.WriteLine("    public enum " + args[0]);
+                Console.WriteLine("    public enum " + args[0] + " : short");
                 Console.WriteLine("    {");
 
                 foreach (var e in enumEntries)

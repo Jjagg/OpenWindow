@@ -24,11 +24,11 @@ namespace OpenWindow.Backends.Windows
 
         protected override void Initialize()
         {
-            UpdateKeyMap();
+            SetKeyMap(Native.GetKeyboardLayout(0));
             InitializeDisplays();
         }
 
-        private void UpdateKeyMap()
+        private void SetKeyMap(IntPtr localeId)
         {
             // TODO Set the scan code to virtual key code map based on the keyboard layout
             //      also call this method when keyboard layout changes.
@@ -116,30 +116,33 @@ namespace OpenWindow.Backends.Windows
                     case WindowMessage.SetFocus:
                         SetFocus(window, true);
                         // keyboard layout might have changed while we didn't have focus
-                        UpdateKeyMap();
+                        SetKeyMap(lParam);
                         return IntPtr.Zero;
                     case WindowMessage.KillFocus:
                         SetFocus(window, false);
                         return IntPtr.Zero;
                     case WindowMessage.InputLangChange:
                         // TODO pass input locale to keymap update
-                        UpdateKeyMap();
-                        return IntPtr.Zero;
+                        var localeId = lParam.ToInt32();
+                        SetKeyMap(lParam);
+                        return new IntPtr(1);
                     case WindowMessage.KeyDown:
                     case WindowMessage.SysKeyDown:
                     {
                         var lp = lParam.ToInt64();
-                        var scanCode = (uint) ((lp >> 16) & 0xFF);
+                        var scanCode = (ushort) ((lp >> 16) & 0xFF);
+                        var extended = ((lp >> 24) & 1) > 0;
                         var repeated = ((lp >> 30) & 1) > 0;
-                        SetWinKey(scanCode, true);
+                        SetWinKey(scanCode, extended, true);
                         break;
                     }
                     case WindowMessage.KeyUp:
                     case WindowMessage.SysKeyUp:
                     {
                         var lp = lParam.ToInt64();
-                        var scanCode = (uint) ((lp >> 16) & 0xFF);
-                        SetWinKey(scanCode, false);
+                        var scanCode = (ushort) ((lp >> 16) & 0xFF);
+                        var extended = ((lp >> 24) & 1) > 0;
+                        SetWinKey(scanCode, extended, false);
                         break;
                     }
                     case WindowMessage.UniChar:
@@ -149,7 +152,7 @@ namespace OpenWindow.Backends.Windows
                             return (IntPtr) 1;
 
                         // FIXME check what characters to (not) raise for
-                        window.RaiseTextInput(c);
+                        SendCharacter(c);
 
                         return IntPtr.Zero;
                     }
@@ -158,8 +161,7 @@ namespace OpenWindow.Backends.Windows
                         var lp = lParam.ToInt64();
                         var scanCode = (uint) ((lp >> 16) & 0xFF);
                         // FIXME check what characters to (not) raise for
-                        var vk = Native.MapVirtualKey(scanCode, KeyMapType.ScToVkEx);
-                        window.RaiseTextInput((char) wParam);
+                        SendCharacter(wParam.ToInt32());
 
                         return IntPtr.Zero;
                     }
@@ -234,15 +236,24 @@ namespace OpenWindow.Backends.Windows
             return Native.DefWindowProc(hWnd, msg, wParam, lParam);
         }
 
-        private void SetWinKey(uint sc, bool down)
+        private void SetWinKey(ushort sc, bool extended, bool down)
         {
-            var owSc = TranslateWinScanCode(sc);
+            var owSc = TranslateWinScanCode(sc, extended);
             SetKey(owSc, down);
         }
 
-        private ScanCode TranslateWinScanCode(uint sc)
+        private ScanCode TranslateWinScanCode(uint wsc, bool extended)
         {
-            return ScanCode.Unknown;
+            var sc = ScanCode.Unknown;
+
+            if (wsc < WindowsScanCodes.Map.Length)
+            {
+                sc = extended ?
+                    WindowsScanCodes.ExtendedMap[wsc] :
+                    WindowsScanCodes.Map[wsc];
+            }
+
+            return sc;
         }
 
         private void ExtractCoords(IntPtr lParam, out int x, out int y)

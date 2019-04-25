@@ -317,8 +317,6 @@ namespace OpenWindow.Backends.Wayland
 
         private void KeyboardKeyCallback(void* data, wl_keyboard* proxy, uint serial, uint time, uint key, wl_keyboard_key_state state)
         {
-            if (state == wl_keyboard_key_state.Pressed)
-                Console.WriteLine("Got key " + key + " -> " + (key < LinuxScanCodes.Map.Length ? LinuxScanCodes.Map[key].ToString() : "??"));
             if (key >= LinuxScanCodes.Map.Length)
                 return;
 

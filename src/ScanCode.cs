@@ -2,7 +2,7 @@
 
 namespace OpenWindow
 {
-    public enum ScanCode
+    public enum ScanCode : short
     {
         Unknown = 0,
 
