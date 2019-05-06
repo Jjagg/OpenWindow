@@ -13,6 +13,8 @@ namespace OpenWindow.Backends.Wayland
         private readonly XdgSurface _xdgSurface;
         private readonly XdgToplevel _xdgTopLevel;
         private readonly ZxdgToplevelDecorationV1 _xdgDecoration;
+        private readonly WpViewporter _viewporter;
+        private readonly WpViewport _viewport;
 
         private bool _surfaceConfigured;
 
@@ -20,7 +22,7 @@ namespace OpenWindow.Backends.Wayland
 
         #region Constructor
 
-        public WaylandWindow(WlDisplay display, WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, OpenGlSurfaceSettings glSettings)
+        public WaylandWindow(WlDisplay display, WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, WpViewporter wpViewporter, OpenGlSurfaceSettings glSettings)
             : base(false)
         {
             _compositor = wlCompositor;
@@ -33,7 +35,16 @@ namespace OpenWindow.Backends.Wayland
             if (!xdgDecorationManager.IsNull)
                 _xdgDecoration = xdgDecorationManager.GetToplevelDecoration(_xdgTopLevel);
 
-            //Surface.Commit();
+            // Use the viewporter protocol to set the surface size so it does not depend on a buffer
+            // We want to control the surface size, but users provide the buffer.
+            if (!wpViewporter.IsNull)
+            {
+                _viewporter = wpViewporter;
+                _viewport = wpViewporter.GetViewport(Surface);
+                _viewport.SetDestination(100, 100);
+            }
+
+            Surface.Commit();
 
             // from the xdg-shell protocol file:
             // "Creating an xdg_surface from a wl_surface which has a buffer attached or
@@ -41,11 +52,11 @@ namespace OpenWindow.Backends.Wayland
             //  manipulate a buffer prior to the first xdg_surface.configure call must
             //  also be treated as errors."
             // We do a blocking wait to make sure users can't attach a buffer before the first configure call
-            /*while (!_surfaceConfigured)
+            while (!_surfaceConfigured)
             {
                 display.Flush();
                 display.Dispatch();
-            }*/
+            }
         }
 
         private void SurfaceEnterCallback(void* data, wl_surface* surface, wl_output* output)
@@ -235,6 +246,8 @@ namespace OpenWindow.Backends.Wayland
             _xdgSurface.FreeListener();
             Surface.FreeListener();
 
+            _viewport.Destroy();
+            _viewporter.Destroy();
             _xdgDecoration.Destroy();
             _xdgTopLevel.Destroy();
             _xdgSurface.Destroy();

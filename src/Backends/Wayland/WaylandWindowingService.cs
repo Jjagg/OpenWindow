@@ -27,6 +27,7 @@ namespace OpenWindow.Backends.Wayland
         private WlKeyboard _wlKeyboard;
         private WlTouch _wlTouch;
         private ZxdgDecorationManagerV1 _xdgDecorationManager;
+        private WpViewporter _wpViewporter;
 
         private xkb_context* _xkbContext;
         private xkb_keymap* _xkbKeymap;
@@ -54,6 +55,7 @@ namespace OpenWindow.Backends.Wayland
             WaylandBindings.Load();
             XdgShellBindings.Load();
             XdgDecorationUnstableV1Bindings.Load();
+            ViewporterBindings.Load();
 
             LogDebug("Connecting to display...");
             _wlDisplay = WlDisplay.Connect();
@@ -134,6 +136,9 @@ namespace OpenWindow.Backends.Wayland
                     break;
                 case XdgDecorationUnstableV1Bindings.zxdg_decoration_manager_v1_name:
                     _xdgDecorationManager = _wlRegistry.Bind<zxdg_decoration_manager_v1>(name, ZxdgDecorationManagerV1.Interface, version);
+                    break;
+                case ViewporterBindings.wp_viewporter_name:
+                    _wpViewporter = _wlRegistry.Bind<wp_viewporter>(name, WpViewporter.Interface, version);
                     break;
             }
         }
@@ -507,7 +512,7 @@ namespace OpenWindow.Backends.Wayland
             LogDebug("Getting xdg surface");
             var xdgSurface = _xdgWmBase.GetXdgSurface(wlSurface);
             LogDebug("Window ctor");
-            var window = new WaylandWindow(_wlDisplay, _wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, GlSettings);
+            var window = new WaylandWindow(_wlDisplay, _wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, _wpViewporter, GlSettings);
             // TODO remove windows
             _windows.Add(window);
             return window;
@@ -529,6 +534,7 @@ namespace OpenWindow.Backends.Wayland
             _wlSeat.Release();
             _xdgDecorationManager.Destroy();
             _wlShm.Destroy();
+            _wpViewporter.Destroy();
             _wlCompositor.Destroy();
             _wlRegistry.Destroy();
             _wlDisplay.Disconnect();
@@ -537,6 +543,7 @@ namespace OpenWindow.Backends.Wayland
             WaylandBindings.Unload();
             XdgShellBindings.Unload();
             XdgDecorationUnstableV1Bindings.Unload();
+            ViewporterBindings.Unload();
         }
     }
 }
