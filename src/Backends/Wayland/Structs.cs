@@ -46,10 +46,12 @@ namespace OpenWindow.Backends.Wayland
     {
         [FieldOffset(0)] public int I;
         [FieldOffset(0)] public uint U;
+        [FieldOffset(0)] public wl_fixed F;
         [FieldOffset(0)] public IntPtr Ptr;
 
         public static implicit operator wl_argument(int i) => new wl_argument { I = i };
         public static implicit operator wl_argument(uint u) => new wl_argument { U = u };
+        public static implicit operator wl_argument(wl_fixed f) => new wl_argument { F = f };
         public static implicit operator wl_argument(IntPtr ptr) => new wl_argument { Ptr = ptr };
         public static implicit operator wl_argument(void* ptr) => new wl_argument { Ptr = (IntPtr) ptr };
     }

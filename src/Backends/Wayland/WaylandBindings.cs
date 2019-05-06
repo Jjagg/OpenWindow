@@ -853,6 +853,10 @@ namespace OpenWindow.Backends.Wayland
         /// wl_data_offer.accept or no action was received through
         /// wl_data_offer.action.
         /// </p>
+        /// <p>
+        /// If wl_data_offer.finish request is received for a non drag and drop
+        /// operation, the invalid_finish protocol error is raised.
+        /// </p>
         /// </summary>
         public static void wl_data_offer_finish(wl_data_offer* pointer)
         {
@@ -3212,6 +3216,14 @@ namespace OpenWindow.Backends.Wayland
         /// The physical size can be set to zero if it doesn't make sense for this
         /// output (e.g. for projectors or virtual outputs).
         /// </p>
+        /// <p>
+        /// Note: wl_output only advertises partial information about the output
+        /// position and identification. Some compositors, for instance those not
+        /// implementing a desktop-style output layout or those exposing virtual
+        /// outputs, might fake this information. Instead of using x and y, clients
+        /// should use xdg_output.logical_position. Instead of using make and model,
+        /// clients should use xdg_output.name and xdg_output.description.
+        /// </p>
         /// </summary>
         public delegate void wl_output_geometry_delegate(void* data, wl_output* proxy, int x, int y, int physical_width, int physical_height, wl_output_subpixel subpixel, byte* make, byte* model, wl_output_transform transform);
 
@@ -3231,7 +3243,23 @@ namespace OpenWindow.Backends.Wayland
         /// the output device. This is not necessarily the same as
         /// the output size in the global compositor space. For instance,
         /// the output may be scaled, as described in wl_output.scale,
-        /// or transformed, as described in wl_output.transform.
+        /// or transformed, as described in wl_output.transform. Clients
+        /// willing to retrieve the output size in the global compositor
+        /// space should use xdg_output.logical_size instead.
+        /// </p>
+        /// <p>
+        /// The vertical refresh rate can be set to zero if it doesn't make
+        /// sense for this output (e.g. for virtual outputs).
+        /// </p>
+        /// <p>
+        /// Clients should not use the refresh rate to schedule frames. Instead,
+        /// they should use the wl_surface.frame event or the presentation-time
+        /// protocol.
+        /// </p>
+        /// <p>
+        /// Note: this information is not always meaningful for all outputs. Some
+        /// compositors, such as those exposing virtual outputs, might fake the
+        /// refresh rate or the size.
         /// </p>
         /// </summary>
         public delegate void wl_output_mode_delegate(void* data, wl_output* proxy, wl_output_mode flags, int width, int height, int refresh);
@@ -3961,6 +3989,11 @@ namespace OpenWindow.Backends.Wayland
         /// server is out of memory
         /// </summary>
         NoMemory = 2,
+
+        /// <summary>
+        /// implementation error in compositor
+        /// </summary>
+        Implementation = 3,
 
     }
 

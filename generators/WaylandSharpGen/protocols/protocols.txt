@@ -1,5 +1,6 @@
 wayland/protocol/wayland.xml WaylandBindings.cs
 
 wayland-protocols/stable/xdg-shell/xdg-shell.xml XdgShellBindings.cs
+wayland-protocols/stable/viewporter/viewporter.xml ViewporterBindings.cs
 wayland-protocols/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml XdgDecorationBindings.cs
 

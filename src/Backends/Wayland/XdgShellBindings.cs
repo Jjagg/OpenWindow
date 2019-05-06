@@ -203,7 +203,7 @@ namespace OpenWindow.Backends.Wayland
         /// <p>
         /// The ping event asks the client if it's still alive. Pass the
         /// serial specified in the event back to the compositor by sending
-        /// a "pong" request back with the specified serial. See xdg_wm_base.ping.
+        /// a "pong" request back with the specified serial. See xdg_wm_base.pong.
         /// </p>
         /// <p>
         /// Compositors can use this to determine if the client is still
