@@ -10,15 +10,16 @@ namespace OpenWindow.Backends.Windows
     internal class Win32WindowingService : WindowingService
     {
         private List<Display> _displays;
-        private readonly Dictionary<IntPtr, Window> ManagedWindows;
+        private readonly Dictionary<IntPtr, Window> _managedWindows;
+        private IntPtr _localeId;
 
-        public override int WindowCount => ManagedWindows.Count;
+        public override int WindowCount => _managedWindows.Count;
         public override ReadOnlyCollection<Display> Displays => new ReadOnlyCollection<Display>(_displays);
         public override Display PrimaryDisplay => _displays.FirstOrDefault(d => d.IsPrimary);
 
         public Win32WindowingService()
         {
-            ManagedWindows = new Dictionary<IntPtr, Window>();
+            _managedWindows = new Dictionary<IntPtr, Window>();
             WndProc = ProcessWindowMessage;
         }
 
@@ -30,8 +31,66 @@ namespace OpenWindow.Backends.Windows
 
         private void SetKeyMap(IntPtr localeId)
         {
-            // TODO Set the scan code to virtual key code map based on the keyboard layout
-            //      also call this method when keyboard layout changes.
+            if (_localeId == localeId)
+                return;
+
+            _localeId = localeId;
+
+            // We have OpenWindow scancodes and keycodes and Win32 scancodes and keycodes
+            // Windows lets us translate scancodes to keycodes and we manage
+            // translation from Win32 scancodes to OpenWindow scancodes (and back)
+            // and translation from Win32 Virtual Keys to OpenWindow keys.
+
+            // To set up the map from OW scan codes to key codes, we iterate
+            // Win32 scancodes and translate to OpenWindow scancodes on the one
+            // hand and to OpenWindow keys through Win32 key codes on the other.
+            // Some scan codes have different mappings depending on whether they're
+            // extended keys or not, so we map the scan codes a second time
+            // to catch the extended keys (even though for most keys the result
+            // will be the same).
+
+            //         VkToKey
+            //  OWK <------------ WinK
+            //   ^                 ^
+            //   | we build        | MapVirtualKey
+            //   | this            |
+            //   v                 v
+            //  OWS <------------> WinS (we iterate this)
+            //       WinToOwScanCode
+            for (uint wsc = 0; wsc < Win32KeyMaps.WinToOwScanCode.Length; wsc++)
+            {
+                var osc = Win32KeyMaps.WinToOwScanCode[wsc];
+                if (osc != ScanCode.Unknown)
+                {
+                    var wvk = Native.MapVirtualKey(wsc, KeyMapType.ScToVkEx);
+                    var ovk = Win32KeyMaps.VkToKey[(int) wvk];
+                    if (ovk != Key.Unknown)
+                        _keyboardState.Set(osc, ovk);
+                }
+            }
+
+            _keyboardState.Set(ScanCode.Enter, Key.Enter);
+            _keyboardState.Set(ScanCode.KpEnter, Key.KpEnter);
+            _keyboardState.Set(ScanCode.LeftControl, Key.LeftControl);
+            _keyboardState.Set(ScanCode.RightControl, Key.RightControl);
+            _keyboardState.Set(ScanCode.LeftShift, Key.LeftShift);
+            _keyboardState.Set(ScanCode.RightShift, Key.RightShift);
+            _keyboardState.Set(ScanCode.LeftAlt, Key.LeftAlt);
+            _keyboardState.Set(ScanCode.RightAlt, Key.RightAlt);
+
+            _keyboardState.Set(ScanCode.Home, Key.Home);
+            _keyboardState.Set(ScanCode.Up, Key.Up);
+            _keyboardState.Set(ScanCode.PageUp, Key.PageUp);
+            _keyboardState.Set(ScanCode.Left, Key.Left);
+            _keyboardState.Set(ScanCode.Pause, Key.Pause);
+            _keyboardState.Set(ScanCode.Right, Key.Right);
+            _keyboardState.Set(ScanCode.End, Key.End);
+            _keyboardState.Set(ScanCode.Down, Key.Down);
+            _keyboardState.Set(ScanCode.PageDown, Key.PageDown);
+            _keyboardState.Set(ScanCode.Insert, Key.Insert);
+            _keyboardState.Set(ScanCode.Delete, Key.Delete);
+
+            _keyboardState.Set(ScanCode.PrintScreen, Key.PrintScreen);
         }
 
         private void InitializeDisplays()
@@ -49,7 +108,7 @@ namespace OpenWindow.Backends.Windows
         public override Window CreateWindow()
         {
             var window = new Win32Window(GlSettings);
-            ManagedWindows.Add(window.Hwnd, window);
+            _managedWindows.Add(window.Hwnd, window);
             return window;
         }
 
@@ -76,7 +135,7 @@ namespace OpenWindow.Backends.Windows
 
         private IntPtr ProcessWindowMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
         {
-            if (ManagedWindows.TryGetValue(hWnd, out var window))
+            if (_managedWindows.TryGetValue(hWnd, out var window))
             {
                 switch (msg)
                 {
@@ -122,8 +181,6 @@ namespace OpenWindow.Backends.Windows
                         SetFocus(window, false);
                         return IntPtr.Zero;
                     case WindowMessage.InputLangChange:
-                        // TODO pass input locale to keymap update
-                        var localeId = lParam.ToInt32();
                         SetKeyMap(lParam);
                         return new IntPtr(1);
                     case WindowMessage.KeyDown:
@@ -227,7 +284,7 @@ namespace OpenWindow.Backends.Windows
 
                     case WindowMessage.Destroy:
                         var wwindow = (Win32Window) window;
-                        ManagedWindows.Remove(wwindow.Hwnd);
+                        _managedWindows.Remove(wwindow.Hwnd);
                         window.RaiseClosing();
                         return IntPtr.Zero;
                 }
@@ -246,11 +303,11 @@ namespace OpenWindow.Backends.Windows
         {
             var sc = ScanCode.Unknown;
 
-            if (wsc < WindowsScanCodes.Map.Length)
+            if (wsc < Win32KeyMaps.WinToOwScanCode.Length)
             {
                 sc = extended ?
-                    WindowsScanCodes.ExtendedMap[wsc] :
-                    WindowsScanCodes.Map[wsc];
+                    Win32KeyMaps.WinToOwScanCodeEx[wsc] :
+                    Win32KeyMaps.WinToOwScanCode[wsc];
             }
 
             return sc;

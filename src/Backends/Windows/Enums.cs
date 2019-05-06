@@ -190,9 +190,10 @@ namespace OpenWindow.Backends.Windows
 
     internal enum KeyMapType : uint
     {
-        VktoSc = 0,
+        VkToSc = 0,
         ScToVk = 1,
         VkToChar = 2,
-        ScToVkEx = 3
+        ScToVkEx = 3,
+        VkToScEx = 4
     }
 }

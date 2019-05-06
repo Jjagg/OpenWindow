@@ -38,7 +38,7 @@ D8
 D9
 D0
 
-Backquote/Tilde
+Backquote/Backtick/Tilde
 Minus
 Equals
 
@@ -102,7 +102,7 @@ LeftShift
 RightShift
 LeftControl
 RightControl
-LeftAlt/Alt/LeftOption
+LeftAlt/LeftOption
 RightAlt/AltGr/RightOption
 LeftMeta/LeftCommand
 RightMeta/RightCommand
@@ -124,4 +124,4 @@ Kp6
 Kp7
 Kp8
 Kp9
-KpPeriod
+KpPeriod/KpDot

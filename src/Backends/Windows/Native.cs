@@ -130,7 +130,10 @@ namespace OpenWindow.Backends.Windows
         public static extern short GetKeyState(VirtualKey nVirtKey);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern VirtualKey MapVirtualKey(uint key, KeyMapType keyMapType);
+        public static extern int MapVirtualKey(uint uCode, KeyMapType uMapType);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern int MapVirtualKeyEx(uint uCode, KeyMapType uMapType, IntPtr dwhkl);
 
         #endregion
 

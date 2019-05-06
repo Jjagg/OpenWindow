@@ -45,6 +45,7 @@ namespace OpenWindow
         D0 = 36,
 
         Backquote = 37,
+        Backtick = 37,
         Tilde = 37,
         Minus = 38,
         Equals = 39,
@@ -113,7 +114,6 @@ namespace OpenWindow
         LeftControl = 93,
         RightControl = 94,
         LeftAlt = 95,
-        Alt = 95,
         LeftOption = 95,
         RightAlt = 96,
         AltGr = 96,
@@ -142,6 +142,7 @@ namespace OpenWindow
         Kp8 = 114,
         Kp9 = 115,
         KpPeriod = 116,
+        KpDot = 116,
 
         Count = 117
     }

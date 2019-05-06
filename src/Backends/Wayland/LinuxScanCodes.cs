@@ -2,7 +2,7 @@ namespace OpenWindow.Backends.Wayland
 {
     public static class LinuxScanCodes
     {
-        public static ScanCode[] Map =
+        public static ScanCode[] LinuxToOw =
         {
             ScanCode.Unknown, // #define KEY_RESERVED		0
             ScanCode.Escape,  // #define KEY_ESC			1

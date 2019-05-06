@@ -301,6 +301,22 @@ namespace OpenWindow.Backends.Wayland
 
             _xkbKeymap = newKeymap;
             _xkbState = newState;
+
+            UpdateKeymap();
+        }
+
+        private void UpdateKeymap()
+        {
+            for (var lsc = 0; lsc < LinuxScanCodes.LinuxToOw.Length; lsc++)
+            {
+                var osc = LinuxScanCodes.LinuxToOw[lsc];
+                if (osc == ScanCode.Unknown)
+                    continue;
+
+                var sym = XkbCommon.xkb_state_key_get_one_sym(_xkbState, (uint) (lsc + 8));
+                if (sym == 0)
+                    continue;
+            }
         }
 
         private void KeyboardEnterCallback(void* data, wl_keyboard* proxy, uint serial, wl_surface* surface, wl_array* keys) => WlSetFocus(surface, true);
@@ -315,23 +331,19 @@ namespace OpenWindow.Backends.Wayland
                 LogWarning("Could not find window by surface. The window might have been destroyed after the event was sent from the server.");
         }
 
-        private void KeyboardKeyCallback(void* data, wl_keyboard* proxy, uint serial, uint time, uint key, wl_keyboard_key_state state)
+        private void KeyboardKeyCallback(void* data, wl_keyboard* proxy, uint serial, uint time, uint lsc, wl_keyboard_key_state state)
         {
-            if (key >= LinuxScanCodes.Map.Length)
+            if (lsc >= LinuxScanCodes.LinuxToOw.Length)
                 return;
 
-            var sc = LinuxScanCodes.Map[key];
-            SetKey(sc, state == wl_keyboard_key_state.Pressed);
-
-            var sym = XkbCommon.xkb_state_key_get_one_sym(_xkbState, key + 8);
-            if (sym == 0)
-                return;
+            var osc = LinuxScanCodes.LinuxToOw[lsc];
+            SetKey(osc, state == wl_keyboard_key_state.Pressed);
 
             // TODO how large should this be?
             const int strBufSize = 8;
             byte* strBuf = stackalloc byte[strBufSize];
 
-            var size = XkbCommon.xkb_state_key_get_utf8(_xkbState, key + 8, strBuf, strBufSize);
+            var size = XkbCommon.xkb_state_key_get_utf8(_xkbState, lsc + 8, strBuf, strBufSize);
             // add the null terminator
             strBuf[size] = 0;
 

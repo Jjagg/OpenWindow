@@ -3,9 +3,9 @@ using System;
 namespace OpenWindow
 {
     /// <summary>
-    /// State of keys (up or down) indexed by scancode and 
+    /// State of keys (up or down) indexed by scancode or key code.
     /// </summary>
-    public abstract class KeyboardState
+    public class KeyboardState
     {
         /// <summary>
         /// The window that currently has keyboard focus.
