@@ -550,6 +550,36 @@ namespace OpenWindow.Backends.Wayland
             _wlDisplay.Dispatch();
         }
 
+        /// <inheritdoc />
+        public override KeyMod GetKeyModifiers()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public override bool IsCapsLockOn()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public override bool IsNumLockOn()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public override bool IsScrollLockOn()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public override void SetCursorPosition(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void Dispose(bool disposing)
         {
             _wlSeat.FreeListener();

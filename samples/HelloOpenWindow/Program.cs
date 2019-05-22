@@ -106,13 +106,13 @@ namespace HelloOpenWindow
             Console.WriteLine();
             Console.WriteLine("Window Info:");
             Console.WriteLine($"Bounds: {_window.Bounds}");
-            var modifiers = _window.GetKeyModifiers();
+            var modifiers = _service.GetKeyModifiers();
             Console.WriteLine($"Control: {(modifiers & KeyMod.Control) > 0}");
             Console.WriteLine($"Shift: {(modifiers & KeyMod.Shift) > 0}");
             Console.WriteLine($"Alt: {(modifiers & KeyMod.Alt) > 0}");
-            Console.WriteLine($"Caps Lock: {_window.IsCapsLockOn()}");
-            Console.WriteLine($"Num Lock: {_window.IsNumLockOn()}");
-            Console.WriteLine($"Scroll Lock: {_window.IsScrollLockOn()}");
+            Console.WriteLine($"Caps Lock: {_service.IsCapsLockOn()}");
+            Console.WriteLine($"Num Lock: {_service.IsNumLockOn()}");
+            Console.WriteLine($"Scroll Lock: {_service.IsScrollLockOn()}");
             Console.WriteLine();
             Console.Out.Flush();
         }

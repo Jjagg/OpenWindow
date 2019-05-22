@@ -237,6 +237,37 @@ namespace OpenWindow
         /// </summary>
         public abstract void WaitEvent();
 
+        /// <summary>
+        /// Get the key modifiers currently enabled.
+        /// </summary>
+        /// <returns>The enabled key modifiers.</returns>
+        public abstract KeyMod GetKeyModifiers();
+
+        /// <summary>
+        /// Check if caps lock is turned on.
+        /// </summary>
+        /// <returns><code>true</code> if caps lock is turned on, <code>false</code> if it is turned off.</returns>
+        public abstract bool IsCapsLockOn();
+
+        /// <summary>
+        /// Check if num lock is turned on.
+        /// </summary>
+        /// <returns><code>true</code> if num lock is turned on, <code>false</code> if it is turned off.</returns>
+        public abstract bool IsNumLockOn();
+
+        /// <summary>
+        /// Check if scroll lock is turned on.
+        /// </summary>
+        /// <returns><code>true</code> if scroll lock is turned on, <code>false</code> if it is turned off.</returns>
+        public abstract bool IsScrollLockOn();
+
+        /// <summary>
+        /// Set the position of the mouse cursor.
+        /// </summary>
+        /// <param name="x">X coordinate.</param>
+        /// <param name="y">Y coordinate.</param>
+        public abstract void SetCursorPosition(int x, int y);
+
         #endregion
 
         #region Input state methods

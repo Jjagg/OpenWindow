@@ -20,7 +20,7 @@ namespace OpenWindow.Backends.Windows
         public Win32WindowingService()
         {
             _managedWindows = new Dictionary<IntPtr, Window>();
-            WndProc = ProcessWindowMessage;
+            _wndProc = ProcessWindowMessage;
         }
 
         protected override void Initialize()
@@ -107,7 +107,7 @@ namespace OpenWindow.Backends.Windows
         /// <inheritdoc />
         public override Window CreateWindow()
         {
-            var window = new Win32Window(GlSettings);
+            var window = new Win32Window(_wndProc, GlSettings);
             _managedWindows.Add(window.Hwnd, window);
             return window;
         }
@@ -130,8 +130,50 @@ namespace OpenWindow.Backends.Windows
             Native.DispatchMessage(ref nativeMessage);
         }
 
+        /// <inheritdoc />
+        public override KeyMod GetKeyModifiers()
+        {
+            var ctrl = Native.GetKeyState(VirtualKey.Control) < 0 ? KeyMod.Control : 0;
+            var shift = Native.GetKeyState(VirtualKey.Shift) < 0 ? KeyMod.Shift : 0;
+            var alt = Native.GetKeyState(VirtualKey.Alt) < 0 ? KeyMod.Alt : 0;
+            return ctrl | shift | alt;
+        }
+
+        /// <inheritdoc />
+        public override bool IsCapsLockOn()
+        {
+            return KeyEnabled(VirtualKey.CapsLock);
+        }
+
+        /// <inheritdoc />
+        public override bool IsNumLockOn()
+        {
+            return KeyEnabled(VirtualKey.NumLock);
+        }
+
+        /// <inheritdoc />
+        public override bool IsScrollLockOn()
+        {
+            return KeyEnabled(VirtualKey.ScrollLock);
+        }
+
+        private bool KeyEnabled(VirtualKey key)
+        {
+            return (Native.GetKeyState(key) & 0x1) > 0;
+        }
+
+        /// <inheritdoc />
+        public override void SetCursorPosition(int x, int y)
+        {
+            if (!Native.SetCursorPos(x, y))
+            {
+                var e = Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+                throw new OpenWindowException("Failed to set cursor position.", e);
+            }
+        }
+
         // we need to keep a reference to the delegate so it is not garbage collected
-        public readonly WndProc WndProc;
+        private readonly WndProc _wndProc;
 
         private IntPtr ProcessWindowMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
         {

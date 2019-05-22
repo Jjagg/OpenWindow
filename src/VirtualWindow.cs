@@ -128,8 +128,7 @@ namespace OpenWindow
             _keyMap[(int) key] = down;
         }
 
-        /// <inheritdoc />
-        public override KeyMod GetKeyModifiers()
+        public KeyMod GetKeyModifiers()
         {
             return _keyModifiers;
         }
@@ -143,8 +142,7 @@ namespace OpenWindow
             _capsLock = value;
         }
 
-        /// <inheritdoc />
-        public override bool IsCapsLockOn()
+        public bool IsCapsLockOn()
         {
             return _capsLock;
         }
@@ -158,8 +156,7 @@ namespace OpenWindow
             _numLock = value;
         }
 
-        /// <inheritdoc />
-        public override bool IsNumLockOn()
+        public bool IsNumLockOn()
         {
             return _numLock;
         }
@@ -174,7 +171,7 @@ namespace OpenWindow
         }
 
         /// <inheritdoc />
-        public override bool IsScrollLockOn()
+        public bool IsScrollLockOn()
         {
             return _scrollLock;
         }
@@ -189,7 +186,7 @@ namespace OpenWindow
         }
 
         /// <inheritdoc />
-        public override void SetCursorPosition(int x, int y)
+        public void SetCursorPosition(int x, int y)
         {
             _cursorPosition = new Point(x, y);
         }
