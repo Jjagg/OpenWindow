@@ -27,7 +27,6 @@ namespace HelloOpenWindow
             _window = _service.CreateWindow();
             //_window.ClientBounds = new Rectangle(100, 100, 400, 400);
             _window.Title = "Hello, OpenWindow! 💩";
-            _window.Show();
 
             _window.MinSize = new Size(MinWidth, MinHeight);
             _window.MaxSize = new Size(MaxWidth, MaxHeight);
@@ -49,10 +48,8 @@ namespace HelloOpenWindow
                         _window.Resizable = !_window.Resizable;
                         break;
                     case Key.H: // hide
-                        _window.Hide();
                         _service.PumpEvents();
                         Thread.Sleep(2000);
-                        _window.Show();
                         break;
                     case Key.M: // move
                         SetRandomBounds();
