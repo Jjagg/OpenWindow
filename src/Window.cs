@@ -292,6 +292,8 @@ namespace OpenWindow
             RaiseCloseRequested();
         }
 
+        // TODO move the button stuff below to WindowingService!
+
         /// <summary>
         /// Get the key modifiers currently enabled.
         /// </summary>

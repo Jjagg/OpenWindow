@@ -540,10 +540,15 @@ namespace OpenWindow.Backends.Wayland
         }
 
         public override void PumpEvents()
-            => _wlDisplay.Roundtrip();
+        {
+            _wlDisplay.Flush();
+            _wlDisplay.Roundtrip();
+        }
 
         public override void WaitEvent()
-            => _wlDisplay.Dispatch();
+        {
+            _wlDisplay.Dispatch();
+        }
 
         protected override void Dispose(bool disposing)
         {

@@ -236,7 +236,7 @@ namespace OpenWindow.Backends.Wayland
         public delegate bool ChooseConfigDelegate(EGLDisplay* display, int[] attribList, IntPtr[] configs, int configSize, out int numConfigs);
         public static ChooseConfigDelegate ChooseConfig;
 
-        public delegate EGLSurface* CreateWindowSurfaceDelegate(EGLDisplay* display, EGLConfig* config, wl_egl_window* eglWindow, in int[] attribList);
+        public delegate EGLSurface* CreateWindowSurfaceDelegate(EGLDisplay* display, EGLConfig* config, wl_egl_window* eglWindow, int[] attribList);
         public static CreateWindowSurfaceDelegate CreateWindowSurface;
 
         public delegate bool DestroySurfaceDelegate(EGLDisplay* display, EGLSurface* surface);

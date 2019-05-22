@@ -18,7 +18,6 @@ namespace OpenWindow.Backends.Wayland
         private readonly WpViewport _viewport;
 
         private EGLDisplay* _eglDisplay;
-        private EGLContext* _eglContext;
         private wl_egl_window* _eglWindow;
         private EGLSurface* _eglSurface;
         private EGLConfig* _eglConfig;
@@ -101,15 +100,25 @@ namespace OpenWindow.Backends.Wayland
             var configs = new IntPtr[8];
             if (!Egl.ChooseConfig(_eglDisplay, attribs, configs, configs.Length, out var configCount))
             {
-                var error = Egl.GetError();
-                throw new Exception($"EGL chooseConfig failed: {error:X}");
+                WindowingService.LogWarning("eglChooseConfig failed. Window was not initialized with OpenGL support.");
+                return;
             }
             if (configCount == 0)
-                throw new Exception("EGL chooseConfig: no valid configurations.");
+            {
+                WindowingService.LogWarning("No valid EGL configs. Window was not initialized with OpenGL support.");
+                return;
+            }
 
             _eglConfig = (EGLConfig*) configs[0];
 
             _eglWindow = WaylandClient.wl_egl_window_create(Surface.Pointer, width, height);
+
+            if (_eglWindow == null)
+            {
+                _eglConfig = null;
+                WindowingService.LogWarning("EGL window creation failed. Window was not initialized with OpenGL support.");
+                return;
+            }
 
             var surfaceAttribs = new int[]
             {
@@ -118,6 +127,14 @@ namespace OpenWindow.Backends.Wayland
             };
 
             _eglSurface = Egl.CreateWindowSurface(_eglDisplay, _eglConfig, _eglWindow, surfaceAttribs);
+            if (_eglSurface == null)
+            {
+                _eglConfig = null;
+                WaylandClient.wl_egl_window_destroy(_eglWindow);
+                _eglWindow = null;
+                WindowingService.LogWarning("EGL surface creation failed. Window was not initialized with OpenGL support.");
+                return;
+            }
         }
 
         private void SurfaceEnterCallback(void* data, wl_surface* surface, wl_output* output)
@@ -130,7 +147,6 @@ namespace OpenWindow.Backends.Wayland
 
         private void XdgSurfaceConfigureCallback(void* data, xdg_surface* proxy, uint serial)
         {
-            WindowingService.LogDebug("Got configure event");
             _xdgSurface.AckConfigure(serial);
             _surfaceConfigured = true;
         }
@@ -154,15 +170,37 @@ namespace OpenWindow.Backends.Wayland
         #region Window Properties
 
         // setting global position is not supported in Wayland
-        // TODO need to expose popup interface to position window relative to parent
         public override Point Position { get => Point.Zero; set { } }
+
         public override Size Size { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override Size ClientSize { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override Rectangle Bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override Rectangle ClientBounds
+
+        /// <inheritdoc />
+        public override Size ClientSize
         {
             get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            set
+            {
+                _xdgSurface.SetWindowGeometry(0, 0, value.Width, value.Height);
+                if (_eglWindow != null)
+                    WaylandClient.wl_egl_window_resize(_eglWindow, value.Width, value.Height, 0, 0);
+                RaiseResize();
+            }
+        }
+
+        public override Rectangle Bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public override Rectangle ClientBounds
+        {
+            get 
+            {
+                WindowingService.LogWarning("Wayland does not support getting window position.");
+                return new Rectangle(Point.Zero, ClientSize);
+            }
+            set
+            {
+                WindowingService.LogWarning("Wayland does not support setting window position.");
+                ClientSize = value.Size;
+            }
         }
 
         #endregion
@@ -311,6 +349,11 @@ namespace OpenWindow.Backends.Wayland
 
         protected override void ReleaseUnmanagedResources()
         {
+            if (_eglSurface != null)
+                Egl.DestroySurface(_eglDisplay, _eglSurface);
+            if (_eglWindow != null)
+                WaylandClient.wl_egl_window_destroy(_eglWindow);
+
             _xdgTopLevel.FreeListener();
             _xdgSurface.FreeListener();
             Surface.FreeListener();

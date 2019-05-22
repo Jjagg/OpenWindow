@@ -207,11 +207,15 @@ namespace OpenGL
             LoadOpenGL(EGLGetProcAddress);
 
             var eglContext = EGLCreateContext(wdata.EGLDisplay, wdata.EGLConfig, IntPtr.Zero, null);
-            EGLMakeCurrent(wdata.EGLDisplay, wdata.EGLSurface, wdata.EGLSurface, eglContext);
+            if (eglContext == null)
+                throw new Exception("EGL context creation failed.");
+
+            if (!EGLMakeCurrent(wdata.EGLDisplay, wdata.EGLSurface, wdata.EGLSurface, eglContext))
+                throw new Exception("EGL make current failed.");
 
             glClearColor(0, 0, 0, 1);
             // enable multisampling
-            //glEnable(0x809D);
+            glEnable(0x809D);
 
             service.PumpEvents();
 
@@ -220,7 +224,10 @@ namespace OpenGL
                 DrawTriangle();
 
                 // because we enabled double buffering we need to swap buffers here.
-                EGLSwapBuffers(wdata.EGLDisplay, wdata.EGLSurface);
+                var success = EGLSwapBuffers(wdata.EGLDisplay, wdata.EGLSurface);
+
+                if (!success)
+                    Console.WriteLine("Swap buffers failed!!!!");
 
                 Thread.Sleep(10);
 
@@ -240,7 +247,7 @@ namespace OpenGL
             service.GlSettings.MultiSampleCount = 8;
 
             var window = service.CreateWindow();
-            //window.ClientBounds = new Rectangle(100, 100, 600, 600);
+            window.ClientBounds = new Rectangle(100, 100, 600, 600);
             window.Title = "I'm rendering with OpenGL!";
 
             return window;
