@@ -62,7 +62,7 @@ namespace VeldridApp
             Console.WriteLine("Running draw loop...");
             while (!w.ShouldClose)
             {
-                ws.WaitEvent();
+                ws.PumpEvents();
                 if (w.ShouldClose)
                     break;
                 Draw();
