@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace OpenWindow.Backends.Wayland
 {
-    internal unsafe static class WaylandClient
+    internal static unsafe class WaylandClient
     {
         [DllImport("libwayland-client.so")]
         public static extern wl_display* wl_display_connect(byte* strConn);
@@ -90,9 +90,22 @@ namespace OpenWindow.Backends.Wayland
 
         [DllImport("libwayland-client.so")]
         public static extern int wl_array_copy(wl_array* array, wl_array* source);
+
+
+        [DllImport("libwayland-egl.so")]
+        public static extern wl_egl_window* wl_egl_window_create(wl_surface* surface, int width, int height);
+
+        [DllImport("libwayland-egl.so")]
+        public static extern void wl_egl_window_destroy(wl_egl_window* egl_window);
+
+        [DllImport("libwayland-egl.so")]
+        public static extern void wl_egl_window_resize(wl_egl_window* egl_window, int width, int height, int dx, int dy);
+
+        [DllImport("libwayland-egl.so")]
+        public static extern void wl_egl_window_get_attached_size(wl_egl_window* egl_window, out int width, out int height, int dx, int dy);
     }
 
-    internal unsafe static class Libc
+    internal static unsafe class Libc
     {
         [DllImport("libc")]
         public static extern int close(int fd);
@@ -119,7 +132,7 @@ namespace OpenWindow.Backends.Wayland
     public struct xkb_keymap { }
     public struct xkb_state { }
 
-    internal unsafe static class XkbCommon
+    internal static unsafe class XkbCommon
     {
         public const int XKB_CONTEXT_NO_FLAGS = 0;
 
@@ -150,6 +163,87 @@ namespace OpenWindow.Backends.Wayland
 
         [DllImport("libxkbcommon.so")]
         public static extern void xkb_state_unref(xkb_state *state);
+    }
+
+    internal static unsafe class Egl
+    {
+        public static void Load()
+        {
+            // These are exposed directly, but that's not portable according to the spec
+            // so we behave nicely and use eglGetProcAddress
+            GetDisplay = LoadFunction<GetDisplayDelegate>("eglGetDisplay");
+            Terminate = LoadFunction<TerminateDelegate>("eglTerminate");
+            Initialize = LoadFunction<InitializeDelegate>("eglInitialize");
+            BindAPI = LoadFunction<BindAPIDelegate>("eglBindAPI");
+            ChooseConfig = LoadFunction<ChooseConfigDelegate>("eglChooseConfig");
+            CreateWindowSurface = LoadFunction<CreateWindowSurfaceDelegate>("eglCreateWindowSurface");
+            DestroySurface = LoadFunction<DestroySurfaceDelegate>("eglDestroySurface");
+            GetError = LoadFunction<GetErrorDelegate>("eglGetError");
+        }
+
+        private static T LoadFunction<T>(string str) where T : Delegate
+        {
+            var ptr = GetProcAddress(str);
+            if (ptr == IntPtr.Zero)
+                return null;
+
+            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
+        }
+
+        [DllImport("libEGL.so", EntryPoint="eglGetProcAddress")]
+        public static extern IntPtr GetProcAddress(string procName);
+
+
+        public static int TRUE = 1;
+        public static int FALSE = 0;
+
+        public static int OPENGL_ES_API = 0x30A0;
+        public static int OPENGL_API = 0x30A2;
+
+        public static int OPENGL_ES_BIT = 0x0001;
+        public static int OPENGL_BIT = 0x0008;
+
+        public static int RED_SIZE = 0x3024;
+        public static int GREEN_SIZE = 0x3023;
+        public static int BLUE_SIZE = 0x3022;
+        public static int ALPHA_SIZE = 0x3021;
+        public static int DEPTH_SIZE = 0x3025;
+        public static int STENCIL_SIZE = 0x3026;
+        public static int SAMPLES = 0x3031;
+        public static int SAMPLE_BUFFERS = 0x3032;
+        public static int NONE = 0x3038;
+        public static int BIND_TO_TEXTURE_RGB = 0x3039;
+        public static int BIND_TO_TEXTURE_RGBA = 0x303A;
+
+        public static int RENDERABLE_TYPE = 0x3040;
+
+        public static int BACK_BUFFER = 0x3084;
+        public static int SINGLE_BUFFER = 0x3085;
+        public static int RENDER_BUFFER = 0x3086;
+
+        public delegate EGLDisplay* GetDisplayDelegate(wl_display* dpy);
+        public static GetDisplayDelegate GetDisplay;
+
+        public delegate bool InitializeDelegate(EGLDisplay* display, out int major, out int minor);
+        public static InitializeDelegate Initialize;
+
+        public delegate bool TerminateDelegate(EGLDisplay* display);
+        public static TerminateDelegate Terminate;
+
+        public delegate bool BindAPIDelegate(int api);
+        public static BindAPIDelegate BindAPI;
+
+        public delegate bool ChooseConfigDelegate(EGLDisplay* display, int[] attribList, IntPtr[] configs, int configSize, out int numConfigs);
+        public static ChooseConfigDelegate ChooseConfig;
+
+        public delegate EGLSurface* CreateWindowSurfaceDelegate(EGLDisplay* display, EGLConfig* config, wl_egl_window* eglWindow, in int[] attribList);
+        public static CreateWindowSurfaceDelegate CreateWindowSurface;
+
+        public delegate bool DestroySurfaceDelegate(EGLDisplay* display, EGLSurface* surface);
+        public static DestroySurfaceDelegate DestroySurface;
+
+        public delegate int GetErrorDelegate();
+        public static GetErrorDelegate GetError;
     }
 }
 

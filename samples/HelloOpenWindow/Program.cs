@@ -25,7 +25,7 @@ namespace HelloOpenWindow
             _service = WindowingService.Get();
 
             _window = _service.CreateWindow();
-            _window.ClientBounds = new Rectangle(100, 100, 400, 400);
+            //_window.ClientBounds = new Rectangle(100, 100, 400, 400);
             _window.Title = "Hello, OpenWindow! 💩";
             _window.Show();
 

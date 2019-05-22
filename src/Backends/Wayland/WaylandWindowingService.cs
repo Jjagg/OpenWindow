@@ -10,6 +10,8 @@ namespace OpenWindow.Backends.Wayland
 {
     internal unsafe class WaylandWindowingService : WindowingService
     {
+        private static EGLDisplay* _eglDisplay;
+
         private List<WaylandWindow> _windows;
         private List<Display> _displays;
         public override ReadOnlyCollection<Display> Displays { get; }
@@ -52,23 +54,27 @@ namespace OpenWindow.Backends.Wayland
             if (_xkbContext == null)
                 throw new OpenWindowException("Failed to create xkbcommon context.");
 
+            LogDebug("Connecting to display...");
+
+            _wlDisplay = WlDisplay.Connect();
+            if (_wlDisplay.IsNull)
+            {
+                var error = WaylandClient.wl_display_get_error(null);
+                throw new OpenWindowException($"Failed to connect to Wayland display ({error}).");
+            }
+            _wlDisplay.SetListener(DisplayErrorCallback, null);
+
+            LogDebug("Connected to display.");
+
             WaylandBindings.Load();
             XdgShellBindings.Load();
             XdgDecorationUnstableV1Bindings.Load();
             ViewporterBindings.Load();
 
-            LogDebug("Connecting to display...");
-            _wlDisplay = WlDisplay.Connect();
-            if (_wlDisplay.IsNull)
-                throw new OpenWindowException("Failed to connect to Wayland display.");
-            _wlDisplay.SetListener(DisplayErrorCallback, null);
-
-            LogDebug("Connected to display.");
-
             _wlRegistry = _wlDisplay.GetRegistry();
 
             if (_wlRegistry.IsNull)
-                throw new OpenWindowException("Failed to connect to get Wayland registry.");
+                throw new OpenWindowException("Failed to get Wayland registry.");
 
             LogDebug("Got registry.");
             
@@ -500,6 +506,21 @@ namespace OpenWindow.Backends.Wayland
             }
 
             return null;
+        }
+
+        public EGLDisplay* GetEGLDisplay()
+        {
+            if (_eglDisplay != null)
+                return _eglDisplay;
+
+            Egl.Load();
+            _eglDisplay = Egl.GetDisplay(_wlDisplay.Pointer);
+            Egl.Initialize(_eglDisplay, out var major, out var minor);
+            Egl.BindAPI(Egl.OPENGL_API);
+
+            LogDebug($"Loaded EGL version {major}.{minor}");
+
+            return _eglDisplay;
         }
 
         public override Window CreateWindow()

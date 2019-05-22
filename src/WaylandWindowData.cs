@@ -45,13 +45,29 @@ namespace OpenWindow
         /// </summary>
         public GlobalObject[] Globals { get; }
 
-        internal WaylandWindowData(IntPtr wlDisplay, IntPtr wlRegistry, IntPtr wlSurface, GlobalObject[] globals)
+        /// <summary>
+        /// The EGL display connection.
+        /// Note that this will be <see>IntPtr.Zero</see> if the window was not created with OpenGL support.
+        /// <summary>
+        /// <seealso cref="OpenGlSurfaceSettings.EnableOpenGl">
+        public IntPtr EGLDisplay { get; }
+        public IntPtr WaylandEglWindow { get; }
+        public IntPtr EGLSurface { get; }
+        public IntPtr EGLConfig { get; }
+
+        internal WaylandWindowData(IntPtr wlDisplay, IntPtr wlRegistry, IntPtr wlSurface, GlobalObject[] globals,
+            IntPtr eglDisplay, IntPtr eglWindow, IntPtr eglSurface, IntPtr eglConfig)
             : base(WindowingBackend.Wayland)
         {
             WlDisplay = wlDisplay;
             WlRegistry = wlRegistry;
             WlSurface = wlSurface;
             Globals = globals;
+
+            EGLDisplay = eglDisplay;
+            WaylandEglWindow = eglWindow;
+            EGLSurface = eglSurface;
+            EGLConfig = eglConfig;
         }
     }
 }

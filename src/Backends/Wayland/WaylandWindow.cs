@@ -8,6 +8,7 @@ namespace OpenWindow.Backends.Wayland
     {
         #region Private Fields
 
+        private readonly WlDisplay _display;
         private readonly WlCompositor _compositor;
         public readonly WlSurface Surface;
         private readonly XdgSurface _xdgSurface;
@@ -15,6 +16,12 @@ namespace OpenWindow.Backends.Wayland
         private readonly ZxdgToplevelDecorationV1 _xdgDecoration;
         private readonly WpViewporter _viewporter;
         private readonly WpViewport _viewport;
+
+        private EGLDisplay* _eglDisplay;
+        private EGLContext* _eglContext;
+        private wl_egl_window* _eglWindow;
+        private EGLSurface* _eglSurface;
+        private EGLConfig* _eglConfig;
 
         private bool _surfaceConfigured;
 
@@ -25,6 +32,7 @@ namespace OpenWindow.Backends.Wayland
         public WaylandWindow(WlDisplay display, WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, WpViewporter wpViewporter, OpenGlSurfaceSettings glSettings)
             : base(false)
         {
+            _display = display;
             _compositor = wlCompositor;
             Surface = wlSurface;
             Surface.SetListener(SurfaceEnterCallback, SurfaceLeaveCallback);
@@ -35,13 +43,26 @@ namespace OpenWindow.Backends.Wayland
             if (!xdgDecorationManager.IsNull)
                 _xdgDecoration = xdgDecorationManager.GetToplevelDecoration(_xdgTopLevel);
 
+            // TODO pass these in WindowingService.CreateWindow
+            const int width = 100;
+            const int height = 100;
+
+            if (glSettings.EnableOpenGl)
+            {
+                InitOpenGl(glSettings, width, height);
+            }
+
             // Use the viewporter protocol to set the surface size so it does not depend on a buffer
             // We want to control the surface size, but users provide the buffer.
             if (!wpViewporter.IsNull)
             {
                 _viewporter = wpViewporter;
                 _viewport = wpViewporter.GetViewport(Surface);
-                _viewport.SetDestination(100, 100);
+                _viewport.SetDestination(width, height);
+            }
+            else
+            {
+                WindowingService.LogWarning("Wayland viewporter protocol not supported. Window size is determined by the bound buffer.");
             }
 
             Surface.Commit();
@@ -57,6 +78,46 @@ namespace OpenWindow.Backends.Wayland
                 display.Flush();
                 display.Dispatch();
             }
+        }
+
+        private void InitOpenGl(OpenGlSurfaceSettings s, int width, int height)
+        {
+            _eglDisplay = ((WaylandWindowingService) WindowingService.Get()).GetEGLDisplay();
+
+            int[] attribs =
+            {
+                Egl.RENDERABLE_TYPE, Egl.OPENGL_BIT,
+                Egl.RED_SIZE, s.RedSize,
+                Egl.GREEN_SIZE, s.GreenSize,
+                Egl.BLUE_SIZE, s.BlueSize,
+                Egl.ALPHA_SIZE, s.AlphaSize,
+                Egl.DEPTH_SIZE, s.DepthSize,
+                Egl.STENCIL_SIZE, s.StencilSize,
+                Egl.SAMPLES, s.MultiSampleCount,
+                Egl.SAMPLE_BUFFERS, s.MultiSampleCount > 1 ? 1 : 0,
+                Egl.NONE
+            };
+
+            var configs = new IntPtr[8];
+            if (!Egl.ChooseConfig(_eglDisplay, attribs, configs, configs.Length, out var configCount))
+            {
+                var error = Egl.GetError();
+                throw new Exception($"EGL chooseConfig failed: {error:X}");
+            }
+            if (configCount == 0)
+                throw new Exception("EGL chooseConfig: no valid configurations.");
+
+            _eglConfig = (EGLConfig*) configs[0];
+
+            _eglWindow = WaylandClient.wl_egl_window_create(Surface.Pointer, width, height);
+
+            var surfaceAttribs = new int[]
+            {
+                Egl.RENDER_BUFFER, s.DoubleBuffer ? Egl.BACK_BUFFER : Egl.SINGLE_BUFFER,
+                Egl.NONE
+            };
+
+            _eglSurface = Egl.CreateWindowSurface(_eglDisplay, _eglConfig, _eglWindow, surfaceAttribs);
         }
 
         private void SurfaceEnterCallback(void* data, wl_surface* surface, wl_output* output)
@@ -76,6 +137,9 @@ namespace OpenWindow.Backends.Wayland
 
         private void TopLevelConfigureCallback(void* data,  xdg_toplevel* toplevel, int width, int height, wl_array* states)
         {
+            if (_eglWindow != null)
+                WaylandClient.wl_egl_window_resize(_eglWindow, width, height, 0, 0);
+
             WindowingService.LogDebug($"Top level configure event ({width}, {height})");
             RaiseResize();
         }
@@ -95,7 +159,11 @@ namespace OpenWindow.Backends.Wayland
         public override Size Size { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override Size ClientSize { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override Rectangle Bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override Rectangle ClientBounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override Rectangle ClientBounds
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -141,7 +209,8 @@ namespace OpenWindow.Backends.Wayland
         public override WindowData GetPlatformData()
         {
             var ws = (WaylandWindowingService) WindowingService.Get();
-            return new WaylandWindowData(ws.GetDisplayProxy(), ws.GetRegistryProxy(), (IntPtr) Surface.Pointer, ws.GetGlobals());
+            return new WaylandWindowData(ws.GetDisplayProxy(), ws.GetRegistryProxy(), (IntPtr) Surface.Pointer, ws.GetGlobals(),
+                (IntPtr) _eglDisplay, (IntPtr) _eglWindow, (IntPtr) _eglSurface, (IntPtr) _eglConfig);
         }
 
         #endregion

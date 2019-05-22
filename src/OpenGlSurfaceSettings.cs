@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Surface settings to request when creating a window. This must be properly configured
-    /// if you plan on drawing to this window with OpenGL. See the OpenGL sample for an example.
+    /// if you plan on drawing to this window with OpenGL.
     /// </summary>
     public class OpenGlSurfaceSettings
     {

@@ -210,6 +210,7 @@ namespace OpenWindow
         /// Create a new <see cref="Window"/>.
         /// </summary>
         /// <returns>A new <see cref="Window"/>.</returns>
+        // TODO add width and height in here and maybe minimized/maximized/fullscreen options
         public abstract Window CreateWindow();
 
         /// <summary>

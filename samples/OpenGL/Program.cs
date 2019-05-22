@@ -7,7 +7,17 @@ namespace OpenGL
 {
     class Program
     {
-        #region PInvoke
+        #region PInvoke Windows
+
+        [DllImport("kernel32.dll", SetLastError = true, EntryPoint = "LoadLibrary")]
+        public static extern IntPtr LoadLibrary(string lpLibFileName);
+
+        [DllImport("kernel32.dll", SetLastError = true, EntryPoint = "GetProcAddress")]
+        public static extern IntPtr WinGetProcAddress(IntPtr hModule, string lpProcName);
+
+
+        [DllImport("opengl32.dll", SetLastError = true, EntryPoint = "wglGetProcAddress")]
+        public static extern IntPtr WglGetProcAddress(string procName);
 
         [DllImport("opengl32.dll", SetLastError = true, EntryPoint = "wglCreateContext")]
         public static extern IntPtr WglCreateContext(IntPtr hdc);
@@ -16,47 +26,120 @@ namespace OpenGL
         public static extern bool WglMakeCurrent(IntPtr hdc, IntPtr hglrc);
 
         [DllImport("opengl32.dll", SetLastError = true, EntryPoint = "wglDeleteContext")]
+
         public static extern bool WglDeleteContext(IntPtr hrc);
 
+
         [DllImport("gdi32.dll")]
-        static extern bool SwapBuffers(IntPtr hdc);
-
-        [DllImport("opengl32.dll")]
-        static extern void glClear(uint mask);
-
-        [DllImport("opengl32.dll")]
-        static extern void glEnable(int cap);
-
-        [DllImport("opengl32.dll")]
-        static extern void glBegin(uint mode);
-
-        [DllImport("opengl32.dll")]
-        static extern void glColor3f(float red, float green, float blue);
-
-        [DllImport("opengl32.dll")]
-        static extern void glVertex2f(float x, float y);
-
-        [DllImport("opengl32.dll")]
-        static extern void glEnd();
-
-        [DllImport("opengl32.dll")]
-        static extern void glFlush();
-
-        [DllImport("opengl32.dll")]
-        static extern void glClearColor(float r, float g, float b, float a);
+        public static extern bool gdiSwapBuffers(IntPtr hdc);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetDC(IntPtr hWnd);
 
-        // TODO IDisposable and cleanup
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hdc);
+
+        private static IntPtr _windowsOpenGlLib;
+
+        public static IntPtr WinGlGetProcAddress(string name)
+        {
+            if (_windowsOpenGlLib == IntPtr.Zero)
+                _windowsOpenGlLib = LoadLibrary("opengl32.dll");
+
+            var ptr = WinGetProcAddress(_windowsOpenGlLib, name);
+            if (ptr == null)
+                ptr = WglGetProcAddress(name);
+
+            return ptr;
+        }
+
+        #endregion
+
+        #region EGL
+
+        public static void LoadEGL()
+        {
+            EGLCreateContext = LoadFunction<EGLCreateContextDelegate>("eglCreateContext");
+            EGLMakeCurrent = LoadFunction<EGLMakeCurrentDelegate>("eglMakeCurrent");
+            EGLDestroyContext = LoadFunction<EGLDestroyContextDelegate>("eglDestroyContext");
+            EGLSwapBuffers = LoadFunction<EGLSwapBuffersDelegate>("eglSwapBuffers");
+        }
+
+        private static T LoadFunction<T>(string str) where T : Delegate
+        {
+            var ptr = EGLGetProcAddress(str);
+            if (ptr == IntPtr.Zero)
+                return null;
+
+            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
+        }
+
+        [DllImport("libEGL.so", EntryPoint="eglGetProcAddress")]
+        public static extern IntPtr EGLGetProcAddress(string procName);
+
+        public delegate IntPtr EGLCreateContextDelegate(IntPtr display, IntPtr config, IntPtr shareContext, int[] attribList);
+        public static EGLCreateContextDelegate EGLCreateContext;
+
+        public delegate bool EGLMakeCurrentDelegate(IntPtr display, IntPtr draw, IntPtr read, IntPtr context);
+        public static EGLMakeCurrentDelegate EGLMakeCurrent;
+
+        public delegate bool EGLDestroyContextDelegate(IntPtr display, IntPtr context);
+        public static EGLDestroyContextDelegate EGLDestroyContext;
+
+        public delegate bool EGLSwapBuffersDelegate(IntPtr display, IntPtr surface);
+        public static EGLSwapBuffersDelegate EGLSwapBuffers;
+
+        #endregion
+
+        #region OpenGL
+
+        public static T LoadFunc<T>(string func, Func<string, IntPtr> getProcAddress) where T : Delegate
+        {
+            var ptr = getProcAddress(func);
+            if (ptr == IntPtr.Zero)
+                return null;
+            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
+        }
+
+        public static void LoadOpenGL(Func<string, IntPtr> getProcAddress)
+        {
+            glClear = LoadFunc<glClearDelegate>("glClear", getProcAddress);
+            glEnable = LoadFunc<glEnableDelegate>("glEnable", getProcAddress);
+            glBegin = LoadFunc<glBeginDelegate>("glBegin", getProcAddress);
+            glColor3f = LoadFunc<glColor3fDelegate>("glColor3f", getProcAddress);
+            glVertex2f = LoadFunc<glVertex2fDelegate>("glVertex2f", getProcAddress);
+            glEnd = LoadFunc<glEndDelegate>("glEnd", getProcAddress);
+            glFlush = LoadFunc<glFlushDelegate>("glFlush", getProcAddress);
+            glClearColor = LoadFunc<glClearColorDelegate>("glClearColor", getProcAddress);
+        }
+
+        public delegate void glClearDelegate(uint mask);
+        public static glClearDelegate glClear;
+
+        public delegate void glEnableDelegate(int cap);
+        public static glEnableDelegate glEnable;
+
+        public delegate void glBeginDelegate(uint mode);
+        public static glBeginDelegate glBegin;
+
+        public delegate void glColor3fDelegate(float red, float green, float blue);
+        public static glColor3fDelegate glColor3f;
+
+        public delegate void glVertex2fDelegate(float x, float y);
+        public static glVertex2fDelegate glVertex2f;
+
+        public delegate void glEndDelegate();
+        public static glEndDelegate glEnd;
+
+        public delegate void glFlushDelegate();
+        public static glFlushDelegate glFlush;
+
+        public delegate void glClearColorDelegate(float r, float g, float b, float a);
+        public static glClearColorDelegate glClearColor;
 
         #endregion
 
         private static Window _window;
-        private static IntPtr _hdc;
-        private static IntPtr _hrc;
 
         static void Main(string[] args)
         {
@@ -66,15 +149,31 @@ namespace OpenGL
             _window.Show();
 
             var wdata = _window.GetPlatformData();
-            if (wdata.Backend != WindowingBackend.Win32)
+
+            if (wdata.Backend == WindowingBackend.Win32)
+            {
+                RunWindows(service, (Win32WindowData) wdata);
+            }
+            else if (wdata.Backend == WindowingBackend.Wayland)
+            {
+                RunWayland(service, (WaylandWindowData) wdata);
+            }
+            else
+            {
                 throw new PlatformNotSupportedException("Only Win32 is implemented for the OpenGL sample.");
+            }
+        }
 
-            var hwnd = ((Win32WindowData) wdata).Hwnd;
+        private static void RunWindows(WindowingService service, Win32WindowData wdata)
+        {
+            LoadOpenGL(WinGlGetProcAddress);
 
-            _hdc = GetDC(hwnd);
-            _hrc = WglCreateContext(_hdc);
-            WglMakeCurrent(_hdc, _hrc);
-            ReleaseDC(hwnd, _hdc);
+            var hwnd = wdata.Hwnd;
+
+            var hdc = GetDC(hwnd);
+            var hrc = WglCreateContext(hdc);
+            WglMakeCurrent(hdc, hrc);
+            ReleaseDC(hwnd, hdc);
 
             glClearColor(0, 0, 0, 1);
             // enable multisampling
@@ -86,12 +185,12 @@ namespace OpenGL
             {
                 DrawTriangle();
 
-                _hdc = GetDC(hwnd);
+                hdc = GetDC(hwnd);
 
                 // because we enabled double buffering we need to swap buffers here.
-                SwapBuffers(_hdc);
+                gdiSwapBuffers(hdc);
 
-                ReleaseDC(hwnd, _hdc);
+                ReleaseDC(hwnd, hdc);
 
                 Thread.Sleep(10);
 
@@ -99,7 +198,37 @@ namespace OpenGL
             }
 
             WglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
-            WglDeleteContext(_hrc);
+            WglDeleteContext(hrc);
+        }
+
+        private static unsafe void RunWayland(WindowingService service, WaylandWindowData wdata)
+        {
+            LoadEGL();
+            LoadOpenGL(EGLGetProcAddress);
+
+            var eglContext = EGLCreateContext(wdata.EGLDisplay, wdata.EGLConfig, IntPtr.Zero, null);
+            EGLMakeCurrent(wdata.EGLDisplay, wdata.EGLSurface, wdata.EGLSurface, eglContext);
+
+            glClearColor(0, 0, 0, 1);
+            // enable multisampling
+            //glEnable(0x809D);
+
+            service.PumpEvents();
+
+            while (!_window.ShouldClose)
+            {
+                DrawTriangle();
+
+                // because we enabled double buffering we need to swap buffers here.
+                EGLSwapBuffers(wdata.EGLDisplay, wdata.EGLSurface);
+
+                Thread.Sleep(10);
+
+                service.PumpEvents();
+            }
+
+            EGLMakeCurrent(IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            EGLDestroyContext(wdata.EGLDisplay, eglContext);
         }
 
         static Window CreateWindow(WindowingService service)
@@ -111,7 +240,7 @@ namespace OpenGL
             service.GlSettings.MultiSampleCount = 8;
 
             var window = service.CreateWindow();
-            window.ClientBounds = new Rectangle(100, 100, 600, 600);
+            //window.ClientBounds = new Rectangle(100, 100, 600, 600);
             window.Title = "I'm rendering with OpenGL!";
 
             return window;
@@ -119,8 +248,8 @@ namespace OpenGL
 
         private static void DrawTriangle()
         {
-            glClear(16384);
-            glBegin(4);
+            glClear(16384); // clear color buffer
+            glBegin(4); // primitive type triangles
             glColor3f(1.0f, 0.0f, 0.0f);
             glVertex2f(0, 1f);
             glColor3f(0.0f, 1.0f, 0.0f);

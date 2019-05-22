@@ -62,4 +62,10 @@ namespace OpenWindow.Backends.Wayland
         public uint Alloc;
         public void* Data;
     }
+
+    internal struct wl_egl_window { }
+    internal struct EGLDisplay { }
+    internal struct EGLConfig { }
+    internal struct EGLContext { }
+    internal struct EGLSurface { }
 }
