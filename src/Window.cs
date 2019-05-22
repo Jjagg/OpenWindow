@@ -11,7 +11,6 @@ namespace OpenWindow
         #region Private Fields
 
         private bool _shouldClose;
-        private bool _visible;
         private string _title = string.Empty;
         private bool _decorated = true;
         private bool _resizable;
@@ -60,23 +59,6 @@ namespace OpenWindow
                 {
                     _title = value;
                     InternalSetTitle(value);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Indicates if this window is visible.
-        /// </summary>
-        public bool Visible
-        {
-            get => _visible;
-            set
-            {
-                CheckDisposed();
-                if (_visible != value)
-                {
-                    _visible = value;
-                    InternalSetVisible(value);
                 }
             }
         }
@@ -225,22 +207,6 @@ namespace OpenWindow
         #endregion
 
         #region Window API: Functions
-
-        /// <summary>
-        /// Shows the window. Equivalent to setting <see cref="Visible"/> to <code>true</code>.
-        /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
-
-        /// <summary>
-        /// Hides the window. Equivalent to setting <see cref="Visible"/> to <code>false</code>.
-        /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
 
         /// <summary>
         /// Make the window fill the entire display it's on.
@@ -483,11 +449,6 @@ namespace OpenWindow
         #endregion
 
         #region Protected Methods
-
-        /// <summary>
-        /// Make the native window visible or invisible.
-        /// </summary>
-        protected abstract void InternalSetVisible(bool value);
 
         /// <summary>
         /// Maximize the native window.

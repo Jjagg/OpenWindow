@@ -35,7 +35,6 @@ namespace VeldridApp
             var w = ws.CreateWindow();
             w.ClientBounds = new Rectangle(100, 100, 960, 540);
             w.Title = "Veldrid Tutorial";
-            w.Show();
 
             var windowData = w.GetPlatformData();
             switch (windowData.Backend)

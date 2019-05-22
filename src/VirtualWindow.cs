@@ -198,11 +198,6 @@ namespace OpenWindow
         }
 
         /// <inheritdoc />
-        protected override void InternalSetVisible(bool value)
-        {
-        }
-
-        /// <inheritdoc />
         protected override void InternalMaximize()
         {
         }

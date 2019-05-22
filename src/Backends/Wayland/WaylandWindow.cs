@@ -226,16 +226,6 @@ namespace OpenWindow.Backends.Wayland
         #region Protected Methods
 
         /// <inheritdoc />
-        protected override void InternalSetVisible(bool value)
-        {
-            if (!value)
-                WaylandWindowingService.LogWarning(
-                    "Showing/hiding the window is not supported on Wayland. " +
-                    "Wayland windows are hidden when they don't have a mapped surface. " +
-                    "OpenWindow does not destroy the surface because it requires users to recreate the EGL or vk surface.");
-        }
-
-        /// <inheritdoc />
         protected override void InternalMaximize()
         {
             _xdgTopLevel.SetMaximized();

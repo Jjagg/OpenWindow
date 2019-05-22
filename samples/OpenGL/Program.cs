@@ -146,7 +146,6 @@ namespace OpenGL
             var service = WindowingService.Get();
 
             _window = CreateWindow(service);
-            _window.Show();
 
             var wdata = _window.GetPlatformData();
 

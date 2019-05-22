@@ -10,7 +10,7 @@ namespace OpenWindow.Backends.Windows
 
         private static readonly IntPtr ModuleHinstance = new IntPtr(Native.GetModuleHandle(null));
 
-        private const uint DefaultWs = Constants.WS_OVERLAPPED | Constants.WS_CAPTION |
+        private const uint DefaultWs = Constants.WS_VISIBLE | Constants.WS_OVERLAPPED | Constants.WS_CAPTION |
                                        Constants.WS_SYSMENU | Constants.WS_MINIMIZEBOX;
 
         #endregion
@@ -392,12 +392,6 @@ namespace OpenWindow.Backends.Windows
         #endregion
 
         #region Protected Methods
-
-        /// <inheritdoc />
-        protected override void InternalSetVisible(bool value)
-        {
-            Native.ShowWindow(Hwnd, value ? ShowWindowCommand.Show: ShowWindowCommand.Hide);
-        }
 
         /// <inheritdoc />
         protected override void InternalMaximize()
