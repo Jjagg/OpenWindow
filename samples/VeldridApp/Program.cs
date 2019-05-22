@@ -33,7 +33,7 @@ namespace VeldridApp
                 ws.GlSettings.EnableOpenGl = true;
 
             var w = ws.CreateWindow();
-            //w.Bounds = new Rectangle(100, 100, 960, 540);
+            w.ClientBounds = new Rectangle(100, 100, 960, 540);
             w.Title = "Veldrid Tutorial";
             w.Show();
 
@@ -217,7 +217,7 @@ namespace VeldridApp
             _commandList.ClearColorTarget(0, RgbaFloat.Black);
 
             // Set all relevant state to draw our quad.
-            /*_commandList.SetVertexBuffer(0, _vertexBuffer);
+            _commandList.SetVertexBuffer(0, _vertexBuffer);
             _commandList.SetIndexBuffer(_indexBuffer, IndexFormat.UInt16);
             _commandList.SetPipeline(_pipeline);
             // Issue a Draw command for a single instance with 4 indices.
@@ -226,7 +226,7 @@ namespace VeldridApp
                 instanceCount: 1,
                 indexStart: 0,
                 vertexOffset: 0,
-                instanceStart: 0);*/
+                instanceStart: 0);
 
             // End() must be called before commands can be submitted for execution.
             _commandList.End();
