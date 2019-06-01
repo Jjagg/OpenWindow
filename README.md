@@ -44,7 +44,7 @@ The X backend requires a generator to generate the client-side library from xml 
 Similar to X, it's recommended to generate Wayland bindings from the files that define the protocol. Bindings are generated,
 but the actual backend implementation is not usable yet.
 
-### Quartz (Apple)
+### Quartz (OSX)
 
 Not started. I don't have a Mac device to test with. Any help would be most welcome :)
 If you have a Mac and want to help implement the macOS backend, please open an issue for discussion.
