@@ -318,16 +318,22 @@ namespace OpenWindow.Backends.Wayland
 
         private void UpdateKeymap()
         {
-            for (var lsc = 0; lsc < LinuxScanCodes.LinuxToOw.Length; lsc++)
+            for (var lsc = 0; lsc < WaylandKeyMaps.LinuxToOwScanCode.Length; lsc++)
             {
-                var osc = LinuxScanCodes.LinuxToOw[lsc];
+                var osc = WaylandKeyMaps.LinuxToOwScanCode[lsc];
                 if (osc == ScanCode.Unknown)
                     continue;
 
                 var sym = XkbCommon.xkb_state_key_get_one_sym(_xkbState, (uint) (lsc + 8));
-                if (sym == 0)
+                var owk = WaylandKeyMaps.XkbToOwKey(sym);
+
+                if (owk == Key.Unknown)
                     continue;
+
+                _keyboardState.Set(osc, owk);
             }
+
+            _keyboardState.Set(ScanCode.PrintScreen, Key.PrintScreen);
         }
 
         private void KeyboardEnterCallback(void* data, wl_keyboard* proxy, uint serial, wl_surface* surface, wl_array* keys) => WlSetFocus(surface, true);
@@ -344,31 +350,42 @@ namespace OpenWindow.Backends.Wayland
 
         private void KeyboardKeyCallback(void* data, wl_keyboard* proxy, uint serial, uint time, uint lsc, wl_keyboard_key_state state)
         {
-            if (lsc >= LinuxScanCodes.LinuxToOw.Length)
+            if (lsc >= WaylandKeyMaps.LinuxToOwScanCode.Length)
                 return;
 
-            var osc = LinuxScanCodes.LinuxToOw[lsc];
+            var osc = WaylandKeyMaps.LinuxToOwScanCode[lsc];
             SetKey(osc, state == wl_keyboard_key_state.Pressed);
 
-            // TODO how large should this be?
-            const int strBufSize = 8;
-            byte* strBuf = stackalloc byte[strBufSize];
-
-            var size = XkbCommon.xkb_state_key_get_utf8(_xkbState, lsc + 8, strBuf, strBufSize);
-            // add the null terminator
-            strBuf[size] = 0;
-
-            // We send text in UTF-32 i.e. no more than 32 bits at a time
-            var offset = 0;
-            var utf32 = 0;
-            while (ReadUtf32FromUtf8(strBuf, ref offset, ref utf32))
+            // this returns zero if the key press generates more than 1 character in UTF32
+            var utf32 = XkbCommon.xkb_state_key_get_utf32(_xkbState, lsc + 8);
+            if (utf32 != 0)
+            {
                 SendCharacter(utf32);
+            }
+            else
+            {
+                // TODO how large should this be?
+                const int strBufSize = 8;
+                byte* strBuf = stackalloc byte[strBufSize];
+
+                var size = XkbCommon.xkb_state_key_get_utf8(_xkbState, lsc + 8, strBuf, strBufSize);
+                // add the null terminator
+                strBuf[size] = 0;
+
+                // We send text in UTF-32 i.e. no more than 32 bits at a time
+                var offset = 0;
+                while (ReadUtf32FromUtf8(strBuf, ref offset, out utf32))
+                    SendCharacter(utf32);
+            }
         }
 
-        private bool ReadUtf32FromUtf8(byte* str, ref int offset, ref int utf32)
+        private bool ReadUtf32FromUtf8(byte* str, ref int offset, out int utf32)
         {
             if (str[offset] == 0)
+            {
+                utf32 = 0;
                 return false;
+            }
 
             if ((str[offset] & 0b1000_0000) == 0)
             {
@@ -402,6 +419,7 @@ namespace OpenWindow.Backends.Wayland
 
         private void KeyboardModifiersCallback(void* data, wl_keyboard* proxy, uint serial, uint mods_depressed, uint mods_latched, uint mods_locked, uint group)
         {
+            XkbCommon.xkb_state_update_mask(_xkbState, mods_depressed, mods_latched, mods_locked, 0, 0, group);
         }
 
         private void KeyboardRepeatInfoCallback(void* data, wl_keyboard* proxy, int rate, int delay)

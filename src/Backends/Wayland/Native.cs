@@ -132,6 +132,10 @@ namespace OpenWindow.Backends.Wayland
     public struct xkb_keymap { }
     public struct xkb_state { }
 
+    public enum xkb_state_component
+    {
+    }
+
     internal static unsafe class XkbCommon
     {
         public const int XKB_CONTEXT_NO_FLAGS = 0;
@@ -154,9 +158,17 @@ namespace OpenWindow.Backends.Wayland
         [DllImport("libxkbcommon.so")]
         public static extern xkb_state* xkb_state_new(xkb_keymap* keymap);
 
+        [DllImport("libxkbcommon.so")]
+        public static extern xkb_state_component xkb_state_update_key(xkb_state* state, uint key, wl_keyboard_key_state down);
+
+        [DllImport("libxkbcommon.so")]
+        public static extern xkb_state_component xkb_state_update_mask(xkb_state* state, uint depressed_mods, uint latched_mods, uint locked_mods, uint depressed_layout, uint latched_layout, uint locked_layout);
 
         [DllImport("libxkbcommon.so")]
         public static extern uint xkb_state_key_get_one_sym(xkb_state* state, uint key);
+
+        [DllImport("libxkbcommon.so")]
+        public static extern int xkb_state_key_get_utf32(xkb_state* state, uint key);
 
         [DllImport("libxkbcommon.so")]
         public static extern int xkb_state_key_get_utf8(xkb_state* state, uint key, byte* buffer, int size);

@@ -77,7 +77,7 @@ namespace HelloOpenWindow
 
             _window.KeyDown += (s, e) => Console.WriteLine($"Key Down: {e.Key} ({e.ScanCode})");
             _window.KeyUp += (s, e) => Console.WriteLine($"Key Up: {e.Key} ({e.ScanCode})");
-            _window.TextInput += (s, e) => Console.WriteLine($"Got text input: {e.Character}");
+            _window.TextInput += (s, e) => Console.WriteLine($"Got text input: {char.ConvertFromUtf32(e.Character)}");
 
             while (!_window.ShouldClose)
             {

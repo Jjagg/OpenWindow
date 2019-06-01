@@ -54,10 +54,14 @@ namespace VeldridApp
 
             CreateResources();
 
-            w.MouseMove += (ww, e) => Console.WriteLine($"Mouse pos: ({e.X}, {e.Y})");
+            w.CloseRequested += (s, e) => Console.WriteLine("Received request to close the window!");
+            w.Closing += (s, e) => Console.WriteLine("Closing the window! Bye :)");
             w.MouseFocusChanged += (ww, e) => Console.WriteLine($"Mouse focus: {e.HasFocus}");
             w.MouseDown += (ww, e) => Console.WriteLine($"Button {e.Button} down");
             w.MouseUp += (ww, e) => Console.WriteLine($"Button {e.Button} up");
+            w.KeyDown += (s, e) => Console.WriteLine($"Key Down: {e.Key} ({e.ScanCode})");
+            //w.KeyUp += (s, e) => Console.WriteLine($"Key Up: {e.Key} ({e.ScanCode})");
+            w.TextInput += (s, e) => Console.WriteLine($"Got text input: {char.ConvertFromUtf32(e.Character)}");
 
             Console.WriteLine("Running draw loop...");
             while (!w.ShouldClose)
