@@ -27,21 +27,18 @@ namespace XcbSharpGen
             }
 
             var headerFiles = args.Skip(1).Select(Path.GetFullPath);
-            var w = new CSharpWriter
-            {
-                DefaultAm = AccessModifier.Public,
-                DefaultStatic = false
-            };
+            var w = new CSharpWriter();
 
-            w.Using("System");
-            w.Using("System.Runtime.InteropServices");
-            w.Using("SMarshal = System.Runtime.InteropServices.Marshal");
-            w.NewLine();
-            w.BeginNs("OpenWindow.Backends.Wayland");
+            w.Line("using System;");
+            w.Line("using System.Runtime.InteropServices;");
+            w.Line("using SMarshal = System.Runtime.InteropServices.Marshal;");
+            w.Line();
+            w.Line("namespace OpenWindow.Backends.Wayland");
+            w.OpenBlock();
 
-            w.LineComment("This file was generated from xml XCB header specifications");
-            w.LineComment("by XcbSharpGen. https://github.com/Jjagg/OpenWindow/tree/master/generators/XcbSharpGen");
-            w.NewLine();
+            w.Line("// This file was generated from xml XCB header specifications");
+            w.Line("// by XcbSharpGen. https://github.com/Jjagg/OpenWindow/tree/master/generators/XcbSharpGen");
+            w.Line();
 
             var importedHeaders = new List<string>();
             foreach (var path in headerFiles)
