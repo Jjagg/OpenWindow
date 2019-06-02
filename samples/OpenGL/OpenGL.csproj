@@ -5,6 +5,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\OpenWindow.csproj" />
+    <ProjectReference Include="..\..\src\OpenWindow\OpenWindow.csproj" />
   </ItemGroup>
 </Project>
