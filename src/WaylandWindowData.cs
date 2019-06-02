@@ -51,8 +51,26 @@ namespace OpenWindow
         /// <summary>
         /// <seealso cref="OpenGlSurfaceSettings.EnableOpenGl">
         public IntPtr EGLDisplay { get; }
+
+        /// <summary>
+        /// The EGL window.
+        /// Note that this will be <see>IntPtr.Zero</see> if the window was not created with OpenGL support.
+        /// <summary>
+        /// <seealso cref="OpenGlSurfaceSettings.EnableOpenGl">
         public IntPtr WaylandEglWindow { get; }
+
+        /// <summary>
+        /// The EGL surface for the window.
+        /// Note that this will be <see>IntPtr.Zero</see> if the window was not created with OpenGL support.
+        /// <summary>
+        /// <seealso cref="OpenGlSurfaceSettings.EnableOpenGl">
         public IntPtr EGLSurface { get; }
+
+        /// <summary>
+        /// The EGL frame buffer configuration.
+        /// Note that this will be <see>IntPtr.Zero</see> if the window was not created with OpenGL support.
+        /// <summary>
+        /// <seealso cref="OpenGlSurfaceSettings.EnableOpenGl">
         public IntPtr EGLConfig { get; }
 
         internal WaylandWindowData(IntPtr wlDisplay, IntPtr wlRegistry, IntPtr wlSurface, GlobalObject[] globals,

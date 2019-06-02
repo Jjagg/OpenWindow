@@ -14,7 +14,7 @@ namespace VeldridApp
 {
     class Program
     {
-        private static readonly GraphicsBackend GraphicsBackend = GraphicsBackend.Vulkan;
+        private static readonly GraphicsBackend GraphicsBackend = GraphicsBackend.OpenGL;
 
         private static GraphicsDevice _graphicsDevice;
         private static CommandList _commandList;
@@ -74,10 +74,10 @@ namespace VeldridApp
 
             Console.WriteLine("Shutting down.");
 
-            DisposeResources();
-
             w.Dispose();
             ws.Dispose();
+
+            DisposeResources();
         }
 
         private static void InitWindows(Window w, Win32WindowData wd, in GraphicsDeviceOptions gdo)
@@ -106,19 +106,54 @@ namespace VeldridApp
             }
         }
 
-        private static void InitWayland(Window w, WaylandWindowData windowData, GraphicsDeviceOptions gdo)
+        public static int EGL_NONE = 0x3038;
+        // >= 1.3
+        public static int EGL_CONTEXT_MAJOR_VERSION = 0x3098;
+        // >= 1.4 + EGL_KHR_create_context
+        // >= 1.5
+        public static int EGL_CONTEXT_MINOR_VERSION = 0x30FB;
+
+        private static void InitWayland(Window w, WaylandWindowData wdata, GraphicsDeviceOptions gdo)
         {
+            const uint width = 960;
+            const uint height = 540;
             switch (GraphicsBackend)
             {
                 case GraphicsBackend.Direct3D11:
                     throw new PlatformNotSupportedException("Direct3D11 is not supported on Wayland.");
                 case GraphicsBackend.Vulkan:
-                    var sws = SwapchainSource.CreateWayland(windowData.WlDisplay, windowData.WlSurface);
-                    var scd = new SwapchainDescription(sws, (uint) 960, (uint) 540, null, true);
+                    var sws = SwapchainSource.CreateWayland(wdata.WlDisplay, wdata.WlSurface);
+                    var scd = new SwapchainDescription(sws, width, height, null, true);
                     _graphicsDevice = GraphicsDevice.CreateVulkan(gdo, scd);
                     break;
                 case GraphicsBackend.OpenGL:
-                    throw new NotImplementedException();
+                    LoadEGL();
+
+                    int[] attribs =
+                    {
+                        EGL_CONTEXT_MAJOR_VERSION, 3,
+                        EGL_CONTEXT_MINOR_VERSION, 3,
+                        EGL_NONE
+                    };
+
+                    var glctx = EGLCreateContext(wdata.EGLDisplay, wdata.EGLConfig, IntPtr.Zero, attribs);
+                    if (glctx == null)
+                        throw new Exception("EGL context creation failed.");
+
+                    if (!EGLMakeCurrent(wdata.EGLDisplay, wdata.EGLSurface, wdata.EGLSurface, glctx))
+                        throw new Exception("EGL make current failed.");
+
+                    var glpi = new global::Veldrid.OpenGL.OpenGLPlatformInfo(
+                        glctx,
+                        str => LoadFuncRaw(str, EGLGetProcAddress),
+                        (ctxptr) => EGLMakeCurrent(wdata.EGLDisplay, wdata.EGLSurface, wdata.EGLSurface, ctxptr),
+                        () => EGLGetCurrentContext(),
+                        () => EGLMakeCurrent(wdata.EGLDisplay, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero),
+                        (ctxptr) => EGLDestroyContext(wdata.EGLDisplay, ctxptr),
+                        () => EGLSwapBuffers(wdata.EGLDisplay, wdata.EGLSurface),
+                        vsync => EGLSwapInterval(wdata.EGLDisplay, vsync ? 1 : 0));
+                    _graphicsDevice = GraphicsDevice.CreateOpenGL(gdo, glpi, width, height);
+                    break;
                 case GraphicsBackend.OpenGLES:
                     throw new NotImplementedException();
                 case GraphicsBackend.Metal:
@@ -249,6 +284,54 @@ namespace VeldridApp
             _indexBuffer.Dispose();
             _graphicsDevice.Dispose();
         }
+
+        #region EGL
+
+        public static void LoadEGL()
+        {
+            EGLCreateContext = LoadFunc<EGLCreateContextDelegate>("eglCreateContext", EGLGetProcAddress);
+            EGLMakeCurrent = LoadFunc<EGLMakeCurrentDelegate>("eglMakeCurrent", EGLGetProcAddress);
+            EGLGetCurrentContext = LoadFunc<EGLGetCurrentContextDelegate>("eglGetCurrentContext", EGLGetProcAddress);
+            EGLDestroyContext = LoadFunc<EGLDestroyContextDelegate>("eglDestroyContext", EGLGetProcAddress);
+            EGLSwapBuffers = LoadFunc<EGLSwapBuffersDelegate>("eglSwapBuffers", EGLGetProcAddress);
+            EGLSwapInterval = LoadFunc<EGLSwapIntervalDelegate>("eglSwapInterval", EGLGetProcAddress);
+        }
+
+        public static T LoadFunc<T>(string func, Func<string, IntPtr> getProcAddress) where T : Delegate
+        {
+            var ptr = LoadFuncRaw(func, getProcAddress);
+            if (ptr == IntPtr.Zero)
+                return null;
+            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
+        }
+
+        public static IntPtr LoadFuncRaw(string func, Func<string, IntPtr> getProcAddress)
+        {
+            return getProcAddress(func);
+        }
+
+        [DllImport("libEGL.so", EntryPoint="eglGetProcAddress")]
+        public static extern IntPtr EGLGetProcAddress(string procName);
+
+        public delegate IntPtr EGLCreateContextDelegate(IntPtr display, IntPtr config, IntPtr shareContext, int[] attribList);
+        public static EGLCreateContextDelegate EGLCreateContext;
+
+        public delegate bool EGLMakeCurrentDelegate(IntPtr display, IntPtr draw, IntPtr read, IntPtr context);
+        public static EGLMakeCurrentDelegate EGLMakeCurrent;
+
+        public delegate IntPtr EGLGetCurrentContextDelegate();
+        public static EGLGetCurrentContextDelegate EGLGetCurrentContext;
+
+        public delegate bool EGLDestroyContextDelegate(IntPtr display, IntPtr context);
+        public static EGLDestroyContextDelegate EGLDestroyContext;
+
+        public delegate bool EGLSwapBuffersDelegate(IntPtr display, IntPtr surface);
+        public static EGLSwapBuffersDelegate EGLSwapBuffers;
+
+        public delegate bool EGLSwapIntervalDelegate(IntPtr display, int interval);
+        public static EGLSwapIntervalDelegate EGLSwapInterval;
+
+        #endregion
     }
 
     struct VertexPositionColor

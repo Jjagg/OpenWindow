@@ -59,19 +59,10 @@ namespace OpenGL
 
         public static void LoadEGL()
         {
-            EGLCreateContext = LoadFunction<EGLCreateContextDelegate>("eglCreateContext");
-            EGLMakeCurrent = LoadFunction<EGLMakeCurrentDelegate>("eglMakeCurrent");
-            EGLDestroyContext = LoadFunction<EGLDestroyContextDelegate>("eglDestroyContext");
-            EGLSwapBuffers = LoadFunction<EGLSwapBuffersDelegate>("eglSwapBuffers");
-        }
-
-        private static T LoadFunction<T>(string str) where T : Delegate
-        {
-            var ptr = EGLGetProcAddress(str);
-            if (ptr == IntPtr.Zero)
-                return null;
-
-            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
+            EGLCreateContext = LoadFunc<EGLCreateContextDelegate>("eglCreateContext", EGLGetProcAddress);
+            EGLMakeCurrent = LoadFunc<EGLMakeCurrentDelegate>("eglMakeCurrent", EGLGetProcAddress);
+            EGLDestroyContext = LoadFunc<EGLDestroyContextDelegate>("eglDestroyContext", EGLGetProcAddress);
+            EGLSwapBuffers = LoadFunc<EGLSwapBuffersDelegate>("eglSwapBuffers", EGLGetProcAddress);
         }
 
         [DllImport("libEGL.so", EntryPoint="eglGetProcAddress")]

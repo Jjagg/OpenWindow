@@ -11,6 +11,8 @@ namespace OpenWindow.Backends.Wayland
     internal unsafe class WaylandWindowingService : WindowingService
     {
         private static EGLDisplay* _eglDisplay;
+        private static int _eglMajor;
+        private static int _eglMinor;
 
         private List<WaylandWindow> _windows;
         private List<Display> _displays;
@@ -526,20 +528,40 @@ namespace OpenWindow.Backends.Wayland
             return null;
         }
 
-        public EGLDisplay* GetEGLDisplay()
-        {
-            if (_eglDisplay != null)
-                return _eglDisplay;
+        #region EGL
 
+        public bool EGLInitialized => _eglDisplay != null;
+
+        private void EGLInitialize()
+        {
             Egl.Load();
             _eglDisplay = Egl.GetDisplay(_wlDisplay.Pointer);
-            Egl.Initialize(_eglDisplay, out var major, out var minor);
+            Egl.Initialize(_eglDisplay, out _eglMajor, out _eglMinor);
+            if (_eglMajor == 1 && _eglMinor < 4)
+                throw new OpenWindowException("OpenWindow requires at least EGL 1.4 to create a GL capable window on Linux.");
             Egl.BindAPI(Egl.OPENGL_API);
 
-            LogDebug($"Loaded EGL version {major}.{minor}");
+            LogDebug($"Loaded EGL version {_eglMajor}.{_eglMinor}");
+        }
+
+        public EGLDisplay* GetEGLDisplay()
+        {
+            if (!EGLInitialized)
+                EGLInitialize();
 
             return _eglDisplay;
         }
+
+        public void GetEGLVersion(out int major, out int minor)
+        {
+            if (!EGLInitialized)
+                EGLInitialize();
+
+            major = _eglMajor;
+            minor = _eglMinor;
+        }
+
+        #endregion
 
         public override Window CreateWindow()
         {
