@@ -154,7 +154,7 @@ namespace OpenWindow.Backends.Windows
                     };
 
                     var pis = new int[1];
-                    if (!wglChoosePixelFormatARB.Invoke(hdc, piattrs, null, 1, pis, out var nformats))
+                    if (!wglChoosePixelFormatARB(hdc, piattrs, null, 1, pis, out var nformats))
                         throw GetLastException("wglChoosePixelFormatARB failed!");
                     if (nformats == 0)
                         throw new OpenWindowException("GL initialization failed: no matching pixel formats!");
