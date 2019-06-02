@@ -6,6 +6,8 @@
     /// </summary>
     public class OpenGlSurfaceSettings
     {
+        public static OpenGlSurfaceSettings Disabled { get; } = new OpenGlSurfaceSettings();
+
         /// <summary>
         /// To create a window suitable for rendering with OpenGL, set this to <code>true</code>.
         /// When set to false, the other settings are unused. Defaults to <code>false</code>.

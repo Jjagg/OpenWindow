@@ -12,6 +12,13 @@ namespace OpenWindow
     /// </summary>
     public abstract class WindowingService : IDisposable
     {
+        static WindowingService()
+        {
+            // TODO give property Backend backing field to prevent exception in static initializer
+            Backend = GetWindowingBackend();
+            LogInfo($"Detected windowing backend '{Backend}'.");
+        }
+
         #region Fields
 
         protected readonly KeyboardState _keyboardState;
@@ -55,8 +62,6 @@ namespace OpenWindow
             if (_instance != null)
                 return;
 
-            Backend = GetWindowingBackend();
-            LogInfo($"Detected windowing backend '{Backend}'.");
             _instance = CreateService(Backend);
             LogDebug("Created WindowingService.");
             _instance.Initialize();

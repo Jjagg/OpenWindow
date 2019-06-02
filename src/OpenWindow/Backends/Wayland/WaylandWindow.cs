@@ -50,6 +50,10 @@ namespace OpenWindow.Backends.Wayland
             {
                 InitOpenGl(glSettings, width, height);
             }
+            else
+            {
+                GlSettings = OpenGlSurfaceSettings.Disabled;
+            }
 
             // Use the viewporter protocol to set the surface size so it does not depend on a buffer
             // We want to control the surface size, but users provide the buffer.

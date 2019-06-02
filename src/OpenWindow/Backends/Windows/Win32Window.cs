@@ -17,6 +17,7 @@ namespace OpenWindow.Backends.Windows
 
         #region Fields
 
+        private WindowData _windowData;
         internal IntPtr Hwnd;
         private string _className;
 
@@ -28,6 +29,7 @@ namespace OpenWindow.Backends.Windows
             : base(true)
         {
             Hwnd = handle;
+            _windowData = new Win32WindowData(ModuleHinstance, Hwnd);
             // TODO init properties
         }
 
@@ -39,7 +41,7 @@ namespace OpenWindow.Backends.Windows
             var handle = Native.CreateWindowEx(
                 WindowStyleEx.None,
                 _className,
-                Title,
+                string.Empty,
                 DefaultWs,
                 0,
                 0,
@@ -58,6 +60,7 @@ namespace OpenWindow.Backends.Windows
             }
 
             Hwnd = handle;
+            _windowData = new Win32WindowData(ModuleHinstance, Hwnd);
 
             if (glSettings.EnableOpenGl)
             {
@@ -85,7 +88,9 @@ namespace OpenWindow.Backends.Windows
                 }
             }
             else
-                GlSettings = new OpenGlSurfaceSettings();
+            {
+                GlSettings = OpenGlSurfaceSettings.Disabled;
+            }
         }
 
         private void InitOpenGl(OpenGlSurfaceSettings s)
@@ -159,7 +164,7 @@ namespace OpenWindow.Backends.Windows
                     if (nformats == 0)
                         throw new OpenWindowException("GL initialization failed: no matching pixel formats!");
                     Native.SetPixelFormat(hdc, pis[0], ref pfd);
-                    // todo can we get the actual ms count here?
+                    // TODO can we get the actual ms count here?
                 }
                 else
                 {
@@ -293,10 +298,7 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
-        public override WindowData GetPlatformData()
-        {
-            return new Win32WindowData(ModuleHinstance, Hwnd);
-        }
+        public override WindowData GetPlatformData() => _windowData;
 
         #endregion
 
