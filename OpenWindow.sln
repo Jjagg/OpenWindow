@@ -23,6 +23,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generators", "Generators", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeldridApp", "samples\VeldridApp\VeldridApp.csproj", "{DF5F0635-621D-4020-9059-269DC327EBD8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DF7EB5EC-31E2-40E8-8DC2-C9361001674A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWindow.GL", "src\OpenWindow.GL\OpenWindow.GL.csproj", "{54075966-9935-464D-B08A-26F0568F7A1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +65,10 @@ Global
 		{DF5F0635-621D-4020-9059-269DC327EBD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF5F0635-621D-4020-9059-269DC327EBD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF5F0635-621D-4020-9059-269DC327EBD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54075966-9935-464D-B08A-26F0568F7A1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54075966-9935-464D-B08A-26F0568F7A1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54075966-9935-464D-B08A-26F0568F7A1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54075966-9935-464D-B08A-26F0568F7A1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +81,7 @@ Global
 		{8ACE78B4-8EC2-4859-9CDA-77D7AB5BB764} = {B624BAD2-7AAD-42FC-9AC2-CA6648F5B1DC}
 		{EE06E22B-C788-4381-9BA5-E29C60218CAA} = {B624BAD2-7AAD-42FC-9AC2-CA6648F5B1DC}
 		{DF5F0635-621D-4020-9059-269DC327EBD8} = {773BE5B3-E0F3-44FE-8359-288A4F59FA24}
+		{54075966-9935-464D-B08A-26F0568F7A1B} = {DF7EB5EC-31E2-40E8-8DC2-C9361001674A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0734700-42E1-4F87-8DD2-0084849DA44A}
