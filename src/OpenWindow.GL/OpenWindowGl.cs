@@ -26,14 +26,17 @@ namespace OpenWindow.GL
         }
 
         /// <summary>
+        /// Get a pointer to an OpenGL or WGL/EGL function.
         /// </summary>
         public static IntPtr GetProcAddress(string func) => _impl.GetProcAddressImpl(func);
 
         /// <summary>
+        /// Set VSync state.
         /// </summary>
         public static bool SetVSync(VSyncState state) => _impl.SetVSyncImpl(state);
 
         /// <summary>
+        /// Get the VSync state.
         /// </summary>
         public static VSyncState GetVSync() => _impl.GetVSyncImpl();
 
@@ -43,32 +46,25 @@ namespace OpenWindow.GL
         public static IntPtr CreateContext(Window window) => _impl.CreateContextImpl(window.GetPlatformData());
 
         /// <summary>
+        /// Activate an OpenGL context to draw to a window surface on the calling thread.
         /// </summary>
         public static bool MakeCurrent(Window window, IntPtr ctx) => _impl.MakeCurrentImpl(window.GetPlatformData(), ctx);
 
         /// <summary>
+        /// Get the current OpenGL context or <c>IntPtr.Zero</c> if none is current.
         /// </summary>
         public static IntPtr GetCurrentContext() => _impl.GetCurrentContextImpl();
 
         /// <summary>
+        /// Destroy an OpenGL context.
         /// </summary>
         public static bool DestroyContext(IntPtr ctx) => _impl.DestroyContextImpl(ctx);
 
         /// <summary>
+        /// When double buffering is enabled, swap the front and back buffer.
         /// </summary>
+        /// <seealso cref="OpenGlSurfaceSettings.DoubleBuffer"/>
+        /// <seealso cref="SetVSync(VSyncState)"/>
         public static bool SwapBuffers(Window window) => _impl.SwapBuffersImpl(window.GetPlatformData());
-    }
-
-    internal abstract class WindowingGlInterface
-    {
-        internal virtual void Initialize() { }
-        internal abstract IntPtr GetProcAddressImpl(string func);
-        internal abstract bool SetVSyncImpl(VSyncState state);
-        internal abstract VSyncState GetVSyncImpl();
-        internal abstract IntPtr CreateContextImpl(WindowData wdata);
-        internal abstract bool MakeCurrentImpl(WindowData wdata, IntPtr ctx);
-        internal abstract IntPtr GetCurrentContextImpl();
-        internal abstract bool DestroyContextImpl(IntPtr ctx);
-        internal abstract bool SwapBuffersImpl(WindowData wdata);
     }
 }
