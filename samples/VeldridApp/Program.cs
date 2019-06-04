@@ -90,12 +90,11 @@ namespace VeldridApp
             switch (GraphicsBackend)
             {
                 case GraphicsBackend.Direct3D11:
-                    _graphicsDevice = GraphicsDevice.CreateD3D11(gdo, wd.Hwnd, (uint) w.Bounds.Width, (uint) w.Bounds.Height);
+                    _graphicsDevice = GraphicsDevice.CreateD3D11(gdo, wd.Hwnd, (uint) w.ClientBounds.Width, (uint) w.ClientBounds.Height);
                     break;
                 case GraphicsBackend.Vulkan:
                     _graphicsDevice = GraphicsDevice.CreateVulkan(gdo,
-                        VkSurfaceSource.CreateWin32(wsd.HInstance, wd.Hwnd), (uint) w.Bounds.Width,
-                        (uint) w.Bounds.Height);
+                        VkSurfaceSource.CreateWin32(wsd.HInstance, wd.Hwnd), (uint) w.ClientBounds.Width, (uint) w.ClientBounds.Height);
                     break;
                 case GraphicsBackend.OpenGL:
                     throw new NotSupportedException();
@@ -103,7 +102,7 @@ namespace VeldridApp
                     throw new NotSupportedException();
                 case GraphicsBackend.OpenGLES:
                     var scs = SwapchainSource.CreateWin32(wd.Hwnd, wsd.HInstance);
-                    var scd = new SwapchainDescription(scs, (uint) w.Bounds.Width, (uint) w.Bounds.Height, null, true);
+                    var scd = new SwapchainDescription(scs, (uint) w.ClientBounds.Width, (uint) w.ClientBounds.Height, null, true);
                     _graphicsDevice = GraphicsDevice.CreateOpenGLES(gdo, scd);
                     throw new NotSupportedException();
                 default:

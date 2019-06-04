@@ -148,19 +148,9 @@ namespace OpenWindow
         public abstract Point Position { get; set; }
 
         /// <summary>
-        /// The size of this window (including border).
-        /// </summary>
-        public abstract Size Size { get; set; }
-
-        /// <summary>
-        /// The size of this window (including border).
+        /// The size of this window (excluding border).
         /// </summary>
         public abstract Size ClientSize { get; set; }
-
-        /// <summary>
-        /// The bounds of this window (including border).
-        /// </summary>
-        public abstract Rectangle Bounds { get; set; }
 
         /// <summary>
         /// The bounds of this window (excluding border).

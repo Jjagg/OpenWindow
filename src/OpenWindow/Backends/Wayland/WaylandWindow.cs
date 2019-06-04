@@ -185,22 +185,21 @@ namespace OpenWindow.Backends.Wayland
         // setting global position is not supported in Wayland
         public override Point Position { get => Point.Zero; set { } }
 
-        public override Size Size { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
         /// <inheritdoc />
         public override Size ClientSize
         {
             get => throw new NotImplementedException();
             set
             {
-                _xdgSurface.SetWindowGeometry(0, 0, value.Width, value.Height);
+                if (!_viewport.IsNull)
+                    _viewport.SetDestination(value.Width, value.Height);
+
                 if (_eglWindow != null)
                     WaylandClient.wl_egl_window_resize(_eglWindow, value.Width, value.Height, 0, 0);
+
                 RaiseResize();
             }
         }
-
-        public override Rectangle Bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public override Rectangle ClientBounds
         {

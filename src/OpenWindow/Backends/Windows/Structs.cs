@@ -61,6 +61,9 @@ namespace OpenWindow.Backends.Windows
         public Point Position => new Point(Left, Top);
         public Size Size => new Size(Right - Left, Bottom - Top);
 
+        public int Width => Right - Left;
+        public int Height => Bottom - Top;
+
         public Rect(int left, int top, int right, int bottom)
         {
             Left = left;

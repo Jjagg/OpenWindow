@@ -76,7 +76,7 @@ namespace OpenWindow.GL
                 }
 
                 ReleaseDC(hwnd, hdc);
-                dummyWnd.Dispose();
+                ws.DestroyWindow(dummyWnd);
             }
             else
             {

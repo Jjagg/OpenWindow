@@ -94,14 +94,14 @@ namespace HelloOpenWindow
             var y = Rand.Next(100, 300);
             var width = Rand.Next(MinWidth, MaxWidth);
             var height = Rand.Next(MinHeight, MaxHeight);
-            _window.Bounds = new Rectangle(x, y, width, height);
+            _window.ClientBounds = new Rectangle(x, y, width, height);
         }
 
         private static void PrintWindowInfo()
         {
             Console.WriteLine();
             Console.WriteLine("Window Info:");
-            Console.WriteLine($"Bounds: {_window.Bounds}");
+            Console.WriteLine($"Client bounds: {_window.ClientBounds}");
             var modifiers = _service.GetKeyModifiers();
             Console.WriteLine($"Control: {(modifiers & KeyMod.Control) > 0}");
             Console.WriteLine($"Shift: {(modifiers & KeyMod.Shift) > 0}");

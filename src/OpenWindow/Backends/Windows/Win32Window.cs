@@ -202,21 +202,15 @@ namespace OpenWindow.Backends.Windows
         /// <inheritdoc />
         public override Point Position
         {
-            get => Bounds.Position;
+            get
+            {
+                if (!Native.GetWindowRect(Hwnd, out var rect))
+                    throw GetLastException("Failed to get window bounds.");
+                return rect.Position;
+            }
             set
             {
                 if (!Native.SetWindowPos(Hwnd, IntPtr.Zero, value.X, value.Y, 0, 0, Constants.SWP_NOSIZE | Constants.SWP_NOZORDER))
-                    throw GetLastException("Setting window position failed.");
-            }
-        }
-
-        /// <inheritdoc />
-        public override Size Size
-        {
-            get => Bounds.Size;
-            set
-            {
-                if (!Native.SetWindowPos(Hwnd, IntPtr.Zero, 0, 0, value.Width, value.Height, Constants.SWP_NOMOVE | Constants.SWP_NOZORDER))
                     throw GetLastException("Setting window position failed.");
             }
         }
@@ -236,25 +230,8 @@ namespace OpenWindow.Backends.Windows
                 var style = GetWindowStyle();
                 if (!Native.AdjustWindowRect(ref rect, style, false))
                     throw GetLastException("Failed to set client rectangle.");
-                Size = rect.Size;
-            }
-        }
-
-        /// <inheritdoc />
-        public override Rectangle Bounds
-        {
-            get
-            {
-                if (!Native.GetWindowRect(Hwnd, out var rect))
-                    throw GetLastException("Failed to get window bounds.");
-                return rect;
-            }
-            set
-            {
-                if (Bounds == value)
-                    return;
-                if (!Native.SetWindowPos(Hwnd, IntPtr.Zero, value.X, value.Y, value.Width, value.Height, Constants.SWP_NOZORDER))
-                    throw GetLastException("Failed to set window bounds.");
+                if (!Native.SetWindowPos(Hwnd, IntPtr.Zero, 0, 0, rect.Width, rect.Height, Constants.SWP_NOMOVE | Constants.SWP_NOZORDER))
+                    throw GetLastException("Setting window position failed.");
             }
         }
 
@@ -276,7 +253,9 @@ namespace OpenWindow.Backends.Windows
                 var style = GetWindowStyle();
                 if (!Native.AdjustWindowRect(ref rect, style, false))
                     throw GetLastException("Failed to set client rectangle.");
-                Bounds = rect;
+
+                if (!Native.SetWindowPos(Hwnd, IntPtr.Zero, rect.Left, rect.Top, rect.Width, rect.Height, Constants.SWP_NOZORDER))
+                    throw GetLastException("Failed to set window bounds.");
             }
         }
 
@@ -434,9 +413,9 @@ namespace OpenWindow.Backends.Windows
         {
             if (value == Size.Empty)
                 return;
-            var s = Size;
+            var s = ClientSize;
             if (s.Width < value.Width || s.Height < value.Height)
-                Size = s;
+                ClientSize = s;
         }
 
         /// <inheritdoc />
@@ -444,9 +423,9 @@ namespace OpenWindow.Backends.Windows
         {
             if (value == Size.Empty)
                 return;
-            var s = Size;
+            var s = ClientSize;
             if (s.Width > value.Width || s.Height > value.Height)
-                Size = s;
+                ClientSize = s;
         }
 
         /// <inheritdoc />
