@@ -6,5 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\OpenWindow\OpenWindow.csproj" />
+    <ProjectReference Include="..\..\src\OpenWindow.GL\OpenWindow.GL.csproj" />
   </ItemGroup>
 </Project>

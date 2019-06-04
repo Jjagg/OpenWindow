@@ -22,10 +22,10 @@ namespace HelloOpenWindow
             Console.WriteLine();
             WindowingService.Logger.OutputWriter = Console.Out;
 
-            _service = WindowingService.Get();
+            _service = WindowingService.Create();
 
             _window = _service.CreateWindow();
-            //_window.ClientBounds = new Rectangle(100, 100, 400, 400);
+            _window.ClientBounds = new Rectangle(100, 100, 400, 400);
             _window.Title = "Hello, OpenWindow! 💩";
 
             _window.MinSize = new Size(MinWidth, MinHeight);

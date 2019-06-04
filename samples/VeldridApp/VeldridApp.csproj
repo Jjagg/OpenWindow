@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\OpenWindow\OpenWindow.csproj" />
+    <ProjectReference Include="..\..\src\OpenWindow.GL\OpenWindow.GL.csproj" />
     <!--ProjectReference Include="..\..\..\other\veldrid\src\Veldrid\Veldrid.csproj" /-->
   </ItemGroup>
 

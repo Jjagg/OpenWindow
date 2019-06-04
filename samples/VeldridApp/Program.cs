@@ -6,7 +6,7 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using OpenWindow;
-using OpenWindow.Backends.Windows;
+using OpenWindow.GL;
 using Veldrid;
 using Veldrid.Vk;
 
@@ -27,7 +27,7 @@ namespace VeldridApp
         static void Main(string[] args)
         {
             var gdo = new GraphicsDeviceOptions();
-            var ws = WindowingService.Get();
+            var ws = WindowingService.Create();
 
             if (GraphicsBackend == GraphicsBackend.OpenGL)
                 ws.GlSettings.EnableOpenGl = true;
@@ -36,21 +36,22 @@ namespace VeldridApp
             w.ClientBounds = new Rectangle(100, 100, 960, 540);
             w.Title = "Veldrid Tutorial";
 
+            var serviceData = ws.GetPlatformData();
             var windowData = w.GetPlatformData();
             switch (windowData.Backend)
             {
                 case WindowingBackend.Win32:
-                    InitWindows(w, (Win32WindowData) windowData, gdo);
+                    InitWindows(ws, w, gdo);
                     break;
                 case WindowingBackend.Wayland:
-                    InitWayland(w, (WaylandWindowData) windowData, gdo);
+                    InitWayland(ws, w, gdo);
                     break;
                 default:
                     throw new NotImplementedException();
             }
 
             Console.WriteLine("Windowing backend: " + windowData.Backend);
-            Console.WriteLine("Graphics backend:  " + GraphicsBackend);
+            Console.WriteLine("Graphics backend: " + GraphicsBackend);
 
             CreateResources();
 
@@ -80,8 +81,11 @@ namespace VeldridApp
             DisposeResources();
         }
 
-        private static void InitWindows(Window w, Win32WindowData wd, in GraphicsDeviceOptions gdo)
+        private static void InitWindows(WindowingService ws, Window w, in GraphicsDeviceOptions gdo)
         {
+            var wsd = (Win32WindowingServiceData) ws.GetPlatformData();
+            var wd = (Win32WindowData) w.GetPlatformData();
+
             switch (GraphicsBackend)
             {
                 case GraphicsBackend.Direct3D11:
@@ -89,7 +93,7 @@ namespace VeldridApp
                     break;
                 case GraphicsBackend.Vulkan:
                     _graphicsDevice = GraphicsDevice.CreateVulkan(gdo,
-                        VkSurfaceSource.CreateWin32(wd.HInstance, wd.Hwnd), (uint) w.Bounds.Width,
+                        VkSurfaceSource.CreateWin32(wsd.HInstance, wd.Hwnd), (uint) w.Bounds.Width,
                         (uint) w.Bounds.Height);
                     break;
                 case GraphicsBackend.OpenGL:
@@ -97,7 +101,7 @@ namespace VeldridApp
                 case GraphicsBackend.Metal:
                     throw new NotSupportedException();
                 case GraphicsBackend.OpenGLES:
-                    var scs = SwapchainSource.CreateWin32(wd.Hwnd, wd.HInstance);
+                    var scs = SwapchainSource.CreateWin32(wd.Hwnd, wsd.HInstance);
                     var scd = new SwapchainDescription(scs, (uint) w.Bounds.Width, (uint) w.Bounds.Height, null, true);
                     _graphicsDevice = GraphicsDevice.CreateOpenGLES(gdo, scd);
                     throw new NotSupportedException();
@@ -113,8 +117,11 @@ namespace VeldridApp
         // >= 1.5
         public static int EGL_CONTEXT_MINOR_VERSION = 0x30FB;
 
-        private static void InitWayland(Window w, WaylandWindowData wdata, GraphicsDeviceOptions gdo)
+        private static void InitWayland(WindowingService ws, Window w, GraphicsDeviceOptions gdo)
         {
+            var wsdata = (WaylandWindowingServiceData) ws.GetPlatformData();
+            var wdata = (WaylandWindowData) w.GetPlatformData();
+
             const uint width = 960;
             const uint height = 540;
             switch (GraphicsBackend)
@@ -122,36 +129,28 @@ namespace VeldridApp
                 case GraphicsBackend.Direct3D11:
                     throw new PlatformNotSupportedException("Direct3D11 is not supported on Wayland.");
                 case GraphicsBackend.Vulkan:
-                    var sws = SwapchainSource.CreateWayland(wdata.WlDisplay, wdata.WlSurface);
+                    var sws = SwapchainSource.CreateWayland(wsdata.WlDisplay, wdata.WlSurface);
                     var scd = new SwapchainDescription(sws, width, height, null, true);
                     _graphicsDevice = GraphicsDevice.CreateVulkan(gdo, scd);
                     break;
                 case GraphicsBackend.OpenGL:
-                    LoadEGL();
-
-                    int[] attribs =
-                    {
-                        EGL_CONTEXT_MAJOR_VERSION, 3,
-                        EGL_CONTEXT_MINOR_VERSION, 3,
-                        EGL_NONE
-                    };
-
-                    var glctx = EGLCreateContext(wdata.EGLDisplay, wdata.EGLConfig, IntPtr.Zero, attribs);
+                    OpenWindowGl.Initialize(ws);
+                    var glctx = OpenWindowGl.CreateContext(w, 3, 1);
                     if (glctx == null)
                         throw new Exception("EGL context creation failed.");
 
-                    if (!EGLMakeCurrent(wdata.EGLDisplay, wdata.EGLSurface, wdata.EGLSurface, glctx))
+                    if (!OpenWindowGl.MakeCurrent(w, glctx))
                         throw new Exception("EGL make current failed.");
 
                     var glpi = new global::Veldrid.OpenGL.OpenGLPlatformInfo(
                         glctx,
-                        str => LoadFuncRaw(str, EGLGetProcAddress),
-                        (ctxptr) => EGLMakeCurrent(wdata.EGLDisplay, wdata.EGLSurface, wdata.EGLSurface, ctxptr),
-                        () => EGLGetCurrentContext(),
-                        () => EGLMakeCurrent(wdata.EGLDisplay, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero),
-                        (ctxptr) => EGLDestroyContext(wdata.EGLDisplay, ctxptr),
-                        () => EGLSwapBuffers(wdata.EGLDisplay, wdata.EGLSurface),
-                        vsync => EGLSwapInterval(wdata.EGLDisplay, vsync ? 1 : 0));
+                        OpenWindowGl.GetProcAddress,
+                        (ctxptr) => OpenWindowGl.MakeCurrent(w, ctxptr),
+                        OpenWindowGl.GetCurrentContext,
+                        () => OpenWindowGl.MakeCurrent(null, IntPtr.Zero),
+                        (ctxptr) => OpenWindowGl.DestroyContext(ctxptr),
+                        () => OpenWindowGl.SwapBuffers(w),
+                        vsync => OpenWindowGl.SetVSync(vsync ? VSyncState.On : VSyncState.Off));
                     _graphicsDevice = GraphicsDevice.CreateOpenGL(gdo, glpi, width, height);
                     break;
                 case GraphicsBackend.OpenGLES:
@@ -284,54 +283,6 @@ namespace VeldridApp
             _indexBuffer.Dispose();
             _graphicsDevice.Dispose();
         }
-
-        #region EGL
-
-        public static void LoadEGL()
-        {
-            EGLCreateContext = LoadFunc<EGLCreateContextDelegate>("eglCreateContext", EGLGetProcAddress);
-            EGLMakeCurrent = LoadFunc<EGLMakeCurrentDelegate>("eglMakeCurrent", EGLGetProcAddress);
-            EGLGetCurrentContext = LoadFunc<EGLGetCurrentContextDelegate>("eglGetCurrentContext", EGLGetProcAddress);
-            EGLDestroyContext = LoadFunc<EGLDestroyContextDelegate>("eglDestroyContext", EGLGetProcAddress);
-            EGLSwapBuffers = LoadFunc<EGLSwapBuffersDelegate>("eglSwapBuffers", EGLGetProcAddress);
-            EGLSwapInterval = LoadFunc<EGLSwapIntervalDelegate>("eglSwapInterval", EGLGetProcAddress);
-        }
-
-        public static T LoadFunc<T>(string func, Func<string, IntPtr> getProcAddress) where T : Delegate
-        {
-            var ptr = LoadFuncRaw(func, getProcAddress);
-            if (ptr == IntPtr.Zero)
-                return null;
-            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
-        }
-
-        public static IntPtr LoadFuncRaw(string func, Func<string, IntPtr> getProcAddress)
-        {
-            return getProcAddress(func);
-        }
-
-        [DllImport("libEGL.so", EntryPoint="eglGetProcAddress")]
-        public static extern IntPtr EGLGetProcAddress(string procName);
-
-        public delegate IntPtr EGLCreateContextDelegate(IntPtr display, IntPtr config, IntPtr shareContext, int[] attribList);
-        public static EGLCreateContextDelegate EGLCreateContext;
-
-        public delegate bool EGLMakeCurrentDelegate(IntPtr display, IntPtr draw, IntPtr read, IntPtr context);
-        public static EGLMakeCurrentDelegate EGLMakeCurrent;
-
-        public delegate IntPtr EGLGetCurrentContextDelegate();
-        public static EGLGetCurrentContextDelegate EGLGetCurrentContext;
-
-        public delegate bool EGLDestroyContextDelegate(IntPtr display, IntPtr context);
-        public static EGLDestroyContextDelegate EGLDestroyContext;
-
-        public delegate bool EGLSwapBuffersDelegate(IntPtr display, IntPtr surface);
-        public static EGLSwapBuffersDelegate EGLSwapBuffers;
-
-        public delegate bool EGLSwapIntervalDelegate(IntPtr display, int interval);
-        public static EGLSwapIntervalDelegate EGLSwapInterval;
-
-        #endregion
     }
 
     struct VertexPositionColor
