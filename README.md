@@ -41,8 +41,7 @@ The X backend requires a generator to generate the client-side library from xml 
 
 ### Wayland (Linux)
 
-Similar to X, it's recommended to generate Wayland bindings from the files that define the protocol. Bindings are generated,
-but the actual backend implementation is not usable yet.
+Wayland bindings are generated and the implementation is in a usable state. Needs a lot more testing though.
 
 ### Quartz (OSX)
 
