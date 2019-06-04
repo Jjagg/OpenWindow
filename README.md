@@ -1,4 +1,4 @@
-# OpenWindow
+# OpenWindow [![Build Status](https://dev.azure.com/jessegielen/jessegielen/_apis/build/status/Jjagg.OpenWindow?branchName=master)](https://dev.azure.com/jessegielen/jessegielen/_build/latest?definitionId=1&branchName=master)
 
 OpenWindow is a project that aims to offer a simple C# API that calls into the running 
 native windowing backend without any layer in between. It targets .NET Standard 1.3 and 2.0.
