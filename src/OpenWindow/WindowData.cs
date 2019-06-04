@@ -1,13 +1,13 @@
 ﻿namespace OpenWindow
 {
     /// <summary>
-    /// This is a marker interface for classes containing platform-specific data on windows.
-    /// Returned by <see cref="OpenWindow.Window.GetPlatformData"/>.
+    /// Contains platform-specific data for native windows.
     /// </summary>
+    /// <seealso cref="OpenWindow.Window.GetPlatformData"/>.
     public abstract class WindowData
     {
         /// <summary>
-        /// The windowing backend that this instance contains information about.
+        /// The windowing backend of the <see cref="Window"/>.
         /// This property can be checked before casting to the platform specific implementation.
         /// </summary>
         public WindowingBackend Backend { get; }

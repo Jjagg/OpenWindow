@@ -28,8 +28,8 @@ namespace OpenWindow.Backends.Wayland
 
         #region Constructor
 
-        public WaylandWindow(WlDisplay display, WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, WpViewporter wpViewporter, OpenGlSurfaceSettings glSettings)
-            : base(false)
+        public WaylandWindow(WindowingService ws, WlDisplay display, WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, WpViewporter wpViewporter)
+            : base(ws, false)
         {
             _display = display;
             _compositor = wlCompositor;
@@ -46,6 +46,7 @@ namespace OpenWindow.Backends.Wayland
             const int width = 100;
             const int height = 100;
 
+            var glSettings = Service.GlSettings;
             if (glSettings.EnableOpenGl)
             {
                 InitOpenGl(glSettings, width, height);
@@ -85,7 +86,7 @@ namespace OpenWindow.Backends.Wayland
 
         private void InitOpenGl(OpenGlSurfaceSettings s, int width, int height)
         {
-            _eglDisplay = ((WaylandWindowingService) WindowingService.Get()).GetEGLDisplay();
+            _eglDisplay = ((WaylandWindowingService) Service).GetEGLDisplay();
 
             int[] attribs =
             {
@@ -220,9 +221,8 @@ namespace OpenWindow.Backends.Wayland
         /// <inheritdoc />
         public override WindowData GetPlatformData()
         {
-            var ws = (WaylandWindowingService) WindowingService.Get();
-            return new WaylandWindowData(ws.GetDisplayProxy(), ws.GetRegistryProxy(), (IntPtr) Surface.Pointer, ws.GetGlobals(),
-                (IntPtr) _eglDisplay, (IntPtr) _eglWindow, (IntPtr) _eglSurface, (IntPtr) _eglConfig);
+            var ws = (WaylandWindowingService) Service;
+            return new WaylandWindowData((IntPtr) Surface.Pointer, (IntPtr) _eglWindow, (IntPtr) _eglSurface, (IntPtr) _eglConfig);
         }
 
         #endregion

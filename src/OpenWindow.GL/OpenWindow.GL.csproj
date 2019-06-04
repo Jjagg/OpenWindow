@@ -1,12 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\OpenWindow\OpenWindow.csproj" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <!-- TODO we'll want to target .NET Standard 2.1 once it's out of preview -->
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Memory" Version="4.5.3" />
+  </ItemGroup>
 
 </Project>

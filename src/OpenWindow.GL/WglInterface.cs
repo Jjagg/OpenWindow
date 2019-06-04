@@ -41,19 +41,20 @@ namespace OpenWindow.GL
 
         private static IntPtr _windowsOpenGlLib;
 
-        private static bool _initialized; 
+        private delegate IntPtr WglCreateContextAttribsARBDelegate(IntPtr hdc, IntPtr hshareContext, ref int attribList);
+        private static WglCreateContextAttribsARBDelegate WglCreateContextAttribsARB;
+
         private delegate bool WglSwapIntervalEXTDelegate(int interval);
         private static WglSwapIntervalEXTDelegate WglSwapIntervalEXT;
         private delegate int WglGetSwapIntervalEXTDelegate();
         private static WglGetSwapIntervalEXTDelegate WglGetSwapIntervalEXT;
 
-        internal override void Initialize()
+        public WglInterface(WindowingService ws)
         {
-            if (!_initialized)
-                LoadExtensions();
+            LoadExtensions(ws);
         }
 
-        private static void LoadExtensions()
+        private static void LoadExtensions(WindowingService ws)
         {
             var chdc = WglGetCurrentDC();
             var cctx = WglGetCurrentContext();
@@ -63,7 +64,7 @@ namespace OpenWindow.GL
                 // We need a current context to query for extension methods so we create one
 
                 // TODO provide way to specifically create dummy window
-                var dummyWnd = WindowingService.Get().CreateWindow();
+                var dummyWnd = ws.CreateWindow();
                 var wdata = (Win32WindowData) dummyWnd.GetPlatformData();
                 var hwnd = wdata.Hwnd;
                 var hdc = GetDC(hwnd);
@@ -81,12 +82,14 @@ namespace OpenWindow.GL
             {
                 LoadExtensionsWithContext();
             }
-
-            _initialized = true;
         }
 
         private static void LoadExtensionsWithContext()
         {
+            var ccptr = WglGetProcAddress("wglCreateContextAttribsARB");
+            if (ccptr != IntPtr.Zero)
+                WglCreateContextAttribsARB = Marshal.GetDelegateForFunctionPointer<WglCreateContextAttribsARBDelegate>(ccptr);
+
             var wsiptr = WglGetProcAddress("wglSwapintervalEXT");
             if (wsiptr != IntPtr.Zero)
             {
@@ -95,7 +98,7 @@ namespace OpenWindow.GL
             }
         }
 
-        internal override IntPtr GetProcAddressImpl(string func)
+        public override IntPtr GetProcAddressImpl(string func)
         {
             if (_windowsOpenGlLib == IntPtr.Zero)
                 _windowsOpenGlLib = LoadLibrary("opengl32.dll");
@@ -107,32 +110,50 @@ namespace OpenWindow.GL
             return ptr;
         }
 
-        internal override bool SetVSyncImpl(VSyncState state)
+        public override bool SetVSyncImpl(VSyncState state)
         {
             return WglSwapIntervalEXT?.Invoke((int) state) ?? false;
         }
 
-        internal override VSyncState GetVSyncImpl()
+        public override VSyncState GetVSyncImpl()
         {
             var result = WglGetSwapIntervalEXT?.Invoke() ?? 0;
             return (VSyncState) result;
         }
 
-        internal override IntPtr CreateContextImpl(WindowData wdata)
+        public override IntPtr CreateContextImpl(WindowData wdata)
         {
             var hWnd = ((Win32WindowData) wdata).Hwnd;
             var hdc = GetDC(hWnd);
             var hrc = WglCreateContext(hdc);
-            WglMakeCurrent(hdc, hrc);
             ReleaseDC(hWnd, hdc);
             return hrc;
         }
 
-        internal override bool DestroyContextImpl(IntPtr ctx) => WglDeleteContext(ctx);
+        private const int WGL_CONTEXT_MAJOR_VERSION_ARB = 0x2091;
+        private const int WGL_CONTEXT_MINOR_VERSION_ARB = 0x2092;
 
-        internal override IntPtr GetCurrentContextImpl() => WglGetCurrentContext();
+        public override IntPtr CreateContextImpl(WindowData wdata, int major, int minor)
+        {
+            if (WglCreateContextAttribsARB == null)
+                return CreateContextImpl(wdata);
 
-        internal override bool MakeCurrentImpl(WindowData wdata, IntPtr ctx)
+            var hWnd = ((Win32WindowData) wdata).Hwnd;
+            var hdc = GetDC(hWnd);
+            Span<int> attribs = stackalloc int[5];
+            attribs[0] = WGL_CONTEXT_MAJOR_VERSION_ARB; attribs[1] = major;
+            attribs[2] = WGL_CONTEXT_MINOR_VERSION_ARB; attribs[3] = minor;
+            attribs[4] = 0;
+            var hrc = WglCreateContextAttribsARB(hdc, IntPtr.Zero, ref attribs.GetPinnableReference());
+            ReleaseDC(hWnd, hdc);
+            return hrc;
+        }
+
+        public override bool DestroyContextImpl(IntPtr ctx) => WglDeleteContext(ctx);
+
+        public override IntPtr GetCurrentContextImpl() => WglGetCurrentContext();
+
+        public override bool MakeCurrentImpl(WindowData wdata, IntPtr ctx)
         {
             if (ctx == IntPtr.Zero)
                 return WglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
@@ -144,7 +165,7 @@ namespace OpenWindow.GL
             return result;
         }
 
-        internal override bool SwapBuffersImpl(WindowData wdata)
+        public override bool SwapBuffersImpl(WindowData wdata)
         {
             var hWnd = ((Win32WindowData) wdata).Hwnd;
             var hdc = GetDC(hWnd);

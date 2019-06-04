@@ -37,18 +37,17 @@ namespace OpenWindow.Backends.Wayland
         private xkb_keymap* _xkbKeymap;
         private xkb_state* _xkbState;
 
-        internal List<WaylandWindowData.GlobalObject> Globals;
+        internal List<WaylandGlobal> Globals;
 
-        internal WaylandWindowingService()
+        internal WaylandWindowingService() : base(WindowingBackend.Wayland)
         {
             _windows = new List<WaylandWindow>();
             _displays = new List<Display>();
-            Globals = new List<WaylandWindowData.GlobalObject>();
+            Globals = new List<WaylandGlobal>();
         }
 
-        internal WaylandWindowData.GlobalObject[] GetGlobals() => Globals.ToArray();
-        internal IntPtr GetDisplayProxy() => (IntPtr) _wlDisplay.Pointer;
-        internal IntPtr GetRegistryProxy() => (IntPtr) _wlRegistry.Pointer;
+        private bool _globalsDirty;
+        private WaylandGlobal[] _cachedGlobals;
 
         protected override void Initialize()
         {
@@ -114,8 +113,9 @@ namespace OpenWindow.Backends.Wayland
             LogDebug($"Registry global announce for type '{iface}' v{version}.");
 
             // we store and expose all globals so users can bind whatever they want
-            var global = new WaylandWindowData.GlobalObject(iface, name, version);
+            var global = new WaylandGlobal(iface, name, version);
             Globals.Add(global);
+            _globalsDirty = true;
 
             switch (iface)
             {
@@ -153,6 +153,31 @@ namespace OpenWindow.Backends.Wayland
 
         private void RegistryGlobalRemoveCallback(void* data, wl_registry* registry, uint name)
         {
+            for (var i = Globals.Count; i >= 0; i--)
+            {
+                if (Globals[i].Name == name)
+                {
+                    Globals.RemoveAt(i);
+                    _globalsDirty = true;
+                    break;
+                }
+            }
+        }
+
+        public override void InitializeOpenGl()
+        {
+            EnsureEGLInitialized();
+        }
+
+        public override WindowingServiceData GetPlatformData()
+        {
+            if (_globalsDirty)
+            {
+                _cachedGlobals = Globals.ToArray();
+                _globalsDirty = false;
+            }
+
+            return new WaylandWindowingServiceData((IntPtr) _wlDisplay.Pointer, (IntPtr) _wlRegistry.Pointer, _cachedGlobals, (IntPtr) _eglDisplay);
         }
 
         #region Outputs
@@ -532,8 +557,11 @@ namespace OpenWindow.Backends.Wayland
 
         public bool EGLInitialized => _eglDisplay != null;
 
-        private void EGLInitialize()
+        private void EnsureEGLInitialized()
         {
+            if (EGLInitialized)
+                return;
+
             Egl.Load();
             _eglDisplay = Egl.GetDisplay(_wlDisplay.Pointer);
             Egl.Initialize(_eglDisplay, out _eglMajor, out _eglMinor);
@@ -546,17 +574,13 @@ namespace OpenWindow.Backends.Wayland
 
         public EGLDisplay* GetEGLDisplay()
         {
-            if (!EGLInitialized)
-                EGLInitialize();
-
+            EnsureEGLInitialized();
             return _eglDisplay;
         }
 
         public void GetEGLVersion(out int major, out int minor)
         {
-            if (!EGLInitialized)
-                EGLInitialize();
-
+            EnsureEGLInitialized();
             major = _eglMajor;
             minor = _eglMinor;
         }
@@ -573,18 +597,20 @@ namespace OpenWindow.Backends.Wayland
             LogDebug("Getting xdg surface");
             var xdgSurface = _xdgWmBase.GetXdgSurface(wlSurface);
             LogDebug("Window ctor");
-            var window = new WaylandWindow(_wlDisplay, _wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, _wpViewporter, GlSettings);
+            var window = new WaylandWindow(this, _wlDisplay, _wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, _wpViewporter);
             // TODO remove windows
             _windows.Add(window);
             return window;
         }
 
+        /// <inheritdoc />
         public override void PumpEvents()
         {
             _wlDisplay.Flush();
             _wlDisplay.Roundtrip();
         }
 
+        /// <inheritdoc />
         public override void WaitEvent()
         {
             _wlDisplay.Dispatch();

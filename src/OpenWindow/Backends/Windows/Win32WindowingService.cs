@@ -17,7 +17,7 @@ namespace OpenWindow.Backends.Windows
         public override ReadOnlyCollection<Display> Displays => new ReadOnlyCollection<Display>(_displays);
         public override Display PrimaryDisplay => _displays.FirstOrDefault(d => d.IsPrimary);
 
-        public Win32WindowingService()
+        public Win32WindowingService() : base(WindowingBackend.Win32)
         {
             _managedWindows = new Dictionary<IntPtr, Window>();
             _wndProc = ProcessWindowMessage;
@@ -104,10 +104,16 @@ namespace OpenWindow.Backends.Windows
                 }, IntPtr.Zero);
         }
 
+        private WindowingServiceData _serviceData = new Win32WindowingServiceData((IntPtr) Native.GetModuleHandle(null));
+        public override WindowingServiceData GetPlatformData()
+        {
+            return _serviceData;
+        }
+
         /// <inheritdoc />
         public override Window CreateWindow()
         {
-            var window = new Win32Window(_wndProc, GlSettings);
+            var window = new Win32Window(this, _wndProc);
             _managedWindows.Add(window.Hwnd, window);
             return window;
         }

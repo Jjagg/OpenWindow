@@ -12,13 +12,6 @@ namespace OpenWindow
     /// </summary>
     public abstract class WindowingService : IDisposable
     {
-        static WindowingService()
-        {
-            // TODO give property Backend backing field to prevent exception in static initializer
-            Backend = GetWindowingBackend();
-            LogInfo($"Detected windowing backend '{Backend}'.");
-        }
-
         #region Fields
 
         protected readonly KeyboardState _keyboardState;
@@ -31,54 +24,36 @@ namespace OpenWindow
         /// <summary>
         /// Create a <see cref="WindowingService"/>.
         /// </summary>
-        protected WindowingService()
+        protected WindowingService(WindowingBackend backend)
         {
             _keyboardState = new KeyboardState();
             _mouseState = new MouseState();
 
             GlSettings = new OpenGlSurfaceSettings();
+            Backend = backend;
+            LogInfo($"Created WindowingService with backend '{Backend}'.");
         }
 
         #endregion
 
-        #region Singleton
-
-        private static WindowingService _instance;
+        #region Initialization
 
         /// <summary>
-        /// Get the <see cref="WindowingService"/> instance.
+        /// Figure out the native windowing backend and create a new <see cref="WindowingService"/> for it.
         /// </summary>
-        /// <returns>The <see cref="WindowingService"/> instance.</returns>
-        public static WindowingService Get()
+        public static WindowingService Create()
         {
-            if (_instance == null)
-                InitializeInstance();
-
-            return _instance;
+            var backend = GetWindowingBackend();
+            return Create(backend);
         }
-
-        private static void InitializeInstance()
-        {
-            if (_instance != null)
-                return;
-
-            _instance = CreateService(Backend);
-            LogDebug("Created WindowingService.");
-            _instance.Initialize();
-            LogDebug("Initialized WindowingService.");
-        }
-
-        /// <summary>
-        /// Initialize this <see cref="WindowingService"/>.
-        /// </summary>
-        protected abstract void Initialize();
 
         private static WindowingBackend GetWindowingBackend()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return WindowingBackend.Win32;
 
-            // LINUX
+            // TODO Support forcing a certain backend (so we can use X even on Wayland with XWayland)
+            //      in case people run into issues with Wayland
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY")))
@@ -90,29 +65,58 @@ namespace OpenWindow
                                               "Please open an issue on the OpenWindow repo for this.");
             }
 
-            // OSX
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 throw new NotImplementedException("No OSX back end is implemented yet.");
 
             throw new NotSupportedException("OS was not reported to be Windows, Linux or OSX by .NET host.");
         }
 
-        private static WindowingService CreateService(WindowingBackend type)
+        /// <summary>
+        /// Create a new <see cref="WindowingService"/> with a specific backend.
+        /// If the backend is not active this method will throw an exception.
+        /// </summary>
+        public static WindowingService Create(WindowingBackend type)
         {
+            WindowingService service;
             switch (type)
             {
                 case WindowingBackend.Win32:
-                    return new Backends.Windows.Win32WindowingService();
+                    service = new Backends.Windows.Win32WindowingService();
+                    break;
                 case WindowingBackend.X:
-                    return new Backends.X.XWindowingService();
+                    service = new Backends.X.XWindowingService();
+                    break;
                 case WindowingBackend.Wayland:
-                    return new Backends.Wayland.WaylandWindowingService();
+                    service = new Backends.Wayland.WaylandWindowingService();
+                    break;
                 case WindowingBackend.Quartz:
                     throw new NotImplementedException();
                 default:
                     throw new InvalidOperationException();
             }
+
+            LogDebug("Created WindowingService.");
+            service.Initialize();
+            LogDebug("Initialized WindowingService.");
+            return service;
         }
+
+        /// <summary>
+        /// Initialize this <see cref="WindowingService"/>.
+        /// </summary>
+        protected abstract void Initialize();
+
+        /// <summary>
+        /// Initialize an OpenGL connection if required.
+        /// For example under Wayland this will obtain an EGL display connection
+        /// which can then be retrieved through <see cref="GetPlatformData"/>.
+        /// </summary>
+        public virtual void InitializeOpenGl()
+        {
+        }
+
+        public abstract WindowingServiceData GetPlatformData();
+
         #endregion
 
         #region Logging
@@ -170,19 +174,19 @@ namespace OpenWindow
         #region Public API
 
         /// <summary>
-        /// The current state of the mouse for this window.
+        /// The current state of the keyboard.
         /// </summary>
         public KeyboardState KeyboardState => _keyboardState;
 
         /// <summary>
-        /// The current state of the mouse for this window.
+        /// The current state of the mouse.
         /// </summary>
         public MouseState MouseState => _mouseState;
 
         /// <summary>
         /// The <see cref="WindowingBackend"/> that this service uses.
         /// </summary>
-        public static WindowingBackend Backend { get; private set; }
+        public WindowingBackend Backend { get; }
 
         /// <summary>
         /// Provides logged messages.
@@ -229,7 +233,7 @@ namespace OpenWindow
             if (Backend != WindowingBackend.Win32)
                 throw new OpenWindowException("CreateFromWin32 called with windowing backend " + Backend);
 
-            return new Win32Window(hWnd);
+            return new Win32Window(this, hWnd);
         }
 
         /// <summary>
@@ -337,6 +341,9 @@ namespace OpenWindow
             }
         }
 
+        /// <summary>
+        /// Update the mouse position. This should be called when the windowing system reports a mouse move.
+        /// </summary>
         protected void SetMousePosition(int x, int y)
         {
             _mouseState.X = x;
@@ -344,6 +351,10 @@ namespace OpenWindow
             _mouseState.FocusedWindow?.RaiseMouseMoved(x, y);
         }
 
+        /// <summary>
+        /// Update the mouse button state.
+        /// This should be called when the windowing system reports a mouse button is pressed down or released.
+        /// </summary>
         protected void SetMouseButton(MouseButtons button, bool down)
         {
             if (down)
@@ -358,6 +369,10 @@ namespace OpenWindow
             }
         }
 
+        /// <summary>
+        /// Update the mouse scroll state.
+        /// This should be called when the windowing system reports a mouse scroll.
+        /// </summary>
         protected void SetMouseScroll(float x, float y)
         {
             _mouseState.FocusedWindow?.RaiseMouseScroll(x, y);

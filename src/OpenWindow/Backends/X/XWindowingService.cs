@@ -12,11 +12,20 @@ namespace OpenWindow.Backends.X
 
         public override int WindowCount => throw new NotImplementedException();
 
+        public XWindowingService() : base(WindowingBackend.X)
+        {
+        }
+
         protected override void Initialize()
         {
             _xcbConnection = Native.Connect(string.Empty, IntPtr.Zero);
             if (_xcbConnection == IntPtr.Zero)
                 throw new OpenWindowException("Failed to connect to the X server.");
+        }
+
+        public override WindowingServiceData GetPlatformData()
+        {
+            throw new NotImplementedException();
         }
 
         public override Window CreateWindow()

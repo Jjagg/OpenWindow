@@ -4,14 +4,14 @@ namespace OpenWindow.GL
 {
     internal abstract class WindowingGlInterface
     {
-        internal virtual void Initialize() { }
-        internal abstract IntPtr GetProcAddressImpl(string func);
-        internal abstract bool SetVSyncImpl(VSyncState state);
-        internal abstract VSyncState GetVSyncImpl();
-        internal abstract IntPtr CreateContextImpl(WindowData wdata);
-        internal abstract bool MakeCurrentImpl(WindowData wdata, IntPtr ctx);
-        internal abstract IntPtr GetCurrentContextImpl();
-        internal abstract bool DestroyContextImpl(IntPtr ctx);
-        internal abstract bool SwapBuffersImpl(WindowData wdata);
+        public abstract IntPtr GetProcAddressImpl(string func);
+        public abstract bool SetVSyncImpl(VSyncState state);
+        public abstract VSyncState GetVSyncImpl();
+        public abstract IntPtr CreateContextImpl(WindowData wdata);
+        public abstract IntPtr CreateContextImpl(WindowData wdata, int major, int minor);
+        public abstract bool MakeCurrentImpl(WindowData wdata, IntPtr ctx);
+        public abstract IntPtr GetCurrentContextImpl();
+        public abstract bool DestroyContextImpl(IntPtr ctx);
+        public abstract bool SwapBuffersImpl(WindowData wdata);
     }
 }

@@ -11,18 +11,23 @@ namespace OpenWindow.GL
     {
         private static WindowingGlInterface _impl;
 
-        static OpenWindowGl()
+        /// <summary>
+        /// A call to this method is required before calling any other method in this class.
+        /// </summary>
+        public static void Initialize(WindowingService service)
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            if (service.Backend == WindowingBackend.Win32)
             {
-                _impl = new WglInterface();
+                _impl = new WglInterface(service);
+            }
+            else if (service.Backend == WindowingBackend.Wayland)
+            {
+                _impl = new EglInterface(service);
             }
             else
             {
-                _impl = new EglInterface();
+                throw new NotSupportedException("Only WGL (for Windows) and EGL (for Wayland) are implemented for now.");
             }
-
-            _impl.Initialize();
         }
 
         /// <summary>
@@ -46,9 +51,14 @@ namespace OpenWindow.GL
         public static IntPtr CreateContext(Window window) => _impl.CreateContextImpl(window.GetPlatformData());
 
         /// <summary>
+        /// Create an OpenGL context with a minimum OpenGL version.
+        /// </summary>
+        public static IntPtr CreateContext(Window window, int major, int minor) => _impl.CreateContextImpl(window.GetPlatformData(), major, minor);
+
+        /// <summary>
         /// Activate an OpenGL context to draw to a window surface on the calling thread.
         /// </summary>
-        public static bool MakeCurrent(Window window, IntPtr ctx) => _impl.MakeCurrentImpl(window.GetPlatformData(), ctx);
+        public static bool MakeCurrent(Window window, IntPtr ctx) => _impl.MakeCurrentImpl(window?.GetPlatformData(), ctx);
 
         /// <summary>
         /// Get the current OpenGL context or <c>IntPtr.Zero</c> if none is current.

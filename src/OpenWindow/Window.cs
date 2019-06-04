@@ -20,6 +20,8 @@ namespace OpenWindow
 
         private bool _disposed;
 
+        protected WindowingService Service;
+
         #endregion
 
         #region Window API: Properties
@@ -138,7 +140,7 @@ namespace OpenWindow
         /// <summary>
         /// Indicates if this window has keyboard focus.
         /// </summary>
-        public bool Focused => WindowingService.Get().KeyboardState.FocusedWindow == this;
+        public bool Focused => Service.KeyboardState.FocusedWindow == this;
 
         /// <summary>
         /// The position of the top left of this window (including border).
@@ -199,8 +201,9 @@ namespace OpenWindow
         /// <param name="userManaged">
         ///   Indicates if this window is created by OpenWindow or if it was created from a handle.
         /// </param>
-        protected Window(bool userManaged)
+        protected Window(WindowingService service, bool userManaged)
         {
+            Service = service;
             UserManaged = userManaged;
         }
 

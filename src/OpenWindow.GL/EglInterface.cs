@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace OpenWindow.GL
@@ -35,6 +36,9 @@ namespace OpenWindow.GL
         public delegate bool EGLSwapBuffersDelegate(IntPtr display, IntPtr surface);
         public static EGLSwapBuffersDelegate EGLSwapBuffers;
 
+        public delegate int EGLGetErrorDelegate();
+        public static EGLGetErrorDelegate EGLGetError;
+
         public static int EGL_NONE = 0x3038;
         // >= 1.3
         public static int EGL_CONTEXT_MAJOR_VERSION = 0x3098;
@@ -43,47 +47,21 @@ namespace OpenWindow.GL
         public static int EGL_CONTEXT_MINOR_VERSION = 0x30FB;
 
 
-        private static IntPtr _display;
-        private static bool _initialized;
-
         private VSyncState _vsyncState;
+        private WaylandWindowingServiceData _wwsd;
 
-        public EglInterface()
+        public EglInterface(WindowingService ws)
         {
             // vsync is enabled by default in EGL
             _vsyncState = VSyncState.On;
-        }
-
-        internal override void Initialize()
-        {
+            ws.InitializeOpenGl();
+            _wwsd = (WaylandWindowingServiceData) ws.GetPlatformData();
             LoadMethods();
-            LoadDisplayConnection();
-        }
-
-        private void LoadDisplayConnection()
-        {
-            if (WindowingService.Backend == WindowingBackend.Wayland)
-            {
-                var wlDisplay = wl_display_connect(IntPtr.Zero);
-                if (wlDisplay != IntPtr.Zero)
-                    _display = EGLGetDisplay(wlDisplay);
-                if (_display != IntPtr.Zero)
-                {
-                    EGLInitialize(_display, out var major, out var minor);
-                }
-                else
-                {
-                    WindowingService.LogError("Failed to load EGL display connection. All EGL calls will fail.");
-                }
-            }
-            else
-            {
-                throw new Exception("EGL implementation currently only supports Wayland");
-            }
         }
 
         private static void LoadMethods()
         {
+            EGLGetError = LoadFunc<EGLGetErrorDelegate>("eglGetError");
             EGLGetDisplay = LoadFunc<EGLGetDisplayDelegate>("eglGetDisplay");
             EGLInitialize = LoadFunc<EGLInitializeDelegate>("eglInitialize");
             EGLSwapInterval = LoadFunc<EGLSwapIntervalDelegate>("eglSwapInterval");
@@ -92,8 +70,6 @@ namespace OpenWindow.GL
             EGLGetCurrentContext = LoadFunc<EGLGetCurrentContextDelegate>("eglGetCurrentContext");
             EGLDestroyContext = LoadFunc<EGLDestroyContextDelegate>("eglDestroyContext");
             EGLSwapBuffers = LoadFunc<EGLSwapBuffersDelegate>("eglSwapBuffers");
-
-            _initialized = true;
         }
 
         private static T LoadFunc<T>(string func) where T : Delegate
@@ -104,86 +80,121 @@ namespace OpenWindow.GL
             return Marshal.GetDelegateForFunctionPointer<T>(ptr);
         }
 
-        internal override IntPtr GetProcAddressImpl(string func) => EGLGetProcAddress(func);
+        public override IntPtr GetProcAddressImpl(string func) => EGLGetProcAddress(func);
 
-        internal override bool SetVSyncImpl(VSyncState state)
+        public override bool SetVSyncImpl(VSyncState state)
         {
             if (state == VSyncState.Adaptive)
+            {
+                WindowingService.LogError("Adaptive VSync is not supported on EGL.");
                 return false;
+            }
 
-            var result = EGLSwapInterval(_display, (int) state);
+            var result = EGLSwapInterval(_wwsd.EGLDisplay, (int) state);
             if (result)
+            {
                 _vsyncState = state;
+            }
+            else
+            {
+                LogError("eglSwapInterval");
+            }
             
             return result;
         }
 
-        internal override VSyncState GetVSyncImpl() => _vsyncState;
+        public override VSyncState GetVSyncImpl() => _vsyncState;
 
-        internal override IntPtr CreateContextImpl(WindowData wdata)
+        public override IntPtr CreateContextImpl(WindowData wdata)
         {
-            var config = GetConfig(wdata);
+            var wwdata = (WaylandWindowData) wdata;
+            var ctx = EGLCreateContext(_wwsd.EGLDisplay, wwdata.EGLConfig, IntPtr.Zero, ref EGL_NONE);
+
+            if (ctx == IntPtr.Zero)
+                LogError("eglCreateContext");
+            return ctx;
+        }
+
+        public override IntPtr CreateContextImpl(WindowData wdata, int major, int minor)
+        {
             var attribCount = 2;
 
             Span<int> attribs = stackalloc int[attribCount * 2 + 1];
 
-            // TODO expose way to set EGL_CONTEXT_*_VERSION
+            // TODO verify EGL_CONTEXT_MINOR_VERSION is supported
             attribs[0] = EGL_CONTEXT_MAJOR_VERSION;
-            attribs[1] = 3;
+            attribs[1] = major;
             attribs[2] = EGL_CONTEXT_MINOR_VERSION;
-            attribs[3] = 1;
+            attribs[3] = minor;
 
-            attribs[attribCount - 1] = EGL_NONE;
+            attribs[attribs.Length - 1] = EGL_NONE;
 
-            return EGLCreateContext(_display, config, IntPtr.Zero, ref attribs.GetPinnableReference());
+            var wwdata = (WaylandWindowData) wdata;
+            var ctx = EGLCreateContext(_wwsd.EGLDisplay, wwdata.EGLConfig, IntPtr.Zero, ref attribs.GetPinnableReference());
+
+            if (ctx == IntPtr.Zero)
+                LogError("eglCreateContext");
+            return ctx;
         }
 
-        internal override bool MakeCurrentImpl(WindowData wdata, IntPtr ctx)
+        public override bool MakeCurrentImpl(WindowData wdata, IntPtr ctx)
         {
-            var surface = GetSurface(wdata);
-            return EGLMakeCurrent(_display, surface, surface, ctx);
+            var wwdata = (WaylandWindowData) wdata;
+            var surface = ctx == IntPtr.Zero ? IntPtr.Zero : wwdata.EGLSurface;
+            var result = EGLMakeCurrent(_wwsd.EGLDisplay, surface, surface, ctx);
+
+            if (!result)
+                LogError("eglMakeCurrent");
+            return result;
         }
 
-        internal override IntPtr GetCurrentContextImpl() => EGLGetCurrentContext();
+        public override IntPtr GetCurrentContextImpl() => EGLGetCurrentContext();
 
-        internal override bool DestroyContextImpl(IntPtr ctx) => EGLDestroyContext(_display, ctx);
-
-        internal override bool SwapBuffersImpl(WindowData wdata)
+        public override bool DestroyContextImpl(IntPtr ctx)
         {
-            var surface = GetSurface(wdata);
-            return EGLSwapBuffers(_display, surface);
+            var result = EGLDestroyContext(_wwsd.EGLDisplay, ctx);
+
+            if (!result)
+                LogError("eglDestroyContext");
+            return result;
         }
 
-        private IntPtr GetConfig(WindowData wdata)
+        public override bool SwapBuffersImpl(WindowData wdata)
         {
-            IntPtr config;
-            if (wdata.Backend == WindowingBackend.Wayland)
-            {
-                var wldata = ((WaylandWindowData) wdata);
-                config = wldata.EGLConfig;
-            }
-            else
-            {
-                throw new Exception("EGL implementation currently only supports Wayland");
-            }
+            var wwdata = (WaylandWindowData) wdata;
+            var result = EGLSwapBuffers(_wwsd.EGLDisplay, wwdata.EGLSurface);
 
-            return config;
+            if (!result)
+                LogError("eglSwapBuffers");
+            return result;
         }
- 
-        private IntPtr GetSurface(WindowData wdata)
+
+        private string[] _errorCodes =
         {
-            IntPtr surface;
-            if (wdata.Backend == WindowingBackend.Wayland)
-            {
-                var wldata = ((WaylandWindowData) wdata);
-                surface = wldata.EGLSurface;
-            }
-            else
-            {
-                throw new Exception("EGL implementation currently only supports Wayland");
-            }
+            "EGL_SUCCESS",
+            "EGL_NOT_INITIALIZED",
+            "EGL_BAD_ACCESS",
+            "EGL_BAD_ALLOC",
+            "EGL_BAD_ATTRIBUTE",
+            "EGL_BAD_CONFIG",
+            "EGL_BAD_CONTEXT",
+            "EGL_BAD_CURRENT_SURFACE",
+            "EGL_BAD_DISPLAY",
+            "EGL_BAD_MATCH",
+            "EGL_BAD_NATIVE_PIXMAP",
+            "EGL_BAD_NATIVE_WINDOW",
+            "EGL_BAD_PARAMETER",
+            "EGL_BAD_SURFACE",
+            "EGL_CONTEXT_LOST",
+        };
 
-            return surface;
+        private void LogError(string func)
+        {
+            var errorCode = EGLGetError();
+            var errorIndex = errorCode - 0x3000;
+            var error = errorIndex < _errorCodes.Length ? _errorCodes[errorIndex] : "unknown error code";
+            WindowingService.LogError($"{error} on call to {func}.");
         }
+
     }
 }

@@ -7,9 +7,6 @@ namespace OpenWindow.Backends.Windows
     internal sealed class Win32Window : Window
     {
         #region Static
-
-        private static readonly IntPtr ModuleHinstance = new IntPtr(Native.GetModuleHandle(null));
-
         private const uint DefaultWs = Constants.WS_VISIBLE | Constants.WS_OVERLAPPED | Constants.WS_CAPTION |
                                        Constants.WS_SYSMENU | Constants.WS_MINIMIZEBOX;
 
@@ -25,16 +22,16 @@ namespace OpenWindow.Backends.Windows
 
         #region Constructor
 
-        public Win32Window(IntPtr handle)
-            : base(true)
+        public Win32Window(WindowingService ws, IntPtr handle)
+            : base(ws, true)
         {
             Hwnd = handle;
-            _windowData = new Win32WindowData(ModuleHinstance, Hwnd);
+            _windowData = new Win32WindowData(Hwnd);
             // TODO init properties
         }
 
-        public Win32Window(WndProc wndProc, OpenGlSurfaceSettings glSettings)
-            : base(false)
+        public Win32Window(WindowingService ws, WndProc wndProc)
+            : base(ws, false)
         {
             RegisterNewWindowClass(wndProc);
 
@@ -49,7 +46,7 @@ namespace OpenWindow.Backends.Windows
                 100,
                 IntPtr.Zero,
                 IntPtr.Zero,
-                ModuleHinstance,
+                (IntPtr) Native.GetModuleHandle(null),
                 IntPtr.Zero);
 
             if (handle == IntPtr.Zero)
@@ -60,8 +57,9 @@ namespace OpenWindow.Backends.Windows
             }
 
             Hwnd = handle;
-            _windowData = new Win32WindowData(ModuleHinstance, Hwnd);
+            _windowData = new Win32WindowData(Hwnd);
 
+            var glSettings = ws.GlSettings;
             if (glSettings.EnableOpenGl)
             {
                 InitOpenGl(glSettings);
@@ -82,7 +80,7 @@ namespace OpenWindow.Backends.Windows
                         100,
                         IntPtr.Zero,
                         IntPtr.Zero,
-                        ModuleHinstance,
+                        (IntPtr) Native.GetModuleHandle(null),
                         IntPtr.Zero);
                     InitOpenGl(glSettings);
                 }
@@ -290,7 +288,7 @@ namespace OpenWindow.Backends.Windows
         public override Display GetContainingDisplay()
         {
             var displayHandle = Native.MonitorFromWindow(Hwnd, Constants.MonitorDefaultToNearest);
-            var service = (Win32WindowingService) WindowingService.Get();
+            var service = (Win32WindowingService) Service;
             var display = service.Displays.FirstOrDefault(d => d.Handle == displayHandle);
             if (display == null)
                 throw new InvalidOperationException("Containing display for a window was not a known display! This should not happen!");
@@ -312,7 +310,7 @@ namespace OpenWindow.Backends.Windows
             winClass.lpszClassName = _className;
 
             winClass.lpfnWndProc = wndProc;
-            winClass.hInstance = ModuleHinstance;
+            winClass.hInstance = (IntPtr) Native.GetModuleHandle(null);
 
             winClass.hCursor = Native.LoadCursor(IntPtr.Zero, Cursor.Arrow);
 
