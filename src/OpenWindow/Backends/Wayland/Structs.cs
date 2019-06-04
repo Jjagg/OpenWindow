@@ -20,7 +20,7 @@ namespace OpenWindow.Backends.Wayland
         }
 
         public int ToInt() => _value >> 8;
-        public double ToDouble() => _value / 256.0;
+        public float ToFloat() => _value / 256f;
     }
 
     internal unsafe struct wl_interface

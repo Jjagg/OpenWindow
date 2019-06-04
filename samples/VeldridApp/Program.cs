@@ -58,6 +58,7 @@ namespace VeldridApp
             w.CloseRequested += (s, e) => Console.WriteLine("Received request to close the window!");
             w.Closing += (s, e) => Console.WriteLine("Closing the window! Bye :)");
             w.MouseFocusChanged += (ww, e) => Console.WriteLine($"Mouse focus: {e.HasFocus}");
+            w.MouseScroll += (s, e) => Console.WriteLine($"Mouse scrolled [{e.X}, {e.Y}]");
             w.MouseDown += (ww, e) => Console.WriteLine($"Button {e.Button} down");
             w.MouseUp += (ww, e) => Console.WriteLine($"Button {e.Button} up");
             w.KeyDown += (s, e) => Console.WriteLine($"Key Down: {e.Key} ({e.ScanCode})");

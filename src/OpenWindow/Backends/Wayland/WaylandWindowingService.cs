@@ -513,7 +513,14 @@ namespace OpenWindow.Backends.Wayland
 
         private void PointerAxisCallback(void* data, wl_pointer* proxy, uint time, wl_pointer_axis axis, wl_fixed value)
         {
-            // TODO mouse scroll
+            if (axis == wl_pointer_axis.HorizontalScroll)
+            {
+                SetMouseScroll(value.ToFloat(), 0);
+            }
+            else
+            {
+                SetMouseScroll(0, value.ToFloat());
+            }
         }
 
         private void PointerFrameCallback(void* data, wl_pointer* proxy)
