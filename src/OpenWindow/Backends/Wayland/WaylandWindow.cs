@@ -25,6 +25,8 @@ namespace OpenWindow.Backends.Wayland
 
         private bool _surfaceConfigured;
 
+        private Size _lastClientSize;
+        private Size _clientSize;
         private wl_output* _currentOutput;
 
         #endregion
@@ -46,13 +48,12 @@ namespace OpenWindow.Backends.Wayland
                 _xdgDecoration = xdgDecorationManager.GetToplevelDecoration(_xdgTopLevel);
 
             // TODO pass these in WindowingService.CreateWindow
-            const int width = 100;
-            const int height = 100;
+            _lastClientSize = _clientSize = new Size(100, 100);
 
             var glSettings = Service.GlSettings;
             if (glSettings.EnableOpenGl)
             {
-                InitOpenGl(glSettings, width, height);
+                InitOpenGl(glSettings, _clientSize.Width, _clientSize.Height);
             }
             else
             {
@@ -65,7 +66,7 @@ namespace OpenWindow.Backends.Wayland
             {
                 _viewporter = wpViewporter;
                 _viewport = wpViewporter.GetViewport(Surface);
-                _viewport.SetDestination(width, height);
+                _viewport.SetDestination(_clientSize.Width, _clientSize.Height);
             }
             else
             {
@@ -166,11 +167,13 @@ namespace OpenWindow.Backends.Wayland
 
         private void TopLevelConfigureCallback(void* data,  xdg_toplevel* toplevel, int width, int height, wl_array* states)
         {
-            if (_eglWindow != null)
-                WaylandClient.wl_egl_window_resize(_eglWindow, width, height, 0, 0);
+            if (width == 0)
+                width = _lastClientSize.Width;
+            if (height == 0)
+                height = _lastClientSize.Height;
 
+            ClientSize = new Size(width, height);
             WindowingService.LogDebug($"Top level configure event ({width}, {height})");
-            RaiseResize();
         }
 
         private void TopLevelCloseCallback(void* data, xdg_toplevel* proxy)
@@ -188,9 +191,14 @@ namespace OpenWindow.Backends.Wayland
         /// <inheritdoc />
         public override Size ClientSize
         {
-            get => throw new NotImplementedException();
+            get => _clientSize;
             set
             {
+                if (_clientSize == value)
+                    return;
+
+                _lastClientSize = _clientSize;
+                _clientSize = value;
                 if (!_viewport.IsNull)
                     _viewport.SetDestination(value.Width, value.Height);
 
@@ -280,9 +288,13 @@ namespace OpenWindow.Backends.Wayland
         {
             // TODO client side border fallback?
             if (!_xdgDecoration.IsNull)
+            {
                 _xdgDecoration.SetMode(value ? zxdg_toplevel_decoration_v1_mode.ClientSide : zxdg_toplevel_decoration_v1_mode.ServerSide);
+            }
             else if (!value)
+            {
                 WindowingService.LogWarning("Border enabled but Wayland compositor does not support server side decoration.");
+            }
         }
 
         /// <inheritdoc />

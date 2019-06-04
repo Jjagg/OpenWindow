@@ -393,6 +393,9 @@ namespace OpenWindow.Backends.Wayland
             else
             {
                 var strBufSize  = XkbCommon.xkb_state_key_get_utf8(_xkbState, lsc + 8, null, 0);
+                if (strBufSize == 0)
+                    return;
+
                 byte* strBuf = stackalloc byte[strBufSize];
                 XkbCommon.xkb_state_key_get_utf8(_xkbState, lsc + 8, strBuf, strBufSize);
 
