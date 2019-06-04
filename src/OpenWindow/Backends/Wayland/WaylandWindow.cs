@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using OpenWindow.Backends.Wayland.Managed;
 
@@ -23,6 +24,8 @@ namespace OpenWindow.Backends.Wayland
         private EGLConfig* _eglConfig;
 
         private bool _surfaceConfigured;
+
+        private wl_output* _currentOutput;
 
         #endregion
 
@@ -144,6 +147,11 @@ namespace OpenWindow.Backends.Wayland
 
         private void SurfaceEnterCallback(void* data, wl_surface* surface, wl_output* output)
         {
+            Console.WriteLine("Surface enter");
+            // TODO this is always the output that last started touching our window, while on Windows
+            //      it's the output that contains most of our window. Can we do better here? Does
+            //      GetContainingDisplay even have value like this?
+            _currentOutput = output;
         }
 
         private void SurfaceLeaveCallback(void* data, wl_surface* surface, wl_output* output)
@@ -215,7 +223,22 @@ namespace OpenWindow.Backends.Wayland
         /// <inheritdoc />
         public override Display GetContainingDisplay()
         {
-            throw new NotImplementedException();
+            if (_currentOutput == null)
+                return null;
+
+            Display display = null;
+            for (var i = 0; i < Service.Displays.Count; i++)
+            {
+                if (Service.Displays[i].Handle == (IntPtr) _currentOutput)
+                {
+                    display = Service.Displays[i];
+                    break;
+                }
+            }
+
+            if (display == null)
+                throw new InvalidOperationException("Containing display for a window was not a known display! This should not happen!");
+            return display;
         }
 
         /// <inheritdoc />
@@ -286,25 +309,6 @@ namespace OpenWindow.Backends.Wayland
         protected override void InternalSetCursorVisible(bool value)
         {
             throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private void GlobalAddEvent(object data, IntPtr registry, uint id, string iface, uint version)
-        {
-            
-        }
-
-        private void GlobalRemoveEvent(object data, IntPtr registry, uint id)
-        {
-            
-        }
- 
-        private Exception CreateException(string message)
-        {
-            return new OpenWindowException(message);
         }
 
         #endregion

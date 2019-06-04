@@ -219,8 +219,15 @@ namespace OpenWindow
         /// Create a new <see cref="Window"/>.
         /// </summary>
         /// <returns>A new <see cref="Window"/>.</returns>
+        /// <seealso cref="DestroyWindow(Window)"/>
         // TODO add width and height in here and maybe minimized/maximized/fullscreen options
         public abstract Window CreateWindow();
+
+        /// <summary>
+        /// Hide a <see cref="Window"/> created by this WindowingService and dispose of all unmanaged resources.
+        /// </summary>
+        /// <seealso cref="CreateWindow"/>
+        public abstract void DestroyWindow(Window window);
 
         /// <summary>
         /// Create a <see cref="Window"/> given the handle from an existing Win32 Window.

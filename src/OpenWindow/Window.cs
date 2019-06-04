@@ -6,7 +6,7 @@ namespace OpenWindow
     /// A wrapper for a native window.
     /// Exposes a unified API to interact with native Windows across platforms.
     /// </summary>
-    public abstract class Window : IDisposable
+    public abstract class Window
     {
         #region Private Fields
 
@@ -237,6 +237,8 @@ namespace OpenWindow
 
         /// <summary>
         /// Get the display that the window is on.
+        /// If there are multiple displays containing the window any of them may be returned.
+        /// If the window is not visible yet this function may return <c>null</c>.
         /// </summary>
         /// <returns>The display the window is on.</returns>
         public abstract Display GetContainingDisplay();
@@ -502,7 +504,10 @@ namespace OpenWindow
                 throw new ObjectDisposedException("Cannot use a destroyed window.");
         }
 
-        private void Dispose(bool disposing)
+        /// <summary>
+        /// Destroy the window and release unmanaged resources.
+        /// </summary>
+        internal void Dispose()
         {
             if (_disposed)
                 return;
@@ -517,20 +522,6 @@ namespace OpenWindow
         /// </summary>
         protected virtual void ReleaseUnmanagedResources()
         {
-        }
-
-        /// <summary>
-        /// Destroy the window and release unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~Window()
-        {
-            Dispose(false);
         }
 
         #endregion

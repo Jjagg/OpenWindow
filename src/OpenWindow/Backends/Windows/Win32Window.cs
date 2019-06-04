@@ -288,8 +288,7 @@ namespace OpenWindow.Backends.Windows
         public override Display GetContainingDisplay()
         {
             var displayHandle = Native.MonitorFromWindow(Hwnd, Constants.MonitorDefaultToNearest);
-            var service = (Win32WindowingService) Service;
-            var display = service.Displays.FirstOrDefault(d => d.Handle == displayHandle);
+            var display = Service.Displays.FirstOrDefault(d => d.Handle == displayHandle);
             if (display == null)
                 throw new InvalidOperationException("Containing display for a window was not a known display! This should not happen!");
             return display;
@@ -460,7 +459,6 @@ namespace OpenWindow.Backends.Windows
 
         #region IDisposable
 
-        /// <inheritdoc />
         protected override void ReleaseUnmanagedResources()
         {
             if (!UserManaged)

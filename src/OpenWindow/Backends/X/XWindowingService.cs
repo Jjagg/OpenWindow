@@ -28,6 +28,11 @@ namespace OpenWindow.Backends.X
             throw new NotImplementedException();
         }
 
+        public override void DestroyWindow(Window window)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Window CreateWindow()
         {
             throw new NotImplementedException();

@@ -119,6 +119,13 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
+        public override void DestroyWindow(Window window)
+        {
+            window.Dispose();
+            // window will be removed from list of windows when WM_DESTROY is sent
+        }
+
+        /// <inheritdoc />
         public override void PumpEvents()
         {
             while (Native.PeekMessage(out var nativeMessage, IntPtr.Zero, 0, 0, 1))

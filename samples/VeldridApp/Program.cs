@@ -76,7 +76,7 @@ namespace VeldridApp
 
             Console.WriteLine("Shutting down.");
 
-            w.Dispose();
+            ws.DestroyWindow(w);
             ws.Dispose();
 
             DisposeResources();

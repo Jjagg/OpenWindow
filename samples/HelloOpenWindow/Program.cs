@@ -84,8 +84,7 @@ namespace HelloOpenWindow
                 _service.WaitEvent();
             }
 
-            // destroy the window
-            _window.Dispose();
+            _service.DestroyWindow(_window);
             _service.Dispose();
         }
 

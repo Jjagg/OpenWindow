@@ -111,7 +111,7 @@ namespace OpenGL
 
             OpenWindowGl.MakeCurrent(window, IntPtr.Zero);
             OpenWindowGl.DestroyContext(ctx);
-            window.Dispose();
+            service.DestroyWindow(window);
             service.Dispose();
         }
 

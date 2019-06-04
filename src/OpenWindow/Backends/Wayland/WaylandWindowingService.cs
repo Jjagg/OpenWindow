@@ -16,7 +16,7 @@ namespace OpenWindow.Backends.Wayland
 
         private List<WaylandWindow> _windows;
         private List<Display> _displays;
-        public override ReadOnlyCollection<Display> Displays { get; }
+        public override ReadOnlyCollection<Display> Displays => _displays.AsReadOnly();
         public override Display PrimaryDisplay { get; }
         public override int WindowCount => _windows.Count;
 
@@ -220,6 +220,7 @@ namespace OpenWindow.Backends.Wayland
             display.Bounds = display.Bounds.WithPosition(x, y);
             // TODO document how this name is assigned
             display.Name = Util.Utf8ToString(make) + " - " + Util.Utf8ToString(model);
+            LogDebug($"Registered output with name {display.Name}.");
         }
 
         private void OutputModeCallback(void* data, wl_output* output, wl_output_mode modeEnum, int width, int height, int refresh)
@@ -594,6 +595,7 @@ namespace OpenWindow.Backends.Wayland
 
         #endregion
 
+        /// <inheritdoc />
         public override Window CreateWindow()
         {
             LogDebug("Creating wl surface");
@@ -608,6 +610,13 @@ namespace OpenWindow.Backends.Wayland
             // TODO remove windows
             _windows.Add(window);
             return window;
+        }
+
+        /// <inheritdoc />
+        public override void DestroyWindow(Window window)
+        {
+            _windows.Remove((WaylandWindow) window);
+            window.Dispose();
         }
 
         /// <inheritdoc />

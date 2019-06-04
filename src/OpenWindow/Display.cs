@@ -9,6 +9,7 @@ namespace OpenWindow
     {
         /// <summary>
         /// Handle to the native display object.
+        /// The meaning of this value varies by windowing backend.
         /// </summary>
         public IntPtr Handle { get; }
 
