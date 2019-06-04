@@ -392,13 +392,9 @@ namespace OpenWindow.Backends.Wayland
             }
             else
             {
-                // TODO how large should this be?
-                const int strBufSize = 8;
+                var strBufSize  = XkbCommon.xkb_state_key_get_utf8(_xkbState, lsc + 8, null, 0);
                 byte* strBuf = stackalloc byte[strBufSize];
-
-                var size = XkbCommon.xkb_state_key_get_utf8(_xkbState, lsc + 8, strBuf, strBufSize);
-                // add the null terminator
-                strBuf[size] = 0;
+                XkbCommon.xkb_state_key_get_utf8(_xkbState, lsc + 8, strBuf, strBufSize);
 
                 // We send text in UTF-32 i.e. no more than 32 bits at a time
                 var offset = 0;
