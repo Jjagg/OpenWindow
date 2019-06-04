@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Veldrid" Version="4.5.1-gc6193edab4" />
+    <PackageReference Include="Veldrid" Version="4.6.1" />
   </ItemGroup>
 
   <ItemGroup>
