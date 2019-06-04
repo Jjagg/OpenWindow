@@ -52,6 +52,12 @@ namespace OpenGL
         public delegate void glClearColorDelegate(float r, float g, float b, float a);
         public static glClearColorDelegate glClearColor;
 
+        private static readonly Random _random = new Random();
+        private const int MinWidth = 200;
+        private const int MinHeight = 120;
+        private const int MaxWidth = 800;
+        private const int MaxHeight = 480;
+
         static void Main(string[] args)
         {
             Run();
@@ -70,6 +76,39 @@ namespace OpenGL
             var window = service.CreateWindow();
             window.ClientBounds = new Rectangle(100, 100, 600, 600);
             window.Title = "I'm rendering with OpenGL!";
+
+            window.KeyDown += (s, e) =>
+            {
+                switch (e.Key)
+                {
+                    case Key.B: // border
+                        window.Decorated = !window.Decorated;
+                        break;
+                    case Key.R: // resizable
+                        window.Resizable = !window.Resizable;
+                        break;
+                    case Key.M: // move
+                        var width = _random.Next(MinWidth, MaxWidth);
+                        var height = _random.Next(MinHeight, MaxHeight);
+                        window.ClientSize = new Size(width, height);
+                        break;
+                    case Key.J:
+                        window.Minimize();
+                        break;
+                    case Key.K:
+                        window.Restore();
+                        break;
+                    case Key.L:
+                        window.Maximize();
+                        break;
+                    case Key.C:
+                        window.CursorVisible = !window.CursorVisible;
+                        break;
+                    case Key.Escape:
+                        window.Close();
+                        break;
+                }
+            };
 
             OpenWindowGl.Initialize(service);
             LoadOpenGL(OpenWindowGl.GetProcAddress);

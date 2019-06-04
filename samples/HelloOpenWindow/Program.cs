@@ -10,7 +10,7 @@ namespace HelloOpenWindow
         private static WindowingService _service;
         private static Window _window;
 
-        private static readonly Random Rand = new Random();
+        private static readonly Random _random = new Random();
 
         private const int MinWidth = 200;
         private const int MinHeight = 120;
@@ -46,10 +46,6 @@ namespace HelloOpenWindow
                         break;
                     case Key.R: // resizable
                         _window.Resizable = !_window.Resizable;
-                        break;
-                    case Key.H: // hide
-                        _service.PumpEvents();
-                        Thread.Sleep(2000);
                         break;
                     case Key.M: // move
                         SetRandomBounds();
@@ -90,10 +86,10 @@ namespace HelloOpenWindow
 
         private static void SetRandomBounds()
         {
-            var x = Rand.Next(100, 300);
-            var y = Rand.Next(100, 300);
-            var width = Rand.Next(MinWidth, MaxWidth);
-            var height = Rand.Next(MinHeight, MaxHeight);
+            var x = _random.Next(100, 300);
+            var y = _random.Next(100, 300);
+            var width = _random.Next(MinWidth, MaxWidth);
+            var height = _random.Next(MinHeight, MaxHeight);
             _window.ClientBounds = new Rectangle(x, y, width, height);
         }
 
