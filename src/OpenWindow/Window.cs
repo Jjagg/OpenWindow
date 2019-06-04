@@ -311,7 +311,7 @@ namespace OpenWindow
         public event EventHandler<FocusChangedEventArgs> FocusChanged;
 
         /// <summary>
-        /// Invoked after the window mouse focus changed.
+        /// Invoked after the window mouse focus changed. This means the mouse entered or left the window.
         /// </summary>
         public event EventHandler<FocusChangedEventArgs> MouseFocusChanged;
 
@@ -355,11 +355,6 @@ namespace OpenWindow
         /// Invoked when a mouse button is released.
         /// </summary>
         public event EventHandler<MouseEventArgs> MouseUp;
-
-        /// <summary>
-        /// Invoked when the mouse pointer leaves the bounds of the window.
-        /// </summary>
-        public event EventHandler<EventArgs> MouseLeave;
 
         #endregion
 
@@ -442,11 +437,6 @@ namespace OpenWindow
         internal void RaiseMouseUp(MouseButtons button, int x, int y)
         {
             MouseUp?.Invoke(this, new MouseEventArgs(button, x, y));
-        }
-
-        internal void RaiseMouseLeave()
-        {
-            MouseLeave?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion

@@ -5,6 +5,8 @@ This sample creates a window, supports some key input to manipulate it and print
 If you see some weird artifacts in the window (including an old school border),
 that's because nothing is drawn to it.
 
+On Wayland no window will show, because no buffer is bound to the window surface.
+
 Inputs:
 
 - **b**: Toggle border
