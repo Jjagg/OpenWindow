@@ -384,6 +384,9 @@ namespace OpenWindow.Backends.Wayland
             var osc = WaylandKeyMaps.LinuxToOwScanCode[lsc];
             SetKey(osc, state == wl_keyboard_key_state.Pressed);
 
+            if (state == wl_keyboard_key_state.Released)
+                return;
+
             // this returns zero if the key press generates more than 1 character in UTF32
             var utf32 = XkbCommon.xkb_state_key_get_utf32(_xkbState, lsc + 8);
             if (utf32 != 0)
@@ -451,6 +454,8 @@ namespace OpenWindow.Backends.Wayland
 
         private void KeyboardRepeatInfoCallback(void* data, wl_keyboard* proxy, int rate, int delay)
         {
+            // TODO repeated keys should be handled by us by periodically checking key state
+            //      according to these rules
         }
 
         #endregion Keyboard
@@ -460,7 +465,6 @@ namespace OpenWindow.Backends.Wayland
         private void PointerEnterCallback(void* data, wl_pointer* proxy, uint serial, wl_surface* surface, wl_fixed surface_x, wl_fixed surface_y)
         {
             // TODO call set_cursor here
-            // TODO check if mouse capture prevents this callback
             WlSetMouseFocus(surface, true);
         }
 
@@ -606,7 +610,6 @@ namespace OpenWindow.Backends.Wayland
             var xdgSurface = _xdgWmBase.GetXdgSurface(wlSurface);
             LogDebug("Window ctor");
             var window = new WaylandWindow(this, _wlDisplay, _wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, _wpViewporter);
-            // TODO remove windows
             _windows.Add(window);
             return window;
         }
@@ -631,34 +634,45 @@ namespace OpenWindow.Backends.Wayland
             _wlDisplay.Dispatch();
         }
 
+        private static byte* XKB_MOD_NAME_SHIFT = Util.StringToUtf8("Shift");
+        private static byte* XKB_MOD_NAME_CAPS = Util.StringToUtf8("Lock");
+        private static byte* XKB_MOD_NAME_CTRL = Util.StringToUtf8("Control");
+        private static byte* XKB_MOD_NAME_ALT = Util.StringToUtf8("Mod1");
+        private static byte* XKB_MOD_NAME_NUM = Util.StringToUtf8("Mod2");
+        private static byte* XKB_LED_NAME_CAPS = Util.StringToUtf8("Caps Lock");
+        private static byte* XKB_LED_NAME_NUM = Util.StringToUtf8("Num Lock");
+        private static byte* XKB_LED_NAME_SCROLL = Util.StringToUtf8("Scroll Lock");
+
         /// <inheritdoc />
         public override KeyMod GetKeyModifiers()
         {
-            throw new NotImplementedException();
+            KeyMod mods = KeyMod.None;
+            if (XkbCommon.xkb_state_mod_name_is_active(_xkbState, XKB_MOD_NAME_SHIFT, xkb_state_component.ModsLocked) > 0)
+                mods |= KeyMod.Shift;
+            if (XkbCommon.xkb_state_mod_name_is_active(_xkbState, XKB_MOD_NAME_CTRL, xkb_state_component.ModsLocked) > 0)
+                mods |= KeyMod.Control;
+            if (XkbCommon.xkb_state_mod_name_is_active(_xkbState, XKB_MOD_NAME_ALT, xkb_state_component.ModsLocked) > 0)
+                mods |= KeyMod.Alt;
+
+                return mods;
         }
 
         /// <inheritdoc />
         public override bool IsCapsLockOn()
-        {
-            throw new NotImplementedException();
-        }
+            => XkbCommon.xkb_state_led_name_is_active(_xkbState, XKB_LED_NAME_CAPS) > 0;
 
         /// <inheritdoc />
         public override bool IsNumLockOn()
-        {
-            throw new NotImplementedException();
-        }
+            => XkbCommon.xkb_state_led_name_is_active(_xkbState, XKB_LED_NAME_NUM) > 0;
 
         /// <inheritdoc />
         public override bool IsScrollLockOn()
-        {
-            throw new NotImplementedException();
-        }
+            => XkbCommon.xkb_state_led_name_is_active(_xkbState, XKB_LED_NAME_SCROLL) > 0;
 
         /// <inheritdoc />
         public override void SetCursorPosition(int x, int y)
         {
-            throw new NotImplementedException();
+            LogWarning("Wayland does not support setting the mouse cursor position.");
         }
 
         protected override void Dispose(bool disposing)

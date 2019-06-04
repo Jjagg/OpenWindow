@@ -132,7 +132,13 @@ namespace OpenWindow.Backends.Wayland
     internal struct xkb_keymap { }
     internal struct xkb_state { }
 
-    internal enum xkb_state_component { }
+    internal enum xkb_state_component
+    {
+        ModsDepressed = 1 << 0,
+        ModsLatched = 1 << 1,
+        ModsLocked = 1 << 2,
+        ModsEffective = 1 << 3,
+    }
 
     internal static unsafe class XkbCommon
     {
@@ -172,7 +178,13 @@ namespace OpenWindow.Backends.Wayland
         public static extern int xkb_state_key_get_utf8(xkb_state* state, uint key, byte* buffer, int size);
 
         [DllImport("libxkbcommon.so")]
-        public static extern void xkb_state_unref(xkb_state *state);
+        public static extern void xkb_state_unref(xkb_state* state);
+
+        [DllImport("libxkbcommon.so")]
+        public static extern int xkb_state_mod_name_is_active(xkb_state* state, byte* name, xkb_state_component type);
+
+        [DllImport("libxkbcommon.so")]
+        public static extern int xkb_state_led_name_is_active(xkb_state* state, byte* name);
     }
 
     internal static unsafe class Egl
