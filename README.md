@@ -17,7 +17,7 @@ native windowing backend without any layer in between. It targets .NET Standard 
 
 ### Non-goals
 
-- Rendering. No graphical backend will be implemented whatsoever. OpenWindow does allow passing parameters to window creation for OpenGL support (e.g. surface format, depth buffer).
+- Rendering. No graphical backend will be implemented whatsoever. OpenWindow does allow passing parameters to window creation for OpenGL support (e.g. surface format, depth buffer) and there's a helper library called OpenWindow.GL to get started with OpenGL in a cross-platform way.
 - Mobile platform support. This might change in the future, but currently the API is targeted for desktop, so a large chunk wouldn't be usable on mobile platforms.
 
 ## State
