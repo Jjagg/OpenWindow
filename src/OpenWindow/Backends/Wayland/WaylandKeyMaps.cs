@@ -1,6 +1,6 @@
 namespace OpenWindow.Backends.Wayland
 {
-    public static class WaylandKeyMaps
+    internal static class WaylandKeyMaps
     {
         public static ScanCode[] LinuxToOwScanCode =
         {

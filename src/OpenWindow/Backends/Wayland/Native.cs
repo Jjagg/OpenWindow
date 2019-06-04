@@ -128,13 +128,11 @@ namespace OpenWindow.Backends.Wayland
         public static extern int munmap(void *addr, uint length);
     }
 
-    public struct xkb_context { }
-    public struct xkb_keymap { }
-    public struct xkb_state { }
+    internal struct xkb_context { }
+    internal struct xkb_keymap { }
+    internal struct xkb_state { }
 
-    public enum xkb_state_component
-    {
-    }
+    internal enum xkb_state_component { }
 
     internal static unsafe class XkbCommon
     {

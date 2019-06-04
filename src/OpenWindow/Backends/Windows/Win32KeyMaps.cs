@@ -1,6 +1,6 @@
 namespace OpenWindow.Backends.Windows
 {
-    public static class Win32KeyMaps
+    internal static class Win32KeyMaps
     {
         public static ScanCode[] WinToOwScanCode =
         {
