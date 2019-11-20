@@ -12,7 +12,7 @@ namespace OpenWindow
 
         private bool _shouldClose;
         private string _title = string.Empty;
-        private bool _decorated = true;
+        private bool _decorated;
         private bool _resizable;
         private Size _minSize;
         private Size _maxSize;
@@ -78,7 +78,7 @@ namespace OpenWindow
                 if (_decorated != value)
                 {
                     _decorated = value;
-                    InternalSetBorderless(value);
+                    InternalSetDecorated(value);
                 }
             }
         }
@@ -112,6 +112,7 @@ namespace OpenWindow
             get => _minSize;
             set
             {
+                CheckDisposed();
                 if (value.Width < 0 || value.Height < 0 || (_maxSize.Width != 0 && value.Width > _maxSize.Width) || (_maxSize.Height != 0 && value.Height > _maxSize.Height))
                     throw new ArgumentOutOfRangeException(nameof(value), "MinSize must be non-negative and smaller than MaxSize!");
                 _minSize = value;
@@ -130,6 +131,7 @@ namespace OpenWindow
             get => _maxSize;
             set
             {
+                CheckDisposed();
                 if (value.Width < 0 || value.Height < 0 || (value.Width != 0 && value.Width < _minSize.Width) || (value.Height != 0 && value.Height < _minSize.Height))
                     throw new ArgumentOutOfRangeException(nameof(value), "MaxSize must be non-negative and larger than MaxSize!");
                 _maxSize = value;
@@ -191,10 +193,13 @@ namespace OpenWindow
         /// <param name="userManaged">
         ///   Indicates if this window is created by OpenWindow or if it was created from a handle.
         /// </param>
-        protected Window(WindowingService service, bool userManaged)
+        protected Window(WindowingService service, bool userManaged, ref WindowCreateInfo wci)
         {
             Service = service;
             UserManaged = userManaged;
+            _decorated = wci.Decorated;
+            _resizable = wci.Resizable;
+            _title = wci.Title;
         }
 
         #endregion
@@ -206,6 +211,7 @@ namespace OpenWindow
         /// </summary>
         public void Maximize()
         {
+            CheckDisposed();
             InternalMaximize();
         }
 
@@ -214,6 +220,7 @@ namespace OpenWindow
         /// </summary>
         public void Minimize()
         {
+            CheckDisposed();
             InternalMinimize();
         }
 
@@ -222,6 +229,7 @@ namespace OpenWindow
         /// </summary>
         public void Restore()
         {
+            CheckDisposed();
             InternalRestore();
         }
 
@@ -240,6 +248,7 @@ namespace OpenWindow
         /// <seealso cref="GetContainingDisplay">Used to get the display the window is on.</seealso>
         public void SetFullscreen()
         {
+            CheckDisposed();
             Decorated = false;
             ClientBounds = GetContainingDisplay().Bounds;
         }
@@ -249,6 +258,7 @@ namespace OpenWindow
         /// </summary>
         public void Close()
         {
+            CheckDisposed();
             _shouldClose = true;
             RaiseCloseRequested();
         }
@@ -458,7 +468,7 @@ namespace OpenWindow
         /// <summary>
         /// Show or hide the border of the native window.
         /// </summary>
-        protected abstract void InternalSetBorderless(bool value);
+        protected abstract void InternalSetDecorated(bool value);
 
         /// <summary>
         /// Allow or disallow resizing the native window.

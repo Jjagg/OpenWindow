@@ -6,12 +6,6 @@ namespace OpenWindow.Backends.Windows
 {
     internal sealed class Win32Window : Window
     {
-        #region Static
-        private const uint DefaultWs = Constants.WS_VISIBLE | Constants.WS_OVERLAPPED | Constants.WS_CAPTION |
-                                       Constants.WS_SYSMENU | Constants.WS_MINIMIZEBOX;
-
-        #endregion
-
         #region Fields
 
         private WindowData _windowData;
@@ -22,32 +16,56 @@ namespace OpenWindow.Backends.Windows
 
         #region Constructor
 
-        public Win32Window(WindowingService ws, IntPtr handle)
-            : base(ws, true)
-        {
-            Hwnd = handle;
-            _windowData = new Win32WindowData(Hwnd);
-            // TODO init properties
-        }
-
-        public Win32Window(WindowingService ws, WndProc wndProc)
-            : base(ws, false)
+        public Win32Window(WindowingService ws, WndProc wndProc, ref WindowCreateInfo wci)
+            : base(ws, false, ref wci)
         {
             RegisterNewWindowClass(wndProc);
+
+            var style = GetWindowStyle(wci.Decorated, wci.Resizable);
+
+            var x = wci.X;
+            var y = wci.Y;
+            var width = wci.Width;
+            var height = wci.Height;
+
+            // Win32 sets the non-client rect of the window, but we
+            // mean the client size, so we need to adjust.
+            if (style != Constants.WS_OVERLAPPED)
+            {
+                var rect = new Rect(x, y, x + width, y + height);
+                Native.AdjustWindowRect(ref rect, style, false);
+                x = rect.Left;
+                y = rect.Top;
+                width = rect.Width;
+                height = rect.Height;
+            }
+
+            var cxsizeframe = Native.GetSystemMetrics((SystemMetric) 32);
+            var fixedFrame = Native.GetSystemMetrics((SystemMetric) 7);
+            var border = Native.GetSystemMetrics((SystemMetric) 5);
+            var cxedge = Native.GetSystemMetrics((SystemMetric) 45);
+            var cxpaddedborder = Native.GetSystemMetrics((SystemMetric) 92);
 
             var handle = Native.CreateWindowEx(
                 WindowStyleEx.None,
                 _className,
-                string.Empty,
-                DefaultWs,
-                0,
-                0,
-                100,
-                100,
+                wci.Title,
+                style,
+                x,
+                y,
+                width,
+                height,
                 IntPtr.Zero,
                 IntPtr.Zero,
                 (IntPtr) Native.GetModuleHandle(null),
                 IntPtr.Zero);
+
+            var wi = WindowInfo.Create();
+            var result = Native.GetWindowInfo(handle, ref wi);
+
+            var s = (uint) Native.GetWindowLong(handle, -16);
+            var r = new Rect(wci.X, wci.Y, wci.X + wci.Width, wci.Y + wci.Height);
+            Native.AdjustWindowRect(ref r, s, wci.Decorated);
 
             if (handle == IntPtr.Zero)
             {
@@ -57,7 +75,6 @@ namespace OpenWindow.Backends.Windows
             }
 
             Hwnd = handle;
-            _windowData = new Win32WindowData(Hwnd);
 
             var glSettings = ws.GlSettings;
             if (glSettings.EnableOpenGl)
@@ -73,11 +90,11 @@ namespace OpenWindow.Backends.Windows
                         WindowStyleEx.None,
                         _className,
                         string.Empty,
-                        DefaultWs,
-                        0,
-                        0,
-                        100,
-                        100,
+                        style,
+                        x,
+                        y,
+                        width,
+                        height,
                         IntPtr.Zero,
                         IntPtr.Zero,
                         (IntPtr) Native.GetModuleHandle(null),
@@ -89,6 +106,8 @@ namespace OpenWindow.Backends.Windows
             {
                 GlSettings = OpenGlSurfaceSettings.Disabled;
             }
+
+            _windowData = new Win32WindowData(Hwnd);
         }
 
         private void InitOpenGl(OpenGlSurfaceSettings s)
@@ -297,16 +316,34 @@ namespace OpenWindow.Backends.Windows
         }
 
         private uint GetWindowStyle()
+            => GetWindowStyle(Decorated, Resizable);
+
+        private uint GetWindowStyle(bool decorated, bool resizable)
         {
-            uint style = 0;
+            // FIXME Window size is wrong when Decorated = true and Resizable = false.
+            // Client width and height turn out 4 pixels too big. Where do they come from?
 
-            if (Decorated)
-                style |= DefaultWs;
-            else
-                style |= Constants.WS_POPUP | Constants.WS_SYSMENU;
+            // TODO undecorated window (popup) still needs a border to be displayed
+            // There are also some issues with a top level window being a popup window
+            // For better borderless windows we should look at
+            // - https://docs.microsoft.com/en-us/windows/win32/dwm/customframe
+            // - https://github.com/rossy/borderless-window
 
-            if (Resizable)
+            uint style = Constants.WS_VISIBLE | Constants.WS_MINIMIZEBOX | Constants.WS_SYSMENU;
+
+            if (resizable)
+            {
                 style |= Constants.WS_THICKFRAME | Constants.WS_MAXIMIZEBOX;
+            }
+
+            if (decorated)
+            {
+                style |= Constants.WS_CAPTION;
+            }
+            else
+            {
+                style |= Constants.WS_POPUP | Constants.WS_BORDER;
+            }
 
             return style;
         }
@@ -397,7 +434,7 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
-        protected override void InternalSetBorderless(bool value)
+        protected override void InternalSetDecorated(bool value)
         {
             UpdateStyle();
         }

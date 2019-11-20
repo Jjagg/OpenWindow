@@ -599,8 +599,9 @@ namespace OpenWindow.Backends.Wayland
         #endregion
 
         /// <inheritdoc />
-        public override Window CreateWindow()
+        public override Window CreateWindow(ref WindowCreateInfo wci)
         {
+            throw new Exception("WindowCreateInfo not implemented yet");
             LogDebug("Creating wl surface");
             var wlSurface = _wlCompositor.CreateSurface();
             if (wlSurface.IsNull)
@@ -609,7 +610,7 @@ namespace OpenWindow.Backends.Wayland
             LogDebug("Getting xdg surface");
             var xdgSurface = _xdgWmBase.GetXdgSurface(wlSurface);
             LogDebug("Window ctor");
-            var window = new WaylandWindow(this, _wlDisplay, _wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, _wpViewporter);
+            var window = new WaylandWindow(this, ref wci, _wlDisplay, _wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, _wpViewporter);
             _windows.Add(window);
             return window;
         }

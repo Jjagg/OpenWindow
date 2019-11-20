@@ -33,8 +33,8 @@ namespace OpenWindow.Backends.Wayland
 
         #region Constructor
 
-        public WaylandWindow(WindowingService ws, WlDisplay display, WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, WpViewporter wpViewporter)
-            : base(ws, false)
+        public WaylandWindow(WindowingService ws, ref WindowCreateInfo wci, WlDisplay display, WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, WpViewporter wpViewporter)
+            : base(ws, false, ref wci)
         {
             _display = display;
             _compositor = wlCompositor;
@@ -284,12 +284,12 @@ namespace OpenWindow.Backends.Wayland
         }
 
         /// <inheritdoc />
-        protected override void InternalSetBorderless(bool value)
+        protected override void InternalSetDecorated(bool value)
         {
             // TODO client side border fallback?
             if (!_xdgDecoration.IsNull)
             {
-                _xdgDecoration.SetMode(value ? zxdg_toplevel_decoration_v1_mode.ClientSide : zxdg_toplevel_decoration_v1_mode.ServerSide);
+                _xdgDecoration.SetMode(value ? zxdg_toplevel_decoration_v1_mode.ServerSide : zxdg_toplevel_decoration_v1_mode.ClientSide);
             }
             else if (!value)
             {

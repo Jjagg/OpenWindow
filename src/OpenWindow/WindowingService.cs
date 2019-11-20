@@ -221,7 +221,7 @@ namespace OpenWindow
         /// <returns>A new <see cref="Window"/>.</returns>
         /// <seealso cref="DestroyWindow(Window)"/>
         // TODO add width and height in here and maybe minimized/maximized/fullscreen options
-        public abstract Window CreateWindow();
+        public abstract Window CreateWindow(ref WindowCreateInfo wci);
 
         /// <summary>
         /// Hide a <see cref="Window"/> created by this WindowingService and dispose of all unmanaged resources.
@@ -236,11 +236,11 @@ namespace OpenWindow
         /// <returns>A new <see cref="Window"/> created from the Win32 handle.</returns>
         public Window CreateFromWin32(IntPtr hWnd)
         {
-            // TODO add a sample for this
             if (Backend != WindowingBackend.Win32)
                 throw new OpenWindowException("CreateFromWin32 called with windowing backend " + Backend);
 
-            return new Win32Window(this, hWnd);
+            // TODO OW window from existing Win32 window
+            throw new NotImplementedException("Creating an OpenWindow window from an existing Win32 window handle is not yet implemented.");
         }
 
         /// <summary>
@@ -313,13 +313,13 @@ namespace OpenWindow
                 return;
 
             // TODO repeated keys
-            if (down && _keyboardState.Up(sc))
+            if (down && _keyboardState.IsUp(sc))
             {
                 var key = _keyboardState.Map(sc);
                 _keyboardState.FocusedWindow?.RaiseKeyDown(key, sc);
                 _keyboardState.ScanState[(int) sc] = true;
             }
-            else if (!down && _keyboardState.Down(sc))
+            else if (!down && _keyboardState.IsDown(sc))
             {
                 var key = _keyboardState.Map(sc);
                 _keyboardState.FocusedWindow?.RaiseKeyUp(key, sc);

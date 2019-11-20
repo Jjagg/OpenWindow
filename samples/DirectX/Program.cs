@@ -30,13 +30,17 @@ namespace SharpDX
         static void Main(string[] args)
         {
             var owService = WindowingService.Create();
-            _window = owService.CreateWindow();
-            _window.ClientBounds = new Rectangle(100, 100, 600, 600);
-            _window.Title = "I'm rendering with DirectX11!";
+
+            var wci = new WindowCreateInfo(100, 100, 600, 600, "I'm rendering with DirectX11!");
+            _window = owService.CreateWindow(ref wci);
 
             Initialize();
             BuildTriangle();
             BuildAndBindShaders();
+
+            _window.KeyDown += (s, e) => Console.WriteLine($"Key down: {e.Key} ({e.ScanCode})");
+            _window.KeyUp += (s, e) => Console.WriteLine($"Key up: {e.Key} ({e.ScanCode})");
+            _window.TextInput += (s, e) => Console.WriteLine($"Text input: {char.ConvertFromUtf32(e.Character)}");
 
             while (!_window.ShouldClose)
             {

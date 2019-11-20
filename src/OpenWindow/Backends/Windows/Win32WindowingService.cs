@@ -17,6 +17,10 @@ namespace OpenWindow.Backends.Windows
         public override ReadOnlyCollection<Display> Displays => new ReadOnlyCollection<Display>(_displays);
         public override Display PrimaryDisplay => _displays.FirstOrDefault(d => d.IsPrimary);
 
+        // Used to store the focused window handle in case we get the WM_SETFOCUS message
+        // when we create a window, before it is registered in _managedWindows.
+        private IntPtr _focusedWindowHandle;
+
         public Win32WindowingService() : base(WindowingBackend.Win32)
         {
             _managedWindows = new Dictionary<IntPtr, Window>();
@@ -25,11 +29,17 @@ namespace OpenWindow.Backends.Windows
 
         protected override void Initialize()
         {
-            SetKeyMap(Native.GetKeyboardLayout(0));
+            UpdateKeyMap();
             InitializeDisplays();
         }
 
-        private void SetKeyMap(IntPtr localeId)
+        private void UpdateKeyMap()
+        {
+            var currentLocaleId = Native.GetKeyboardLayout(0);
+            UpdateKeyMap(currentLocaleId);
+        }
+
+        private void UpdateKeyMap(IntPtr localeId)
         {
             if (_localeId == localeId)
                 return;
@@ -111,10 +121,15 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
-        public override Window CreateWindow()
+        public override Window CreateWindow(ref WindowCreateInfo wci)
         {
-            var window = new Win32Window(this, _wndProc);
+            var window = new Win32Window(this, _wndProc, ref wci);
             _managedWindows.Add(window.Hwnd, window);
+            if (_focusedWindowHandle == window.Hwnd)
+            {
+                SetFocus(window, true);
+            }
+
             return window;
         }
 
@@ -190,6 +205,8 @@ namespace OpenWindow.Backends.Windows
 
         private IntPtr ProcessWindowMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
         {
+            //LogDebug($"WMessage: {(int) msg:X}");
+
             if (_managedWindows.TryGetValue(hWnd, out var window))
             {
                 switch (msg)
@@ -212,7 +229,6 @@ namespace OpenWindow.Backends.Windows
                         break;
                     case WindowMessage.GetMinMaxInfo:
                     {
-                        Debug.WriteLine("GetMinMaxInfo");
                         if (window.MinSize != Size.Empty)
                         {
                             Marshal.WriteInt32(lParam, 24, window.MinSize.Width);
@@ -227,16 +243,26 @@ namespace OpenWindow.Backends.Windows
                         return IntPtr.Zero;
                     }
 
+                    case WindowMessage.Activate:
+                        break;
                     case WindowMessage.SetFocus:
+                        _focusedWindowHandle = hWnd;
                         SetFocus(window, true);
                         // keyboard layout might have changed while we didn't have focus
-                        SetKeyMap(lParam);
+                        UpdateKeyMap();
                         return IntPtr.Zero;
                     case WindowMessage.KillFocus:
+                        if (_focusedWindowHandle == hWnd)
+                        {
+                            _focusedWindowHandle = IntPtr.Zero;
+                        }
+
                         SetFocus(window, false);
                         return IntPtr.Zero;
                     case WindowMessage.InputLangChange:
-                        SetKeyMap(lParam);
+                        UpdateKeyMap(lParam);
+                        // we don't let this message propagate to child windows because we
+                        // handle the locale in WindowingService, not Window
                         return new IntPtr(1);
                     case WindowMessage.KeyDown:
                     case WindowMessage.SysKeyDown:
@@ -245,7 +271,12 @@ namespace OpenWindow.Backends.Windows
                         var scanCode = (ushort) ((lp >> 16) & 0xFF);
                         var extended = ((lp >> 24) & 1) > 0;
                         var repeated = ((lp >> 30) & 1) > 0;
-                        SetWinKey(scanCode, extended, true);
+
+                        if (SetWinKey(scanCode, extended, true) && msg == WindowMessage.SysKeyDown)
+                        {
+                            return IntPtr.Zero;
+                        }
+
                         break;
                     }
                     case WindowMessage.KeyUp:
@@ -254,7 +285,12 @@ namespace OpenWindow.Backends.Windows
                         var lp = lParam.ToInt64();
                         var scanCode = (ushort) ((lp >> 16) & 0xFF);
                         var extended = ((lp >> 24) & 1) > 0;
-                        SetWinKey(scanCode, extended, false);
+
+                        if (SetWinKey(scanCode, extended, false) && msg == WindowMessage.SysKeyDown)
+                        {
+                            return IntPtr.Zero;
+                        }
+
                         break;
                     }
                     case WindowMessage.UniChar:
@@ -344,14 +380,45 @@ namespace OpenWindow.Backends.Windows
                         return IntPtr.Zero;
                 }
             }
+            else
+            {
+                switch (msg)
+                {
+                    case WindowMessage.SetFocus:
+                        // This message is sent on window creation, before we register the window in _managedWindows.
+                        // We store the handle so we can tell if the window we created is the focused window.
+                        _focusedWindowHandle = hWnd;
+                        break;
+                    case WindowMessage.KillFocus:
+                        if (_focusedWindowHandle == hWnd)
+                        {
+                            _focusedWindowHandle = IntPtr.Zero;
+                        }
+
+                        break;
+                }
+            }
 
             return Native.DefWindowProc(hWnd, msg, wParam, lParam);
         }
 
-        private void SetWinKey(ushort sc, bool extended, bool down)
+        private bool SetWinKey(ushort sc, bool extended, bool down)
         {
             var owSc = TranslateWinScanCode(sc, extended);
             SetKey(owSc, down);
+
+            var swallow = false;
+
+            switch (owSc)
+            {
+                case ScanCode.F10:
+                case ScanCode.LeftAlt:
+                case ScanCode.RightAlt:
+                    swallow = true;
+                    break;
+            }
+
+            return swallow;
         }
 
         private ScanCode TranslateWinScanCode(uint wsc, bool extended)
@@ -371,8 +438,8 @@ namespace OpenWindow.Backends.Windows
         private void ExtractCoords(IntPtr lParam, out int x, out int y)
         {
             var lp = lParam.ToInt32();
-            x = lp & 0xff;
-            y = (lp >> 16) & 0xff;
+            x = lp & 0xffff;
+            y = (lp >> 16) & 0xffff;
         }
 
         private float GetScroll(IntPtr wParam)

@@ -23,15 +23,15 @@ namespace OpenWindow.GL
 
         [DllImport("opengl32.dll", SetLastError = true, EntryPoint = "wglGetCurrentContext")]
         public static extern IntPtr WglGetCurrentContext();
+
         [DllImport("opengl32.dll", SetLastError = true, EntryPoint = "wglGetCurrentDC")]
         public static extern IntPtr WglGetCurrentDC();
 
         [DllImport("opengl32.dll", SetLastError = true, EntryPoint = "wglDeleteContext")]
-
         public static extern bool WglDeleteContext(IntPtr hrc);
 
         [DllImport("gdi32.dll")]
-        public static extern bool gdiSwapBuffers(IntPtr hdc);
+        public static extern bool SwapBuffers(IntPtr hdc);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetDC(IntPtr hWnd);
@@ -40,6 +40,7 @@ namespace OpenWindow.GL
         public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hdc);
 
         private static IntPtr _windowsOpenGlLib;
+        private static bool _extensionsLoaded;
 
         private delegate IntPtr WglCreateContextAttribsARBDelegate(IntPtr hdc, IntPtr hshareContext, ref int attribList);
         private static WglCreateContextAttribsARBDelegate WglCreateContextAttribsARB;
@@ -51,28 +52,43 @@ namespace OpenWindow.GL
 
         public WglInterface(WindowingService ws)
         {
-            LoadExtensions(ws);
+            if (!_extensionsLoaded)
+                LoadExtensions(ws);
         }
 
         private static void LoadExtensions(WindowingService ws)
         {
-            var chdc = WglGetCurrentDC();
             var cctx = WglGetCurrentContext();
 
-            if (cctx == null)
+            if (cctx == IntPtr.Zero)
             {
                 // We need a current context to query for extension methods so we create one
 
                 // TODO provide way to specifically create dummy window
-                var dummyWnd = ws.CreateWindow();
+                var dummyWci = new WindowCreateInfo(1, 1, string.Empty, false, false);
+                var dummyWnd = ws.CreateWindow(ref dummyWci);
                 var wdata = (Win32WindowData) dummyWnd.GetPlatformData();
                 var hwnd = wdata.Hwnd;
                 var hdc = GetDC(hwnd);
+                var lastError = Marshal.GetLastWin32Error();
                 var ctx = WglCreateContext(hdc);
-                if (ctx != IntPtr.Zero || !WglMakeCurrent(hdc, ctx))
+                if (ctx != IntPtr.Zero)
                 {
-                    LoadExtensionsWithContext();
-                    WglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
+                    if (WglMakeCurrent(hdc, ctx))
+                    {
+                        LoadExtensionsWithContext();
+                        WglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
+                    }
+                    else
+                    {
+                        WindowingService.LogWarning("Failed to make dummy context current. WGL extensions not loaded.");
+                    }
+
+                    WglDeleteContext(ctx);
+                }
+                else
+                {
+                    WindowingService.LogWarning("Failed to create dummy context. WGL extensions not loaded.");
                 }
 
                 ReleaseDC(hwnd, hdc);
@@ -82,6 +98,8 @@ namespace OpenWindow.GL
             {
                 LoadExtensionsWithContext();
             }
+
+            _extensionsLoaded = true;
         }
 
         private static void LoadExtensionsWithContext()
@@ -89,12 +107,15 @@ namespace OpenWindow.GL
             var ccptr = WglGetProcAddress("wglCreateContextAttribsARB");
             if (ccptr != IntPtr.Zero)
                 WglCreateContextAttribsARB = Marshal.GetDelegateForFunctionPointer<WglCreateContextAttribsARBDelegate>(ccptr);
+            
+            Console.WriteLine("WglCreateContextAttribsARB: " + (ccptr != IntPtr.Zero));
 
-            var wsiptr = WglGetProcAddress("wglSwapintervalEXT");
+            var wsiptr = WglGetProcAddress("wglSwapIntervalEXT");
+            Console.WriteLine("WglSwapIntervalEXT: " + (wsiptr != IntPtr.Zero));
             if (wsiptr != IntPtr.Zero)
             {
                 WglSwapIntervalEXT = Marshal.GetDelegateForFunctionPointer<WglSwapIntervalEXTDelegate>(wsiptr);
-                WglGetSwapIntervalEXT = Marshal.GetDelegateForFunctionPointer<WglGetSwapIntervalEXTDelegate>(WglGetProcAddress("wglGetSwapintervalEXT"));
+                WglGetSwapIntervalEXT = Marshal.GetDelegateForFunctionPointer<WglGetSwapIntervalEXTDelegate>(WglGetProcAddress("wglGetSwapIntervalEXT"));
             }
         }
 
@@ -169,7 +190,7 @@ namespace OpenWindow.GL
         {
             var hWnd = ((Win32WindowData) wdata).Hwnd;
             var hdc = GetDC(hWnd);
-            var result = gdiSwapBuffers(hdc);
+            var result = SwapBuffers(hdc);
             ReleaseDC(hWnd, hdc);
             return result;
         }

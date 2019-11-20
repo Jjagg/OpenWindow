@@ -44,9 +44,35 @@ namespace OpenWindow.Backends.Windows
 
         public bool IsPrimary => flags == 1;
 
-        public void Prepare()
+        public static MonitorInfo Create()
         {
-            cbSize = 72;
+            return new MonitorInfo
+            {
+                cbSize = 72
+            };
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct WindowInfo
+    {
+        public uint cbSize;
+        public Rect rcWindow;
+        public Rect rcClient;
+        public uint dwStyle;
+        public uint dwExStyle;
+        public uint dwWindowStatus;
+        public uint cxWindowBorders;
+        public uint cyWindowBorders;
+        public int atomWindowType;
+        public int wCreatorVersion;
+
+        public static WindowInfo Create()
+        {
+            return new WindowInfo()
+            {
+                cbSize = 64
+            };
         }
     }
 

@@ -24,9 +24,11 @@ namespace HelloOpenWindow
 
             _service = WindowingService.Create();
 
-            _window = _service.CreateWindow();
-            _window.ClientBounds = new Rectangle(100, 100, 400, 400);
-            _window.Title = "Hello, OpenWindow! 💩";
+            var wci = new WindowCreateInfo(100, 100, 400, 400, "Hello, OpenWindow! 💩", decorated: true, resizable: false);
+            _window = _service.CreateWindow(ref wci);
+            Console.WriteLine($"Window size: {_window.ClientSize.Width} : {_window.ClientSize.Height}");
+            _window.ClientSize = new Size(400, 400);
+            Console.WriteLine($"Window size: {_window.ClientSize.Width} : {_window.ClientSize.Height}");
 
             _window.MinSize = new Size(MinWidth, MinHeight);
             _window.MaxSize = new Size(MaxWidth, MaxHeight);
@@ -36,6 +38,7 @@ namespace HelloOpenWindow
             _window.FocusChanged += (s, e) => Console.WriteLine(e.HasFocus ? "Got focus!" : "Lost focus!");
             _window.MouseDown += (s, e) => Console.WriteLine($"Mouse button '{e.Button}' was pressed.");
             _window.MouseUp += (s, e) => Console.WriteLine($"Mouse button '{e.Button}' was released.");
+            //_window.MouseMove += (s, e) => Console.WriteLine($"Mouse move ({e.X} : {e.Y}).");
 
             _window.KeyDown += (s, e) =>
             {
@@ -71,9 +74,17 @@ namespace HelloOpenWindow
                 }
             };
 
-            _window.KeyDown += (s, e) => Console.WriteLine($"Key Down: {e.Key} ({e.ScanCode})");
-            _window.KeyUp += (s, e) => Console.WriteLine($"Key Up: {e.Key} ({e.ScanCode})");
-            _window.TextInput += (s, e) => Console.WriteLine($"Got text input: {char.ConvertFromUtf32(e.Character)}");
+            var scNameMap = KeyUtil.CreateScanCodeNameMap();
+            scNameMap[ScanCode.Left]  = "←";
+            scNameMap[ScanCode.Right] = "→";
+            scNameMap[ScanCode.Up]    = "↑";
+            scNameMap[ScanCode.Down]  = "↓";
+
+            var keyNameMap = KeyUtil.CreateVirtualKeyNameMap();
+
+            _window.KeyDown += (s, e) => Console.WriteLine($"Key Down: {keyNameMap[e.Key]} ({scNameMap[e.ScanCode]})");
+            //_window.KeyUp += (s, e) => Console.WriteLine($"Key Up: {keyNameMap[e.Key]} ({scNameMap[e.ScanCode]})");
+            _window.TextInput += (s, e) => Console.WriteLine($"Got text input: {CharacterToPrintable(e.Character)}");
 
             while (!_window.ShouldClose)
             {
@@ -83,6 +94,19 @@ namespace HelloOpenWindow
             _service.DestroyWindow(_window);
             _service.Dispose();
         }
+
+        private static string CharacterToPrintable(int character)
+        {
+            return character switch
+            {
+                '\t' => "\\t",
+                '\n' => "\\n",
+                '\r' => "\\r",
+                ' ' => "Space",
+                _ => char.ConvertFromUtf32(character)
+            };
+        }
+
 
         private static void SetRandomBounds()
         {

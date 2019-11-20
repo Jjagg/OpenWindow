@@ -8,8 +8,7 @@ namespace OpenWindow.Backends.Windows
     {
         public static Display DisplayFromMonitorHandle(IntPtr handle)
         {
-            var mi = new MonitorInfo();
-            mi.Prepare();
+            var mi = MonitorInfo.Create();
             if (!Native.GetMonitorInfo(handle, ref mi))
                 throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
 

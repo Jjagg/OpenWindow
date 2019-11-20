@@ -61,7 +61,13 @@ namespace OpenWindow.Backends.Windows
         public static extern bool ShowWindow(IntPtr hWnd, ShowWindowCommand nCmdShow);
 
         [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool UpdateWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern bool DestroyWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool GetWindowInfo(IntPtr hWnd, ref WindowInfo wi);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
@@ -74,6 +80,8 @@ namespace OpenWindow.Backends.Windows
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool AdjustWindowRect(ref Rect lpRect, uint dwStyle, bool bMenu);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool AdjustWindowRectEx(ref Rect lpRect, uint dwStyle, bool bMenu, uint dwExStyle);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool ClientToScreen(IntPtr hWnd, ref Point coordinates);
@@ -97,7 +105,6 @@ namespace OpenWindow.Backends.Windows
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetDC(IntPtr hWnd);
 
-        // TODO IDisposable and cleanup
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hdc);
 
@@ -179,6 +186,8 @@ namespace OpenWindow.Backends.Windows
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern int GetSystemMetrics(SystemMetric metric);
+        [DllImport("Dwmapi.dll", SetLastError = true)]
+        public static extern unsafe bool DwmGetWindowAttribute(IntPtr  hwnd, uint dwAttribute, void* pvAttribute, uint cbAttribute);
 
         [DllImport("opengl32.dll", SetLastError = true)]
         public static extern IntPtr wglGetProcAddress(string proc);

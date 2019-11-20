@@ -43,17 +43,33 @@ namespace OpenWindow
         /// <summary>
         /// Check if the key with the given scan code is down.
         /// </summary>
-        public bool Down(ScanCode sc) => ScanState[(int) sc];
+        public bool IsDown(ScanCode sc) => ScanState[(int) sc];
 
         /// <summary>
         /// Check if the key with the given scan code is up.
         /// </summary>
-        public bool Up(ScanCode sc) => !ScanState[(int) sc];
+        public bool IsUp(ScanCode sc) => !ScanState[(int) sc];
+
+        /// <summary>
+        /// Check if the given virtual key is down.
+        /// </summary>
+        public bool IsDown(Key key) => ScanState[(int) Map(key)];
+
+        /// <summary>
+        /// Check if the given virtual key is up.
+        /// </summary>
+        public bool IsUp(Key key) => !ScanState[(int) Map(key)];
+
 
         /// <summary>
         /// Map the given scan code to the matching virtual key for the current keyboard layout.
         /// </summary>
         public Key Map(ScanCode sc) => _scanToKey[(int) sc];
+
+        /// <summary>
+        /// Map the given scan code to the matching virtual key for the current keyboard layout.
+        /// </summary>
+        public ScanCode Map(Key key) => _keyToScan[(int) key];
 
         internal void Clear()
         {

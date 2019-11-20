@@ -32,9 +32,8 @@ namespace VeldridApp
             if (GraphicsBackend == GraphicsBackend.OpenGL)
                 ws.GlSettings.EnableOpenGl = true;
 
-            var w = ws.CreateWindow();
-            w.ClientBounds = new Rectangle(100, 100, 960, 540);
-            w.Title = "Veldrid Tutorial";
+            var wci = new WindowCreateInfo(100, 100, 960, 540, "Veldrid with OpenWindow");
+            var w = ws.CreateWindow(ref wci);
 
             var serviceData = ws.GetPlatformData();
             var windowData = w.GetPlatformData();
