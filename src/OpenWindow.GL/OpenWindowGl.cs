@@ -16,6 +16,9 @@ namespace OpenWindow.GL
         /// </summary>
         public static void Initialize(WindowingService service)
         {
+            if (_impl != null)
+                return;
+
             if (service.Backend == WindowingBackend.Win32)
             {
                 _impl = new WglInterface(service);

@@ -4,10 +4,10 @@
 using System;
 using System.IO;
 using System.Numerics;
-using System.Runtime.InteropServices;
 using OpenWindow;
 using OpenWindow.GL;
 using Veldrid;
+using Veldrid.OpenGL;
 using Veldrid.Vk;
 
 namespace VeldridApp
@@ -86,22 +86,27 @@ namespace VeldridApp
             var wsd = (Win32WindowingServiceData) ws.GetPlatformData();
             var wd = (Win32WindowData) w.GetPlatformData();
 
+            var width = (uint) w.ClientBounds.Width;
+            var height = (uint) w.ClientBounds.Height;
+
             switch (GraphicsBackend)
             {
                 case GraphicsBackend.Direct3D11:
-                    _graphicsDevice = GraphicsDevice.CreateD3D11(gdo, wd.Hwnd, (uint) w.ClientBounds.Width, (uint) w.ClientBounds.Height);
+                    _graphicsDevice = GraphicsDevice.CreateD3D11(gdo, wd.Hwnd, width, height);
                     break;
                 case GraphicsBackend.Vulkan:
                     _graphicsDevice = GraphicsDevice.CreateVulkan(gdo,
-                        VkSurfaceSource.CreateWin32(wsd.HInstance, wd.Hwnd), (uint) w.ClientBounds.Width, (uint) w.ClientBounds.Height);
+                        VkSurfaceSource.CreateWin32(wsd.HInstance, wd.Hwnd), width, height);
                     break;
                 case GraphicsBackend.OpenGL:
-                    throw new NotSupportedException();
+                    var glpi = CreateGLPlatformInfo(ws, w);
+                    _graphicsDevice = GraphicsDevice.CreateOpenGL(gdo, glpi, width, height);
+                    break;
                 case GraphicsBackend.Metal:
                     throw new NotSupportedException();
                 case GraphicsBackend.OpenGLES:
                     var scs = SwapchainSource.CreateWin32(wd.Hwnd, wsd.HInstance);
-                    var scd = new SwapchainDescription(scs, (uint) w.ClientBounds.Width, (uint) w.ClientBounds.Height, null, true);
+                    var scd = new SwapchainDescription(scs, width, height, depthFormat: null, syncToVerticalBlank: true);
                     _graphicsDevice = GraphicsDevice.CreateOpenGLES(gdo, scd);
                     throw new NotSupportedException();
                 default:
@@ -121,8 +126,9 @@ namespace VeldridApp
             var wsdata = (WaylandWindowingServiceData) ws.GetPlatformData();
             var wdata = (WaylandWindowData) w.GetPlatformData();
 
-            const uint width = 960;
-            const uint height = 540;
+            var width = (uint) w.ClientBounds.Width;
+            var height = (uint) w.ClientBounds.Height;
+
             switch (GraphicsBackend)
             {
                 case GraphicsBackend.Direct3D11:
@@ -133,23 +139,7 @@ namespace VeldridApp
                     _graphicsDevice = GraphicsDevice.CreateVulkan(gdo, scd);
                     break;
                 case GraphicsBackend.OpenGL:
-                    OpenWindowGl.Initialize(ws);
-                    var glctx = OpenWindowGl.CreateContext(w, 3, 1);
-                    if (glctx == null)
-                        throw new Exception("EGL context creation failed.");
-
-                    if (!OpenWindowGl.MakeCurrent(w, glctx))
-                        throw new Exception("EGL make current failed.");
-
-                    var glpi = new global::Veldrid.OpenGL.OpenGLPlatformInfo(
-                        glctx,
-                        OpenWindowGl.GetProcAddress,
-                        (ctxptr) => OpenWindowGl.MakeCurrent(w, ctxptr),
-                        OpenWindowGl.GetCurrentContext,
-                        () => OpenWindowGl.MakeCurrent(null, IntPtr.Zero),
-                        (ctxptr) => OpenWindowGl.DestroyContext(ctxptr),
-                        () => OpenWindowGl.SwapBuffers(w),
-                        vsync => OpenWindowGl.SetVSync(vsync ? VSyncState.On : VSyncState.Off));
+                    var glpi = CreateGLPlatformInfo(ws, w);
                     _graphicsDevice = GraphicsDevice.CreateOpenGL(gdo, glpi, width, height);
                     break;
                 case GraphicsBackend.OpenGLES:
@@ -159,6 +149,31 @@ namespace VeldridApp
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private static OpenGLPlatformInfo CreateGLPlatformInfo(WindowingService ws, Window w)
+        {
+            OpenWindowGl.Initialize(ws);
+
+            var glGetString = OpenWindowGl.GetProcAddress("glGetStringi");
+            Console.WriteLine("glGetString: " + glGetString);
+
+            var glctx = OpenWindowGl.CreateContext(w, 3, 1);
+            if (glctx == null)
+                throw new Exception("GL context creation failed.");
+
+            if (!OpenWindowGl.MakeCurrent(w, glctx))
+                throw new Exception("GL make current failed.");
+
+            return new OpenGLPlatformInfo(
+                glctx,
+                OpenWindowGl.GetProcAddress,
+                (ctxptr) => OpenWindowGl.MakeCurrent(w, ctxptr),
+                OpenWindowGl.GetCurrentContext,
+                () => OpenWindowGl.MakeCurrent(null, IntPtr.Zero),
+                (ctxptr) => OpenWindowGl.DestroyContext(ctxptr),
+                () => OpenWindowGl.SwapBuffers(w),
+                vsync => OpenWindowGl.SetVSync(vsync ? VSyncState.On : VSyncState.Off));
         }
 
         private static void CreateResources()

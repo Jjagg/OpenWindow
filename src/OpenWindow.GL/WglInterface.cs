@@ -108,10 +108,11 @@ namespace OpenWindow.GL
             if (ccptr != IntPtr.Zero)
                 WglCreateContextAttribsARB = Marshal.GetDelegateForFunctionPointer<WglCreateContextAttribsARBDelegate>(ccptr);
             
-            Console.WriteLine("WglCreateContextAttribsARB: " + (ccptr != IntPtr.Zero));
+            WindowingService.Logger.Log(Logger.Level.Debug, "WglCreateContextAttribsARB: " + (ccptr != IntPtr.Zero));
 
             var wsiptr = WglGetProcAddress("wglSwapIntervalEXT");
-            Console.WriteLine("WglSwapIntervalEXT: " + (wsiptr != IntPtr.Zero));
+            WindowingService.Logger.Log(Logger.Level.Debug, "WglSwapIntervalEXT: " + (wsiptr != IntPtr.Zero));
+
             if (wsiptr != IntPtr.Zero)
             {
                 WglSwapIntervalEXT = Marshal.GetDelegateForFunctionPointer<WglSwapIntervalEXTDelegate>(wsiptr);
@@ -125,7 +126,7 @@ namespace OpenWindow.GL
                 _windowsOpenGlLib = LoadLibrary("opengl32.dll");
 
             var ptr = WinGetProcAddress(_windowsOpenGlLib, func);
-            if (ptr == null)
+            if (ptr == IntPtr.Zero)
                 ptr = WglGetProcAddress(func);
 
             return ptr;
