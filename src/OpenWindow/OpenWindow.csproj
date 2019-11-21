@@ -4,4 +4,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>OpenWindow</PackageId>
+    <PackageTags>windowing</PackageTags>
+    <Description>A C# library that offers a unified API to talk to native windowing libraries.</Description>
+  </PropertyGroup>
 </Project>

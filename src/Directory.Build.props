@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/Jjagg/OpenWindow</RepositoryUrl>
+    <PackageProjectUrl>https://jjagg.github.io/OpenWindow/</PackageProjectUrl>
+    <Authors>Jesse Gielen</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+</Project>

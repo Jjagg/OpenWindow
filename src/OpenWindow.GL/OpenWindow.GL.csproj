@@ -5,6 +5,12 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>OpenWindow.GL</PackageId>
+    <PackageTags>windowing;opengl</PackageTags>
+    <Description>A library to create an OpenGL context for an OpenWindow window.</Description>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\OpenWindow\OpenWindow.csproj" />
   </ItemGroup>
