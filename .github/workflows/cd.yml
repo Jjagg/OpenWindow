@@ -1,0 +1,30 @@
+name: OpenWindow CD
+
+on:
+  push:
+    paths:
+    - 'src/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.0.100
+
+    - name: Pack OpenWindow
+      run: dotnet pack src/OpenWindow/OpenWindow.csproj --configuration Release
+
+    - name: Publish OpenWindow
+      run: dotnet nuget push src/OpenWindow/bin/Release/*.nupkg -s https://nuget.pkg.github.com/Jjagg/index.json -k ${{ secrets.GitHubPackageAccessToken }}
+
+    - name: Pack OpenWindow.GL
+      run: dotnet pack src/OpenWindow.GL/OpenWindow.GL.csproj --configuration Release
+
+    - name: Publish OpenWindow.GL
+      run: dotnet nuget push src/OpenWindow.GL/bin/Release/*.nupkg -s https://nuget.pkg.github.com/Jjagg/index.json -k ${{ secrets.GitHubPackageAccessToken }}
