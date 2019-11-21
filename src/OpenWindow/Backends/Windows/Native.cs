@@ -150,7 +150,7 @@ namespace OpenWindow.Backends.Windows
         #region Mouse
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool TrackMouseEvent(ref TrackMouseEvent tme);
+        public static extern bool TrackMouseEvent(in TrackMouseEvent tme);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool GetCursorPos(out Point point);

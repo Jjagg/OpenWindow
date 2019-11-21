@@ -157,10 +157,9 @@ namespace OpenWindow.Backends.Windows
         public static TrackMouseEvent CreateLeave(IntPtr handle)
         {
             var tme = new TrackMouseEvent();
-            tme.cbSize = 20;
-            tme.dwFlags = 2;
+            tme.cbSize = Marshal.SizeOf<TrackMouseEvent>();
+            tme.dwFlags = 0x00000002;
             tme.hwndTrack = handle;
-            tme.dwHoverTime = 4294967295;
             return tme;
         }
     }

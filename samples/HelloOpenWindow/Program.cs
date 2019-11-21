@@ -63,6 +63,7 @@ namespace HelloOpenWindow
             _window.MouseDown += (s, e) => Console.WriteLine($"Mouse button '{e.Button}' was pressed.");
             _window.MouseUp += (s, e) => Console.WriteLine($"Mouse button '{e.Button}' was released.");
             //_window.MouseMove += (s, e) => Console.WriteLine($"Mouse move ({e.X} : {e.Y}).");
+            _window.MouseFocusChanged += (s, e) => Console.WriteLine(e.HasFocus ? $"Got mouse focus." : "Lost mouse focus.");
 
             _window.KeyDown += (s, e) =>
             {

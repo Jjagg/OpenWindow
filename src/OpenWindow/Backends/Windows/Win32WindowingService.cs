@@ -10,8 +10,9 @@ namespace OpenWindow.Backends.Windows
     internal class Win32WindowingService : WindowingService
     {
         private List<Display> _displays;
-        private readonly Dictionary<IntPtr, Window> _managedWindows;
+        private readonly Dictionary<IntPtr, Win32Window> _managedWindows;
         private IntPtr _localeId;
+        private Win32Window _mouseTrackingWindow;
 
         public override int WindowCount => _managedWindows.Count;
         public override ReadOnlyCollection<Display> Displays => new ReadOnlyCollection<Display>(_displays);
@@ -23,7 +24,7 @@ namespace OpenWindow.Backends.Windows
 
         public Win32WindowingService() : base(WindowingBackend.Win32)
         {
-            _managedWindows = new Dictionary<IntPtr, Window>();
+            _managedWindows = new Dictionary<IntPtr, Win32Window>();
             _wndProc = ProcessWindowMessage;
         }
 
@@ -316,6 +317,7 @@ namespace OpenWindow.Backends.Windows
                     //case WindowMessage.NcMouseMove:
                     case WindowMessage.MouseMove:
                     {
+                        TrackMouse(window);
                         ExtractCoords(lParam, out var x, out var y);
                         SetMousePosition(x, y);
                         SetMouseFocus(window, true);
@@ -367,6 +369,9 @@ namespace OpenWindow.Backends.Windows
                     }
                     case WindowMessage.MouseLeave:
                         SetMouseFocus(window, false);
+                        if (_mouseTrackingWindow == window)
+                            _mouseTrackingWindow = null;
+
                         return IntPtr.Zero;
 
                     case WindowMessage.Close:
@@ -400,6 +405,21 @@ namespace OpenWindow.Backends.Windows
             }
 
             return Native.DefWindowProc(hWnd, msg, wParam, lParam);
+        }
+
+        private void TrackMouse(Win32Window window)
+        {
+            if (_mouseTrackingWindow == window)
+                return;
+
+            var tme = TrackMouseEvent.CreateLeave(window.Hwnd);
+            if (!Native.TrackMouseEvent(tme))
+            {
+                var e = Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+                throw new OpenWindowException("TrackMouseEvent failed.", e);
+            }
+
+            _mouseTrackingWindow = window;
         }
 
         private bool SetWinKey(ushort sc, bool extended, bool down)

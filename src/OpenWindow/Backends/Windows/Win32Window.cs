@@ -365,13 +365,6 @@ namespace OpenWindow.Backends.Windows
             return new OpenWindowException(message, e);
         }
 
-        public void TrackMouseLeave()
-        {
-            var tme = TrackMouseEvent.CreateLeave(Hwnd);
-            if (!Native.TrackMouseEvent(ref tme))
-                throw GetLastException("TrackMouseEvent failed.");
-        }
-
         #endregion
 
         #region Extensions
