@@ -322,6 +322,14 @@ namespace OpenWindow.Backends.Wayland
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Does nothing on Wayland.
+        /// The application icon must be set in the .desktop file.
+        /// </summary>
+        protected override void InternalSetIcon(string path)
+        {
+        }
+
         #endregion
 
         #region IDisposable

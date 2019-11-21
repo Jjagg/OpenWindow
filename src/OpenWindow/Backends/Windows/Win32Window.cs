@@ -471,6 +471,12 @@ namespace OpenWindow.Backends.Windows
             Native.ShowCursor(value);
         }
 
+        /// <inheritdoc />
+        protected override void InternalSetIcon(string path)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region IDisposable

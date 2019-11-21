@@ -254,6 +254,21 @@ namespace OpenWindow
         }
 
         /// <summary>
+        /// Set the application icon to a png image.
+        /// On Windows this sets both the large icon (Alt + Tab icon) and the small icon (window caption icon).
+        /// On Wayland this does nothing. Set the icon on Wayland in the .desktop file for your application.
+        /// </summary>
+        /// <param name="path">Path to a png file.</param>
+        public void SetIcon(string path)
+        {
+            CheckDisposed();
+            if (path is null)
+                throw new ArgumentNullException(nameof(path));
+
+            InternalSetIcon(path);
+        }
+
+        /// <summary>
         /// Sets the <see cref="ShouldClose"/> flag to <code>true</code>.
         /// </summary>
         public void Close()
@@ -489,6 +504,11 @@ namespace OpenWindow
         /// Show or hide the mouse cursor when inside the native windows client bounds.
         /// </summary>
         protected abstract void InternalSetCursorVisible(bool value);
+
+        /// <summary>
+        /// Set the application icon to the png image at the given path.
+        /// </summary>
+        protected abstract void InternalSetIcon(string path);
 
         #endregion
 
