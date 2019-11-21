@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using OpenWindow;
@@ -26,9 +27,32 @@ namespace HelloOpenWindow
 
             var wci = new WindowCreateInfo(100, 100, 400, 400, "Hello, OpenWindow! 💩", decorated: true, resizable: false);
             _window = _service.CreateWindow(ref wci);
-            Console.WriteLine($"Window size: {_window.ClientSize.Width} : {_window.ClientSize.Height}");
-            _window.ClientSize = new Size(400, 400);
-            Console.WriteLine($"Window size: {_window.ClientSize.Width} : {_window.ClientSize.Height}");
+
+            var w = 64;
+            var h = 64;
+            Span<Color> pixelData = stackalloc Color[w * h];
+            var r = new Random();
+            for (var y = 0; y < h; y++)
+            {
+                var vy = (byte) (((float) y) / h * 256);
+                for (var x = 0; x < w; x++)
+                {
+                    var vx = (byte) (((float) x) / w * 256);
+                    var vd = (byte) (vx * vy / 255);
+
+                    // nice circular gradient for the alpha
+                    var dx = (x - 32) / 32f;
+                    var dy = (y - 32) / 32f;
+                    var dist = Math.Sqrt(dx * dx + dy * dy);
+                    var distEased = dist * dist * dist;
+                    var vr = (byte) (Math.Max(255 - 255 * distEased, 0));
+
+                    var c = new Color(vr, vx, vy, vd);
+                    pixelData[y * w + x] = c;
+                }
+            }
+
+            _window.SetIcon<Color>(pixelData, w, h);
 
             _window.MinSize = new Size(MinWidth, MinHeight);
             _window.MaxSize = new Size(MaxWidth, MaxHeight);
@@ -131,6 +155,33 @@ namespace HelloOpenWindow
             Console.WriteLine($"Scroll Lock: {_service.IsScrollLockOn()}");
             Console.WriteLine();
             Console.Out.Flush();
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct Color
+        {
+            public byte B;
+            public byte G;
+            public byte R;
+            public byte A;
+
+            public Color(byte a, byte r, byte g, byte b)
+            {
+                A = a;
+                R = r;
+                G = g;
+                B = b;
+            }
+
+            public Color(uint value)
+            {
+                A = (byte) ((value >> 24) & 0xff);
+                R = (byte) ((value >> 16) & 0xff);
+                G = (byte) ((value >> 8) & 0xff);
+                B = (byte) (value & 0xff);
+            }
+
+            public static implicit operator Color(uint v) => new Color(v);
         }
     }
 }

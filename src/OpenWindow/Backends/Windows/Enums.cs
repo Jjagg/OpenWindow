@@ -19,6 +19,7 @@ namespace OpenWindow.Backends.Windows
         Quit            = 0x0012,
         GetMinMaxInfo   = 0x0024,
         InputLangChange = 0x0051,
+        SetIcon         = 0x0080,
         NcActivate      = 0x0086,
         NcMouseMove     = 0x00A0,
         KeyDown         = 0x0100,

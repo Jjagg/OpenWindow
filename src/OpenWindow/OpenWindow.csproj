@@ -10,4 +10,8 @@
     <PackageTags>windowing</PackageTags>
     <Description>A C# library that offers a unified API to talk to native windowing libraries.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Memory" Version="4.5.3" />
+  </ItemGroup>
 </Project>

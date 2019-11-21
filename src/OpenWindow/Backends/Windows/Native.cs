@@ -14,6 +14,9 @@ namespace OpenWindow.Backends.Windows
         public static extern bool PeekMessage(out Msg lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr SendMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool PostMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
         
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
@@ -180,6 +183,12 @@ namespace OpenWindow.Backends.Windows
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern int GetModuleHandle(string name);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern unsafe IntPtr CreateIconFromResource(byte* presbits, uint dwResSize, bool fIcon, uint dwVer);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool DestroyIcon(IntPtr hIcon);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr LoadCursor(IntPtr hinstance, Cursor cursor);

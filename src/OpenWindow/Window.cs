@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace OpenWindow
 {
@@ -254,18 +255,32 @@ namespace OpenWindow
         }
 
         /// <summary>
-        /// Set the application icon to a png image.
+        /// Set the application icon to raw pixel data.
+        /// <paramref name="pixelData"/> should be in ARGB8888 format.
+        ///
         /// On Windows this sets both the large icon (Alt + Tab icon) and the small icon (window caption icon).
         /// On Wayland this does nothing. Set the icon on Wayland in the .desktop file for your application.
         /// </summary>
-        /// <param name="path">Path to a png file.</param>
-        public void SetIcon(string path)
+        /// <param name="pixelData">Raw pixel data in ARGB8888.</param>
+        /// <param name="width">Width of the image.</param>
+        /// <param name="height">Height of the image.</param>
+        public void SetIcon<T>(ReadOnlySpan<T> pixelData, int width, int height) where T : struct
         {
             CheckDisposed();
-            if (path is null)
-                throw new ArgumentNullException(nameof(path));
+            if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width), "Width must be larger than 0.");
+            if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), "Height must be larger than 0.");
 
-            InternalSetIcon(path);
+            var byteLen = width * height * 4;
+            var byteData = MemoryMarshal.AsBytes(pixelData);
+
+            if (byteData.Length < byteLen)
+            {
+                throw new ArgumentException(
+                    $"Not enough data to create an image of the specified size. Expected at least {byteLen} bytes of data, but got {byteData.Length}.",
+                    nameof(pixelData));
+            }
+
+            InternalSetIcon(byteData, width, height);
         }
 
         /// <summary>
@@ -506,9 +521,9 @@ namespace OpenWindow
         protected abstract void InternalSetCursorVisible(bool value);
 
         /// <summary>
-        /// Set the application icon to the png image at the given path.
+        /// Set the application icon.
         /// </summary>
-        protected abstract void InternalSetIcon(string path);
+        protected abstract void InternalSetIcon(ReadOnlySpan<byte> pixelData, int width, int height);
 
         #endregion
 

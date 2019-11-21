@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -11,6 +12,8 @@ namespace OpenWindow.Backends.Windows
         private WindowData _windowData;
         internal IntPtr Hwnd;
         private string _className;
+
+        private IntPtr _lastSetIconHandle;
 
         #endregion
 
@@ -472,9 +475,84 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
-        protected override void InternalSetIcon(string path)
+        protected unsafe override void InternalSetIcon(ReadOnlySpan<byte> pixelData, int width, int height)
         {
-            throw new NotImplementedException();
+            var pixelDataSize = width * height * 4;
+            // mask pitch needs to be aligned
+            // FIXME some sources say it needs to be WORD (16-bit) or DWORD (32-bit) aligned, need to double-check
+            var maskDataSize = (width + 7) * height / 8;
+            var iconDataArray = ArrayPool<byte>.Shared.Rent(40 + pixelDataSize + maskDataSize);
+            Span<byte> iconData = iconDataArray;
+
+            // Bitmap Info Header:
+            // typedef struct tagBITMAPINFOHEADER {
+            //   DWORD biSize;
+            //   LONG  biWidth;
+            //   LONG  biHeight;
+            //   WORD  biPlanes;
+            //   WORD  biBitCount;
+            //   DWORD biCompression;
+            //   DWORD biSizeImage;
+            //   LONG  biXPelsPerMeter;
+            //   LONG  biYPelsPerMeter;
+            //   DWORD biClrUsed;
+            //   DWORD biClrImportant;
+            // }
+
+            SpanWriter sr = iconData;
+            sr.Write(40);
+            sr.Write(width);
+            sr.Write(height * 2);
+            sr.Write((ushort) 1);
+            sr.Write((ushort) 32); // bpp
+            sr.Write(0); // BI_RGB
+            sr.Write(pixelDataSize);
+            sr.Write(0);
+            sr.Write(0);
+            sr.Write(0);
+            sr.Write(0);
+
+            // DIBs have a bottom-left origin so we need to flip our image data vertically
+            var rowSize = 4 * width;
+            for (var y = height - 1; y >= 0; y--)
+            {
+                var row = pixelData.Slice(rowSize * y, rowSize);
+                sr.Write(row);
+            }
+
+            // We have to write a monochrome (1 bpp) bitmap mask to enable transparency
+            // even though the values are ignored: https://stackoverflow.com/a/5926552
+            sr.Write(0xff, maskDataSize);
+
+            IntPtr iconHandle;
+            fixed (byte* iconDataPtr = iconData)
+            {
+                iconHandle = Native.CreateIconFromResource(iconDataPtr, (uint) iconData.Length, true, 0x00030000);
+            }
+
+            ArrayPool<byte>.Shared.Return(iconDataArray);
+
+            if (iconHandle == IntPtr.Zero)
+            {
+                throw new OpenWindowException("Failed to create icon.");
+            }
+
+            // Set the small icon (caption icon)
+            var oldSmallIcon = Native.SendMessage(Hwnd, WindowMessage.SetIcon, new IntPtr(0), iconHandle);
+            // Set the big icon (Alt+Tab dialog icon)
+            var oldBigIcon = Native.SendMessage(Hwnd, WindowMessage.SetIcon, new IntPtr(1), iconHandle);
+
+            // Destroy icons if we created them
+            if (oldSmallIcon != IntPtr.Zero && oldSmallIcon == _lastSetIconHandle)
+            {
+                Native.DestroyIcon(oldSmallIcon);
+            }
+            else if (oldBigIcon != IntPtr.Zero && oldBigIcon == _lastSetIconHandle)
+            {
+                Native.DestroyIcon(oldBigIcon);
+            }
+
+            _lastSetIconHandle = iconHandle;
         }
 
         #endregion
