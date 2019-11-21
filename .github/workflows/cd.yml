@@ -4,6 +4,11 @@ on:
   push:
     paths:
     - 'src/**'
+    - '.github/workflows/cd.yml'
+    - 'Directory.Build.props'
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 jobs:
   build:
