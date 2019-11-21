@@ -4,6 +4,3 @@
 [submodule "generators/WaylandSharpGen/protocols/wayland"]
 	path = generators/WaylandSharpGen/protocols/wayland
 	url = https://gitlab.freedesktop.org/wayland/wayland.git
-[submodule "generators/keycodemapdb"]
-	path = generators/keycodemapdb
-	url = https://gitlab.com/keycodemap/keycodemapdb.git
