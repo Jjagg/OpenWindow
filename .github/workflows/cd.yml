@@ -8,7 +8,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v1
@@ -16,15 +16,18 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.0.100
+  
+    - name: Setup Nuget.exe
+      uses: warrenbuckley/Setup-Nuget@v1
+    - name: Add GPR Source
+      run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/Jjagg/index.json -Username Jjagg -Password ${{ secrets.GitHubPackageAccessToken }}
 
     - name: Pack OpenWindow
       run: dotnet pack src/OpenWindow/OpenWindow.csproj --configuration Release
-
     - name: Publish OpenWindow
-      run: dotnet nuget push src/OpenWindow/bin/Release/*.nupkg -s https://nuget.pkg.github.com/Jjagg/index.json -k ${{ secrets.GitHubPackageAccessToken }}
+      run: nuget push src/OpenWindow/bin/Release/*.nupkg -Source "GPR" -SkipDuplicate
 
     - name: Pack OpenWindow.GL
       run: dotnet pack src/OpenWindow.GL/OpenWindow.GL.csproj --configuration Release
-
     - name: Publish OpenWindow.GL
-      run: dotnet nuget push src/OpenWindow.GL/bin/Release/*.nupkg -s https://nuget.pkg.github.com/Jjagg/index.json -k ${{ secrets.GitHubPackageAccessToken }}
+      run: nuget push src/OpenWindow.GL/bin/Release/*.nupkg -Source "GPR" -SkipDuplicate
