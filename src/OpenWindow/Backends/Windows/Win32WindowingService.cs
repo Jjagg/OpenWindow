@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -206,7 +205,8 @@ namespace OpenWindow.Backends.Windows
 
         private IntPtr ProcessWindowMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
         {
-            //LogDebug($"WMessage: {(int) msg:X}");
+            var messageStr = Enum.IsDefined(typeof(WindowMessage), msg) ? msg.ToString() : ((int) msg).ToString("X");
+            //LogDebug($"WMessage: {messageStr}");
 
             if (_managedWindows.TryGetValue(hWnd, out var window))
             {
@@ -297,6 +297,7 @@ namespace OpenWindow.Backends.Windows
                     case WindowMessage.UniChar:
                     {
                         var c = wParam.ToInt32();
+                        LogInfo($"UniChar: {c.ToString("X")} ({char.ConvertFromUtf32(c)})");
                         if (c == Constants.UNICODE_NOCHAR)
                             return (IntPtr) 1;
 
@@ -307,10 +308,12 @@ namespace OpenWindow.Backends.Windows
                     }
                     case WindowMessage.Char:
                     {
-                        var lp = lParam.ToInt64();
-                        var scanCode = (uint) ((lp >> 16) & 0xFF);
+                        var c = (char) wParam.ToInt32();
                         // FIXME check what characters to (not) raise for
-                        SendCharacter(wParam.ToInt32());
+                        if (window.TryGetUtf32(c, out var codepoint))
+                        {
+                            SendCharacter(codepoint);
+                        }
 
                         return IntPtr.Zero;
                     }

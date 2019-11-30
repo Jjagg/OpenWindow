@@ -42,6 +42,18 @@ namespace OpenWindow.Backends.Windows
         Sizing          = 0x0214,
         EnterSizeMove   = 0x0231,
         ExitSizeMove    = 0x0232,
+        ImeSetContext   = 0x0281,
+        ImeNotify       = 0x0282,
+        ImeControl      = 0x0284,
+        ImeCompositionFull = 0x0284,
+        ImeSelect       = 0x0285,
+        ImeChar         = 0x0286,
+        ImeRequest      = 0x0288,
+        ImeKeyDown      = 0x0290,
+        ImeKeyUp        = 0x0291,
+        ImeStartComposition = 0x010D,
+        ImeEndComposition = 0x010E,
+        ImeComposition  = 0x010F,
         MouseLeave      = 0x02A3,
     }
 

@@ -128,10 +128,9 @@ namespace HelloOpenWindow
                 '\n' => "\\n",
                 '\r' => "\\r",
                 ' ' => "Space",
-                _ => char.ConvertFromUtf32(character)
+                _ => $"{char.ConvertFromUtf32(character)} (0x{character:X})",
             };
         }
-
 
         private static void SetRandomBounds()
         {

@@ -548,6 +548,47 @@ namespace OpenWindow.Backends.Windows
             _lastSetIconHandle = iconHandle;
         }
 
+        private char _lastHighSurrogate;
+
+        /// <summary>
+        /// Processes UTF-16 characters into UTF-32 unicode codepoints by
+        /// combining surrogate pairs from subsequent calls if necessary and
+        /// by dropping control characters.
+        /// </summary>
+        internal bool TryGetUtf32(char c, out int utf32)
+        {
+            const char noChar = (char) 0;
+
+            if (char.IsHighSurrogate(c))
+            {
+                utf32 = noChar;
+                _lastHighSurrogate = c;
+            }
+            else if (char.IsLowSurrogate(c))
+            {
+                if (_lastHighSurrogate != noChar)
+                {
+                    utf32 = char.ConvertToUtf32(_lastHighSurrogate, c);
+                    _lastHighSurrogate = noChar;
+                }
+                else
+                {
+                    WindowingService.LogError("Got a low surrogate UTF-16 character without getting a UTF-16 high surrogate first.");
+                    utf32 = noChar;
+                }
+            }
+            else if (char.IsControl(c))
+            {
+                utf32 = noChar;
+            }
+            else
+            {
+                utf32 = c;
+            }
+
+            return utf32 != noChar;
+        }
+
         #endregion
 
         #region IDisposable
