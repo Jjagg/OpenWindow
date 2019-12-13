@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Runtime.InteropServices;
 using OpenWindow.Backends.Wayland.Managed;
 
 namespace OpenWindow.Backends.Wayland
@@ -327,6 +325,10 @@ namespace OpenWindow.Backends.Wayland
         /// The application icon must be set in the .desktop file.
         /// </summary>
         protected override void InternalSetIcon(ReadOnlySpan<byte> pixelData, int width, int height)
+        {
+        }
+
+        protected override void InternalSetCursor(ReadOnlySpan<byte> pixelData, int width, int height, int hotspotX, int hotspotY)
         {
             throw new NotImplementedException();
         }

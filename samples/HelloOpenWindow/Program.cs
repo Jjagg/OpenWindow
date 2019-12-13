@@ -28,31 +28,17 @@ namespace HelloOpenWindow
             var wci = new WindowCreateInfo(100, 100, 400, 400, "Hello, OpenWindow! 💩", decorated: true, resizable: false);
             _window = _service.CreateWindow(ref wci);
 
-            var w = 64;
-            var h = 64;
-            Span<Color> pixelData = stackalloc Color[w * h];
-            var r = new Random();
-            for (var y = 0; y < h; y++)
-            {
-                var vy = (byte) (((float) y) / h * 256);
-                for (var x = 0; x < w; x++)
-                {
-                    var vx = (byte) (((float) x) / w * 256);
-                    var vd = (byte) (vx * vy / 255);
+            var iconWidth = 64;
+            var iconHeight = 64;
+            Span<Color> iconPixelData = stackalloc Color[iconWidth * iconHeight];
+            FillIconPixelData(iconWidth, iconHeight, iconPixelData);
+            _window.SetIcon<Color>(iconPixelData, iconWidth, iconHeight);
 
-                    // nice circular gradient for the alpha
-                    var dx = (x - 32) / 32f;
-                    var dy = (y - 32) / 32f;
-                    var dist = Math.Sqrt(dx * dx + dy * dy);
-                    var distEased = dist * dist * dist;
-                    var vr = (byte) (Math.Max(255 - 255 * distEased, 0));
-
-                    var c = new Color(vr, vx, vy, vd);
-                    pixelData[y * w + x] = c;
-                }
-            }
-
-            _window.SetIcon<Color>(pixelData, w, h);
+            var cursorWidth = 32;
+            var cursorHeight = 32;
+            Span<Color> cursorPixelData = stackalloc Color[cursorWidth * cursorHeight];
+            FillIconPixelData(cursorWidth, cursorHeight, cursorPixelData);
+            _window.SetCursor<Color>(cursorPixelData, cursorWidth, cursorHeight, 15, 15);
 
             _window.MinSize = new Size(MinWidth, MinHeight);
             _window.MaxSize = new Size(MaxWidth, MaxHeight);
@@ -118,6 +104,33 @@ namespace HelloOpenWindow
 
             _service.DestroyWindow(_window);
             _service.Dispose();
+        }
+
+        private static void FillIconPixelData(int w, int h, Span<Color> pixelData)
+        {
+            var halfWidth = w / 2;
+            var halfHeight = h / 2;
+
+            var r = new Random();
+            for (var y = 0; y < h; y++)
+            {
+                var vy = (byte) (((float) y) / h * 255);
+                for (var x = 0; x < w; x++)
+                {
+                    var vx = (byte) (((float) x) / w * 255);
+                    var vd = (byte) (vx * vy / 255);
+
+                    // nice circular gradient for the alpha
+                    var dx = (x - halfWidth) / halfWidth;
+                    var dy = (y - halfHeight) / halfHeight;
+                    var dist = Math.Sqrt(dx * dx + dy * dy);
+                    var distEased = dist * dist * dist;
+                    var vr = (byte) (Math.Max(255 - 255 * distEased, 0));
+
+                    var c = new Color(vr, vx, vy, vd);
+                    pixelData[y * w + x] = c;
+                }
+            }
         }
 
         private static string CharacterToPrintable(int character)

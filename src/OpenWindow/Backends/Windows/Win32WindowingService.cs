@@ -324,6 +324,7 @@ namespace OpenWindow.Backends.Windows
                         ExtractCoords(lParam, out var x, out var y);
                         SetMousePosition(x, y);
                         SetMouseFocus(window, true);
+                        window.ResetCursor();
                         return IntPtr.Zero;
                     }
                     case WindowMessage.LButtonDown:

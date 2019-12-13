@@ -267,20 +267,24 @@ namespace OpenWindow
         public void SetIcon<T>(ReadOnlySpan<T> pixelData, int width, int height) where T : struct
         {
             CheckDisposed();
-            if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width), "Width must be larger than 0.");
-            if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), "Height must be larger than 0.");
-
-            var byteLen = width * height * 4;
-            var byteData = MemoryMarshal.AsBytes(pixelData);
-
-            if (byteData.Length < byteLen)
-            {
-                throw new ArgumentException(
-                    $"Not enough data to create an image of the specified size. Expected at least {byteLen} bytes of data, but got {byteData.Length}.",
-                    nameof(pixelData));
-            }
-
+            var byteData = PrepareImageData(pixelData, width, height);
             InternalSetIcon(byteData, width, height);
+        }
+
+        /// <summary>
+        /// Set the mouse cursor to raw pixel data.
+        /// <paramref name="pixelData"/> should be in ARGB8888 format.
+        /// </summary>
+        /// <param name="pixelData">Raw pixel data in ARGB8888.</param>
+        /// <param name="width">Width of the image.</param>
+        /// <param name="height">Height of the image.</param>
+        /// <param name="hotspotX">X position relative to the top left of the image that's used for mouse position.</param>
+        /// <param name="hotspotY">Y position relative to the top left of the image that's used for mouse position.</param>
+        public void SetCursor<T>(ReadOnlySpan<T> pixelData, int width, int height, int hotspotX, int hotspotY) where T : struct
+        {
+            CheckDisposed();
+            var byteData = PrepareImageData(pixelData, width, height);
+            InternalSetCursor(byteData, width, height, hotspotX, hotspotY);
         }
 
         /// <summary>
@@ -525,6 +529,11 @@ namespace OpenWindow
         /// </summary>
         protected abstract void InternalSetIcon(ReadOnlySpan<byte> pixelData, int width, int height);
 
+        /// <summary>
+        /// Set the mouse cursor.
+        /// </summary>
+        protected abstract void InternalSetCursor(ReadOnlySpan<byte> pixelData, int width, int height, int hotspotX, int hotspotY);
+
         #endregion
 
         #region Disposable pattern
@@ -557,6 +566,28 @@ namespace OpenWindow
         /// </summary>
         protected virtual void ReleaseUnmanagedResources()
         {
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        private ReadOnlySpan<byte> PrepareImageData<T>(ReadOnlySpan<T> pixelData, int width, int height) where T : struct
+        {
+            if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width), "Width must be larger than 0.");
+            if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), "Height must be larger than 0.");
+
+            var byteLen = width * height * 4;
+            var byteData = MemoryMarshal.AsBytes(pixelData);
+
+            if (byteData.Length < byteLen)
+            {
+                throw new ArgumentException(
+                    $"Not enough data to create an image of the specified size. Expected at least {byteLen} bytes of data, but got {byteData.Length}.",
+                    nameof(pixelData));
+            }
+
+            return byteData;
         }
 
         #endregion

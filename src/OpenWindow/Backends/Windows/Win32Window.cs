@@ -11,9 +11,16 @@ namespace OpenWindow.Backends.Windows
 
         private WindowData _windowData;
         internal IntPtr Hwnd;
+
+        // TODO should we have a single class for all our windows managed by Win32WindowingService?
         private string _className;
 
+        // Handles we keep around to clean up stuff we created
         private IntPtr _lastSetIconHandle;
+        private IntPtr _lastSetCursorHandle;
+        // Win32 sends UTF-16 chars so we store high surrogates to join them with their paired low surrogate
+        // that follows it so we can hand users the codepoint.
+        private char _lastHighSurrogate;
 
         #endregion
 
@@ -300,108 +307,6 @@ namespace OpenWindow.Backends.Windows
 
         #endregion
 
-        #region Private Methods
-
-        private static uint _windowId;
-        private void RegisterNewWindowClass(WndProc wndProc)
-        {
-            _className = $"OpenWindow[{Native.GetCurrentThreadId()}]({_windowId++})";
-            var winClass = new WndClass();
-            winClass.lpszClassName = _className;
-
-            winClass.lpfnWndProc = wndProc;
-            winClass.hInstance = (IntPtr) Native.GetModuleHandle(null);
-
-            winClass.hCursor = Native.LoadCursor(IntPtr.Zero, Cursor.Arrow);
-
-            if (Native.RegisterClass(ref winClass) == 0)
-                throw GetLastException("Registering window class failed.");
-        }
-
-        private uint GetWindowStyle()
-            => GetWindowStyle(Decorated, Resizable);
-
-        private uint GetWindowStyle(bool decorated, bool resizable)
-        {
-            // FIXME Window size is wrong when Decorated = true and Resizable = false.
-            // Client width and height turn out 4 pixels too big. Where do they come from?
-
-            // TODO undecorated window (popup) still needs a border to be displayed
-            // There are also some issues with a top level window being a popup window
-            // For better borderless windows we should look at
-            // - https://docs.microsoft.com/en-us/windows/win32/dwm/customframe
-            // - https://github.com/rossy/borderless-window
-
-            uint style = Constants.WS_VISIBLE | Constants.WS_MINIMIZEBOX | Constants.WS_SYSMENU;
-
-            if (resizable)
-            {
-                style |= Constants.WS_THICKFRAME | Constants.WS_MAXIMIZEBOX;
-            }
-
-            if (decorated)
-            {
-                style |= Constants.WS_CAPTION;
-            }
-            else
-            {
-                style |= Constants.WS_POPUP | Constants.WS_BORDER;
-            }
-
-            return style;
-        }
-
-        private void UpdateStyle()
-        {
-            var ws = GetWindowStyle();
-            const int GWL_STYLE = -16;
-            Native.SetWindowLong(Hwnd, GWL_STYLE, (int) ws);
-            Native.ShowWindow(Hwnd, ShowWindowCommand.Show);
-        }
-
-        private static Exception GetLastException(string message)
-        {
-            var e = Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
-            return new OpenWindowException(message, e);
-        }
-
-        #endregion
-
-        #region Extensions
-
-        private delegate bool wglChoosePixelFormatArbDelegate(
-            IntPtr hdc,
-            [In] int[] attribIList,
-            [In] float[] attribFList,
-            uint maxFormats,
-            [Out] int[] pixelFormats,
-            out uint numFormats);
-
-        private delegate bool wglGetPixelFormatAttribivArbDelegate(
-            IntPtr hdc,
-            [In] int iPixelFormat,
-            [In] int iLayerPlane,
-            [In] uint nAttributes,
-            [In] int[] piAttributes,
-            [Out] int[] piValues);
-
-
-        private delegate string wglGetExtensionsString(IntPtr hdc);
-
-        private static wglChoosePixelFormatArbDelegate wglChoosePixelFormatARB;
-        private static wglGetPixelFormatAttribivArbDelegate wglGetPixelFormatAttribivARB;
-        private static wglGetPixelFormatAttribivArbDelegate wglGetPixelFormatAttribivEXT;
-
-        private static T LoadWglExtension<T>(string name) where T : class
-        {
-            var ptr = Native.wglGetProcAddress(name);
-            if (ptr == IntPtr.Zero)
-                return default(T);
-            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
-        }
-
-        #endregion
-
         #region Protected Methods
 
         /// <inheritdoc />
@@ -470,6 +375,156 @@ namespace OpenWindow.Backends.Windows
         /// <inheritdoc />
         protected unsafe override void InternalSetIcon(ReadOnlySpan<byte> pixelData, int width, int height)
         {
+            var iconHandle = CreateIcon(pixelData, width, height, isIcon: true);
+
+            // Set the small icon (caption icon)
+            var oldSmallIcon = Native.SendMessage(Hwnd, WindowMessage.SetIcon, new IntPtr(0), iconHandle);
+            // Set the big icon (Alt+Tab dialog icon)
+            var oldBigIcon = Native.SendMessage(Hwnd, WindowMessage.SetIcon, new IntPtr(1), iconHandle);
+
+            // Destroy icons if we created them
+            if (oldSmallIcon != IntPtr.Zero && oldSmallIcon == _lastSetIconHandle)
+            {
+                Native.DestroyIcon(oldSmallIcon);
+            }
+            else if (oldBigIcon != IntPtr.Zero && oldBigIcon == _lastSetIconHandle)
+            {
+                Native.DestroyIcon(oldBigIcon);
+            }
+
+            _lastSetIconHandle = iconHandle;
+        }
+
+        protected override void InternalSetCursor(ReadOnlySpan<byte> pixelData, int width, int height, int hotspotX, int hotspotY)
+        {
+            var cursorHandle = CreateIcon(pixelData, width, height, isIcon: false);
+            var oldCursor = Native.SetCursor(cursorHandle);
+            if (oldCursor == _lastSetCursorHandle)
+            {
+                Native.DestroyIcon(oldCursor);
+            }
+
+            _lastSetCursorHandle = cursorHandle;
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        /// <summary>
+        /// Processes UTF-16 characters into UTF-32 unicode codepoints by
+        /// combining surrogate pairs from subsequent calls if necessary and
+        /// by dropping control characters.
+        /// </summary>
+        internal bool TryGetUtf32(char c, out int utf32)
+        {
+            const char noChar = (char) 0;
+
+            if (char.IsHighSurrogate(c))
+            {
+                utf32 = noChar;
+                _lastHighSurrogate = c;
+            }
+            else if (char.IsLowSurrogate(c))
+            {
+                if (_lastHighSurrogate != noChar)
+                {
+                    utf32 = char.ConvertToUtf32(_lastHighSurrogate, c);
+                    _lastHighSurrogate = noChar;
+                }
+                else
+                {
+                    WindowingService.LogError("Got a low surrogate UTF-16 character without getting a UTF-16 high surrogate first.");
+                    utf32 = noChar;
+                }
+            }
+            else if (char.IsControl(c))
+            {
+                utf32 = noChar;
+            }
+            else
+            {
+                utf32 = c;
+            }
+
+            return utf32 != noChar;
+        }
+
+        internal void ResetCursor()
+        {
+            // FIXME We should maybe initialize the cursor to the system arrow cursor
+            if (_lastSetCursorHandle != IntPtr.Zero)
+            {
+                Native.SetCursor(_lastSetCursorHandle);
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static uint _windowId;
+        private void RegisterNewWindowClass(WndProc wndProc)
+        {
+            _className = $"OpenWindow[{Native.GetCurrentThreadId()}]({_windowId++})";
+            var winClass = new WndClass();
+            winClass.lpszClassName = _className;
+
+            winClass.lpfnWndProc = wndProc;
+            winClass.hInstance = (IntPtr) Native.GetModuleHandle(null);
+
+            // If we set a cursor here we can't change the cursor later.
+            // From https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursor#remarks:
+            // "[...] make sure the class cursor for the specified window's class is set to NULL. If the class
+            //  cursor is not NULL, the system restores the class cursor each time the mouse is moved."
+            winClass.hCursor = IntPtr.Zero;
+            if (Native.RegisterClass(ref winClass) == 0)
+                throw GetLastException("Registering window class failed.");
+        }
+
+        private uint GetWindowStyle()
+            => GetWindowStyle(Decorated, Resizable);
+
+        private uint GetWindowStyle(bool decorated, bool resizable)
+        {
+            // FIXME Window size is wrong when Decorated = true and Resizable = false.
+            // Client width and height turn out 4 pixels too big. Where do they come from?
+
+            // TODO undecorated window (popup) still needs a border to be displayed
+            // There are also some issues with a top level window being a popup window
+            // For better borderless windows we should look at
+            // - https://docs.microsoft.com/en-us/windows/win32/dwm/customframe
+            // - https://github.com/rossy/borderless-window
+
+            uint style = Constants.WS_VISIBLE | Constants.WS_MINIMIZEBOX | Constants.WS_SYSMENU;
+
+            if (resizable)
+            {
+                style |= Constants.WS_THICKFRAME | Constants.WS_MAXIMIZEBOX;
+            }
+
+            if (decorated)
+            {
+                style |= Constants.WS_CAPTION;
+            }
+            else
+            {
+                style |= Constants.WS_POPUP | Constants.WS_BORDER;
+            }
+
+            return style;
+        }
+
+        private void UpdateStyle()
+        {
+            var ws = GetWindowStyle();
+            const int GWL_STYLE = -16;
+            Native.SetWindowLong(Hwnd, GWL_STYLE, (int) ws);
+            Native.ShowWindow(Hwnd, ShowWindowCommand.Show);
+        }
+
+        private unsafe IntPtr CreateIcon(ReadOnlySpan<byte> pixelData, int width, int height, bool isIcon)
+        {
             var pixelDataSize = width * height * 4;
             // mask pitch needs to be aligned
             // FIXME some sources say it needs to be WORD (16-bit) or DWORD (32-bit) aligned, need to double-check
@@ -520,73 +575,59 @@ namespace OpenWindow.Backends.Windows
             IntPtr iconHandle;
             fixed (byte* iconDataPtr = iconData)
             {
-                iconHandle = Native.CreateIconFromResource(iconDataPtr, (uint) iconData.Length, true, 0x00030000);
+                const uint defaultSizeFlag = 0x40;
+                iconHandle = Native.CreateIconFromResourceEx(iconDataPtr, (uint) iconData.Length, true, 0x00030000, 0, 0, defaultSizeFlag);
             }
 
             ArrayPool<byte>.Shared.Return(iconDataArray);
 
             if (iconHandle == IntPtr.Zero)
             {
-                throw new OpenWindowException("Failed to create icon.");
+                throw GetLastException("Failed to create icon.");
             }
 
-            // Set the small icon (caption icon)
-            var oldSmallIcon = Native.SendMessage(Hwnd, WindowMessage.SetIcon, new IntPtr(0), iconHandle);
-            // Set the big icon (Alt+Tab dialog icon)
-            var oldBigIcon = Native.SendMessage(Hwnd, WindowMessage.SetIcon, new IntPtr(1), iconHandle);
-
-            // Destroy icons if we created them
-            if (oldSmallIcon != IntPtr.Zero && oldSmallIcon == _lastSetIconHandle)
-            {
-                Native.DestroyIcon(oldSmallIcon);
-            }
-            else if (oldBigIcon != IntPtr.Zero && oldBigIcon == _lastSetIconHandle)
-            {
-                Native.DestroyIcon(oldBigIcon);
-            }
-
-            _lastSetIconHandle = iconHandle;
+            return iconHandle;
         }
 
-        private char _lastHighSurrogate;
-
-        /// <summary>
-        /// Processes UTF-16 characters into UTF-32 unicode codepoints by
-        /// combining surrogate pairs from subsequent calls if necessary and
-        /// by dropping control characters.
-        /// </summary>
-        internal bool TryGetUtf32(char c, out int utf32)
+        private static Exception GetLastException(string message)
         {
-            const char noChar = (char) 0;
+            var e = Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+            return new OpenWindowException(message, e);
+        }
 
-            if (char.IsHighSurrogate(c))
-            {
-                utf32 = noChar;
-                _lastHighSurrogate = c;
-            }
-            else if (char.IsLowSurrogate(c))
-            {
-                if (_lastHighSurrogate != noChar)
-                {
-                    utf32 = char.ConvertToUtf32(_lastHighSurrogate, c);
-                    _lastHighSurrogate = noChar;
-                }
-                else
-                {
-                    WindowingService.LogError("Got a low surrogate UTF-16 character without getting a UTF-16 high surrogate first.");
-                    utf32 = noChar;
-                }
-            }
-            else if (char.IsControl(c))
-            {
-                utf32 = noChar;
-            }
-            else
-            {
-                utf32 = c;
-            }
+        #endregion
 
-            return utf32 != noChar;
+        #region Extensions
+
+        private delegate bool wglChoosePixelFormatArbDelegate(
+            IntPtr hdc,
+            [In] int[] attribIList,
+            [In] float[] attribFList,
+            uint maxFormats,
+            [Out] int[] pixelFormats,
+            out uint numFormats);
+
+        private delegate bool wglGetPixelFormatAttribivArbDelegate(
+            IntPtr hdc,
+            [In] int iPixelFormat,
+            [In] int iLayerPlane,
+            [In] uint nAttributes,
+            [In] int[] piAttributes,
+            [Out] int[] piValues);
+
+
+        private delegate string wglGetExtensionsString(IntPtr hdc);
+
+        private static wglChoosePixelFormatArbDelegate wglChoosePixelFormatARB;
+        private static wglGetPixelFormatAttribivArbDelegate wglGetPixelFormatAttribivARB;
+        private static wglGetPixelFormatAttribivArbDelegate wglGetPixelFormatAttribivEXT;
+
+        private static T LoadWglExtension<T>(string name) where T : class
+        {
+            var ptr = Native.wglGetProcAddress(name);
+            if (ptr == IntPtr.Zero)
+                return default(T);
+            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
         }
 
         #endregion

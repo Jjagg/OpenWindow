@@ -156,6 +156,9 @@ namespace OpenWindow.Backends.Windows
         public static extern bool GetCursorPos(out Point point);
 
         [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetCursor(IntPtr hCursor);
+
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern bool SetCursorPos(int x, int y);
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -186,6 +189,9 @@ namespace OpenWindow.Backends.Windows
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern unsafe IntPtr CreateIconFromResource(byte* presbits, uint dwResSize, bool fIcon, uint dwVer);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern unsafe IntPtr CreateIconFromResourceEx(byte* presbits, uint dwResSize, bool fIcon, uint dwVer, int cxDesired, int cyDesired, uint flags);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool DestroyIcon(IntPtr hIcon);
