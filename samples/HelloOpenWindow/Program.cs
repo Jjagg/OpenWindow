@@ -1,8 +1,16 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using OpenWindow;
+
+using System.Collections.Generic;
+using IComDataObject = System.Runtime.InteropServices.ComTypes.IDataObject;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace HelloOpenWindow
 {
@@ -40,8 +48,8 @@ namespace HelloOpenWindow
             FillIconPixelData(cursorWidth, cursorHeight, cursorPixelData);
             _window.SetCursor<Color>(cursorPixelData, cursorWidth, cursorHeight, 15, 15);
 
-            _window.MinSize = new Size(MinWidth, MinHeight);
-            _window.MaxSize = new Size(MaxWidth, MaxHeight);
+            _window.MinSize = new OpenWindow.Size(MinWidth, MinHeight);
+            _window.MaxSize = new OpenWindow.Size(MaxWidth, MaxHeight);
 
             _window.CloseRequested += (s, e) => Console.WriteLine("Received request to close the window!");
             _window.Closing += (s, e) => Console.WriteLine("Closing the window! Bye :)");
@@ -55,6 +63,9 @@ namespace HelloOpenWindow
             {
                 switch (e.Key)
                 {
+                    case Key.A:
+                        ClipboardTest();
+                        break;
                     case Key.B: // border
                         _window.Decorated = !_window.Decorated;
                         break;
@@ -106,6 +117,135 @@ namespace HelloOpenWindow
             _service.Dispose();
         }
 
+        private static string[] _predefinedClipboardFormats = 
+        {
+            null,
+            "CF_TEXT",
+            "CF_BITMAP",
+            "CF_METAFILEPICT",
+            "CF_SYLK",
+            "CF_DIF",
+            "CF_TIFF",
+            "CF_OEMTEXT",
+            "CF_DIB",
+            "CF_PALETTE",
+            "CF_PENDATA",
+            "CF_RIFF",
+            "CF_WAVE",
+            "CF_UNICODETEXT",
+            "CF_ENHMETAFILE",
+            "CF_HDROP",
+            "CF_LOCALE",
+            "CF_DIBV5"
+        };
+
+        private static unsafe void ClipboardTest()
+        {
+            var hwnd = ((Win32WindowData) _window.GetPlatformData()).Hwnd;
+            if (!Native.OpenClipboard(hwnd))
+            {
+                Console.WriteLine("Failed to open clipboard!");
+            }
+
+            try
+            {
+                Console.WriteLine("Clipboard formats:");
+
+                uint format = Native.EnumClipboardFormats(0);
+                while (format != 0)
+                {
+                    if (format < _predefinedClipboardFormats.Length)
+                    {
+                        Console.WriteLine($"  - {_predefinedClipboardFormats[format]} (predefined)");
+                    }
+                    else
+                    {
+                        var sb = new StringBuilder(Native.GetClipboardFormatNameLength((short) format));
+                        if (Native.GetClipboardFormatName((short) format, sb) <= 0)
+                        {
+                            Console.WriteLine("- ERROR: Failed to get clipboard format name.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"  - {sb}");
+                        }
+                    }
+
+                    format = Native.EnumClipboardFormats(format);
+                }
+
+                Native.EmptyClipboard();
+
+                //ReadOnlySpan<char> str = "Hello";
+
+                var bitmap = new Bitmap("img.png");
+
+                //var hbitmap = bitmap.GetHbitmap();
+                //Native.SetClipboardData(ClipboardFormats.CF_BITMAP, hbitmap);
+
+                var header = new BitmapInfoHeader
+                {
+                    biSize = 40,
+                    biWidth = bitmap.Width,
+                    biHeight = bitmap.Height,
+                    biPlanes = 1,
+                    biBitCount = 32,
+                    biCompression = 0,
+                    biSizeImage = bitmap.Width * bitmap.Height * 4,
+                };
+
+                var bmData = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+                try
+                {
+                    var size = Marshal.SizeOf<BitmapInfoHeader>() + bmData.Stride * bmData.Height;
+                    var hmem = Native.GlobalAlloc(size);
+                    var ptr = Native.GlobalLock(hmem);
+                    var dst = new Span<byte>(ptr.ToPointer(), size);
+                    Marshal.StructureToPtr(header, ptr, false);
+                    dst = dst.Slice(Marshal.SizeOf<BitmapInfoHeader>());
+
+                    var src = new Span<byte>(bmData.Scan0.ToPointer(), bmData.Stride * bmData.Height);
+                    src.CopyTo(dst);
+
+                    Native.GlobalUnlock(hmem);
+                    Native.SetClipboardData(ClipboardFormats.CF_DIB, hmem);
+                }
+                finally
+                {
+                    bitmap.UnlockBits(bmData);
+                }
+
+                return;
+
+                using (var fs = File.OpenRead("img.png"))
+                {
+                    var fileLength = (int) fs.Length;
+
+                    const int GHND = 0x0042;
+                    var hmem = Native.GlobalAlloc(GHND, fileLength);
+                    var ptr = Native.GlobalLock(hmem);
+
+                    using (var ums = new UnmanagedMemoryStream((byte*) ptr.ToPointer(), fileLength, fileLength, FileAccess.Write))
+                    {
+                        fs.CopyTo(ums);
+                    }
+
+                    //var dst = new Span<char>(ptr.ToPointer(), str.Length);
+                    //str.CopyTo(dst);
+
+                    Native.GlobalUnlock(hmem);
+
+                    var pngFormat = Native.RegisterClipboardFormat("PNG");
+                    Native.SetClipboardData(pngFormat, hmem);
+                }
+            }
+            finally
+            {
+                Native.CloseClipboard();
+            }
+        }
+
         private static void FillIconPixelData(int w, int h, Span<Color> pixelData)
         {
             var halfWidth = w / 2;
@@ -151,7 +291,7 @@ namespace HelloOpenWindow
             var y = _random.Next(100, 300);
             var width = _random.Next(MinWidth, MaxWidth);
             var height = _random.Next(MinHeight, MaxHeight);
-            _window.ClientBounds = new Rectangle(x, y, width, height);
+            _window.ClientBounds = new OpenWindow.Rectangle(x, y, width, height);
         }
 
         private static void PrintWindowInfo()
@@ -196,5 +336,556 @@ namespace HelloOpenWindow
 
             public static implicit operator Color(uint v) => new Color(v);
         }
+    }
+
+    internal enum HResult : int
+    {
+        S_OK = 0,
+        S_FALSE = 1,
+        E_NOTIMPL = unchecked((int) 0x80004001),
+        OLE_E_ADVISENOTSUPPORTED = unchecked((int) 0x80040003),
+        E_FAIL = unchecked((int)0x80004005),
+        DV_E_FORMATETC = unchecked((int) 0x80040064),
+        DV_E_TYMED = unchecked((int) 0x80040069),
+        DV_E_DVASPECT = unchecked((int) 0x8004006B),
+    }
+
+    public static class Native
+    {
+        #region Clipboard
+
+        [DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr hObject);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool OpenClipboard(IntPtr hwnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool CloseClipboard();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool EmptyClipboard();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetClipboardData(uint format);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetClipboardData(uint uFormat, IntPtr hMem);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern int CountClipboardFormats();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint EnumClipboardFormats(uint format);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint RegisterClipboardFormat(string lpszFormat);
+
+        public static string GetClipboardFormatName(short format)
+        {
+            var len = GetClipboardFormatNameLength(format);
+            var sb = new StringBuilder(len);
+            if (GetClipboardFormatName(format, sb) > 0)
+                return sb.ToString();
+
+            return null;
+        }
+
+        public static int GetClipboardFormatNameLength(short format)
+            => GetClipboardFormatName(format, null, 0);
+
+        public static int GetClipboardFormatName(short format, StringBuilder lpszFormatName)
+            => GetClipboardFormatName(format, lpszFormatName, lpszFormatName.Capacity);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetClipboardFormatName(short format, StringBuilder lpszFormatName, int cchMaxCount);
+
+        public static IntPtr GlobalAlloc(int dwBytes) => GlobalAlloc(0x0042, dwBytes);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GlobalAlloc(uint uFlags, int dwBytes);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GlobalReAlloc(IntPtr hMem, int dwBytes, uint uFlags);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GlobalLock(IntPtr hMem);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool GlobalUnlock(IntPtr hMem);
+
+        // IntPtr.Zero on success
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GlobalFree(IntPtr hMem);
+
+        #endregion
+    }
+
+    public interface IDataObject
+    {
+        bool TryGetData<T>(string format, out T data);
+        void SetData<T>(string format, T data);
+        bool HasFormat(string format);
+    }
+
+    public static class ClipboardFormats
+    {
+        // https://www.codeproject.com/Reference/1091137/Windows-Clipboard-Formats
+
+        public const uint CF_TEXT = 1;
+        public const uint CF_BITMAP = 2;
+        public const uint CF_METAFILEPICT = 3;
+        public const uint CF_SYLK = 4;
+        public const uint CF_DIF = 5;
+        public const uint CF_TIFF = 6;
+        public const uint CF_OEMTEXT = 7;
+        public const uint CF_DIB = 8;
+        public const uint CF_PALETTE = 9;
+        public const uint CF_PENDATA = 10;
+        public const uint CF_RIFF = 11;
+        public const uint CF_WAVE = 12;
+        public const uint CF_UNICODETEXT = 13;
+        public const uint CF_ENHMETAFILE = 14;
+        public const uint CF_HDROP = 15;
+        public const uint CF_LOCALE = 16;
+        public const uint CF_DIBV5 = 17;
+
+        private static string[] _predefinedClipboardFormats = 
+        {
+            null,
+            "CF_TEXT",
+            "CF_BITMAP",
+            "CF_METAFILEPICT",
+            "CF_SYLK",
+            "CF_DIF",
+            "CF_TIFF",
+            "CF_OEMTEXT",
+            "CF_DIB",
+            "CF_PALETTE",
+            "CF_PENDATA",
+            "CF_RIFF",
+            "CF_WAVE",
+            "CF_UNICODETEXT",
+            "CF_ENHMETAFILE",
+            "CF_HDROP",
+            "CF_LOCALE",
+            "CF_DIBV5"
+        };
+
+        public static uint GetFormatId(string format)
+        {
+            for (var i = 1; i < _predefinedClipboardFormats.Length; i++)
+            {
+                if (_predefinedClipboardFormats[i].Equals(format, StringComparison.OrdinalIgnoreCase))
+                    return (uint) i;
+            }
+
+            return Native.RegisterClipboardFormat(format);
+        }
+
+        public static string GetFormatName(short id)
+        {
+            if (id >= 0 && id < _predefinedClipboardFormats.Length)
+                return _predefinedClipboardFormats[id];
+
+            return Native.GetClipboardFormatName(id);
+        }
+    }
+
+    internal class OleDataObject : IDataObject, IComDataObject
+    {
+        public IComDataObject ComObject { get; }
+
+        public OleDataObject(IComDataObject comObject)
+        {
+            ComObject = comObject;
+        }
+
+        public bool TryGetData<T>(string format, out T data)
+        {
+            data = default;
+
+            var formatetc = CreateFORMATETC(format);
+            if (QueryGetData(ref formatetc) != (int) HResult.S_OK)
+                return false;
+
+            ComObject.GetData(ref formatetc, out var medium);
+            if (medium.unionmember == IntPtr.Zero)
+                return false;
+
+            if (format.Equals("CF_TEXT") || format.Equals("CF_OEMTEXT"))
+            {
+                if (typeof(T) != typeof(string))
+                    return false;
+                
+                if (HGlobalHelper.ReadString(medium.unionmember, ansi: true, out var strData) != HResult.S_OK)
+                    return false;
+                
+                data = (T) (object) strData;
+                return true;
+            }
+
+            if (format.Equals("CF_UNICODETEXT"))
+            {
+                if (typeof(T) != typeof(string))
+                    return false;
+                
+                if (HGlobalHelper.ReadString(medium.unionmember, ansi: false, out var strData) != HResult.S_OK)
+                    return false;
+                
+                data = (T) (object) strData;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool HasFormat(string format)
+        {
+            var formatetc = CreateFORMATETC(format);
+            return QueryGetData(ref formatetc) == (int) HResult.S_OK;
+        }
+
+        private FORMATETC CreateFORMATETC(string name)
+        {
+            var formatId = ClipboardFormats.GetFormatId(name);
+            return new FORMATETC
+            {
+                cfFormat = (short) formatId,
+                dwAspect = DVASPECT.DVASPECT_CONTENT,
+                lindex = -1,
+                ptd = IntPtr.Zero,
+                tymed = TYMED.TYMED_HGLOBAL
+            };
+        }
+
+
+        public void SetData<T>(string format, T data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int DAdvise(ref FORMATETC pFormatetc, ADVF advf, IAdviseSink adviseSink, out int connection)
+            => ComObject.DAdvise(ref pFormatetc, advf, adviseSink, out connection);
+
+        public void DUnadvise(int connection)
+            => ComObject.DUnadvise(connection);
+
+        public int EnumDAdvise(out IEnumSTATDATA enumAdvise)
+            => ComObject.EnumDAdvise(out enumAdvise);
+
+        public IEnumFORMATETC EnumFormatEtc(DATADIR direction)
+            => ComObject.EnumFormatEtc(direction);
+
+        public int GetCanonicalFormatEtc(ref FORMATETC formatIn, out FORMATETC formatOut)
+            => ComObject.GetCanonicalFormatEtc(ref formatIn, out formatOut);
+
+        public void GetData(ref FORMATETC format, out STGMEDIUM medium)
+            => ComObject.GetData(ref format, out medium);
+
+        public void GetDataHere(ref FORMATETC format, ref STGMEDIUM medium)
+            => ComObject.GetDataHere(ref format, ref medium);
+
+        public int QueryGetData(ref FORMATETC format)
+            => ComObject.QueryGetData(ref format);
+
+        public void SetData(ref FORMATETC formatIn, ref STGMEDIUM medium, bool release)
+            => ComObject.SetData(ref formatIn, ref medium, release);
+    }
+
+    internal class ManagedDataObject : IDataObject, IComDataObject
+    {
+        private readonly Dictionary<string, object> _dict;
+
+        public ManagedDataObject()
+        {
+            _dict = new Dictionary<string, object>();
+        }
+
+        public string[] GetFormats()
+        {
+            var keys = new string[_dict.Keys.Count];
+            _dict.Keys.CopyTo(keys, 0);
+            return keys;
+        }
+
+        public bool TryGetData<T>(string format, out T data)
+        {
+            _dict.TryGetValue(format, out var dataTmp);
+            if (dataTmp is T)
+            {
+                data = (T) dataTmp;
+                return true;
+            }
+
+            data = default;
+            return false;
+        }
+
+        public bool HasFormat(string format)
+            => _dict.ContainsKey(format);
+
+        public void SetData<T>(string format, T data)
+        {
+            _dict[format] = data;
+        }
+
+        int IComDataObject.DAdvise(ref FORMATETC pFormatetc, ADVF advf, IAdviseSink adviseSink, out int connection)
+        {
+            connection = 0;
+            return (int) HResult.E_NOTIMPL;
+        }
+
+        void IComDataObject.DUnadvise(int connection)
+        {
+            Marshal.ThrowExceptionForHR((int) HResult.E_NOTIMPL);
+        }
+
+        int IComDataObject.EnumDAdvise(out IEnumSTATDATA enumAdvise)
+        {
+            enumAdvise = null;
+            return (int) HResult.OLE_E_ADVISENOTSUPPORTED;
+        }
+
+        IEnumFORMATETC IComDataObject.EnumFormatEtc(DATADIR direction)
+        {
+            if (direction == DATADIR.DATADIR_SET)
+                Marshal.ThrowExceptionForHR((int) HResult.E_NOTIMPL);
+
+            return new FormatEnumerator(this);
+        }
+
+        int IComDataObject.GetCanonicalFormatEtc(ref FORMATETC formatIn, out FORMATETC formatOut)
+        {
+            const int DATA_S_SAMEFORMATETC = 0x00040130;
+            formatOut = new FORMATETC();
+            return DATA_S_SAMEFORMATETC;
+        }
+
+        void IComDataObject.GetData(ref FORMATETC format, out STGMEDIUM medium)
+        {
+            var hr = QueryGetDataInternal(format, out var formatName);
+            if (hr != HResult.S_OK)
+                Marshal.ThrowExceptionForHR((int) hr);
+
+            medium = new STGMEDIUM();
+            medium.tymed = format.tymed;
+
+            WriteDataToGlobal(formatName, _dict[formatName], ref medium.unionmember);
+        }
+
+        void IComDataObject.GetDataHere(ref FORMATETC format, ref STGMEDIUM medium)
+        {
+            var hr = QueryGetDataInternal(format, out var formatName);
+            if (hr != HResult.S_OK)
+                Marshal.ThrowExceptionForHR((int) hr);
+
+            WriteDataToGlobal(formatName, _dict[formatName], ref medium.unionmember);
+        }
+
+        int IComDataObject.QueryGetData(ref FORMATETC format)
+            => (int) QueryGetDataInternal(format, out _);
+
+        private HResult QueryGetDataInternal(in FORMATETC format, out string formatName)
+        {
+            formatName = null;
+
+            if (format.dwAspect != DVASPECT.DVASPECT_CONTENT)
+                return HResult.DV_E_DVASPECT;
+            if (format.tymed != TYMED.TYMED_HGLOBAL)
+                return HResult.DV_E_TYMED;
+
+            formatName = ClipboardFormats.GetFormatName(format.cfFormat);
+            if (formatName == null || !HasFormat(formatName))
+                return HResult.DV_E_FORMATETC;
+
+            return HResult.S_OK;
+        }
+
+        void IComDataObject.SetData(ref FORMATETC formatIn, ref STGMEDIUM medium, bool release)
+        {
+            Marshal.ThrowExceptionForHR((int) HResult.E_NOTIMPL);
+        }
+
+        private static HResult WriteDataToGlobal(string format, object data, ref IntPtr hMem)
+        {
+            HResult hr = HResult.E_FAIL;
+            if (format.Equals("CF_TEXT", StringComparison.OrdinalIgnoreCase) ||
+                format.Equals("CF_OEMTEXT", StringComparison.OrdinalIgnoreCase))
+            {
+                if (data is string str)
+                {
+                    hr = HGlobalHelper.WriteString(str, ref hMem, ansi: true);
+                }
+                else
+                {
+                    hr = HResult.DV_E_FORMATETC;
+                }
+            }
+            if (format.Equals("CF_UNICODETEXT", StringComparison.OrdinalIgnoreCase))
+            {
+                if (data is string str)
+                {
+                    hr = HGlobalHelper.WriteString(str, ref hMem, ansi: false);
+                }
+                else
+                {
+                    hr = HResult.DV_E_FORMATETC;
+                }
+            }
+
+            return hr;
+        }
+
+        private class FormatEnumerator : IEnumFORMATETC
+        {
+            private readonly FORMATETC[] _formats;
+            private int _current;
+
+            public FormatEnumerator(ManagedDataObject mdo)
+            {
+                var strFormats = mdo.GetFormats();
+
+                for (var i = 0; i < strFormats.Length; i++)
+                {
+                    var formatName = strFormats[i];
+                    var formatId = ClipboardFormats.GetFormatId(formatName);
+
+                    var tymed = formatId switch
+                    {
+                        ClipboardFormats.CF_BITMAP => TYMED.TYMED_GDI,
+                        ClipboardFormats.CF_ENHMETAFILE => TYMED.TYMED_ENHMF,
+                        _ => TYMED.TYMED_HGLOBAL
+                    };
+
+                    _formats[i] = new FORMATETC
+                    {
+                        cfFormat = (short) formatId,
+                        dwAspect = DVASPECT.DVASPECT_CONTENT,
+                        lindex = -1,
+                        ptd = IntPtr.Zero,
+                        tymed = tymed
+                    };
+                }
+            }
+
+            private FormatEnumerator(FORMATETC[] formats)
+            {
+                _formats = formats;
+            }
+
+            public void Clone(out IEnumFORMATETC newEnum)
+            {
+                newEnum = new FormatEnumerator(_formats);
+            }
+
+            public int Next(int celt, FORMATETC[] rgelt, int[] pceltFetched)
+            {
+                var fetched = 0;
+                var i = 0;
+
+                while (celt-- > 0 && _current < _formats.Length)
+                {
+                    rgelt[i++] = _formats[_current++];
+                    fetched++;
+                }
+
+                pceltFetched[0] = fetched;
+                return (int) (fetched == celt ? HResult.S_OK : HResult.S_FALSE);
+            }
+
+            public int Reset()
+            {
+                _current = 0;
+                return (int) HResult.S_OK;
+            }
+
+            public int Skip(int celt)
+            {
+                if ( celt <= 0 || _current + celt >= _formats.Length)
+                    return (int) HResult.S_FALSE;
+
+                _current += celt;
+                return (int) HResult.S_OK;
+            }
+        }
+    }
+
+    internal static class HGlobalHelper
+    {
+        public static unsafe HResult ReadString(IntPtr hMem, bool ansi, out string data)
+        {
+            var ptr = Native.GlobalLock(hMem);
+            data = null;
+            if (ptr == IntPtr.Zero)
+                return HResult.E_FAIL;
+
+            try
+            {
+                if (ansi)
+                {
+                    data = new string((sbyte*) ptr);
+                }
+                else
+                {
+                    data = new string ((char*) ptr);
+                }
+            }
+            finally
+            {
+                Native.GlobalUnlock(hMem);
+            }
+
+            return HResult.S_OK;
+        }
+
+        public static HResult WriteString(string data, ref IntPtr hMem, bool ansi)
+        {
+            var size = ansi ? data.Length + 1 : data.Length * 2 + 1;
+
+            const int GHND = 0x0042;
+            hMem = hMem == IntPtr.Zero ? Native.GlobalAlloc(GHND, size) : hMem = Native.GlobalReAlloc(hMem, size, GHND);
+
+            if (hMem == IntPtr.Zero) return HResult.E_FAIL;
+
+            var ptr = Native.GlobalLock(hMem);
+            if (ptr == IntPtr.Zero) return HResult.E_FAIL;
+
+            if (ansi)
+            {
+                for (var i = 0; i < data.Length; i++)
+                {
+                    var c = data[i];
+                    if (c > byte.MaxValue) return HResult.E_FAIL;
+                    Marshal.WriteByte(ptr + i, (byte) c);
+                }
+            }
+            else
+            {
+                for (var i = 0; i < data.Length; i++)
+                {
+                    var c = data[i];
+                    Marshal.WriteInt16(ptr + i, c);
+                }
+            }
+
+            return HResult.S_OK;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct BitmapInfoHeader
+    {
+        public int biSize;
+        public int biWidth;
+        public int biHeight;
+        public short biPlanes;
+        public short biBitCount;
+        public int biCompression;
+        public int biSizeImage;
+        public int biXPelsPerMeter;
+        public int biYPelsPerMeter;
+        public int biClrUsed;
+        public int biClrImportant;
     }
 }

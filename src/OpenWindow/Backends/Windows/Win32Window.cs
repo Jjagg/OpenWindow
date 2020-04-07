@@ -478,7 +478,7 @@ namespace OpenWindow.Backends.Windows
             // "[...] make sure the class cursor for the specified window's class is set to NULL. If the class
             //  cursor is not NULL, the system restores the class cursor each time the mouse is moved."
             winClass.hCursor = IntPtr.Zero;
-            if (Native.RegisterClass(ref winClass) == 0)
+            if (Native.RegisterClass(winClass) == 0)
                 throw GetLastException("Registering window class failed.");
         }
 

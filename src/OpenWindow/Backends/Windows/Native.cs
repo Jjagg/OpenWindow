@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace OpenWindow.Backends.Windows
 {
@@ -33,10 +34,10 @@ namespace OpenWindow.Backends.Windows
         #region Window Class
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern ushort RegisterClass([In] ref WndClass lpWndClass);
+        public static extern ushort RegisterClass(in WndClass lpWndClass);
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern bool UnregisterClass([In] string className, [In] IntPtr hinstance);
+        public static extern bool UnregisterClass(string className, IntPtr hinstance);
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern IntPtr DefWindowProc(IntPtr hWnd, WindowMessage uMsg, IntPtr wParam, IntPtr lParam);
@@ -179,6 +180,56 @@ namespace OpenWindow.Backends.Windows
 
         #endregion
 
+        #region Wgl
+
+        [DllImport("opengl32.dll", SetLastError = true)]
+        public static extern IntPtr wglGetProcAddress(string proc);
+
+        [DllImport("opengl32.dll", SetLastError = true)]
+        public static extern IntPtr wglCreateContext(IntPtr hdc);
+
+        [DllImport("opengl32.dll", SetLastError = true)]
+        public static extern bool wglMakeCurrent(IntPtr hdc, IntPtr hglrc);
+
+        [DllImport("opengl32.dll", SetLastError = true)]
+        public static extern bool wglDeleteContext(IntPtr hrc);
+
+        #endregion
+
+        #region Clipboard
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool OpenClipboard(IntPtr hwnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool CloseClipboard();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool EmptyClipboard();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetClipboardData(uint format);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetClipboardData(uint uFormat, IntPtr hMem);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern int CountClipboardFormats();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint EnumClipboardFormats(uint format);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint RegisterClipboardFormat(string lpszFormat);
+
+        private static int GetClipboardFormatName(uint format, StringBuilder lpszFormatName)
+            => GetClipboardFormatName(format, lpszFormatName, lpszFormatName.Capacity);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetClipboardFormatName(uint format, StringBuilder lpszFormatName, int cchMaxCount);
+
+        #endregion
+
         #region Misc
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -203,18 +254,6 @@ namespace OpenWindow.Backends.Windows
         public static extern int GetSystemMetrics(SystemMetric metric);
         [DllImport("Dwmapi.dll", SetLastError = true)]
         public static extern unsafe bool DwmGetWindowAttribute(IntPtr  hwnd, uint dwAttribute, void* pvAttribute, uint cbAttribute);
-
-        [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern IntPtr wglGetProcAddress(string proc);
-
-        [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern IntPtr wglCreateContext(IntPtr hdc);
-
-        [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern bool wglMakeCurrent(IntPtr hdc, IntPtr hglrc);
-
-        [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern bool wglDeleteContext(IntPtr hrc);
 
         #endregion
     }
