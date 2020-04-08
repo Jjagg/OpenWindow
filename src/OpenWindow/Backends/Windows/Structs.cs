@@ -163,4 +163,59 @@ namespace OpenWindow.Backends.Windows
             return tme;
         }
     }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct BitmapInfoHeader
+    {
+        public int biSize;
+        public int biWidth;
+        public int biHeight;
+        public short biPlanes;
+        public short biBitCount;
+        public int biCompression;
+        public int biSizeImage;
+        public int biXPelsPerMeter;
+        public int biYPelsPerMeter;
+        public int biClrUsed;
+        public int biClrImportant;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct BitmapV5Header
+    {
+        public int biSize;
+        public int biWidth;
+        public int biHeight;
+        public short biPlanes;
+        public short biBitCount;
+        public int biCompression;
+        public int biSizeImage;
+        public int biXPelsPerMeter;
+        public int biYPelsPerMeter;
+        public int biClrUsed;
+        public int biClrImportant;
+        public int bV5RedMask;
+        public int bV5GreenMask;
+        public int bV5BlueMask;
+        public int bV5AlphaMask;
+        public int bV5CSType;
+
+        public int redX;
+        public int redY;
+        public int redZ;
+        public int greenX;
+        public int greenY;
+        public int greenZ;
+        public int blueX;
+        public int blueY;
+        public int blueZ;
+
+        public int bV5GammaRed;
+        public int bV5GammaGreen;
+        public int bV5GammaBlue;
+        public int bV5Intent;
+        public int bV5ProfileData;
+        public int bV5ProfileSize;
+        public int bV5Reserved;
+    }
 }

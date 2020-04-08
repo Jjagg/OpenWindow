@@ -208,6 +208,12 @@ namespace OpenWindow.Backends.Windows
         public static extern bool EmptyClipboard();
 
         [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetClipboardOwner();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetOpenClipboardWindow();
+
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetClipboardData(uint format);
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -217,16 +223,49 @@ namespace OpenWindow.Backends.Windows
         public static extern int CountClipboardFormats();
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern uint EnumClipboardFormats(uint format);
+        public static extern short EnumClipboardFormats(short format);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern uint RegisterClipboardFormat(string lpszFormat);
 
-        private static int GetClipboardFormatName(uint format, StringBuilder lpszFormatName)
+        public static string GetClipboardFormatName(short format)
+        {
+            var len = GetClipboardFormatNameLength(format);
+            var sb = new StringBuilder(len);
+            if (GetClipboardFormatName(format, sb) > 0)
+                return sb.ToString();
+
+            return null;
+        }
+
+        public static int GetClipboardFormatNameLength(short format)
+            => GetClipboardFormatName(format, null, 0);
+
+        public static int GetClipboardFormatName(short format, StringBuilder lpszFormatName)
             => GetClipboardFormatName(format, lpszFormatName, lpszFormatName.Capacity);
 
         [DllImport("user32.dll", SetLastError = true)]
-        private static extern int GetClipboardFormatName(uint format, StringBuilder lpszFormatName, int cchMaxCount);
+        private static extern int GetClipboardFormatName(short format, StringBuilder lpszFormatName, int cchMaxCount);
+
+        #endregion
+
+        #region Heap Alloc
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GlobalAlloc(uint uFlags, int dwBytes);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GlobalReAlloc(IntPtr hMem, int dwBytes, uint uFlags);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GlobalLock(IntPtr hMem);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool GlobalUnlock(IntPtr hMem);
+
+        // IntPtr.Zero on success
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GlobalFree(IntPtr hMem);
 
         #endregion
 

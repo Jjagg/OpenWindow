@@ -32,5 +32,10 @@
         public const uint WS_CAPTION      = WS_BORDER | WS_DLGFRAME;
         public const uint WS_OVERLAPPEDWINDOW = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
         public const uint WS_POPUPWINDOW = WS_POPUP | WS_BORDER | WS_SYSMENU;
+
+        public const uint GHND = 0x0042;
+        public const uint GMEM_FIXED = 0x0000;
+        public const uint GMEM_MOVEABLE = 0x0002;
+        public const uint GMEM_ZEROINIT = 0x0040;
     }
 }

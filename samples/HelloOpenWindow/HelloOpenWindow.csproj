@@ -9,7 +9,4 @@
     <ProjectReference Include="..\..\src\OpenWindow\OpenWindow.csproj" />
     <Content Include="img.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
-  </ItemGroup>
 </Project>

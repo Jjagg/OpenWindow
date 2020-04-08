@@ -210,4 +210,16 @@ namespace OpenWindow.Backends.Windows
         ScToVkEx = 3,
         VkToScEx = 4
     }
+
+    internal enum HResult : int
+    {
+        S_OK = 0,
+        S_FALSE = 1,
+        E_NOTIMPL = unchecked((int) 0x80004001),
+        OLE_E_ADVISENOTSUPPORTED = unchecked((int) 0x80040003),
+        E_FAIL = unchecked((int)0x80004005),
+        DV_E_FORMATETC = unchecked((int) 0x80040064),
+        DV_E_TYMED = unchecked((int) 0x80040069),
+        DV_E_DVASPECT = unchecked((int) 0x8004006B),
+    }
 }
