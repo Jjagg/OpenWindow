@@ -73,13 +73,7 @@ namespace OpenWindow
 
         internal void Clear()
         {
-            for (var i = 0; i < _scanToKey.Length; i++)
-                _scanToKey[i] = Key.Unknown;
-
-            for (var i = 0; i < _keyToScan.Length; i++)
-                _keyToScan[i] = ScanCode.Unknown;
-
-            for (var i = 0; i < _scanToKey.Length; i++)
+            for (var i = 0; i < ScanState.Length; i++)
                 ScanState[i] = false;
         }
 

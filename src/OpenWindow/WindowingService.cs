@@ -302,6 +302,8 @@ namespace OpenWindow
             }
             else if (hasFocus && !newFocus)
             {
+                // when focus is lost all keys will be set to up
+                _keyboardState.Clear();
                 window.RaiseFocusChanged(false);
                 _keyboardState.FocusedWindow = null;
             }
@@ -313,17 +315,23 @@ namespace OpenWindow
                 return;
 
             // TODO repeated keys
-            if (down && _keyboardState.IsUp(sc))
+            if (down)
             {
-                var key = _keyboardState.Map(sc);
-                _keyboardState.FocusedWindow?.RaiseKeyDown(key, sc);
-                _keyboardState.ScanState[(int) sc] = true;
+                if (_keyboardState.IsUp(sc))
+                {
+                    var key = _keyboardState.Map(sc);
+                    _keyboardState.ScanState[(int) sc] = true;
+                    _keyboardState.FocusedWindow?.RaiseKeyDown(key, sc);
+                }
             }
-            else if (!down && _keyboardState.IsDown(sc))
+            else if (!down)
             {
-                var key = _keyboardState.Map(sc);
-                _keyboardState.FocusedWindow?.RaiseKeyUp(key, sc);
-                _keyboardState.ScanState[(int) sc] = false;
+                if (_keyboardState.IsDown(sc))
+                {
+                    var key = _keyboardState.Map(sc);
+                    _keyboardState.ScanState[(int) sc] = false;
+                    _keyboardState.FocusedWindow?.RaiseKeyUp(key, sc);
+                }
             }
         }
 

@@ -115,6 +115,7 @@ namespace OpenWindow.Backends.Windows
         }
 
         private WindowingServiceData _serviceData = new Win32WindowingServiceData((IntPtr) Native.GetModuleHandle(null));
+
         public override WindowingServiceData GetPlatformData()
         {
             return _serviceData;
