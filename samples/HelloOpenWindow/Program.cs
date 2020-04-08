@@ -176,73 +176,136 @@ namespace HelloOpenWindow
 
                 Native.EmptyClipboard();
 
-                //ReadOnlySpan<char> str = "Hello";
-
                 var bitmap = new Bitmap("img.png");
 
-                //var hbitmap = bitmap.GetHbitmap();
-                //Native.SetClipboardData(ClipboardFormats.CF_BITMAP, hbitmap);
-
-                var header = new BitmapInfoHeader
-                {
-                    biSize = 40,
-                    biWidth = bitmap.Width,
-                    biHeight = bitmap.Height,
-                    biPlanes = 1,
-                    biBitCount = 32,
-                    biCompression = 0,
-                    biSizeImage = bitmap.Width * bitmap.Height * 4,
-                };
-
-                var bmData = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-
-                try
-                {
-                    var size = Marshal.SizeOf<BitmapInfoHeader>() + bmData.Stride * bmData.Height;
-                    var hmem = Native.GlobalAlloc(size);
-                    var ptr = Native.GlobalLock(hmem);
-                    var dst = new Span<byte>(ptr.ToPointer(), size);
-                    Marshal.StructureToPtr(header, ptr, false);
-                    dst = dst.Slice(Marshal.SizeOf<BitmapInfoHeader>());
-
-                    var src = new Span<byte>(bmData.Scan0.ToPointer(), bmData.Stride * bmData.Height);
-                    src.CopyTo(dst);
-
-                    Native.GlobalUnlock(hmem);
-                    Native.SetClipboardData(ClipboardFormats.CF_DIB, hmem);
-                }
-                finally
-                {
-                    bitmap.UnlockBits(bmData);
-                }
-
-                return;
-
-                using (var fs = File.OpenRead("img.png"))
-                {
-                    var fileLength = (int) fs.Length;
-
-                    const int GHND = 0x0042;
-                    var hmem = Native.GlobalAlloc(GHND, fileLength);
-                    var ptr = Native.GlobalLock(hmem);
-
-                    using (var ums = new UnmanagedMemoryStream((byte*) ptr.ToPointer(), fileLength, fileLength, FileAccess.Write))
-                    {
-                        fs.CopyTo(ums);
-                    }
-
-                    //var dst = new Span<char>(ptr.ToPointer(), str.Length);
-                    //str.CopyTo(dst);
-
-                    Native.GlobalUnlock(hmem);
-
-                    var pngFormat = Native.RegisterClipboardFormat("PNG");
-                    Native.SetClipboardData(pngFormat, hmem);
-                }
+                SetClipboardPng();
+                SetClipboardDIBV5(bitmap);
+                SetClibpoardDIB(bitmap);
             }
             finally
             {
                 Native.CloseClipboard();
+            }
+        }
+
+        private unsafe static void SetClipboardDIBV5(Bitmap bitmap)
+        {
+            const int BI_BITFIELDS = 3;
+
+            var Rgba32AlphaMask = 0xFF << 24;
+            var Rgba32RedMask = 0xFF   << 16;
+            var Rgba32GreenMask = 0xFF << 8;
+            var Rgba32BlueMask = 0xFF  << 0;
+
+            var biSize = Marshal.SizeOf<BitmapV5Header>();
+
+            var header = new BitmapV5Header
+            {
+                biSize = biSize,
+                biWidth = bitmap.Width,
+                biHeight = bitmap.Height,
+                biPlanes = 1,
+                biBitCount = 32,
+                biCompression = BI_BITFIELDS,
+                biSizeImage = bitmap.Width * bitmap.Height * 4,
+                bV5RedMask = Rgba32RedMask,
+                bV5GreenMask = Rgba32GreenMask,
+                bV5BlueMask = Rgba32BlueMask,
+                bV5AlphaMask = Rgba32AlphaMask,
+            };
+
+            var bmData = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppPArgb);
+
+            try
+            {
+                var size = biSize + bmData.Stride * bmData.Height;
+                var hmem = Native.GlobalAlloc(size);
+                var ptr = Native.GlobalLock(hmem);
+                var dst = new Span<byte>(ptr.ToPointer(), size);
+                Marshal.StructureToPtr(header, ptr, false);
+                dst = dst.Slice(biSize);
+
+                var src = new Span<byte>(bmData.Scan0.ToPointer(), bmData.Stride * bmData.Height);
+                src.CopyTo(dst);
+
+                Native.GlobalUnlock(hmem);
+                Native.SetClipboardData(ClipboardFormats.CF_DIBV5, hmem);
+            }
+            finally
+            {
+                bitmap.UnlockBits(bmData);
+            }
+        }
+
+        private unsafe static void SetClibpoardDIB(Bitmap bitmap)
+        {
+            const int BI_BITFIELDS = 3;
+
+            var Rgba32AlphaMask = 0xFF << 24;
+            var Rgba32RedMask = 0xFF   << 16;
+            var Rgba32GreenMask = 0xFF << 8;
+            var Rgba32BlueMask = 0xFF  << 0;
+
+            var biSize = Marshal.SizeOf<BitmapInfoHeader>();
+            var header = new BitmapInfoHeader
+            {
+                biSize = biSize,
+                biWidth = bitmap.Width,
+                biHeight = bitmap.Height,
+                biPlanes = 1,
+                biBitCount = 32,
+                biCompression = BI_BITFIELDS,
+                biSizeImage = bitmap.Width * bitmap.Height * 4,
+            };
+
+            var bmData = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppPArgb);
+
+            try
+            {
+                var size = biSize + bmData.Stride * bmData.Height + 12;
+                var hmem = Native.GlobalAlloc(size);
+                var ptr = Native.GlobalLock(hmem);
+                var dst = new Span<byte>(ptr.ToPointer(), size);
+                Marshal.StructureToPtr(header, ptr, false);
+                Marshal.WriteInt32(ptr, biSize, Rgba32RedMask);
+                Marshal.WriteInt32(ptr, biSize + 4, Rgba32GreenMask);
+                Marshal.WriteInt32(ptr, biSize + 8, Rgba32BlueMask);
+                dst = dst.Slice(biSize + 12);
+
+                var src = new Span<byte>(bmData.Scan0.ToPointer(), bmData.Stride * bmData.Height);
+                src.CopyTo(dst);
+
+                Native.GlobalUnlock(hmem);
+                Native.SetClipboardData(ClipboardFormats.CF_DIB, hmem);
+            }
+            finally
+            {
+                bitmap.UnlockBits(bmData);
+            }
+        }
+
+        private unsafe static void SetClipboardPng()
+        {
+            using (var fs = File.OpenRead("img.png"))
+            {
+                var fileLength = (int) fs.Length;
+
+                var hmem = Native.GlobalAlloc(fileLength);
+                var ptr = Native.GlobalLock(hmem);
+
+                using (var ums = new UnmanagedMemoryStream((byte*) ptr.ToPointer(), fileLength, fileLength, FileAccess.Write))
+                {
+                    fs.CopyTo(ums);
+                }
+
+                //var dst = new Span<char>(ptr.ToPointer(), str.Length);
+                //str.CopyTo(dst);
+
+                Native.GlobalUnlock(hmem);
+
+                var pngFormat = Native.RegisterClipboardFormat("PNG");
+                var pngFormat2 = Native.RegisterClipboardFormat("image/png");
+                Native.SetClipboardData(pngFormat, hmem);
             }
         }
 
@@ -887,5 +950,44 @@ namespace HelloOpenWindow
         public int biYPelsPerMeter;
         public int biClrUsed;
         public int biClrImportant;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct BitmapV5Header
+    {
+        public int biSize;
+        public int biWidth;
+        public int biHeight;
+        public short biPlanes;
+        public short biBitCount;
+        public int biCompression;
+        public int biSizeImage;
+        public int biXPelsPerMeter;
+        public int biYPelsPerMeter;
+        public int biClrUsed;
+        public int biClrImportant;
+        public int bV5RedMask;
+        public int bV5GreenMask;
+        public int bV5BlueMask;
+        public int bV5AlphaMask;
+        public int bV5CSType;
+
+        public int redX;
+        public int redY;
+        public int redZ;
+        public int greenX;
+        public int greenY;
+        public int greenZ;
+        public int blueX;
+        public int blueY;
+        public int blueZ;
+
+        public int bV5GammaRed;
+        public int bV5GammaGreen;
+        public int bV5GammaBlue;
+        public int bV5Intent;
+        public int bV5ProfileData;
+        public int bV5ProfileSize;
+        public int bV5Reserved;
     }
 }
