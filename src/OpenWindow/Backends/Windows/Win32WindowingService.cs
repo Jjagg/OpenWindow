@@ -136,7 +136,7 @@ namespace OpenWindow.Backends.Windows
 
         /// <inheritdoc />
         public override Window CreateHiddenWindow()
-            => new Win32Window(GlSettings, _wndProc);
+            => new Win32Window(this, _wndProc);
 
         /// <inheritdoc />
         internal override void DestroyWindow(Window window)

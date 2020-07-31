@@ -193,8 +193,9 @@ namespace OpenWindow
         /// <summary>
         /// Use this to create a dummy Window.
         /// </summary>
-        protected Window()
+        protected Window(WindowingService service)
         {
+            Service = service;
         }
 
         /// <summary>

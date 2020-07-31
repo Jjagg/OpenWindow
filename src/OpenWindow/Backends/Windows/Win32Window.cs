@@ -27,8 +27,8 @@ namespace OpenWindow.Backends.Windows
 
         #region Constructor
 
-        public Win32Window(OpenGlSurfaceSettings glSettings, WndProc wndProc)
-            : base()
+        public Win32Window(WindowingService service, WndProc wndProc)
+            : base(service)
         {
             var winClass = new WndClass
             {
@@ -56,7 +56,7 @@ namespace OpenWindow.Backends.Windows
 
             _windowData = new Win32WindowData(Hwnd);
 
-            InitOpenGl(glSettings);
+            InitOpenGl(service.GlSettings);
         }
 
         public Win32Window(WindowingService ws, WndProc wndProc, in WindowCreateInfo wci)

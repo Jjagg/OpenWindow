@@ -11,4 +11,3 @@ https://github.com/Hitcents/iOS4Unity/blob/master/Assets/iOS4Unity/ObjC.cs
 
 Xamarin generator:
 https://github.com/xamarin/xamarin-macios/blob/5d2598af695c41c32712cd136d02c0e8cdfcac5e/src/generator.cs#L2276-L2294
-
