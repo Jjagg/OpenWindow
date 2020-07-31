@@ -42,7 +42,7 @@ namespace SharpDX
             _window.KeyUp += (s, e) => Console.WriteLine($"Key up: {e.Key} ({e.ScanCode})");
             _window.TextInput += (s, e) => Console.WriteLine($"Text input: {char.ConvertFromUtf32(e.Character)}");
 
-            while (!_window.ShouldClose)
+            while (!_window.IsCloseRequested)
             {
                 Draw();
                 Thread.Sleep(10);

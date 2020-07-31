@@ -11,7 +11,7 @@ namespace OpenWindow
     {
         #region Private Fields
 
-        private bool _shouldClose;
+        private bool _isCloseRequested;
         private string _title = string.Empty;
         private bool _decorated;
         private bool _resizable;
@@ -43,11 +43,13 @@ namespace OpenWindow
         public bool UserManaged { get; }
 
         /// <summary>
-        /// If set to <code>true</code> a request to close this window has been sent either by caling <see cref="Close"/>
+        /// If set to <c>true</c>, a request to close this window has been sent either by calling <see cref="Close"/>
         /// or by the window manager. An application usually wants to monitor this flag, but can freely decide what to
         /// do when it is set.
+        ///
+        /// When the value of this flag changes from <c>false</c> to <c>true</c>, <see cref="CloseRequested"/> is invoked.
         /// </summary>
-        public bool ShouldClose => _shouldClose;
+        public bool IsCloseRequested => _isCloseRequested;
 
         /// <summary>
         /// The text that is displayed in the title bar of the window (if it has a title bar).
@@ -297,13 +299,29 @@ namespace OpenWindow
         }
 
         /// <summary>
-        /// Sets the <see cref="ShouldClose"/> flag to <code>true</code>.
+        /// Sets the <see cref="IsCloseRequested"/> flag to <c>true</c>.
+        ///
+        /// Note that this in itself does not destroy the window, but typically applications
+        /// monitor this flag in their event loop and dispose the window if the application
+        /// should really close.
         /// </summary>
         public void Close()
         {
             CheckDisposed();
-            _shouldClose = true;
+            _isCloseRequested = true;
             RaiseCloseRequested();
+        }
+
+        /// <summary>
+        /// Sets the <see cref="IsCloseRequested"/> flag to <c>false</c>.
+        ///
+        /// Typical usage is in response to <see cref="CloseRequested"/> to cancel a user
+        /// closing the window, for example because they have unsaved progress that would be lost.
+        /// </summary>
+        public void ResetCloseRequested()
+        {
+            CheckDisposed();
+            _isCloseRequested = false;
         }
 
         /// <summary>
@@ -316,7 +334,7 @@ namespace OpenWindow
         #region Window API: Events
 
         /// <summary>
-        /// Invoked when the <see cref="ShouldClose"/> flag is set to <code>true</code>.
+        /// Invoked when the <see cref="IsCloseRequested"/> flag is set to <c>true</c>.
         /// </summary>
         public event EventHandler<EventArgs> CloseRequested;
 

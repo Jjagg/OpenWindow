@@ -131,7 +131,7 @@ namespace OpenGL
 
             service.PumpEvents();
 
-            while (!window.ShouldClose)
+            while (!window.IsCloseRequested)
             {
                 DrawTriangle();
 

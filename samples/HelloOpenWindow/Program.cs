@@ -97,7 +97,7 @@ namespace HelloOpenWindow
             //_window.KeyUp += (s, e) => Console.WriteLine($"Key Up: {keyNameMap[e.Key]} ({scNameMap[e.ScanCode]})");
             _window.TextInput += (s, e) => Console.WriteLine($"Got text input: {CharacterToPrintable(e.Character)}");
 
-            while (!_window.ShouldClose)
+            while (!_window.IsCloseRequested)
             {
                 _service.WaitEvent();
             }
