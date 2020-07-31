@@ -65,7 +65,7 @@ namespace OpenGL
 
         private static void Run()
         {
-            var service = WindowingService.Create();
+            using var service = WindowingService.Create();
 
             // We need to tell OpenWindow we want to use OpenGL for rendering
             // other settings can stay at default values
@@ -74,7 +74,7 @@ namespace OpenGL
             service.GlSettings.MultiSampleCount = 8;
 
             var wci = new WindowCreateInfo(100, 100, 600, 600, "I'm rendering with OpenGL!");
-            var window = service.CreateWindow(wci);
+            using var window = service.CreateWindow(wci);
 
             window.KeyDown += (s, e) =>
             {
@@ -149,8 +149,6 @@ namespace OpenGL
 
             OpenWindowGl.MakeCurrent(window, IntPtr.Zero);
             OpenWindowGl.DestroyContext(ctx);
-            service.DestroyWindow(window);
-            service.Dispose();
         }
 
         private static void DrawTriangle()

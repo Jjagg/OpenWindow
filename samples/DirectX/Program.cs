@@ -12,7 +12,6 @@ namespace SharpDX
 {
     class Program
     {
-        private static Window _window;
         private static D3D11.Device _d3dDevice;
         private static D3D11.DeviceContext _d3dDeviceContext;
         private static SwapChain _swapChain;
@@ -29,24 +28,24 @@ namespace SharpDX
 
         static void Main(string[] args)
         {
-            var owService = WindowingService.Create();
+            using var service = WindowingService.Create();
 
             var wci = new WindowCreateInfo(100, 100, 600, 600, "I'm rendering with DirectX11!");
-            _window = owService.CreateWindow(wci);
+            using var window = service.CreateWindow(wci);
 
-            Initialize();
+            Initialize(window);
             BuildTriangle();
             BuildAndBindShaders();
 
-            _window.KeyDown += (s, e) => Console.WriteLine($"Key down: {e.Key} ({e.ScanCode})");
-            _window.KeyUp += (s, e) => Console.WriteLine($"Key up: {e.Key} ({e.ScanCode})");
-            _window.TextInput += (s, e) => Console.WriteLine($"Text input: {char.ConvertFromUtf32(e.Character)}");
+            window.KeyDown += (s, e) => Console.WriteLine($"Key down: {e.Key} ({e.ScanCode})");
+            window.KeyUp += (s, e) => Console.WriteLine($"Key up: {e.Key} ({e.ScanCode})");
+            window.TextInput += (s, e) => Console.WriteLine($"Text input: {char.ConvertFromUtf32(e.Character)}");
 
-            while (!_window.IsCloseRequested)
+            while (!window.IsCloseRequested)
             {
                 Draw();
                 Thread.Sleep(10);
-                owService.PumpEvents();
+                service.PumpEvents();
             }
 
             _inputLayout.Dispose();
@@ -60,9 +59,9 @@ namespace SharpDX
             _d3dDeviceContext.Dispose();
         }
 
-        public static void Initialize()
+        public static void Initialize(Window window)
         {
-            var wpd = _window.GetPlatformData();
+            var wpd = window.GetPlatformData();
             if (wpd.Backend != WindowingBackend.Win32)
                 throw new PlatformNotSupportedException($"The DirectX sample only runs on Win32, but the current backend is {wpd.Backend}.");
 

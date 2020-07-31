@@ -64,7 +64,7 @@ namespace OpenWindow.GL
             {
                 // We need a current context to query for extension methods so we create one
 
-                var dummyWnd = ws.CreateHiddenWindow();
+                using var dummyWnd = ws.CreateHiddenWindow();
                 var wdata = (Win32WindowData) dummyWnd.GetPlatformData();
                 var hwnd = wdata.Hwnd;
                 var hdc = GetDC(hwnd);
@@ -90,7 +90,6 @@ namespace OpenWindow.GL
                 }
 
                 ReleaseDC(hwnd, hdc);
-                ws.DestroyWindow(dummyWnd);
             }
             else
             {

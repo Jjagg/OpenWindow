@@ -27,23 +27,23 @@ namespace VeldridApp
         static void Main(string[] args)
         {
             var gdo = new GraphicsDeviceOptions();
-            var ws = WindowingService.Create();
+            using var service = WindowingService.Create();
 
             if (GraphicsBackend == GraphicsBackend.OpenGL)
-                ws.GlSettings.EnableOpenGl = true;
+                service.GlSettings.EnableOpenGl = true;
 
             var wci = new WindowCreateInfo(100, 100, 960, 540, "Veldrid with OpenWindow");
-            var w = ws.CreateWindow(ref wci);
+            using var window = service.CreateWindow(wci);
 
-            var serviceData = ws.GetPlatformData();
-            var windowData = w.GetPlatformData();
+            var serviceData = service.GetPlatformData();
+            var windowData = window.GetPlatformData();
             switch (windowData.Backend)
             {
                 case WindowingBackend.Win32:
-                    InitWindows(ws, w, gdo);
+                    InitWindows(service, window, gdo);
                     break;
                 case WindowingBackend.Wayland:
-                    InitWayland(ws, w, gdo);
+                    InitWayland(service, window, gdo);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -54,29 +54,26 @@ namespace VeldridApp
 
             CreateResources();
 
-            w.CloseRequested += (s, e) => Console.WriteLine("Received request to close the window!");
-            w.Closing += (s, e) => Console.WriteLine("Closing the window! Bye :)");
-            w.MouseFocusChanged += (ww, e) => Console.WriteLine($"Mouse focus: {e.HasFocus}");
-            w.MouseScroll += (s, e) => Console.WriteLine($"Mouse scrolled [{e.X}, {e.Y}]");
-            w.MouseDown += (ww, e) => Console.WriteLine($"Button {e.Button} down");
-            w.MouseUp += (ww, e) => Console.WriteLine($"Button {e.Button} up");
-            w.KeyDown += (s, e) => Console.WriteLine($"Key Down: {e.Key} ({e.ScanCode})");
+            window.CloseRequested += (s, e) => Console.WriteLine("Received request to close the window!");
+            window.Closing += (s, e) => Console.WriteLine("Closing the window! Bye :)");
+            window.MouseFocusChanged += (ww, e) => Console.WriteLine($"Mouse focus: {e.HasFocus}");
+            window.MouseScroll += (s, e) => Console.WriteLine($"Mouse scrolled [{e.X}, {e.Y}]");
+            window.MouseDown += (ww, e) => Console.WriteLine($"Button {e.Button} down");
+            window.MouseUp += (ww, e) => Console.WriteLine($"Button {e.Button} up");
+            window.KeyDown += (s, e) => Console.WriteLine($"Key Down: {e.Key} ({e.ScanCode})");
             //w.KeyUp += (s, e) => Console.WriteLine($"Key Up: {e.Key} ({e.ScanCode})");
-            w.TextInput += (s, e) => Console.WriteLine($"Got text input: {char.ConvertFromUtf32(e.Character)}");
+            window.TextInput += (s, e) => Console.WriteLine($"Got text input: {char.ConvertFromUtf32(e.Character)}");
 
             Console.WriteLine("Running draw loop...");
-            while (!w.ShouldClose)
+            while (!window.IsCloseRequested)
             {
-                ws.PumpEvents();
-                if (w.ShouldClose)
+                service.PumpEvents();
+                if (window.IsCloseRequested)
                     break;
                 Draw();
             }
 
             Console.WriteLine("Shutting down.");
-
-            ws.DestroyWindow(w);
-            ws.Dispose();
 
             DisposeResources();
         }
