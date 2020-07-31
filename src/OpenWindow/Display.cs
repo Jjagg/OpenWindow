@@ -29,7 +29,7 @@ namespace OpenWindow
         public Rectangle WorkingArea { get; internal set; }
 
         /// <summary>
-        /// <code>true</code> if this display is the primary display, <code>false</code> otherwise.
+        /// <c>true</c> if this display is the primary display, <c>false</c> otherwise.
         /// </summary>
         public bool IsPrimary { get; internal set; }
 

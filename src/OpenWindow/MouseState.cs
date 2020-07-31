@@ -51,27 +51,27 @@
         }
 
         /// <summary>
-        /// <code>true</code> if the left mouse button is down, <code>false</code> if it is up.
+        /// <c>true</c> if the left mouse button is down, <c>false</c> if it is up.
         /// </summary>
         public bool LeftDown => (ButtonsDown & MouseButtons.Left) > 0;
 
         /// <summary>
-        /// <code>true</code> if the middle mouse button is down, <code>false</code> if it is up.
+        /// <c>true</c> if the middle mouse button is down, <c>false</c> if it is up.
         /// </summary>
         public bool MiddleDown => (ButtonsDown & MouseButtons.Middle) > 0;
 
         /// <summary>
-        /// <code>true</code> if the right mouse button is down, <code>false</code> if it is up.
+        /// <c>true</c> if the right mouse button is down, <c>false</c> if it is up.
         /// </summary>
         public bool RightDown => (ButtonsDown & MouseButtons.Right) > 0;
 
         /// <summary>
-        /// <code>true</code> if the X1 mouse button is down, <code>false</code> if it is up.
+        /// <c>true</c> if the X1 mouse button is down, <c>false</c> if it is up.
         /// </summary>
         public bool X1Down => (ButtonsDown & MouseButtons.X1) > 0;
 
         /// <summary>
-        /// <code>true</code> if the X2 mouse button is down, <code>false</code> if it is up.
+        /// <c>true</c> if the X2 mouse button is down, <c>false</c> if it is up.
         /// </summary>
         public bool X2Down => (ButtonsDown & MouseButtons.X2) > 0;
 

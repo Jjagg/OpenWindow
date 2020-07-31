@@ -36,7 +36,7 @@
         /// </summary>
         /// <param name="p1">First size.</param>
         /// <param name="p2">Second size.</param>
-        /// <returns><code>new Size(p1.Width + p2.Width, p1.Height + p2.Height)</code></returns>
+        /// <returns><c>new Size(p1.Width + p2.Width, p1.Height + p2.Height)</c></returns>
         public static Size operator +(Size p1, Size p2)
         {
             return new Size(p1.Width + p2.Width, p1.Height + p2.Height);

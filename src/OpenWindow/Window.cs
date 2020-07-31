@@ -35,8 +35,8 @@ namespace OpenWindow
         public object Tag { get; set; }
 
         /// <summary>
-        /// <code>false</code> if the underlying native window was created by OpenWindow with the
-        /// <see cref="WindowingService.CreateWindow"/> method, <code>true</code>
+        /// <c>false</c> if the underlying native window was created by OpenWindow with the
+        /// <see cref="WindowingService.CreateWindow"/> method, <c>true</c>
         /// if it was created from an existing native window handle with the
         /// <see cref="WindowingService.WindowFromHandle"/> method.
         /// </summary>

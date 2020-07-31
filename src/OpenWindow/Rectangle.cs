@@ -43,7 +43,7 @@ namespace OpenWindow
         public int Top => Y;
 
         /// <summary>
-        /// Bottom of the rectangle. Equal to <code><see cref="Y"/> + <see cref="Height"/></code>.
+        /// Bottom of the rectangle. Equal to <c><see cref="Y"/> + <see cref="Height"/></c>.
         /// </summary>
         public int Bottom => Y + Height;
 
@@ -53,7 +53,7 @@ namespace OpenWindow
         public int Left => X;
 
         /// <summary>
-        /// Right of the rectangle. Equal to <code><see cref="X"/> + <see cref="Width"/></code>.
+        /// Right of the rectangle. Equal to <c><see cref="X"/> + <see cref="Width"/></c>.
         /// </summary>
         public int Right => X + Width;
 

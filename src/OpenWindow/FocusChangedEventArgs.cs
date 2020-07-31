@@ -6,8 +6,8 @@
     public struct FocusChangedEventArgs
     {
         /// <summary>
-        /// <code>true</code> if the <see cref="Window"/> got keyboard focus,
-        /// <code>false</code> if it lost keyboard focus.
+        /// <c>true</c> if the <see cref="Window"/> got keyboard focus,
+        /// <c>false</c> if it lost keyboard focus.
         /// </summary>
         public readonly bool HasFocus;
 

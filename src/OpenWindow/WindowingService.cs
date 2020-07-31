@@ -211,7 +211,7 @@ namespace OpenWindow
         public abstract ReadOnlyCollection<Display> Displays { get; }
 
         /// <summary>
-        /// Get the primary display or <code>null</code> if the primary display could not be found.
+        /// Get the primary display or <c>null</c> if the primary display could not be found.
         /// </summary>
         public abstract Display PrimaryDisplay { get; }
 
@@ -265,19 +265,19 @@ namespace OpenWindow
         /// <summary>
         /// Check if caps lock is turned on.
         /// </summary>
-        /// <returns><code>true</code> if caps lock is turned on, <code>false</code> if it is turned off.</returns>
+        /// <returns><c>true</c> if caps lock is turned on, <c>false</c> if it is turned off.</returns>
         public abstract bool IsCapsLockOn();
 
         /// <summary>
         /// Check if num lock is turned on.
         /// </summary>
-        /// <returns><code>true</code> if num lock is turned on, <code>false</code> if it is turned off.</returns>
+        /// <returns><c>true</c> if num lock is turned on, <c>false</c> if it is turned off.</returns>
         public abstract bool IsNumLockOn();
 
         /// <summary>
         /// Check if scroll lock is turned on.
         /// </summary>
-        /// <returns><code>true</code> if scroll lock is turned on, <code>false</code> if it is turned off.</returns>
+        /// <returns><c>true</c> if scroll lock is turned on, <c>false</c> if it is turned off.</returns>
         public abstract bool IsScrollLockOn();
 
         /// <summary>

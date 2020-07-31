@@ -9,13 +9,13 @@
         public static OpenGlSurfaceSettings Disabled { get; } = new OpenGlSurfaceSettings();
 
         /// <summary>
-        /// To create a window suitable for rendering with OpenGL, set this to <code>true</code>.
-        /// When set to false, the other settings are unused. Defaults to <code>false</code>.
+        /// To create a window suitable for rendering with OpenGL, set this to <c>true</c>.
+        /// When set to false, the other settings are unused. Defaults to <c>false</c>.
         /// </summary>
         public bool EnableOpenGl { get; set; }
 
         /// <summary>
-        /// Set to <code>true</code> to enable double buffering. Defaults to <code>true</code>.
+        /// Set to <c>true</c> to enable double buffering. Defaults to <c>true</c>.
         /// </summary>
         public bool DoubleBuffer { get; set; } = true;
 
