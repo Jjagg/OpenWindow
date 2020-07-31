@@ -5,7 +5,7 @@ namespace OpenWindow
         public const int DefaultWidth = 400;
         public const int DefaultHeight = 400;
 
-        public static WindowCreateInfo Default = new WindowCreateInfo(0, 0, DefaultWidth, DefaultHeight, string.Empty);
+        public static WindowCreateInfo Default = new WindowCreateInfo(100, 100, DefaultWidth, DefaultHeight, string.Empty);
 
         public int X;
         public int Y;
