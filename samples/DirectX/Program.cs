@@ -32,7 +32,7 @@ namespace SharpDX
             var owService = WindowingService.Create();
 
             var wci = new WindowCreateInfo(100, 100, 600, 600, "I'm rendering with DirectX11!");
-            _window = owService.CreateWindow(ref wci);
+            _window = owService.CreateWindow(wci);
 
             Initialize();
             BuildTriangle();

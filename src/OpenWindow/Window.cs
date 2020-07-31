@@ -7,7 +7,7 @@ namespace OpenWindow
     /// A wrapper for a native window.
     /// Exposes a unified API to interact with native Windows across platforms.
     /// </summary>
-    public abstract class Window
+    public abstract class Window : IDisposable
     {
         #region Private Fields
 
@@ -189,12 +189,21 @@ namespace OpenWindow
         #region Constructor
 
         /// <summary>
+        /// Use this to create a dummy Window.
+        /// </summary>
+        protected Window()
+        {
+        }
+
+        /// <summary>
         /// Create a Window.
         /// </summary>
+        /// <param name="service">The WindowingService that owns this window.</param>
         /// <param name="userManaged">
         ///   Indicates if this window is created by OpenWindow or if it was created from a handle.
         /// </param>
-        protected Window(WindowingService service, bool userManaged, ref WindowCreateInfo wci)
+        /// <param name="wci">Information about the window creation.</param>
+        protected Window(WindowingService service, bool userManaged, in WindowCreateInfo wci)
         {
             Service = service;
             UserManaged = userManaged;
@@ -537,6 +546,11 @@ namespace OpenWindow
         #endregion
 
         #region Disposable pattern
+
+        void IDisposable.Dispose()
+        {
+            Service.DestroyWindow(this);
+        }
 
         /// <summary>
         /// Make sure this window is not disposed.

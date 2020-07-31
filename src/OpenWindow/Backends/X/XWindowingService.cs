@@ -33,7 +33,12 @@ namespace OpenWindow.Backends.X
             throw new NotImplementedException();
         }
 
-        public override Window CreateWindow(ref WindowCreateInfo wci)
+        public override Window CreateWindow(in WindowCreateInfo wci)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Window CreateHiddenWindow()
         {
             throw new NotImplementedException();
         }

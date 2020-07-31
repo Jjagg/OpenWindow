@@ -64,9 +64,7 @@ namespace OpenWindow.GL
             {
                 // We need a current context to query for extension methods so we create one
 
-                // TODO provide way to specifically create dummy window
-                var dummyWci = new WindowCreateInfo(1, 1, string.Empty, false, false);
-                var dummyWnd = ws.CreateWindow(ref dummyWci);
+                var dummyWnd = ws.CreateHiddenWindow();
                 var wdata = (Win32WindowData) dummyWnd.GetPlatformData();
                 var hwnd = wdata.Hwnd;
                 var hdc = GetDC(hwnd);

@@ -52,9 +52,12 @@ namespace OpenWindow
         /// <param name="message">The content of the message.</param>
         public void Log(Level level, string message)
         {
-            var msg = new Message(level, message, DateTime.Now);
-            Messages.Add(msg);
-            OutputWriter?.WriteLine(msg.ToString(_format));
+            if (level >= OutputLevel)
+            {
+                var msg = new Message(level, message, DateTime.Now);
+                Messages.Add(msg);
+                OutputWriter?.WriteLine(msg.ToString(_format));
+            }
         }
 
         /// <summary>

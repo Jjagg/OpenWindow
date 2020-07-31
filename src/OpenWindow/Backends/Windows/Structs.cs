@@ -30,6 +30,22 @@ namespace OpenWindow.Backends.Windows
         public string lpszClassName;
     }
 
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    internal struct WndClassEx {
+        uint cbSize;
+        uint style;
+        WndProc lpfnWndProc;
+        int cbClsExtra;
+        int cbWndExtra;
+        IntPtr hInstance;
+        IntPtr hIcon;
+        IntPtr hCursor;
+        IntPtr hbrBackground;
+        string lpszMenuName;
+        string lpszClassName;
+        IntPtr hIconSm;
+    }
+
     internal delegate IntPtr WndProc(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
 
     [StructLayout(LayoutKind.Sequential)]

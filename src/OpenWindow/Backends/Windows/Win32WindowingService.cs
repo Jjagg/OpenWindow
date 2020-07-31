@@ -122,9 +122,9 @@ namespace OpenWindow.Backends.Windows
         }
 
         /// <inheritdoc />
-        public override Window CreateWindow(ref WindowCreateInfo wci)
+        public override Window CreateWindow(in WindowCreateInfo wci)
         {
-            var window = new Win32Window(this, _wndProc, ref wci);
+            var window = new Win32Window(this, _wndProc, wci);
             _managedWindows.Add(window.Hwnd, window);
             if (_focusedWindowHandle == window.Hwnd)
             {
@@ -133,6 +133,10 @@ namespace OpenWindow.Backends.Windows
 
             return window;
         }
+
+        /// <inheritdoc />
+        public override Window CreateHiddenWindow()
+            => new Win32Window(GlSettings, _wndProc);
 
         /// <inheritdoc />
         public override void DestroyWindow(Window window)

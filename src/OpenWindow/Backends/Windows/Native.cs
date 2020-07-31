@@ -185,7 +185,7 @@ namespace OpenWindow.Backends.Windows
         public static extern int GetCurrentThreadId();
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern int GetModuleHandle(string name);
+        public static extern IntPtr GetModuleHandle(string name);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern unsafe IntPtr CreateIconFromResource(byte* presbits, uint dwResSize, bool fIcon, uint dwVer);
@@ -198,6 +198,9 @@ namespace OpenWindow.Backends.Windows
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr LoadCursor(IntPtr hinstance, Cursor cursor);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool DestroyCursor(IntPtr hCursor);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern int GetSystemMetrics(SystemMetric metric);

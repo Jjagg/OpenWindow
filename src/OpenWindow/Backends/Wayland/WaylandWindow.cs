@@ -31,8 +31,8 @@ namespace OpenWindow.Backends.Wayland
 
         #region Constructor
 
-        public WaylandWindow(WindowingService ws, ref WindowCreateInfo wci, WlDisplay display, WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, WpViewporter wpViewporter)
-            : base(ws, false, ref wci)
+        public WaylandWindow(WindowingService ws, in WindowCreateInfo wci, WlDisplay display, WlCompositor wlCompositor, WlSurface wlSurface, XdgSurface xdgSurface, ZxdgDecorationManagerV1 xdgDecorationManager, WpViewporter wpViewporter)
+            : base(ws, false, wci)
         {
             _display = display;
             _compositor = wlCompositor;

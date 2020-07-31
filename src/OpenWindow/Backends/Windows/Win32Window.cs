@@ -22,16 +22,51 @@ namespace OpenWindow.Backends.Windows
         // that follows it so we can hand users the codepoint.
         private char _lastHighSurrogate;
 
+        private IntPtr _defaultCursor;
+
         #endregion
 
         #region Constructor
 
-        public Win32Window(WindowingService ws, WndProc wndProc, ref WindowCreateInfo wci)
-            : base(ws, false, ref wci)
+        public Win32Window(OpenGlSurfaceSettings glSettings, WndProc wndProc)
+            : base()
+        {
+            var winClass = new WndClass
+            {
+                style = Constants.CS_OWNDC,
+                lpfnWndProc = wndProc,
+                hInstance = Native.GetModuleHandle(null),
+                lpszClassName = $"OpenWindow_DUMMY[{Native.GetCurrentThreadId()}]({_windowId++})"
+            };
+
+            _className = winClass.lpszClassName;
+
+            if (Native.RegisterClass(ref winClass) == 0)
+                throw GetLastException("Registering window class failed.");
+
+            Hwnd = Native.CreateWindowEx(
+                0,
+                winClass.lpszClassName,
+                "OpenWindow dummy window",
+                0,
+                0, 0, 0, 0,
+                IntPtr.Zero,
+                IntPtr.Zero,
+                winClass.hInstance,
+                IntPtr.Zero);
+
+            _windowData = new Win32WindowData(Hwnd);
+
+            InitOpenGl(glSettings);
+        }
+
+        public Win32Window(WindowingService ws, WndProc wndProc, in WindowCreateInfo wci)
+            : base(ws, false, wci)
         {
             RegisterNewWindowClass(wndProc);
 
-            var style = GetWindowStyle(wci.Decorated, wci.Resizable);
+            // Don't immediately show the window because we might need to recreate it if multisampling is enabled.
+            var style = GetWindowStyle(wci.Decorated, wci.Resizable, visible: false);
 
             var x = wci.X;
             var y = wci.Y;
@@ -50,12 +85,6 @@ namespace OpenWindow.Backends.Windows
                 height = rect.Height;
             }
 
-            var cxsizeframe = Native.GetSystemMetrics((SystemMetric) 32);
-            var fixedFrame = Native.GetSystemMetrics((SystemMetric) 7);
-            var border = Native.GetSystemMetrics((SystemMetric) 5);
-            var cxedge = Native.GetSystemMetrics((SystemMetric) 45);
-            var cxpaddedborder = Native.GetSystemMetrics((SystemMetric) 92);
-
             var handle = Native.CreateWindowEx(
                 WindowStyleEx.None,
                 _className,
@@ -72,10 +101,6 @@ namespace OpenWindow.Backends.Windows
 
             var wi = WindowInfo.Create();
             var result = Native.GetWindowInfo(handle, ref wi);
-
-            var s = (uint) Native.GetWindowLong(handle, -16);
-            var r = new Rect(wci.X, wci.Y, wci.X + wci.Width, wci.Y + wci.Height);
-            Native.AdjustWindowRect(ref r, s, wci.Decorated);
 
             if (handle == IntPtr.Zero)
             {
@@ -94,7 +119,7 @@ namespace OpenWindow.Backends.Windows
                 // FIXME: use the actual ms count, not the preferred
                 if (glSettings.MultiSampleCount > 1)
                 {
-                    // we need to recreate the window to have a multisample window
+                    // we need to recreate the window to support multisampling
                     Native.DestroyWindow(Hwnd);
                     Hwnd = Native.CreateWindowEx(
                         WindowStyleEx.None,
@@ -118,6 +143,9 @@ namespace OpenWindow.Backends.Windows
             }
 
             _windowData = new Win32WindowData(Hwnd);
+
+            // Now we can show the window
+            Native.ShowWindow(Hwnd, ShowWindowCommand.Show);
         }
 
         private void InitOpenGl(OpenGlSurfaceSettings s)
@@ -457,6 +485,13 @@ namespace OpenWindow.Backends.Windows
             {
                 Native.SetCursor(_lastSetCursorHandle);
             }
+            else
+            {
+                if (_defaultCursor == default)
+                    _defaultCursor = Native.LoadCursor(IntPtr.Zero, Cursor.Arrow);
+
+                Native.SetCursor(_defaultCursor);
+            }
         }
 
         #endregion
@@ -471,7 +506,7 @@ namespace OpenWindow.Backends.Windows
             winClass.lpszClassName = _className;
 
             winClass.lpfnWndProc = wndProc;
-            winClass.hInstance = (IntPtr) Native.GetModuleHandle(null);
+            winClass.hInstance = Native.GetModuleHandle(null);
 
             // If we set a cursor here we can't change the cursor later.
             // From https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursor#remarks:
@@ -483,9 +518,9 @@ namespace OpenWindow.Backends.Windows
         }
 
         private uint GetWindowStyle()
-            => GetWindowStyle(Decorated, Resizable);
+            => GetWindowStyle(Decorated, Resizable, visible: true);
 
-        private uint GetWindowStyle(bool decorated, bool resizable)
+        private uint GetWindowStyle(bool decorated, bool resizable, bool visible)
         {
             // FIXME Window size is wrong when Decorated = true and Resizable = false.
             // Client width and height turn out 4 pixels too big. Where do they come from?
@@ -496,7 +531,7 @@ namespace OpenWindow.Backends.Windows
             // - https://docs.microsoft.com/en-us/windows/win32/dwm/customframe
             // - https://github.com/rossy/borderless-window
 
-            uint style = Constants.WS_VISIBLE | Constants.WS_MINIMIZEBOX | Constants.WS_SYSMENU;
+            uint style = Constants.WS_MINIMIZEBOX | Constants.WS_SYSMENU;
 
             if (resizable)
             {
@@ -510,6 +545,11 @@ namespace OpenWindow.Backends.Windows
             else
             {
                 style |= Constants.WS_POPUP | Constants.WS_BORDER;
+            }
+
+            if (visible)
+            {
+                style |= Constants.WS_VISIBLE;
             }
 
             return style;
@@ -636,6 +676,18 @@ namespace OpenWindow.Backends.Windows
 
         protected override void ReleaseUnmanagedResources()
         {
+            if (_defaultCursor != IntPtr.Zero)
+            {
+                if (Native.DestroyIcon(_defaultCursor))
+                {
+                    _defaultCursor = IntPtr.Zero;
+                }
+                else
+                {
+                    WindowingService.LogWarning("Failed to destroy arrow cursor.");
+                }
+            }
+
             if (!UserManaged)
             {
                 Native.DestroyWindow(Hwnd);

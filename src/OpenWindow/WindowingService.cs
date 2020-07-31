@@ -220,8 +220,12 @@ namespace OpenWindow
         /// </summary>
         /// <returns>A new <see cref="Window"/>.</returns>
         /// <seealso cref="DestroyWindow(Window)"/>
-        // TODO add width and height in here and maybe minimized/maximized/fullscreen options
-        public abstract Window CreateWindow(ref WindowCreateInfo wci);
+        public abstract Window CreateWindow(in WindowCreateInfo wci);
+
+        /// <summary>
+        /// Create a <see cref="Window"/> that will be invisible if the OS supports it.
+        /// </summary>
+        public abstract  Window CreateHiddenWindow();
 
         /// <summary>
         /// Hide a <see cref="Window"/> created by this WindowingService and dispose of all unmanaged resources.

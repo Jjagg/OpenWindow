@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
-using System.Text;
 
 using OpenWindow.Backends.Wayland.Managed;
 
@@ -599,7 +597,7 @@ namespace OpenWindow.Backends.Wayland
         #endregion
 
         /// <inheritdoc />
-        public override Window CreateWindow(ref WindowCreateInfo wci)
+        public override Window CreateWindow(in WindowCreateInfo wci)
         {
             throw new Exception("WindowCreateInfo not implemented yet");
             LogDebug("Creating wl surface");
@@ -610,9 +608,15 @@ namespace OpenWindow.Backends.Wayland
             LogDebug("Getting xdg surface");
             var xdgSurface = _xdgWmBase.GetXdgSurface(wlSurface);
             LogDebug("Window ctor");
-            var window = new WaylandWindow(this, ref wci, _wlDisplay, _wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, _wpViewporter);
+            var window = new WaylandWindow(this, wci, _wlDisplay, _wlCompositor, wlSurface, xdgSurface, _xdgDecorationManager, _wpViewporter);
             _windows.Add(window);
             return window;
+        }
+
+        /// <inheritdoc />
+        public override Window CreateHiddenWindow()
+        {
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />

@@ -26,7 +26,7 @@ namespace HelloOpenWindow
             _service = WindowingService.Create();
 
             var wci = new WindowCreateInfo(100, 100, 400, 400, "Hello, OpenWindow! 💩", decorated: true, resizable: false);
-            _window = _service.CreateWindow(ref wci);
+            _window = _service.CreateWindow(wci);
 
             var iconWidth = 64;
             var iconHeight = 64;

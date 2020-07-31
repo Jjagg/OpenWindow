@@ -74,7 +74,7 @@ namespace OpenGL
             service.GlSettings.MultiSampleCount = 8;
 
             var wci = new WindowCreateInfo(100, 100, 600, 600, "I'm rendering with OpenGL!");
-            var window = service.CreateWindow(ref wci);
+            var window = service.CreateWindow(wci);
 
             window.KeyDown += (s, e) =>
             {
