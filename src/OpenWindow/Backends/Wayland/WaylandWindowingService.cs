@@ -620,7 +620,7 @@ namespace OpenWindow.Backends.Wayland
         }
 
         /// <inheritdoc />
-        public override void DestroyWindow(Window window)
+        internal override void DestroyWindow(Window window)
         {
             _windows.Remove((WaylandWindow) window);
             window.Dispose();

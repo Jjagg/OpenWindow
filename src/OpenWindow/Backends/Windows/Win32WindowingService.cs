@@ -139,7 +139,7 @@ namespace OpenWindow.Backends.Windows
             => new Win32Window(GlSettings, _wndProc);
 
         /// <inheritdoc />
-        public override void DestroyWindow(Window window)
+        internal override void DestroyWindow(Window window)
         {
             window.Dispose();
             // window will be removed from list of windows when WM_DESTROY is sent

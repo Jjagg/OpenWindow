@@ -28,7 +28,7 @@ namespace OpenWindow.Backends.X
             throw new NotImplementedException();
         }
 
-        public override void DestroyWindow(Window window)
+        internal override void DestroyWindow(Window window)
         {
             throw new NotImplementedException();
         }
