@@ -10,9 +10,8 @@ namespace OpenWindow.Backends.Windows
         #region Fields
 
         private WindowData _windowData;
-        internal IntPtr Hwnd;
+        internal IntPtr Hwnd { get; }
 
-        // TODO should we have a single class for all our windows managed by Win32WindowingService?
         private string _className;
 
         // Handles we keep around to clean up stuff we created
