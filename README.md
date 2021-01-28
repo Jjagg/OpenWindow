@@ -13,7 +13,7 @@ native windowing backend without any layer in between. It targets .NET Standard 
   - Win32 (Windows)
   - X11 using XCB (Linux)
   - Wayland (Linux)
-  - Quartz (macOS)
+  - Cocoa (macOS)
 
 ### Non-goals
 
